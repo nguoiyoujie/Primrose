@@ -1,4 +1,8 @@
-﻿namespace Primrose.Expressions
+﻿using Primrose.Primitives.Factories;
+using Primrose.Primitives.ValueTypes;
+using System.Collections.Generic;
+
+namespace Primrose.Expressions
 {
   /// <summary>
   /// Provides a context for the script
@@ -13,5 +17,9 @@
     /// <param name="param">The list of parameters</param>
     /// <returns></returns>
     Val RunFunction(ITracker caller, string fnname, Val[] param);
+
+
+    Registry<Pair<string, int>, IValFunc> ValFuncs { get; }
+    List<string> ValFuncRef { get; }
   }
 }

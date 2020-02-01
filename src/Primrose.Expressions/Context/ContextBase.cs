@@ -11,10 +11,10 @@ namespace Primrose.Expressions
   {
     public readonly Registry<FunctionDelegate> Functions = new Registry<FunctionDelegate>();
 
-    public readonly Registry<Pair<string, int>, IValFunc> ValFuncs = new Registry<Pair<string, int>, IValFunc>();
-    public readonly List<string> ValFuncRef = new List<string>();
+    public Registry<Pair<string, int>, IValFunc> ValFuncs { get; } = new Registry<Pair<string, int>, IValFunc>();
+    public List<string> ValFuncRef { get; } = new List<string>();
 
-    protected ContextBase()
+    public ContextBase()
     {
       DefineFunc();
     }
