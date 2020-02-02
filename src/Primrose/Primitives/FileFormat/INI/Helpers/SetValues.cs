@@ -178,22 +178,5 @@ namespace Primitives.FileFormat.INI
     /// <param name="key">The key that will contain the value</param>
     /// <param name="value">The value to be set</param>
     public void SetEnumArray<T>(string section, string key, T list, char delimiter = ',') { SetString(section, key, string.Join(delimiter.ToString(), list)); }
-
-    /// <summary>
-    /// Sets an enum value in the INIFile 
-    /// </summary>
-    /// <param name="section">The section that will contain the key-value pair</param>
-    /// <param name="key">The key that will contain the value</param>
-    /// <param name="value">The value to be set</param>
-    public void SetEnum(string section, string key, object value) { SetString(section, key, value.ToString().Replace(", ", "|")); }
-
-    /// <summary>
-    /// Sets an enum array in the INIFile 
-    /// </summary>
-    /// <param name="type">The type of the value</param>
-    /// <param name="section">The section that will contain the key-value pair</param>
-    /// <param name="key">The key that will contain the value</param>
-    /// <param name="value">The value to be set</param>
-    public void SetEnumArray(string section, string key, object list, char delimiter = ',') { SetString(section, key, string.Join(delimiter.ToString(), list)); }
   }
 }

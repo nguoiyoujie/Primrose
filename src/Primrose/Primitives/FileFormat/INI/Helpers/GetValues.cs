@@ -357,42 +357,11 @@ namespace Primitives.FileFormat.INI
       return ret;
     }
 
-    public object GetEnum(Type t, string section, string key, object defaultValue)
-    {
-      string s = GetString(section, key, defaultValue.GetEnumName()).Replace("|", ","); ;
-      try { return Enum.Parse(t, s); }
-      catch { return defaultValue; }
-    }
-
     public T GetEnum<T>(string section, string key, T defaultValue)
     {
       string s = GetString(section, key, defaultValue.GetEnumName()).Replace("|", ","); ;
       try { return (T)Enum.Parse(typeof(T), s); }
       catch { return defaultValue; }
-    }
-
-    public object GetEnumArray(Type t, string section, string key, object defaultList)
-    {
-      return GetEnumArray(t, section, key, defaultList, DefaultDelimiter);
-    }
-
-    public object GetEnumArray(Type t, string section, string key, object defaultList, char[] delimiter)
-    {
-      string str = GetString(section, key, "");
-      if (str == "")
-        return defaultList;
-
-      string[] tokens = str.Split(delimiter);
-
-      Type et = t.GetElementType();
-      Array array = Array.CreateInstance(et, tokens.Length);
-
-      for (int i = 0; i < tokens.Length; i++)
-      {
-        try { array.SetValue(Enum.Parse(et, tokens[i]), i); }
-        catch { }
-      }
-      return array;
     }
 
     public T GetEnumArray<T>(string section, string key, T defaultList)

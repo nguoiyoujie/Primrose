@@ -2,6 +2,7 @@
 using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
+using System.Reflection;
 using System.Text;
 
 namespace Primitives.FileFormat.INI
@@ -67,9 +68,23 @@ namespace Primitives.FileFormat.INI
       else
       {
         if (t.IsEnum)
-          return f.GetEnum(t, Section, Key, defaultValue);
+        {
+          foreach (MethodInfo m in f.GetType().GetMethods())
+            if (m.IsGenericMethod && m.Name == "GetEnum")
+            {
+              MethodInfo mi = m.MakeGenericMethod(t);
+              return mi.Invoke(f, new object[] { Section, Key, defaultValue });
+            }
+        }
         else if (t.IsArray && t.GetElementType().IsEnum)
-          return f.GetEnumArray(t, Section, Key, defaultValue);
+        {
+          foreach (MethodInfo m in f.GetType().GetMethods())
+            if (m.IsGenericMethod && m.Name == "GetEnumArray")
+            {
+              MethodInfo mi = m.MakeGenericMethod(t);
+              return mi.Invoke(f, new object[] { Section, Key, defaultValue });
+            }
+        }
       }
       throw new InvalidOperationException("Attempted to parse an INIKey value into an unsupported type '{0}'".F(t.Name));
     }
@@ -83,9 +98,23 @@ namespace Primitives.FileFormat.INI
       else
       {
         if (t.IsEnum)
-          f.SetEnum(Section, Key, value);
+        {
+          foreach (MethodInfo m in f.GetType().GetMethods())
+            if (m.IsGenericMethod && m.Name == "SetEnum")
+            {
+              MethodInfo mi = m.MakeGenericMethod(t);
+              mi.Invoke(f, new object[] { Section, Key, value });
+            }
+        }
         else if (t.IsArray && t.GetElementType().IsEnum)
-          f.SetEnumArray(Section, Key, value);
+        {
+          foreach (MethodInfo m in f.GetType().GetMethods())
+            if (m.IsGenericMethod && m.Name == "SetEnumArray")
+            {
+              MethodInfo mi = m.MakeGenericMethod(t);
+              mi.Invoke(f, new object[] { Section, Key, value });
+            }
+        }
       }
       throw new InvalidOperationException("Attempted to set an INIKey value as a value of an unsupported type '{0}'".F(t.Name));
     }
