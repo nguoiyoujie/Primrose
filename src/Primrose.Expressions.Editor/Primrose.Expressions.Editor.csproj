@@ -40,6 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Checker\ScriptChecker.cs" />
+    <Compile Include="Controls\Forms\SelectItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Forms\SelectItemForm.Designer.cs">
+      <DependentUpon>SelectItemForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Forms\AddItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +90,9 @@
     <Compile Include="Controls\UserControls\ucMultipleItemBox.Designer.cs">
       <DependentUpon>ucMultipleItemBox.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\Forms\SelectItemForm.resx">
+      <DependentUpon>SelectItemForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Forms\AddItemForm.resx">
       <DependentUpon>AddItemForm.cs</DependentUpon>
     </EmbeddedResource>

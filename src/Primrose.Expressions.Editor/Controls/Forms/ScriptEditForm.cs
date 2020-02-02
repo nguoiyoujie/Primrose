@@ -1,12 +1,13 @@
-﻿using Primrose.Expressions;
-using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives.Extensions;
 using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
-namespace Primrose.Expressions.Editor
+namespace Primrose.Expressions.Editor.Controls.Forms
 {
   public partial class ScriptEditForm : Form
   {
@@ -17,6 +18,7 @@ namespace Primrose.Expressions.Editor
     public ScriptEditForm()
     {
       InitializeComponent();
+      Context = new ContextBase();
 
       ofd.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
       sfd.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
@@ -27,7 +29,6 @@ namespace Primrose.Expressions.Editor
       HighlightAssoc.Add(INIHighlighter.Instance, langINIToolStripMenuItem);
       HighlightAssoc.Add(ScriptHighlighter.Instance, langScriptToolStripMenuItem);
 
-      Context = new ContextBase();
       foreach (string s in Context.ValFuncRef)
         lboxFunctions.Items.Add(s);
     }
@@ -140,42 +141,19 @@ namespace Primrose.Expressions.Editor
       UpdateTitle();
     }
 
-    public IHighlighter AutoHighlight(string ext)
-    {
-      switch (ext)
-      {
-        case ".ini":
-        case ".scen":
-          return INIHighlighter.Instance;
-
-        case ".sw":
-          return ScriptHighlighter.Instance;
-
-        default:
-          return NoHighlighter.Instance;
-
-      }
-    }
-
     private void langINIToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      tpEditor tp = GetCurrentEditor();
-      if (tp != null)
-        tp.Higlight(INIHighlighter.Instance);
+      GetCurrentEditor()?.Higlight(INIHighlighter.Instance);
     }
 
     private void langScriptToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      tpEditor tp = GetCurrentEditor();
-      if (tp != null)
-        tp.Higlight(ScriptHighlighter.Instance);
+      GetCurrentEditor()?.Higlight(ScriptHighlighter.Instance);
     }
 
     private void langNoneToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      tpEditor tp = GetCurrentEditor();
-      if (tp != null)
-        tp.Higlight(NoHighlighter.Instance);
+      GetCurrentEditor()?.Higlight(NoHighlighter.Instance);
     }
 
     private void lboxFunctions_SelectedIndexChanged(object sender, EventArgs e)
@@ -217,6 +195,82 @@ namespace Primrose.Expressions.Editor
     private void tcEditor_SelectedIndexChanged(object sender, EventArgs e)
     {
       UpdateTitle();
+    }
+
+    private void setContextDllToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (ofd_dll.ShowDialog() == DialogResult.OK)
+      {
+        string path_dll = ofd_dll.FileName;
+        Assembly asm = null;
+
+        try
+        {
+          asm = Assembly.LoadFile(path_dll);
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show("Error loading assembly file '{0}'!\n\n{1}".F(path_dll, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+          return;
+        }
+
+        List<Type> eligible_types = new List<Type>();
+        try
+        {
+          Type[] types = asm.GetTypes();
+          foreach (Type t in types)
+            foreach (Type i in t.GetInterfaces())
+              if (i == typeof(IContext))
+                eligible_types.Add(t);
+
+          if (eligible_types.Count == 0)
+          {
+            MessageBox.Show("No suitable context found from assembly file '{0}'!".F(path_dll), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+          }
+        }
+        catch (ReflectionTypeLoadException rex)
+        {
+          string load_ex = rex.LoaderExceptions.Length > 0 ? rex.LoaderExceptions[0].ToString() : "";
+          MessageBox.Show("Error loading types from assembly file '{0}':\n\n{1}\n\n{2}".F(path_dll, rex.Message, load_ex), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+          return;
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show("Error loading types from assembly file '{0}':\n\n{1}".F(path_dll, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+          return;
+        }
+
+        string[] sitems = new string[eligible_types.Count];
+        for (int i = 0; i < eligible_types.Count; i++)
+          sitems[i] = eligible_types[i].FullName;
+
+        SelectItemForm sif = new SelectItemForm(sitems);
+        if (sif.ShowDialog() == DialogResult.OK)
+        {
+          foreach (Type t in eligible_types)
+            if (sif.Item == t.FullName)
+            {
+              try
+              {
+                Context = (IContext)Activator.CreateInstance(t);
+              }
+              catch (Exception ex)
+              {
+                MessageBox.Show("Error creating context '{0}':\n\n{1}".F(t.Name, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+              }
+
+              lboxFunctions.Items.Clear();
+              foreach (string s in Context.ValFuncRef)
+                lboxFunctions.Items.Add(s);
+
+              lboxSig.Items.Clear();
+              ScriptHighlighter.Instance.Context = Context;
+            }
+        }
+        sif.Dispose();
+      }
     }
   }
 }

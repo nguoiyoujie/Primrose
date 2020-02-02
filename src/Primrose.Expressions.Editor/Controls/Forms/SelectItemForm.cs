@@ -3,18 +3,19 @@ using System.Windows.Forms;
 
 namespace Primrose.Expressions.Editor.Controls.Forms
 {
-  public partial class AddItemForm : Form
+  public partial class SelectItemForm : Form
   {
-    public AddItemForm()
+    public SelectItemForm(string[] items)
     {
       InitializeComponent();
+      cbItem.Items.AddRange(items);
     }
 
     public string Item;
 
     private void bAdd_Click(object sender, EventArgs e)
     {
-      Item = tbItem.Text;
+      Item = cbItem.Text;
       DialogResult = DialogResult.OK;
     }
 
@@ -23,9 +24,9 @@ namespace Primrose.Expressions.Editor.Controls.Forms
       DialogResult = DialogResult.Cancel;
     }
 
-    private void tbItem_TextChanged(object sender, EventArgs e)
+    private void cbItem_SelectedIndexChanged(object sender, EventArgs e)
     {
-      bAdd.Enabled = tbItem.Text.Length > 0;
+      bAdd.Enabled = cbItem.Text.Length > 0;
     }
   }
 }

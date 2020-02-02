@@ -19,6 +19,7 @@ namespace Primrose.Expressions.Editor
       {
         lboxList.Items.Add(aif.Item);
       }
+      aif.Dispose();
     }
 
     private void bRemove_Click(object sender, EventArgs e)

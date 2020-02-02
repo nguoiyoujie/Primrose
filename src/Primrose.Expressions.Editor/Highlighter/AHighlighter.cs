@@ -17,8 +17,8 @@ namespace Primrose.Expressions.Editor
 
   public abstract class AHighlighter : IHighlighter
   {
-    public List<Pair<Regex, Color>> Regexes = new List<Pair<Regex, Color>>();
-    public ConcurrentQueue<Quad<int, int, int, Color>> Result = new ConcurrentQueue<Quad<int, int, int, Color>>();
+    protected List<Pair<Regex, Color>> Regexes = new List<Pair<Regex, Color>>();
+    private ConcurrentQueue<Quad<int, int, int, Color>> Result = new ConcurrentQueue<Quad<int, int, int, Color>>();
 
     protected AHighlighter() { }
 

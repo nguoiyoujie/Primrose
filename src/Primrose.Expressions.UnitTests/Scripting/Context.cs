@@ -4,7 +4,7 @@
 
   public class Context : ContextBase
   {
-    internal Context() { }
+    public Context() { }
     
     public override void DefineFunc()
     {
