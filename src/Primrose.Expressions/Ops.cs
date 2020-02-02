@@ -123,6 +123,13 @@ namespace Primrose.Expressions
         {new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a == (float)b); }},
         {new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a == (int)b); }},
 
+        // NOT_EQUAL_TO
+        {new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, ValType.STRING, ValType.NULL), (a,b) => { return new Val((string)a != null); }},
+        {new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, ValType.NULL, ValType.STRING), (a,b) => { return new Val((string)b != null); }},
+        {new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a != (float)b); }},
+        {new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a != (int)b); }},
+
+
         // MORE_THAN
         {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a > (int)b); }},
         {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a > (float)b); }},
@@ -211,7 +218,17 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val IsNotEqual(Val v1, Val v2)
     {
-      return new Val(!(bool)IsEqual(v1, v2));
+      Func<Val, Val, Val> fn;
+      if (CoerceTypes.Contains(new Pair<ValType, ValType>(v1.Type, v2.Type)))
+        v2 = Coerce(v1.Type, v2);
+
+      if (binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, v1.Type, v2.Type), out fn))
+        return fn.Invoke(v1, v2);
+
+      if (v1.Type == v2.Type)
+        return new Val(!(v1.Value?.Equals(v2.Value) ?? (v2.Value == null)));
+
+      return new Val(true);
     }
 
     private static float[] MemberwiseAdd(float[] v1, float[] v2)
