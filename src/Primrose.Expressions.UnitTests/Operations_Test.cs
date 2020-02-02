@@ -138,8 +138,8 @@ namespace Primrose.Expressions.UnitTests
       foreach (Pair<string, Val> p in test)
       {
         int n = 0;
-        script = new Script("test");
         Context c = new Context();
+        script = new Script("test", c.ScriptRegistry);
         script.AddStatements("int x;", ref n);
         script.AddStatements(p.t, ref n);
         Console.Write("{0}".F(p.t));

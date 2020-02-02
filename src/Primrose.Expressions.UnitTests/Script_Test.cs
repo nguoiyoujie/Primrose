@@ -21,15 +21,13 @@ namespace Primrose.Expressions.UnitTests
         Console.WriteLine("loading script file:".C(Path.GetFileName(sfile)));
 
         c.Reset();
-        Script.Registry.Clear();
-
-        ScriptFile f = new ScriptFile(sfile);
+        ScriptFile f = new ScriptFile(sfile, c);
         f.NewScriptEvent = ReadScript;
         f.ReadFile();
 
-        Script.Registry.Global.Run(c);
+        c.ScriptRegistry.Global.Run(c);
 
-        foreach (Script s in Script.Registry.GetAll())
+        foreach (Script s in c.ScriptRegistry.GetAll())
         {
           Console.WriteLine("running script:".C(s.Name));
           s.Run(c);

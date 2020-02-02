@@ -11,13 +11,13 @@ namespace Primrose.Expressions
   {
     private static char[] seperator = new char[] { ':' };
 
-    public ScriptFile(string filepath, Script.Registry registry)
+    public ScriptFile(string filepath, IContext context)
     {
       if (!File.Exists(filepath))
         throw new FileNotFoundException("Script file '{0}' is not found!".F(Path.GetFullPath(filepath)));
 
       FilePath = filepath;
-      Registry = registry;
+      Registry = context.ScriptRegistry;
     }
 
     public readonly string FilePath;

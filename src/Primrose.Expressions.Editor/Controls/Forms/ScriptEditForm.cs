@@ -189,7 +189,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
     {
       tpEditor tp = GetCurrentEditor();
       if (tp != null)
-        tp.DoCheck();
+        tp.DoCheck(Context);
     }
 
     private void tcEditor_SelectedIndexChanged(object sender, EventArgs e)

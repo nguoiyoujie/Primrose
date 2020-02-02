@@ -233,7 +233,7 @@ namespace Primrose.Expressions.Editor
       Editor_SelectionChanged?.Invoke();
     }
 
-    public void DoCheck()
+    public void DoCheck(IContext context)
     {
       // dump to file
       string path = @"./temp/check.txt";
@@ -244,7 +244,7 @@ namespace Primrose.Expressions.Editor
       rtb_output.Clear();
       rtb_output.SelectionColor = Color.DodgerBlue;
       rtb_output.AppendText("Checking contents..." + Environment.NewLine);
-      if (checker.Verify())
+      if (checker.Verify(context))
       {
         rtb_output.SelectionColor = Color.ForestGreen;
         rtb_output.AppendText("OK! File parsed without errors!" + Environment.NewLine);

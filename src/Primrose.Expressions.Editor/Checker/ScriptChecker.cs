@@ -13,12 +13,11 @@ namespace Primrose.Expressions.Editor.Checker
       Log = log;
     }
 
-    public bool Verify()
+    public bool Verify(IContext context)
     {
       try
       {
-        Script.Registry.Clear();
-        ScriptFile f = new ScriptFile(Path);
+        ScriptFile f = new ScriptFile(Path, context);
         if (Log != null)
           f.NewScriptEvent = (s) => { Log(s); };
         f.ReadFile();
