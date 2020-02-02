@@ -35,6 +35,14 @@ namespace Primitives.FileFormat.INI
         return false;
     }
 
+    public bool HasKey(string section, string key)
+    {
+      if (!HasSection(section))
+        return false;
+
+      return (m_sections[section].HasKey(key));
+    }
+
     public INISection GetSection(string key)
     {
       if (m_sections.ContainsKey(key))

@@ -53,14 +53,19 @@ namespace Primitives.FileFormat.INI
 
     public string Section;
     public string Key;
-    public INIValueAttribute(string section, string key)
+    public bool Required;
+    public INIValueAttribute(string section, string key, bool required = false)
     {
       Section = section;
       Key = key;
+      Required = required;
     }
 
     public object Read(Type t, INIFile f, object defaultValue)
     {
+      if (Required && !f.HasKey(Section, Key))
+        throw new InvalidOperationException("Required key '{0}' in section '{1}' is not defined!".F(Key, Section));
+
       if (_getter.Contains(t))
       {
         return _getter.Get(t).Invoke(f, Section, Key, defaultValue);
@@ -86,7 +91,7 @@ namespace Primitives.FileFormat.INI
             }
         }
       }
-      throw new InvalidOperationException("Attempted to parse an INIKey value into an unsupported type '{0}'".F(t.Name));
+      throw new InvalidOperationException("Attempted to parse an INIKey value into an unsupported type '{0}' in key '{1}' in section '{2}'".F(t.Name, Key, Section));
     }
 
     public void Write(Type t, INIFile f, object value)
@@ -116,7 +121,7 @@ namespace Primitives.FileFormat.INI
             }
         }
       }
-      throw new InvalidOperationException("Attempted to set an INIKey value as a value of an unsupported type '{0}'".F(t.Name));
+      throw new InvalidOperationException("Attempted to set an INIKey value as a value of an unsupported type '{0}' in key '{1}' in section '{2}'".F(t.Name, Key, Section));
     }
   }
 }
