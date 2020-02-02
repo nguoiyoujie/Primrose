@@ -11,6 +11,7 @@ namespace Primrose.Expressions
   {
     public readonly Registry<FunctionDelegate> Functions = new Registry<FunctionDelegate>();
 
+    public Script.Registry ScriptRegistry { get; } = new Script.Registry();
     public Registry<Pair<string, int>, IValFunc> ValFuncs { get; } = new Registry<Pair<string, int>, IValFunc>();
     public List<string> ValFuncRef { get; } = new List<string>();
 

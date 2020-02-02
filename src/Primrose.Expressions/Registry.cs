@@ -10,15 +10,15 @@ namespace Primrose.Expressions
     public class Registry
     {
       /// <summary>The global script</summary>
-      public static Script Global = new Script();
-      private static Registry<Script> m_registry = new Registry<Script>();
+      public Script Global = new Script();
+      private Registry<Script> m_registry = new Registry<Script>();
 
       /// <summary>
       /// Adds a script to the registry
       /// </summary>
       /// <param name="id">The unique script identifier</param>
       /// <param name="script">The script to be added</param>
-      public static void Add(string id, Script script)
+      public void Add(string id, Script script)
       {
         m_registry.Put(id, script);
       }
@@ -26,7 +26,7 @@ namespace Primrose.Expressions
       /// <summary>
       /// Clears all script data, including the global script
       /// </summary>
-      public static void Clear()
+      public void Clear()
       {
         m_registry.Clear();
         Global.Clear();
@@ -37,7 +37,7 @@ namespace Primrose.Expressions
       /// </summary>
       /// <param name="id">The script identifier</param>
       /// <returns>The script associated with the id, or null if no script is found</returns>
-      public static Script Get(string id)
+      public Script Get(string id)
       {
         return m_registry.Get(id);
       }
@@ -46,7 +46,7 @@ namespace Primrose.Expressions
       /// Retrieves all scripts from the registry, excluding the global script
       /// </summary>
       /// <returns>The array of all loaded scripts, excluding the global script</returns>
-      public static Script[] GetAll()
+      public Script[] GetAll()
       {
         return m_registry.GetAll();
       }

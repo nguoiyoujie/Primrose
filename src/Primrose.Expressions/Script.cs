@@ -19,11 +19,11 @@ namespace Primrose.Expressions
 
     /// <summary>Creates a script</summary>
     /// <param name="scriptname">The name of the script</param>
-    public Script(string scriptname)
+    public Script(string scriptname, Registry registry)
     {
       Name = scriptname;
-      Registry.Add(scriptname, this);
-      Scope = Registry.Global.Scope.Next;
+      registry.Add(scriptname, this);
+      Scope = registry.Global.Scope.Next;
     }
 
     /// <summary>Adds one or more statements to the script.</summary>

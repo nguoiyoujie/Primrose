@@ -11,20 +11,22 @@ namespace Primrose.Expressions
   {
     private static char[] seperator = new char[] { ':' };
 
-    public ScriptFile(string filepath)
+    public ScriptFile(string filepath, Script.Registry registry)
     {
       if (!File.Exists(filepath))
         throw new FileNotFoundException("Script file '{0}' is not found!".F(Path.GetFullPath(filepath)));
 
       FilePath = filepath;
+      Registry = registry;
     }
 
     public readonly string FilePath;
+    public readonly Script.Registry Registry;
     public Action<string> NewScriptEvent;
 
     public void ReadFile()
     {
-      Script script = Script.Registry.Global;
+      Script script = Registry.Global;
       StringBuilder sb = new StringBuilder();
       int linenumber = 0;
       using (StreamReader sr = new StreamReader(FilePath))
@@ -43,7 +45,7 @@ namespace Primrose.Expressions
             line = line.TrimEnd(seperator).Trim();
 
             NewScriptEvent?.Invoke(line);
-            script = new Script(line);
+            script = new Script(line, Registry);
             sb.Clear();
           }
           else
