@@ -31,6 +31,6 @@ namespace Primrose.Expressions
     /// <summary>
     /// Holds the registry of scripts
     /// </summary>
-    Script.Registry ScriptRegistry { get; }
+    Script.Registry Scripts { get; }
   }
 }

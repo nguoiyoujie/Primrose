@@ -17,7 +17,7 @@ namespace Primrose.Expressions
         throw new FileNotFoundException("Script file '{0}' is not found!".F(Path.GetFullPath(filepath)));
 
       FilePath = filepath;
-      Registry = context.ScriptRegistry;
+      Registry = context.Scripts;
     }
 
     public readonly string FilePath;

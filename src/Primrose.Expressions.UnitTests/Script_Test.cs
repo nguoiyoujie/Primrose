@@ -25,9 +25,9 @@ namespace Primrose.Expressions.UnitTests
         f.NewScriptEvent = ReadScript;
         f.ReadFile();
 
-        c.ScriptRegistry.Global.Run(c);
+        c.Scripts.Global.Run(c);
 
-        foreach (Script s in c.ScriptRegistry.GetAll())
+        foreach (Script s in c.Scripts.GetAll())
         {
           Console.WriteLine("running script:".C(s.Name));
           s.Run(c);

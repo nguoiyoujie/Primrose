@@ -11,13 +11,23 @@ namespace Primrose.Expressions
   {
     public readonly Registry<FunctionDelegate> Functions = new Registry<FunctionDelegate>();
 
-    public Script.Registry ScriptRegistry { get; } = new Script.Registry();
+    public Script.Registry Scripts { get; } = new Script.Registry();
     public Registry<Pair<string, int>, IValFunc> ValFuncs { get; } = new Registry<Pair<string, int>, IValFunc>();
     public List<string> ValFuncRef { get; } = new List<string>();
 
     public ContextBase()
     {
       DefineFunc();
+    }
+
+    public void RunGlobalScript()
+    {
+      Scripts.Global?.Run(this);
+    }
+
+    public void RunScript(string _scriptName)
+    {
+      Scripts.Get(_scriptName)?.Run(this);
     }
 
     public Val RunFunction(ITracker caller, string _funcName, Val[] param)
@@ -37,7 +47,10 @@ namespace Primrose.Expressions
       return fd.Invoke(this, param);
     }
 
-    public virtual void Reset() { }
+    public virtual void Reset()
+    {
+      Scripts.Clear();
+    }
 
     protected void AddFunc(string name, ValFunc fn) { ValFuncs.Add(new Pair<string, int>(name, 0), fn); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
     protected void AddFunc<T1>(string name, ValFunc< T1> fn) { ValFuncs.Add(new Pair<string, int>(name, 1), fn); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }

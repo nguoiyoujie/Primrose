@@ -139,7 +139,7 @@ namespace Primrose.Expressions.UnitTests
       {
         int n = 0;
         Context c = new Context();
-        script = new Script("test", c.ScriptRegistry);
+        script = new Script("test", c.Scripts);
         script.AddStatements("int x;", ref n);
         script.AddStatements(p.t, ref n);
         Console.Write("{0}".F(p.t));

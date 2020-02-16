@@ -11,7 +11,7 @@ namespace Primrose.Expressions.Editor
 
     private INIHighlighter()
     {
-      Regexes.Add(new Pair<Regex, Color>(new Regex(@"(#|//).*", ropt), Color.ForestGreen));
+      Regexes.Add(new Pair<Regex, Color>(new Regex(@"(#|;).*", ropt), Color.ForestGreen));
       Regexes.Add(new Pair<Regex, Color>(new Regex(@"^\s*\[.*\]", ropt), Color.Indigo));
       Regexes.Add(new Pair<Regex, Color>(new Regex(@"^([^\=])+", ropt), Color.Blue));
     }
