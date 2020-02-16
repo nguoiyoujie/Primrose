@@ -7,17 +7,22 @@ namespace Primitives.FileFormat.INI
   {
     public partial class INISection
     {
+      /// <summary>Defines the header line within a section within an INI configuration file format</summary>
       public class INIHeaderLine
       {
+        /// <summary>The header</summary>
         public string Header;
+
+        /// <summary>Defines what other sections this section may inherit its values from</summary>
         public string[] Inherits = new string[0];
 
+        /// <summary>Provides a string representation of the line</summary>
         public override string ToString()
         {
-          return (Inherits.Length > 0) ? "[{0}] : {1}".F(Header, string.Join(",", Inherits)) : "[{0}]".F(Header);
+          return "[{0}]".F(Header);
         }
 
-        public static bool IsHeader(string line)
+        internal static bool IsHeader(string line)
         {
           line = line.Trim();
           int startpos = line.IndexOf('[');
@@ -25,33 +30,44 @@ namespace Primitives.FileFormat.INI
           return (startpos == 0 && endpos > -1 && startpos < endpos);
         }
 
-        public static INIHeaderLine ReadLine(string line)
+        internal static INIHeaderLine ReadLine(string line, INIFile src)
         {
           INIHeaderLine ret = new INIHeaderLine();
-          ret.Reload(line);
+          ret.Parse(line, src);
           return ret;
         }
 
-        public void Reload(string line)
+        private void Parse(string line, INIFile src)
         {
           if (line != null)
           {
-            // Format: [HEADER] : inheritHeader, inheritHeader, inheritHeader, ...      ;COMMENT
-            int compos = line.IndexOf(';');
+            // Format: [HEADER] : inheritHeader, inheritHeader, inheritHeader, ...      ; or #COMMENT
+            int compos = -1;
+            foreach (string cdelim in src.Attributes.CommentDelimiters)
+            {
+              int c1 = line.IndexOf(cdelim);
+              compos = (compos == -1 || compos < c1) ? c1 : compos;
+            }
+
             if (compos > -1)
               line = line.Substring(0, compos);
 
-            int inhpos = line.IndexOf(':');
+            int inhpos = line.IndexOf(src.Attributes.SectionInheritanceDelimiter);
             if (inhpos > -1)
             {
-              if (line.Length > inhpos)
+              if (src.Attributes.SupportSectionInheritance)
               {
-                string[] headers = line.Substring(inhpos + 1).Split(INIFile.DefaultDelimiter, StringSplitOptions.RemoveEmptyEntries);
-                Inherits = new string[headers.Length];
-                for (int i = 0; i < headers.Length; i++)
-                  Inherits[i] = headers[i].Trim();
+                if (line.Length > inhpos)
+                {
+                  string[] headers = line.Substring(inhpos + 1).Split(INIFile.DefaultDelimiter, StringSplitOptions.RemoveEmptyEntries);
+                  Inherits = new string[headers.Length];
+                  for (int i = 0; i < headers.Length; i++)
+                    Inherits[i] = headers[i].Trim();
+                }
+                line = line.Substring(0, inhpos);
               }
-              line = line.Substring(0, inhpos);
+              //else
+              //  throw new InvalidOperationException("Section inheritance is not allowed on this file.");
             }
 
             int startpos = line.IndexOf('[');
@@ -63,6 +79,14 @@ namespace Primitives.FileFormat.INI
             else
               Header = "";
           }
+        }
+
+        internal string Write(INIFile src)
+        {
+          if (Inherits.Length == 0)
+            return "[{0}]".F(Header);
+          else
+            return "[{0}] {1} {2}".F(Header, src.Attributes.SectionInheritanceDelimiter, string.Join(",", Inherits));
         }
       }
     }

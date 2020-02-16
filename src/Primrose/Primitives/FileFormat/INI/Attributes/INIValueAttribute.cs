@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Primitives.FileFormat.INI
 {
+  /// <summary>Defines a value from a section and key of an INI file</summary>
   [AttributeUsage(AttributeTargets.Field)]
   public class INIValueAttribute : Attribute
   {
     private static Registry<Type, Func<INIFile, string, string, object, object>> _getter = new Registry<Type, Func<INIFile, string, string, object, object>>();
     private static Registry<Type, Action<INIFile, string, string, object>> _setter = new Registry<Type, Action<INIFile, string, string, object>>();
-
 
     static INIValueAttribute()
     {
@@ -51,9 +51,21 @@ namespace Primitives.FileFormat.INI
       _setter.Add(typeof(uint[]), (f, s, k, d) => f.SetUIntArray(s, k, (uint[])d));
     }
 
+    /// <summary>The section name of the INI file where the key is based on</summary>
     public string Section;
+
+    /// <summary>The key name of the INI file where the value is read</summary>
     public string Key;
+
+    /// <summary>Defines whether the INI file must contain this section/key combination</summary>
     public bool Required;
+
+    /// <summary>
+    /// <summary>Defines a value from a section and key of an INI file</summary>
+    /// </summary>
+    /// <param name="section">The section name from which the key-value is retrieved</param>
+    /// <param name="key">The key name from which the value is retrieved</param>
+    /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
     public INIValueAttribute(string section, string key, bool required = false)
     {
       Section = section;
@@ -61,7 +73,7 @@ namespace Primitives.FileFormat.INI
       Required = required;
     }
 
-    public object Read(Type t, INIFile f, object defaultValue)
+    internal object Read(Type t, INIFile f, object defaultValue)
     {
       if (Required && !f.HasKey(Section, Key))
         throw new InvalidOperationException("Required key '{0}' in section '{1}' is not defined!".F(Key, Section));
@@ -94,7 +106,7 @@ namespace Primitives.FileFormat.INI
       throw new InvalidOperationException("Attempted to parse an INIKey value into an unsupported type '{0}' in key '{1}' in section '{2}'".F(t.Name, Key, Section));
     }
 
-    public void Write(Type t, INIFile f, object value)
+    internal void Write(Type t, INIFile f, object value)
     {
       if (_setter.Contains(t))
       {

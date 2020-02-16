@@ -6,39 +6,51 @@ namespace Primitives.FileFormat.INI
   {
     public partial class INISection
     {
+      /// <summary>Defines a line within a section within an INI configuration file format</summary>
       public struct INILine
       {
+        /// <summary>The key associated in this line</summary>
         public string Key;
+
+        /// <summary>The value associated in this line</summary>
         public string Value;
 
+        /// <summary>Denotes if this line has a key</summary>
         public bool HasKey { get { return Key != null && Key.Length > 0; } }
+
+        /// <summary>Denotes if this line has a value</summary>
         public bool HasValue { get { return Value != null && Value.Length > 0; } }
 
+        /// <summary>Provides a string representation of the line</summary>
         public override string ToString()
         {
-          return Value == null ? (Key ?? "") : "{0}={1}".F(Key, Value);
+          return "{0}={1}".F(Key, Value);
         }
 
-        public static INILine ReadLine(string line)
+        internal static INILine ReadLine(string line, INIFile src)
         {
           INILine ret = new INILine();
-          ret.Reload(line);
+          ret.Parse(line, src);
           return ret;
         }
 
-        private void Reload(string line)
+        private void Parse(string line, INIFile src)
         {
           if (line != null)
           {
-            // Format: KEY=VALUE      ; or #COMMENT
-            int compos1 = line.IndexOf(';');
-            int compos2 = line.IndexOf('#');
+            // Format: KEY(=VALUE)  (;COMMENT)
 
-            int compos = (compos1 == -1 || compos1 < compos2) ? compos2 : compos1;
+            int compos = -1;
+            foreach (string cdelim in src.Attributes.CommentDelimiters)
+            {
+              int c1 = line.IndexOf(cdelim);
+              compos = (compos == -1 || compos < c1) ? c1 : compos;
+            }
+
             if (compos > -1)
               line = line.Substring(0, compos);
 
-            int keypos = line.IndexOf('=');
+            int keypos = line.IndexOf(src.Attributes.KeyValueDelimiter);
             if (keypos > -1)
             {
               if (line.Length > keypos)
@@ -47,8 +59,16 @@ namespace Primitives.FileFormat.INI
               Key = line.Substring(0, keypos).Trim();
             }
             else
-              Key = line;
+              Key = line.Trim();
           }
+        }
+
+        internal string Write(INIFile src)
+        {
+          if (Value == null)
+            return Key ?? "";
+          else
+            return "{0}{1}{2}".F(Key, src.Attributes.KeyValueDelimiter, Value);
         }
       }
     }

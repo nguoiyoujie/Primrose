@@ -19,5 +19,20 @@ namespace Primrose.Primitives.Extensions
       if (rand == null) throw new ArgumentNullException("rand");
       return array.Length == 0 ? default(T) : array[rand.Next(0, array.Length)];
     }
+
+    /// <summary>Determines if an array contains a value</summary>
+    /// <typeparam name="T">The member type</typeparam>
+    /// <param name="array">The array</param>
+    /// <param name="value">The value to check</param>
+    /// <returns>True if the array contains at least one member equal to value, false otherwise</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+    public static bool Contains<T>(this T[] array, T value)
+    {
+      if (array == null) throw new ArgumentNullException("array");
+      foreach (T t in array)
+        if (value?.Equals(t) ?? t == null)
+          return true;
+      return false;
+    }
   }
 }

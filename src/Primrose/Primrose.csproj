@@ -15,23 +15,43 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\prebuild\debug\</OutputPath>
+    <OutputPath>..\..\build\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\prebuild\debug\Primrose.XML</DocumentationFile>
+    <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\prebuild\release\</OutputPath>
+    <OutputPath>..\..\build\release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\prebuild\release\Primrose.XML</DocumentationFile>
+    <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\build\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -60,14 +80,16 @@
     <Compile Include="Primitives\Factories\ObjectPoolStatic.cs" />
     <Compile Include="Primitives\Factories\ObjectPool.cs" />
     <Compile Include="Primitives\Factories\Registry.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\DuplicateResolutionPolicy.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\INIFileConfigurationAttribute.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\INIKeyListAttribute.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\INIValueAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\Components\INIHeaderLine.cs" />
     <Compile Include="Primitives\FileFormat\INI\Components\INILine.cs" />
     <Compile Include="Primitives\FileFormat\INI\Components\INISection.cs" />
     <Compile Include="Primitives\FileFormat\INI\Helpers\GetValues.cs" />
     <Compile Include="Primitives\FileFormat\INI\Helpers\SetValues.cs" />
     <Compile Include="Primitives\FileFormat\INI\INIFile.cs" />
-    <Compile Include="Primitives\FileFormat\INI\INIKeysAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\INIValueAttribute.cs" />
     <Compile Include="Primitives\Interfaces.cs" />
     <Compile Include="Primitives\Pipelines\Pipeline.cs" />
     <Compile Include="Primitives\ScopeCounter.cs" />

@@ -14,7 +14,7 @@ namespace Primitives.FileFormat.INI
     public void SetEmptyKey(string section, string key)
     {
       if (!m_sections.ContainsKey(section))
-        m_sections.Add(section, new INISection("[{0}]".F(section)));
+        m_sections.Add(section, new INISection("[{0}]".F(section), this));
 
       m_sections[section].SetValue(key, null);
     }
@@ -28,7 +28,7 @@ namespace Primitives.FileFormat.INI
     public void SetString(string section, string key, string value)
     {
       if (!m_sections.ContainsKey(section))
-        m_sections.Add(section, new INISection("[{0}]".F(section)));
+        m_sections.Add(section, new INISection("[{0}]".F(section), this));
 
       m_sections[section].SetValue(key, value);
     }
