@@ -1,4 +1,5 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives;
+using Primrose.Primitives.Extensions;
 using System;
 
 namespace Primitives.FileFormat.INI
@@ -59,7 +60,7 @@ namespace Primitives.FileFormat.INI
               {
                 if (line.Length > inhpos)
                 {
-                  string[] headers = line.Substring(inhpos + 1).Split(INIFile.DefaultDelimiter, StringSplitOptions.RemoveEmptyEntries);
+                  string[] headers = line.Substring(inhpos + 1).Split(ListDelimiter, StringSplitOptions.RemoveEmptyEntries);
                   Inherits = new string[headers.Length];
                   for (int i = 0; i < headers.Length; i++)
                     Inherits[i] = headers[i].Trim();

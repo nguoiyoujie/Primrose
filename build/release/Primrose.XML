@@ -2347,6 +2347,9 @@
         <member name="M:Primitives.FileFormat.INI.INIFile.ReadFile">
             <summary>Reads and parses the INI file from its source</summary>
         </member>
+        <member name="M:Primitives.FileFormat.INI.INIFile.LoadFields``1(``0)">
+            <summary>Passes the elements into the fields of another class</summary>
+        </member>
         <member name="M:Primitives.FileFormat.INI.INIFile.SaveFile(System.String)">
             <summary>Writes into a file and updates its source path</summary>
         </member>

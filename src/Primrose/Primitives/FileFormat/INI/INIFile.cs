@@ -1,4 +1,6 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives;
+using Primrose.Primitives.Extensions;
+using Primrose.Primitives.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +14,9 @@ namespace Primitives.FileFormat.INI
   {
     /// <summary>The internal name of the global section</summary>
     public const string PreHeaderSectionName = "\n"; // not possible to duplicate in a real section
+
+    /// <summary>The default list delimiter used in an INIFile class</summary>
+    public static char[] ListDelimiter { get { return Parser.ListDelimiter; } }
 
     /// <summary>Initializes an empty INI file</summary>
     public INIFile() { }
@@ -141,35 +146,15 @@ namespace Primitives.FileFormat.INI
         }
       }
 
-      foreach (FieldInfo fi in GetType().GetFields())
-      {
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIValueAttribute), false))
-          fi.SetValue(this, ((INIValueAttribute)a).Read(fi.FieldType, this, fi.GetValue(this)));
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIKeyListAttribute), false))
-        {
-          if (fi.FieldType != typeof(string[]))
-            throw new InvalidOperationException("INIKeyList attribute can only be used with string[] data types! ({0} {1})".F(fi.FieldType.Name, fi.Name));
-          fi.SetValue(this, ((INIKeyListAttribute)a).Read(this));
-        }
-      }
+      INIFile t = this;
+      LoadByAttribute(ref t);
     }
 
     /// <summary>Writes into a file and updates its source path</summary>
     public virtual void SaveFile(string filepath)
     {
-      foreach (FieldInfo fi in GetType().GetFields())
-      {
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIValueAttribute), false))
-          ((INIValueAttribute)a).Write(fi.FieldType, this, fi.GetValue(this));
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIKeyListAttribute), false))
-        {
-          if (fi.FieldType != typeof(string[]))
-            throw new InvalidOperationException("INIKeyList attribute can only be used with string[] data types! ({0} {1})".F(fi.FieldType.Name, fi.Name));
-          ((INIKeyListAttribute)a).Write(this, (string[])fi.GetValue(this));
-        }
-      }
+      INIFile t = this;
+      UpdateByAttribute(ref t);
 
       Directory.CreateDirectory(Path.GetDirectoryName(filepath));
 

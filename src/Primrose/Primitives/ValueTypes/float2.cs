@@ -1,11 +1,10 @@
 ﻿using Primrose.Primitives.Extensions;
+using Primrose.Primitives.Parsers;
 using System;
 
 namespace Primrose.Primitives.ValueTypes
 {
-  /// <summary>
-  /// A float2 pair value
-  /// </summary>
+  /// <summary>A float2 pair value</summary>
   public struct float2
   {
     /// <summary>The x or [0] value</summary>
@@ -37,7 +36,7 @@ namespace Primrose.Primitives.ValueTypes
     public override string ToString() { return "{{{0},{1}}}".F(x, y); }
 
     /// <summary>Creates a float[] array from this value</summary>
-    /// <returns>An array of length 3 with identical indexed values</returns>
+    /// <returns>An array of length 2 with identical indexed values</returns>
     public float[] ToArray() { return new float[] { x, y }; }
 
     /// <summary>Creates a float2 from an array</summary>
@@ -69,6 +68,40 @@ namespace Primrose.Primitives.ValueTypes
       else
         return new float2(array[0], array[1]);
     }
+
+    /// <summary>Parses a float2 from a string</summary>
+    /// <param name="s">The string value</param>
+    /// <returns>A float2 value</returns>
+    public static float2 Parse(string s) { return FromArray(Parser.Parse(s, new float[0])); }
+
+    /// <summary>Parses a float2 from a string</summary>
+    /// <param name="s">The string value</param>
+    /// <param name="defaultValue">The default value</param>
+    /// <returns>A float2 value</returns>
+    public static float2 Parse(string s, float2 defaultValue)
+    {
+      float[] list = Parser.Parse(s, new float[0]);
+      if (list.Length >= 2)
+        return new float2(list[0], list[1]);
+      else if (list.Length == 1)
+        return new float2(list[0], defaultValue[1]);
+
+      return defaultValue;
+    }
+
+    /// <summary>Parses a float2 from a string</summary>
+    /// <param name="s">The string value</param>
+    /// <param name="result">The parsed value</param>
+    /// <returns>True if the parse is successful</returns>
+    public static bool TryParse(string s, out float2 result) { result = default(float2); try { result = FromArray(Parser.Parse(s, new float[0])); return true; } catch {  return false; } }
+
+    /// <summary>Parses a float2 from a string</summary>
+    /// <param name="s">The string value</param>
+    /// <param name="defaultValue">The default value</param>
+    /// <param name="result">The parsed value</param>
+    /// <returns>True if the parse is successful</returns>
+    public static bool TryParse(string s, float2 defaultValue, out float2 result) { result = defaultValue; try { result = Parse(s, defaultValue); return true; } catch { return false; } }
+
 
     /// <summary>Performs a memberwise negation of a float2 value</summary>
     /// <param name="a"></param><returns></returns>

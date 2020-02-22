@@ -34,5 +34,25 @@ namespace Primrose.Primitives.Extensions
           return true;
       return false;
     }
+
+    /// <summary>Performs an element-wise conversion of an array to an array of another type</summary>
+    /// <typeparam name="T">The member type of the input array</typeparam>
+    /// <typeparam name="U">The member type of the return array</typeparam>
+    /// <param name="array">The input array</param>
+    /// <param name="convertFn">The conversion function for each element</param>
+    /// <returns>An array with each element converted from the corresponding element in the input array</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="array"/> and <paramref name="convertFn"/> cannot be null</exception>
+    public static U[] Convert<T, U>(this T[] array, Func<T, U> convertFn)
+    {
+      if (array == null) throw new ArgumentNullException("array");
+      if (convertFn == null) throw new ArgumentNullException("convertFn");
+      
+      U[] ret = new U[array.Length];
+      for (int i = 0; i < array.Length; i++)
+        ret[i] = convertFn.Invoke(array[i]);
+
+      return ret;
+    }
+
   }
 }

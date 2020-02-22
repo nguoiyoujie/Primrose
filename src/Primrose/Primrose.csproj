@@ -82,15 +82,68 @@
     <Compile Include="Primitives\Factories\Registry.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\DuplicateResolutionPolicy.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\INIFileConfigurationAttribute.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\INIEmbedObjectAttribute.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\INISubSectionListAttribute.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\INIRegistryAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\INIKeyListAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\INIValueAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\Components\INIHeaderLine.cs" />
     <Compile Include="Primitives\FileFormat\INI\Components\INILine.cs" />
     <Compile Include="Primitives\FileFormat\INI\Components\INISection.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\GetValues.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\SetValues.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetValue.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetBoolArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetDoubleArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetDouble.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetFloatArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetFloat2Array.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetFloat3Array.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetFloat3.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetFloat4Array.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetFloat4.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetFloat2.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetFloat.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetBool.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetLong.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetLongArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetStringBuilderArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetStringArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetEnum.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetEnumArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetUIntArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetIntArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetUInt.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetInt.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetString.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetValue.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetBool.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetBoolArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetDouble.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetDoubleArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetEnum.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetEnumArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetFloat.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetFloat2.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetFloat2Array.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetFloat3.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetFloat3Array.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetFloat4.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetFloat4Array.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetFloatArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetLong.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetInt.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetLongArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetIntArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetStringArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetStringBuilderArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetUInt.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetUIntArray.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetString.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetEmptyKey.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Helpers\UpdateByAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\INIFile.cs" />
     <Compile Include="Primitives\Interfaces.cs" />
+    <Compile Include="Primitives\Parser\Rules\Rules.cs" />
+    <Compile Include="Primitives\Parser\Parser.cs" />
     <Compile Include="Primitives\Pipelines\Pipeline.cs" />
     <Compile Include="Primitives\ScopeCounter.cs" />
     <Compile Include="Primitives\Scope.cs" />
@@ -109,6 +162,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

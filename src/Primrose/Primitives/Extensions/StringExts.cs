@@ -28,6 +28,28 @@ namespace Primrose.Primitives.Extensions
       return string.Join("\n", lines);
     }
 
+    /// <summary>Splits a string every nth occurence of a character</summary>
+    /// <param name="input">The input string</param>
+    /// <param name="separator">The character seperator to split</param>
+    /// <param name="n">The number of split parts in each element</param>
+    /// <returns></returns>
+    public static IEnumerable<string> SplitBy(this string input, char separator, int n)
+    {
+      int lastindex = 0;
+      int curr = 0;
+
+      while (curr < input.Length)
+      {
+        int count = 0;
+        while (curr < input.Length && count < n)
+        {
+          if (input[curr++] == separator) count++;
+        }
+        yield return input.Substring(lastindex, curr - lastindex - (curr < input.Length ? 1 : 0));
+        lastindex = curr;
+      }
+    }
+
     private static IEnumerable<string> SplitToLines(this string stringToSplit, int maxLineLength)
     {
       string[] words = stringToSplit.Split(Spaces);

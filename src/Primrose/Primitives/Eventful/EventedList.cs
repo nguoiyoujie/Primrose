@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 namespace Primrose.Primitives.Eventful
 {
-  /// <summary>
-  /// A wrapper for binding modification events to a list
-  /// </summary>
-  /// <typeparam name="TList">The encapsulated list type</typeparam>
-  /// <typeparam name="T">The encapsulated element type</typeparam>
+  /// <summary>Represents a list with events that notify on modification</summary>
+  /// <typeparam name="TList">The type of the list</typeparam>
+  /// <typeparam name="T">The type of elements in the list</typeparam>
   public class EventedList<TList, T> : IList<T>
     where TList : IList<T>
   {
@@ -49,9 +47,7 @@ namespace Primrose.Primitives.Eventful
     /// <summary>Gets a value indicating whether the list is read-only</summary>
     public bool IsReadOnly { get { return _list.IsReadOnly; } }
 
-    /// <summary>
-    /// The encapsulated list
-    /// </summary>
+    /// <summary>Represents a list with events that notify on modification</summary>
     public TList List
     {
       get { return _list; }
@@ -63,9 +59,9 @@ namespace Primrose.Primitives.Eventful
           _listChanged.Invoke(value, old);
       }
     }
-    
+
     /// <summary>Adds an item to the list</summary>
-    /// <param name="item"></param>
+    /// <param name="item">The object to add to the list</param>
     public void Add(T item)
     {
       // event
@@ -73,10 +69,16 @@ namespace Primrose.Primitives.Eventful
       _itemAdded.Invoke(item, default(T));
     }
 
+    /// <summary>Removes all items from the list</summary>
     public void Clear() { _list.Clear(); }
 
+    /// <summary>Determines if the list contains a specific value</summary>
+    /// <param name="item">The object to locate in the list</param>
     public bool Contains(T item) { return _list.Contains(item); }
 
+    /// <summary>Copies the elements of the list to an array, starting at a particular index.</summary>
+    /// <param name="array">The one-dimensional array that is the destination of the elements copied the list. The array must have zero-based indexing.</param>
+    /// <param name="arrayIndex">The zero-based index in the array at which copying begins.</param>
     public void CopyTo(T[] array, int arrayIndex) { _list.CopyTo(array, arrayIndex); }
 
     /// <summary>Determines the index of a specific item in the list</summary>
@@ -114,6 +116,7 @@ namespace Primrose.Primitives.Eventful
       _itemRemoved.Invoke(default(T), item);
     }
 
+    /// <summary>Returns an enumerator that iterates through the collection.</summary>
     public IEnumerator<T> GetEnumerator()
     {
       return _list.GetEnumerator();

@@ -1,5 +1,7 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives;
+using Primrose.Primitives.Extensions;
 using Primrose.Primitives.Factories;
+using Primrose.Primitives.Parsers;
 using Primrose.Primitives.ValueTypes;
 using System;
 using System.Reflection;
@@ -8,7 +10,7 @@ using System.Text;
 namespace Primitives.FileFormat.INI
 {
   /// <summary>Defines a value from a section and key of an INI file</summary>
-  [AttributeUsage(AttributeTargets.Field)]
+  [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
   public class INIValueAttribute : Attribute
   {
     private static Registry<Type, Func<INIFile, string, string, object, object>> _getter = new Registry<Type, Func<INIFile, string, string, object, object>>();
@@ -21,10 +23,13 @@ namespace Primitives.FileFormat.INI
       _getter.Add(typeof(double), (f, s, k, d) => f.GetDouble(s, k, (double)d));
       _getter.Add(typeof(double[]), (f, s, k, d) => f.GetDoubleArray(s, k, (double[])d));
       _getter.Add(typeof(float), (f, s, k, d) => f.GetFloat(s, k, (float)d));
-      _getter.Add(typeof(float2), (f, s, k, d) => f.GetFloat2(s, k, (float2)d));
-      _getter.Add(typeof(float3), (f, s, k, d) => f.GetFloat3(s, k, (float3)d));
-      _getter.Add(typeof(float4), (f, s, k, d) => f.GetFloat4(s, k, (float4)d));
       _getter.Add(typeof(float[]), (f, s, k, d) => f.GetFloatArray(s, k, (float[])d));
+      _getter.Add(typeof(float2), (f, s, k, d) => f.GetFloat2(s, k, (float2)d));
+      _getter.Add(typeof(float2[]), (f, s, k, d) => f.GetFloat2Array(s, k, (float2[])d));
+      _getter.Add(typeof(float3), (f, s, k, d) => f.GetFloat3(s, k, (float3)d));
+      _getter.Add(typeof(float3[]), (f, s, k, d) => f.GetFloat3Array(s, k, (float3[])d));
+      _getter.Add(typeof(float4), (f, s, k, d) => f.GetFloat4(s, k, (float4)d));
+      _getter.Add(typeof(float4[]), (f, s, k, d) => f.GetFloat4Array(s, k, (float4[])d));
       _getter.Add(typeof(int), (f, s, k, d) => f.GetInt(s, k, (int)d));
       _getter.Add(typeof(int[]), (f, s, k, d) => f.GetIntArray(s, k, (int[])d));
       _getter.Add(typeof(string), (f, s, k, d) => f.GetString(s, k, (string)d));
@@ -32,16 +37,21 @@ namespace Primitives.FileFormat.INI
       _getter.Add(typeof(StringBuilder[]), (f, s, k, d) => f.GetStringBuilderArray(s, k, (StringBuilder[])d));
       _getter.Add(typeof(uint), (f, s, k, d) => f.GetUInt(s, k, (uint)d));
       _getter.Add(typeof(uint[]), (f, s, k, d) => f.GetUIntArray(s, k, (uint[])d));
+      _getter.Add(typeof(long), (f, s, k, d) => f.GetLong(s, k, (long)d));
+      _getter.Add(typeof(long[]), (f, s, k, d) => f.GetLongArray(s, k, (long[])d));
 
       _setter.Add(typeof(bool), (f, s, k, d) => f.SetBool(s, k, (bool)d));
       _setter.Add(typeof(bool[]), (f, s, k, d) => f.SetBoolArray(s, k, (bool[])d));
       _setter.Add(typeof(double), (f, s, k, d) => f.SetDouble(s, k, (double)d));
       _setter.Add(typeof(double[]), (f, s, k, d) => f.SetDoubleArray(s, k, (double[])d));
       _setter.Add(typeof(float), (f, s, k, d) => f.SetFloat(s, k, (float)d));
-      _setter.Add(typeof(float2), (f, s, k, d) => f.SetFloat2(s, k, (float2)d));
-      _setter.Add(typeof(float3), (f, s, k, d) => f.SetFloat3(s, k, (float3)d));
-      _setter.Add(typeof(float4), (f, s, k, d) => f.SetFloat4(s, k, (float4)d));
       _setter.Add(typeof(float[]), (f, s, k, d) => f.SetFloatArray(s, k, (float[])d));
+      _setter.Add(typeof(float2), (f, s, k, d) => f.SetFloat2(s, k, (float2)d));
+      _setter.Add(typeof(float2[]), (f, s, k, d) => f.SetFloat2Array(s, k, (float2[])d));
+      _setter.Add(typeof(float3), (f, s, k, d) => f.SetFloat3(s, k, (float3)d));
+      _setter.Add(typeof(float3[]), (f, s, k, d) => f.SetFloat3Array(s, k, (float3[])d));
+      _setter.Add(typeof(float4), (f, s, k, d) => f.SetFloat4(s, k, (float4)d));
+      _setter.Add(typeof(float4[]), (f, s, k, d) => f.SetFloat4Array(s, k, (float4[])d));
       _setter.Add(typeof(int), (f, s, k, d) => f.SetInt(s, k, (int)d));
       _setter.Add(typeof(int[]), (f, s, k, d) => f.SetIntArray(s, k, (int[])d));
       _setter.Add(typeof(string), (f, s, k, d) => f.SetString(s, k, (string)d));
@@ -49,6 +59,8 @@ namespace Primitives.FileFormat.INI
       _setter.Add(typeof(StringBuilder[]), (f, s, k, d) => f.SetStringBuilderArray(s, k, (StringBuilder[])d));
       _setter.Add(typeof(uint), (f, s, k, d) => f.SetUInt(s, k, (uint)d));
       _setter.Add(typeof(uint[]), (f, s, k, d) => f.SetUIntArray(s, k, (uint[])d));
+      _setter.Add(typeof(long), (f, s, k, d) => f.SetLong(s, k, (long)d));
+      _setter.Add(typeof(long[]), (f, s, k, d) => f.SetLongArray(s, k, (long[])d));
     }
 
     /// <summary>The section name of the INI file where the key is based on</summary>
@@ -68,72 +80,80 @@ namespace Primitives.FileFormat.INI
     /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
     public INIValueAttribute(string section, string key, bool required = false)
     {
+      if (section == null)
+        throw new ArgumentNullException("section");
+
+      if (key == null)
+        throw new ArgumentNullException("key");
+
       Section = section;
       Key = key;
       Required = required;
     }
 
-    internal object Read(Type t, INIFile f, object defaultValue)
+    internal object Read(Type t, INIFile f, object defaultValue, string sectionOverride)
     {
-      if (Required && !f.HasKey(Section, Key))
-        throw new InvalidOperationException("Required key '{0}' in section '{1}' is not defined!".F(Key, Section));
-
-      if (_getter.Contains(t))
-      {
-        return _getter.Get(t).Invoke(f, Section, Key, defaultValue);
-      }
-      else
-      {
-        if (t.IsEnum)
-        {
-          foreach (MethodInfo m in f.GetType().GetMethods())
-            if (m.IsGenericMethod && m.Name == "GetEnum")
-            {
-              MethodInfo mi = m.MakeGenericMethod(t);
-              return mi.Invoke(f, new object[] { Section, Key, defaultValue });
-            }
-        }
-        else if (t.IsArray && t.GetElementType().IsEnum)
-        {
-          foreach (MethodInfo m in f.GetType().GetMethods())
-            if (m.IsGenericMethod && m.Name == "GetEnumArray")
-            {
-              MethodInfo mi = m.MakeGenericMethod(t);
-              return mi.Invoke(f, new object[] { Section, Key, defaultValue });
-            }
-        }
-      }
-      throw new InvalidOperationException("Attempted to parse an INIKey value into an unsupported type '{0}' in key '{1}' in section '{2}'".F(t.Name, Key, Section));
+      MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo gmRead = mRead.MakeGenericMethod(t);
+      return gmRead.Invoke(this, new object[] { f, defaultValue, sectionOverride });
     }
 
-    internal void Write(Type t, INIFile f, object value)
+    private T InnerRead<T>(INIFile f, T defaultValue, string sectionOverride)
     {
+      sectionOverride = sectionOverride ?? Section;
+
+      if (Required && !f.HasKey(sectionOverride, Key))
+        throw new InvalidOperationException("Required key '{0}' in section '{1}' is not defined!".F(Key, sectionOverride));
+
+      return Parser.Parse(f.GetString(sectionOverride, Key, null), defaultValue);
+    }
+
+    internal void Write(Type t, INIFile f, object value, string sectionOverride)
+    {
+      MethodInfo mRead = GetType().GetMethod("InnerWrite", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo gmRead = mRead.MakeGenericMethod(t);
+      gmRead.Invoke(this, new object[] { f, value, sectionOverride});
+    }
+
+    private void InnerWrite<T>(INIFile f, T value, string sectionOverride)
+    {
+      sectionOverride = sectionOverride ?? Section;
+
+      f.SetString(sectionOverride, Key, Parser.Write(value));
+    }
+
+    /*
+    internal void Write(Type t, INIFile f, object value, string sectionOverride)
+    {
+      sectionOverride = sectionOverride ?? Section;
+
       if (_setter.Contains(t))
       {
-        _setter.Get(t).Invoke(f, Section, Key, value);
+        _setter.Get(t).Invoke(f, sectionOverride, Key, value);
+      }
+      else if (t.IsEnum)
+      {
+        foreach (MethodInfo m in f.GetType().GetMethods())
+          if (m.IsGenericMethod && m.Name == "SetEnum")
+          {
+            MethodInfo mi = m.MakeGenericMethod(t);
+            mi.Invoke(f, new object[] { sectionOverride, Key, value });
+          }
+      }
+      else if (t.IsArray && t.GetElementType().IsEnum)
+      {
+        foreach (MethodInfo m in f.GetType().GetMethods())
+          if (m.IsGenericMethod && m.Name == "SetEnumArray")
+          {
+            MethodInfo mi = m.MakeGenericMethod(t);
+            mi.Invoke(f, new object[] { sectionOverride, Key, value });
+          }
       }
       else
       {
-        if (t.IsEnum)
-        {
-          foreach (MethodInfo m in f.GetType().GetMethods())
-            if (m.IsGenericMethod && m.Name == "SetEnum")
-            {
-              MethodInfo mi = m.MakeGenericMethod(t);
-              mi.Invoke(f, new object[] { Section, Key, value });
-            }
-        }
-        else if (t.IsArray && t.GetElementType().IsEnum)
-        {
-          foreach (MethodInfo m in f.GetType().GetMethods())
-            if (m.IsGenericMethod && m.Name == "SetEnumArray")
-            {
-              MethodInfo mi = m.MakeGenericMethod(t);
-              mi.Invoke(f, new object[] { Section, Key, value });
-            }
-        }
+        throw new InvalidOperationException("Attempted to set an INIKey value as a value of an unsupported type '{0}' in key '{1}' in section '{2}'".F(t.Name, Key, sectionOverride));
       }
-      throw new InvalidOperationException("Attempted to set an INIKey value as a value of an unsupported type '{0}' in key '{1}' in section '{2}'".F(t.Name, Key, Section));
     }
+    */
   }
 }

@@ -9,7 +9,7 @@ namespace Primitives.FileFormat.INI
     private static string[] DefaultCommentDelimiters = new string[] { ";" };
 
     /// <summary>Indicates if section inheritance is supported</summary>
-    public bool SupportSectionInheritance = false;
+    public bool SupportSectionInheritance = true;
 
     /// <summary>Indicates a global section (key-values prior to the first section declaration) is allowed</summary>
     public bool AllowGlobalSection = true;
