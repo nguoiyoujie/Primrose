@@ -23,15 +23,19 @@ namespace Primrose.Primitives.Pipelines
     /// <param name="item"></param>
     public void Queue(T item) { pipe.Enqueue(item); }
 
-    /// <summary>Runs the execution of queued objects, up to a limit defined by MaxExecutionsPerRun</summary>
-    public void Run()
+    /// <summary>Returns the number of piped objects in the pipeline</summary>
+    public int Count { get { return pipe.Count; } }
+
+    /// <summary>Runs the execution of queued objects, up to a limit defined by MaxExecutionsPerRun. Returns the number of queued objects run</summary>
+    public int Run()
     {
-      int x = MaxExecutionsPerRun;
+      int x = 0;
       T pobj = default(T);
-      while (x-- > 0 && pipe.TryDequeue(out pobj))
+      while (++x < MaxExecutionsPerRun && pipe.TryDequeue(out pobj))
       {
         pobj.Execute();
       }
+      return x;
     }
 
     /// <summary>Clears the queue without execution</summary>
