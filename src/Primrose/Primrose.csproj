@@ -79,7 +79,8 @@
     <Compile Include="Primitives\Factories\Interfaces.cs" />
     <Compile Include="Primitives\Factories\ObjectPoolStatic.cs" />
     <Compile Include="Primitives\Factories\ObjectPool.cs" />
-    <Compile Include="Primitives\Factories\Registry.cs" />
+    <Compile Include="Primitives\Factories\Registry_KT.cs" />
+    <Compile Include="Primitives\Factories\Registry_T.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\DuplicateResolutionPolicy.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\INIFileConfigurationAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\INIEmbedObjectAttribute.cs" />
@@ -149,6 +150,9 @@
     <Compile Include="Primitives\Scope.cs" />
     <Compile Include="Primitives\StateMachines\StateMachine.cs" />
     <Compile Include="Primitives\StaticEnumerators.cs" />
+    <Compile Include="Primitives\Tasks\TaskHandler.cs" />
+    <Compile Include="Primitives\Tasks\TaskSet_T.cs" />
+    <Compile Include="Primitives\Tasks\TaskSet.cs" />
     <Compile Include="Primitives\TimeControl.cs" />
     <Compile Include="Primitives\TriggerEvents\Condition.cs" />
     <Compile Include="Primitives\TriggerEvents\Events.cs" />
@@ -162,9 +166,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
