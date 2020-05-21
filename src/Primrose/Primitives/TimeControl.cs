@@ -10,6 +10,7 @@ namespace Primrose.Primitives
   {
     private uint _targetFPS;
     private int _FPScounter;
+    private float _addTime;
     private float _FPScountTime;
     private float _FPSrefreshInterval = 0.2f;
     private object waitlock = new object();
@@ -57,7 +58,7 @@ namespace Primrose.Primitives
     public float UpdateInterval { get; private set; }
     
     /// <summary>The interval in world time</summary>
-    public float WorldInterval { get { return UpdateInterval * SpeedModifier; } }
+    public float WorldInterval { get { return UpdateInterval * SpeedModifier + _addTime; } }
 
     /// <summary>Updates the time</summary>
     public void Update()
@@ -81,13 +82,14 @@ namespace Primrose.Primitives
       _FPScounter++;
       _FPScountTime += UpdateInterval;
       WorldTime += WorldInterval;
+      _addTime = 0;
     }
 
     /// <summary>Performs a time skip to increment the time</summary>
     /// <param name="worldtime"></param>
     public void AddTime(float worldtime)
     {
-      WorldTime += worldtime;
+      _addTime += worldtime;
     }
 
     /// <summary>Performs a wait to suspend process until the target FPS is reached</summary>
