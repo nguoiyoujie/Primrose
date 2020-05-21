@@ -66,7 +66,7 @@ namespace Primrose.Primitives
 
     /// <summary>Obtains last updated collection</summary>
     /// <returns></returns>
-    public IDictionary<T, U> GetList()
+    public IDictionary<T, U> GetDictionary()
     {
       Update();
       return new Dictionary<T, U>(_list);
