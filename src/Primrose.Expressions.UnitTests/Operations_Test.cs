@@ -75,6 +75,7 @@ namespace Primrose.Expressions.UnitTests
         float f0 = ((float)r.NextDouble() - 0.5f) * 20000;
         float f1 = ((float)r.NextDouble() - 0.5f) * 20000;
 
+#pragma warning disable CS1718 // Comparison made to same variable
         test.Add(new Pair<string, Val>("{0} == {1}".F(i0, i0), new Val(i0 == i0)));
         test.Add(new Pair<string, Val>("{0} == {1}".F(i0, i1), new Val(i0 == i1)));
         test.Add(new Pair<string, Val>("{0} != {1}".F(i1, i1), new Val(i1 != i1)));
@@ -98,6 +99,7 @@ namespace Primrose.Expressions.UnitTests
         test.Add(new Pair<string, Val>("{0} <= {1}".F(f0, f1), new Val(f0 <= f1)));
         test.Add(new Pair<string, Val>("{0} >= {1}".F(f0, f0), new Val(f0 >= f0)));
         test.Add(new Pair<string, Val>("{0} <= {1}".F(f1, f1), new Val(f1 <= f1)));
+#pragma warning restore CS1718 // Comparison made to same variable
       }
 
       foreach (Pair<string, Val> p in test)

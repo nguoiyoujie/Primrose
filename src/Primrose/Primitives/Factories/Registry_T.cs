@@ -8,7 +8,7 @@ namespace Primrose.Primitives.Factories
   /// Maintains a typed registry of objects.
   /// </summary>
   /// <typeparam name="T">The type of the registered object</typeparam>
-  public class Registry<T> : IRegistry<T>
+  public class Registry<T> : IRegistry<string, T>
   { 
     private object locker = new object();
 
@@ -57,7 +57,7 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Retrives an array of all the values in the registry</summary>
     /// <returns></returns>
-    public T[] GetAll() { lock (locker) return list.Values.ToArray(); }
+    public T[] GetValues() { lock (locker) return list.Values.ToArray(); }
 
     /// <summary>Adds an object into the registry</summary>
     /// <param name="id">The identifier key to add</param>

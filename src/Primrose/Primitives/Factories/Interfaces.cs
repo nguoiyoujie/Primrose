@@ -20,35 +20,6 @@ namespace Primrose.Primitives.Factories
   /// <summary>
   /// Maintains a typed registry of objects.
   /// </summary>
-  /// <typeparam name="T">The type of the registered object</typeparam>
-  public interface IRegistry<T>
-  {
-    /// <summary>Retrieves the value associated with a key</summary>
-    /// <param name="key">The identifier key to check</param>
-    /// <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
-    T Get(string key);
-
-    /// <summary>Adds an object into the registry</summary>
-    /// <param name="id">The identifier key to add</param>
-    /// <param name="item">The object to be associated with this key</param>
-    void Add(string id, T item);
-
-    /// <summary>Updates or adds an object into the registry</summary>
-    /// <param name="id">The identifier key to add</param>
-    /// <param name="item">The object to be associated with this key</param>
-    void Put(string id, T item);
-
-    /// <summary>Removes an object from the registry</summary>
-    /// <param name="id">The identifier key to remove</param>
-    void Remove(string id);
-
-    /// <summary>Purges all data from the registry</summary>
-    void Clear();
-  }
-
-  /// <summary>
-  /// Maintains a typed registry of objects.
-  /// </summary>
   /// <typeparam name="K">The type of the key</typeparam>
   /// <typeparam name="T">The type of the registered object</typeparam>
   public interface IRegistry<K, T>

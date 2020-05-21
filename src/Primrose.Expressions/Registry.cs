@@ -48,7 +48,7 @@ namespace Primrose.Expressions
       /// <returns>The array of all loaded scripts, excluding the global script</returns>
       public Script[] GetAll()
       {
-        return m_registry.GetAll();
+        return m_registry.GetValues();
       }
     }
   }

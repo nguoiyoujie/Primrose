@@ -52,7 +52,7 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Retrives an array of all the values in the registry</summary>
     /// <returns></returns>
-    public T[] GetAll() { lock (locker) return list.Values.ToArray(); }
+    public T[] GetValues() { lock (locker) return list.Values.ToArray(); }
 
     /// <summary>Adds an object into the registry</summary>
     /// <param name="key">The identifier key to add</param>
