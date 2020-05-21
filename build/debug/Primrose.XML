@@ -144,7 +144,7 @@
             <param name="key">The key to check</param>
             <returns>Returns the value associated with this key</returns>
         </member>
-        <member name="M:Primrose.Primitives.ThreadSafeDictionary`2.GetList">
+        <member name="M:Primrose.Primitives.ThreadSafeDictionary`2.GetDictionary">
             <summary>Obtains last updated collection</summary>
             <returns></returns>
         </member>
@@ -568,12 +568,12 @@
             <param name="createFn">The function used to create the new instance of <typeparamref name="V"/></param>
             <returns></returns>
         </member>
-        <member name="T:Primrose.Primitives.Extensions.IntExts">
+        <member name="T:Primrose.Primitives.Extensions.ComparableExts">
             <summary>
-            Provides extension methods for int values
+            Provides extension methods for generic comparable values
             </summary>
         </member>
-        <member name="M:Primrose.Primitives.Extensions.IntExts.Clamp(System.Int32,System.Int32,System.Int32)">
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.Clamp``1(``0,``0,``0)">
             <summary>
             Returns a value clamped between a minimum and a maximum
             </summary>
@@ -582,7 +582,7 @@
             <param name="max">The maximum value</param>
             <returns>min if the value is less than min, max is the value is more than max, value otherwise</returns>
         </member>
-        <member name="M:Primrose.Primitives.Extensions.IntExts.Max(System.Int32,System.Int32)">
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.Max``1(``0,``0)">
             <summary>
             Returns the maximum of two values
             </summary>
@@ -590,43 +590,36 @@
             <param name="value2">The second value</param>
             <returns>The greater of the two values</returns>
         </member>
-        <member name="M:Primrose.Primitives.Extensions.IntExts.Min(System.Int32,System.Int32)">
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.Min``1(``0,``0)">
             <summary>
             Returns the minimum of two values
             </summary>
-            <param name="value1"></param>
-            <param name="value2"></param>
+            <param name="value1">The first value</param>
+            <param name="value2">The second value</param>
+            <returns>The smaller of the two values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.Max``1(``0,``0,System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Returns the maximum of two values, as determined by a comparer
+            </summary>
+            <param name="value1">The first value</param>
+            <param name="value2">The second value</param>
+            <param name="comparer">The comparer object used to compare the two values</param>
+            <returns>The greater of the two values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.Min``1(``0,``0,System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Returns the minimum of two values, as determined by a comparer
+            </summary>
+            <param name="value1">The first value</param>
+            <param name="value2">The second value</param>
+            <param name="comparer">The comparer object used to compare the two values</param>
             <returns>The smaller of the two values</returns>
         </member>
         <member name="T:Primrose.Primitives.Extensions.FloatExts">
             <summary>
             Provides extension methods for float values
             </summary>
-        </member>
-        <member name="M:Primrose.Primitives.Extensions.FloatExts.Clamp(System.Single,System.Single,System.Single)">
-            <summary>
-            Returns a value clamped between a minimum and a maximum
-            </summary>
-            <param name="value">The input value</param>
-            <param name="min">The minimum value</param>
-            <param name="max">The maximum value</param>
-            <returns>min if the value is less than min, max is the value is more than max, value otherwise</returns>
-        </member>
-        <member name="M:Primrose.Primitives.Extensions.FloatExts.Max(System.Single,System.Single)">
-            <summary>
-            Returns the maximum of two values
-            </summary>
-            <param name="value1">The first value</param>
-            <param name="value2">The second value</param>
-            <returns>The greater of the two values</returns>
-        </member>
-        <member name="M:Primrose.Primitives.Extensions.FloatExts.Min(System.Single,System.Single)">
-            <summary>
-            Returns the minimum of two values
-            </summary>
-            <param name="value1"></param>
-            <param name="value2"></param>
-            <returns>The smaller of the two values</returns>
         </member>
         <member name="M:Primrose.Primitives.Extensions.FloatExts.Creep(System.Single,System.Single,System.Single)">
             <summary>
@@ -932,34 +925,6 @@
             <param name="id">The identifier for the object</param>
             <returns></returns>
         </member>
-        <member name="T:Primrose.Primitives.Factories.IRegistry`1">
-            <summary>
-            Maintains a typed registry of objects.
-            </summary>
-            <typeparam name="T">The type of the registered object</typeparam>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.IRegistry`1.Get(System.String)">
-            <summary>Retrieves the value associated with a key</summary>
-            <param name="key">The identifier key to check</param>
-            <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.IRegistry`1.Add(System.String,`0)">
-            <summary>Adds an object into the registry</summary>
-            <param name="id">The identifier key to add</param>
-            <param name="item">The object to be associated with this key</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.IRegistry`1.Put(System.String,`0)">
-            <summary>Updates or adds an object into the registry</summary>
-            <param name="id">The identifier key to add</param>
-            <param name="item">The object to be associated with this key</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.IRegistry`1.Remove(System.String)">
-            <summary>Removes an object from the registry</summary>
-            <param name="id">The identifier key to remove</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.IRegistry`1.Clear">
-            <summary>Purges all data from the registry</summary>
-        </member>
         <member name="T:Primrose.Primitives.Factories.IRegistry`2">
             <summary>
             Maintains a typed registry of objects.
@@ -1059,6 +1024,74 @@
         <member name="M:Primrose.Primitives.Factories.ObjectPool`1.Clear">
             <summary>Removes all instances from the pool</summary>
         </member>
+        <member name="T:Primrose.Primitives.Factories.Registry`2">
+            <summary>
+            Maintains a typed registry of objects.
+            </summary>
+            <typeparam name="K">The type of the key</typeparam>
+            <typeparam name="T">The type of the registered object</typeparam>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.#ctor">
+            <summary>Creates an object registry</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.#ctor(System.Int32)">
+            <summary>Creates an object registry with an initial capacity</summary>
+            <param name="capacity">The initial capacity of the registry</param>
+        </member>
+        <member name="F:Primrose.Primitives.Factories.Registry`2.list">
+            <summary>The container data source</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Factories.Registry`2.Default">
+            <summary>The default value returned</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.Contains(`0)">
+            <summary>Determines whether the registry contains a key</summary>
+            <param name="key">The identifier key to check</param>
+            <returns>True if the registry contains this key, False if otherwise</returns>
+        </member>
+        <member name="P:Primrose.Primitives.Factories.Registry`2.Item(`0)">
+            <summary>Retrieves the value associated with a key index</summary>
+            <param name="id">The identifier key to check</param>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.Get(`0)">
+            <summary>Retrieves the value associated with a key</summary>
+            <param name="key">The identifier key to check</param>
+            <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.GetX(`0)">
+            <summary>Strictly retrieves the value associated with a key</summary>
+            <param name="key">The identifier key to check</param>
+            <returns>The value associated with the key</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The registry does not contain this key.</exception>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.GetKeys">
+            <summary>Retrives an array of all the keys in the registry</summary>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.GetValues">
+            <summary>Retrives an array of all the values in the registry</summary>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.Add(`0,`1)">
+            <summary>Adds an object into the registry</summary>
+            <param name="key">The identifier key to add</param>
+            <param name="item">The object to be associated with this key</param>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.Put(`0,`1)">
+            <summary>Updates or adds an object into the registry</summary>
+            <param name="key">The identifier key to add</param>
+            <param name="item">The object to be associated with this key</param>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.Remove(`0)">
+            <summary>Removes an object from the registry</summary>
+            <param name="key">The identifier key to remove</param>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.Clear">
+            <summary>Purges all data from the registry</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Factories.Registry`2.Count">
+            <summary>The number of elements in this registry</summary>
+        </member>
         <member name="T:Primrose.Primitives.Factories.Registry`1">
             <summary>
             Maintains a typed registry of objects.
@@ -1108,7 +1141,7 @@
             <summary>Retrives an array of all the keys in the registry</summary>
             <returns></returns>
         </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`1.GetAll">
+        <member name="M:Primrose.Primitives.Factories.Registry`1.GetValues">
             <summary>Retrives an array of all the values in the registry</summary>
             <returns></returns>
         </member>
@@ -1130,74 +1163,6 @@
             <summary>Purges all data from the registry</summary>
         </member>
         <member name="P:Primrose.Primitives.Factories.Registry`1.Count">
-            <summary>The number of elements in this registry</summary>
-        </member>
-        <member name="T:Primrose.Primitives.Factories.Registry`2">
-            <summary>
-            Maintains a typed registry of objects.
-            </summary>
-            <typeparam name="K">The type of the key</typeparam>
-            <typeparam name="T">The type of the registered object</typeparam>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.#ctor">
-            <summary>Creates an object registry</summary>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.#ctor(System.Int32)">
-            <summary>Creates an object registry with an initial capacity</summary>
-            <param name="capacity">The initial capacity of the registry</param>
-        </member>
-        <member name="F:Primrose.Primitives.Factories.Registry`2.list">
-            <summary>The container data source</summary>
-        </member>
-        <member name="F:Primrose.Primitives.Factories.Registry`2.Default">
-            <summary>The default value returned</summary>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.Contains(`0)">
-            <summary>Determines whether the registry contains a key</summary>
-            <param name="key">The identifier key to check</param>
-            <returns>True if the registry contains this key, False if otherwise</returns>
-        </member>
-        <member name="P:Primrose.Primitives.Factories.Registry`2.Item(`0)">
-            <summary>Retrieves the value associated with a key index</summary>
-            <param name="id">The identifier key to check</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.Get(`0)">
-            <summary>Retrieves the value associated with a key</summary>
-            <param name="key">The identifier key to check</param>
-            <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.GetX(`0)">
-            <summary>Strictly retrieves the value associated with a key</summary>
-            <param name="key">The identifier key to check</param>
-            <returns>The value associated with the key</returns>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The registry does not contain this key.</exception>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.GetKeys">
-            <summary>Retrives an array of all the keys in the registry</summary>
-            <returns></returns>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.GetAll">
-            <summary>Retrives an array of all the values in the registry</summary>
-            <returns></returns>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.Add(`0,`1)">
-            <summary>Adds an object into the registry</summary>
-            <param name="key">The identifier key to add</param>
-            <param name="item">The object to be associated with this key</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.Put(`0,`1)">
-            <summary>Updates or adds an object into the registry</summary>
-            <param name="key">The identifier key to add</param>
-            <param name="item">The object to be associated with this key</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.Remove(`0)">
-            <summary>Removes an object from the registry</summary>
-            <param name="key">The identifier key to remove</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.Registry`2.Clear">
-            <summary>Purges all data from the registry</summary>
-        </member>
-        <member name="P:Primrose.Primitives.Factories.Registry`2.Count">
             <summary>The number of elements in this registry</summary>
         </member>
         <member name="T:Primrose.Primitives.IIdentity">
@@ -1246,8 +1211,11 @@
             <summary>Queues an piped object into the pipeline</summary>
             <param name="item"></param>
         </member>
+        <member name="P:Primrose.Primitives.Pipelines.Pipeline`1.Count">
+            <summary>Returns the number of piped objects in the pipeline</summary>
+        </member>
         <member name="M:Primrose.Primitives.Pipelines.Pipeline`1.Run">
-            <summary>Runs the execution of queued objects, up to a limit defined by MaxExecutionsPerRun</summary>
+            <summary>Runs the execution of queued objects, up to a limit defined by MaxExecutionsPerRun. Returns the number of queued objects run</summary>
         </member>
         <member name="M:Primrose.Primitives.Pipelines.Pipeline`1.Clear">
             <summary>Clears the queue without execution</summary>
@@ -1594,6 +1562,84 @@
         </member>
         <member name="P:Primrose.Primitives.LinkedListEnumerator`1.Current">
             <summary>Retrieves the current item</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Tasks.TaskHandler">
+            <summary>Methods for starting and handling tasks</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew(Primrose.Primitives.Tasks.TaskSet)">
+            <summary>Creates and starts a task</summary>
+            <param name="taskset">The taskset to run</param>
+            <returns>The task generated and started by this method</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew``1(Primrose.Primitives.Tasks.TaskSet{``0},``0)">
+            <summary>Creates and starts a task</summary>
+            <param name="taskset">The taskset to run</param>
+            <param name="state">The parameterized state for the action</param>
+            <returns>The task generated and started by this method</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew(System.Action,System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
+            <summary>Creates and starts a task</summary>
+            <param name="action">The main action</param>
+            <param name="exception_handler">The action to be performed on encountered exception during execution of the main action</param>
+            <param name="completion_handler">The action to be performed on successful completion of the main action</param>
+            <returns>The task generated and started by this method</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew``1(System.Action{``0},``0,System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
+            <summary>Creates and starts a task with a parameterized state</summary>
+            <typeparam name="T">The type of the parameterized state</typeparam>
+            <param name="action">The main action</param>
+            <param name="state">The parameterized state for the action</param>
+            <param name="exception_handler">The action to be performed on encountered exception during execution of the main action</param>
+            <param name="completion_handler">The action to be performed on successful completion of the main action</param>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew(System.Action,System.Threading.CancellationToken,System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
+            <summary>Creates and starts a task</summary>
+            <param name="action">The main action</param>
+            <param name="cancellationToken">The cancellation token for the task</param>
+            <param name="exception_handler">The action to be performed on encountered exception during execution of the main action</param>
+            <param name="completion_handler">The action to be performed on successful completion of the main action</param>
+            <returns>The task generated and started by this method</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew``1(System.Action{``0},``0,System.Threading.CancellationToken,System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
+            <summary>Creates and starts a task with a parameterized state</summary>
+            <typeparam name="T">The type of the parameterized state</typeparam>
+            <param name="action">The main action</param>
+            <param name="state">The parameterized state for the action</param>
+            <param name="cancellationToken">The cancellation token for the task</param>
+            <param name="exception_handler">The action to be performed on encountered exception during execution of the main action</param>
+            <param name="completion_handler">The action to be performed on successful completion of the main action</param>
+            <returns></returns>
+        </member>
+        <member name="T:Primrose.Primitives.Tasks.TaskSet`1">
+            <summary>Defines a container for handled tasks</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Tasks.TaskSet`1.Task">
+            <summary>The main action</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Tasks.TaskSet`1.ActionFail">
+            <summary>The action to be performed on encountered exception during execution of the main action</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Tasks.TaskSet`1.ActionPass">
+            <summary>The action to be performed on successful completion of the main action</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskSet`1.#ctor(System.Action{`0},System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
+            <summary>Creates a container for handled tasks</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Tasks.TaskSet">
+            <summary>Defines a container for handled tasks</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Tasks.TaskSet.Task">
+            <summary>The main action</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Tasks.TaskSet.ActionFail">
+            <summary>The action to be performed on encountered exception during execution of the main action</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Tasks.TaskSet.ActionPass">
+            <summary>The action to be performed on successful completion of the main action</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskSet.#ctor(System.Action,System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
+            <summary>Creates a container for handled tasks</summary>
         </member>
         <member name="T:Primrose.Primitives.TimeControl">
             <summary>
