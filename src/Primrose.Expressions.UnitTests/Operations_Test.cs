@@ -1,16 +1,16 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Primrose.Primitives.Extensions;
 using Primrose.Primitives.ValueTypes;
 using System.Collections.Generic;
 using Primrose.Expressions.UnitTests.Scripting;
+using NUnit.Framework;
 
 namespace Primrose.Expressions.UnitTests
 {
-  [TestClass]
+  [TestFixture]
   public class Operations_Test
   {
-    [TestMethod]
+    [Test]
     public void Operation_Math()
     {
       ScriptExpression expr;
@@ -39,7 +39,7 @@ namespace Primrose.Expressions.UnitTests
       }
     }
 
-    [TestMethod]
+    [Test]
     public void Operation_Concat()
     {
       ScriptExpression expr;
@@ -60,7 +60,7 @@ namespace Primrose.Expressions.UnitTests
       }
     }
 
-    [TestMethod]
+    [Test]
     public void Operation_Compare()
     {
       ScriptExpression expr;
@@ -111,7 +111,7 @@ namespace Primrose.Expressions.UnitTests
       }
     }
 
-    [TestMethod]
+    [Test]
     public void Operation_Branch()
     {
       Script script;

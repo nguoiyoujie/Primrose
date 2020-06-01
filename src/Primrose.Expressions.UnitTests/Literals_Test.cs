@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Primrose.Primitives.Extensions;
 using System.Globalization;
+using NUnit.Framework;
 
 namespace Primrose.Expressions.UnitTests
 {
-  [TestClass]
+  [TestFixture]
   public class Literals_Test
   {
-    [TestMethod]
+    [Test]
     public void Literal_Bool()
     {
       ScriptExpression expr;
@@ -24,7 +24,7 @@ namespace Primrose.Expressions.UnitTests
       }
     }
 
-    [TestMethod]
+    [Test]
     public void Literal_Int()
     {
       ScriptExpression expr;
@@ -47,7 +47,7 @@ namespace Primrose.Expressions.UnitTests
       }
     }
 
-    [TestMethod]
+    [Test]
     public void Literal_Float()
     {
       ScriptExpression expr;
@@ -70,7 +70,7 @@ namespace Primrose.Expressions.UnitTests
       }
     }
 
-    [TestMethod]
+    [Test]
     public void Literal_String()
     {
       ScriptExpression expr;

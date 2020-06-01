@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Primrose.Expressions.UnitTests.Scripting
 {
@@ -7,7 +7,7 @@ namespace Primrose.Expressions.UnitTests.Scripting
     public static Val AreEqual(IContext context, Val v1, Val v2)
     {
       if (v1.Type == ValType.FLOAT || v2.Type == ValType.FLOAT)
-        Assert.AreEqual((float)v1, (float)v2, 0.00001f);
+        Assert.That((float)v1, Is.EqualTo((float)v2).Within(0.00001f));
       else if (v1.Type == ValType.INT || v2.Type == ValType.INT)
         Assert.AreEqual((int)v1, (int)v2);
       else
@@ -18,7 +18,7 @@ namespace Primrose.Expressions.UnitTests.Scripting
     public static Val AreNotEqual(IContext context, Val v1, Val v2)
     {
       if (v1.Type == ValType.FLOAT || v2.Type == ValType.FLOAT)
-        Assert.AreNotEqual((float)v1, (float)v2, 0.00001f);
+        Assert.That((float)v1, Is.Not.EqualTo((float)v2).Within(0.00001f));
       else if (v1.Type == ValType.INT || v2.Type == ValType.INT)
         Assert.AreNotEqual((int)v1, (int)v2);
       else

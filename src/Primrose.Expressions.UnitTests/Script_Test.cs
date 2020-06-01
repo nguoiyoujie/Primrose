@@ -1,19 +1,19 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Primrose.Primitives.Extensions;
 using Primrose.Expressions.UnitTests.Scripting;
 using System.IO;
+using NUnit.Framework;
 
 namespace Primrose.Expressions.UnitTests
 {
-  [TestClass]
+  [TestFixture]
   public class Script_Test
   {
-    [TestMethod]
+    [Test]
     public void Script_Simulation()
     {
       Context c = new Context();
-      string test_dir = "./Scripts";
+      string test_dir = Path.Combine(TestContext.CurrentContext.TestDirectory, "./Scripts");
 
       foreach (string sfile in Directory.GetFiles(test_dir))
       {
