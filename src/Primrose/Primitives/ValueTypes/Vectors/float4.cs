@@ -34,9 +34,39 @@ namespace Primrose.Primitives.ValueTypes
     {
       get
       {
-        if (i < 0 || i > 3)
-          throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of float4".F(i));
-        return (i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w;
+        switch (i)
+        {
+          case 0:
+            return x;
+          case 1:
+            return y;
+          case 2:
+            return z;
+          case 3:
+            return w;
+          default:
+            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of float4".F(i));
+        }
+      }
+      set
+      {
+        switch (i)
+        {
+          case 0:
+            x = value;
+            break;
+          case 1:
+            y = value;
+            break;
+          case 2:
+            z = value;
+            break;
+          case 3:
+            w = value;
+            break;
+          default:
+            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of float4".F(i));
+        }
       }
     }
 
@@ -80,12 +110,12 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a float4 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A float4 value</returns>
-    public static float4 Parse(string s) { return FromArray(Parser.Parse(s, new float[0])); }
+    public static float4 Parse(string s) { return FromArray(Parser.Parse<float[]>(s.Trim('{', '}'))); }
 
     /// <summary>Parses a float4 from a string</summary>
     /// <param name="s">The string value</param>
     /// <param name="defaultValue">The default value</param>
-    /// <returns>A float4 value</returns>
+    /// <returns>A float4 value, or the default value if the parsing fails</returns>
     public static float4 Parse(string s, float4 defaultValue)
     {
       float[] list = Parser.Parse(s, new float[0]);
@@ -105,7 +135,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="s">The string value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, out float4 result) { result = default(float4); try { result = FromArray(Parser.Parse(s, new float[0])); return true; } catch { return false; } }
+    public static bool TryParse(string s, out float4 result) { result = default(float4); try { result = Parse(s); return true; } catch { return false; } }
 
     /// <summary>Parses a float4 from a string</summary>
     /// <param name="s">The string value</param>
@@ -169,6 +199,13 @@ namespace Primrose.Primitives.ValueTypes
     public static float4 operator %(float4 a, float m)
     {
       return new float4(a.x % m, a.y % m, a.z % m, a.w % m);
+    }
+
+    /// <summary>Returns the absolute difference between two float4 values</summary>
+    /// <param name="a"></param><param name="b"></param><returns></returns>
+    public static float Diff(float4 a, float4 b)
+    {
+      return Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y) + Math.Abs(a.z - b.z) + Math.Abs(a.w - b.w);
     }
   }
 }

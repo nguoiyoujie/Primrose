@@ -9,102 +9,204 @@ namespace Primrose.Primitives.Parsers
   {
     internal static class Rules
     {
-      internal static bool ToBool(string value, bool defaultValue = false)
+      internal static bool ToBool(string value)
       {
         string s = value.ToLower().Trim();
         if (s.Equals("0") || s.Trim().Equals("false") || s.Equals("no"))
           return false;
         else if (s.Equals("1") || s.Equals("true") || s.Equals("yes"))
           return true;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static byte ToByte(string value, byte defaultValue = 0)
+      internal static byte ToByte(string value)
       {
-        byte ret = defaultValue;
+        byte ret;
         if (value != null && byte.TryParse(value, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static short ToShort(string value, short defaultValue = 0)
+      internal static byte2 ToByte2(string value)
       {
-        short ret = defaultValue;
+        byte2 ret = default(byte2); ;
+        if (value != null && byte2.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static byte3 ToByte3(string value)
+      {
+        byte3 ret = default(byte3);
+        if (value != null && byte3.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static byte4 ToByte4(string value)
+      {
+        byte4 ret = default(byte4);
+        if (value != null && byte4.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static short ToShort(string value)
+      {
+        short ret = default(short);
         if (value != null && short.TryParse(value, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static int ToInt(string value, int defaultValue = 0)
+      internal static short2 ToShort2(string value)
       {
-        int ret = defaultValue;
+        short2 ret = default(short2);
+        if (value != null && short2.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static short3 ToShort3(string value)
+      {
+        short3 ret = default(short3);
+        if (value != null && short3.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static short4 ToShort4(string value)
+      {
+        short4 ret = default(short4);
+        if (value != null && short4.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static int ToInt(string value)
+      {
+        int ret = default(int);
         if (value != null && int.TryParse(value, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static uint ToUInt(string value, uint defaultValue = 0)
+      internal static int2 ToInt2(string value)
       {
-        uint ret = defaultValue;
+        int2 ret = default(int2);
+        if (value != null && int2.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static int3 ToInt3(string value)
+      {
+        int3 ret = default(int3);
+        if (value != null && int3.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static int4 ToInt4(string value)
+      {
+        int4 ret = default(int4);
+        if (value != null && int4.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static uint ToUInt(string value)
+      {
+        uint ret = default(uint);
         if (value != null && uint.TryParse(value, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static long ToLong(string value, long defaultValue = 0)
+      internal static uint2 ToUInt2(string value)
       {
-        long ret = defaultValue;
+        uint2 ret = default(uint2);
+        if (value != null && uint2.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static uint3 ToUInt3(string value)
+      {
+        uint3 ret = default(uint3);
+        if (value != null && uint3.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static uint4 ToUInt4(string value)
+      {
+        uint4 ret = default(uint4);
+        if (value != null && uint4.TryParse(value, ret, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static long ToLong(string value)
+      {
+        long ret = default(long);
         if (value != null && long.TryParse(value, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static float ToFloat(string value, float defaultValue = 0)
+      internal static ulong ToULong(string value)
       {
-        float ret = defaultValue;
+        ulong ret = default(ulong);
+        if (value != null && ulong.TryParse(value, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(bool), value);
+      }
+
+      internal static float ToFloat(string value)
+      {
+        float ret = default(float);
         if (value != null && float.TryParse(value, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static float2 ToFloat2(string value, float2 defaultValue = default(float2))
+      internal static float2 ToFloat2(string value)
       {
-        float2 ret = defaultValue;
-        if (value != null && float2.TryParse(value, defaultValue, out ret))
+        float2 ret = default(float2);
+        if (value != null && float2.TryParse(value, ret, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static float3 ToFloat3(string value, float3 defaultValue = default(float3))
+      internal static float3 ToFloat3(string value)
       {
-        float3 ret = defaultValue;
-        if (value != null && float3.TryParse(value, defaultValue, out ret))
+        float3 ret = default(float3);
+        if (value != null && float3.TryParse(value, ret, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(bool), value);
       }
 
-      internal static float4 ToFloat4(string value, float4 defaultValue = default(float4))
+      internal static float4 ToFloat4(string value)
       {
-        float4 ret = defaultValue;
-        if (value != null && float4.TryParse(value, defaultValue, out ret))
+        float4 ret = default(float4);
+        if (value != null && float4.TryParse(value, ret, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(float4), value);
       }
 
-      internal static double ToDouble(string value, double defaultValue = 0)
+      internal static double ToDouble(string value)
       {
-        double ret = defaultValue;
+        double ret = default(double);
         if (value != null && double.TryParse(value, out ret))
           return ret;
-        return defaultValue;
+        throw new RuleConversionException(typeof(double), value);
       }
 
-
-
-      internal static T ToArray<T>(string value, T defaultList)
+      internal static T ToArray<T>(string value)
       {
         if (string.IsNullOrWhiteSpace(value))
-          return defaultList;
+          throw new RuleConversionException(typeof(T), value);
 
         Type et = typeof(T).GetElementType();
 
@@ -112,28 +214,27 @@ namespace Primrose.Primitives.Parsers
         string[] tokens = new List<string>(value.SplitBy(ListDelimiter[0], n)).ToArray();
 
         Array array = Array.CreateInstance(et, tokens.Length);
-        object defaultElement = (et.IsValueType) ? Activator.CreateInstance(et) : null;
+        //object defaultElement = (et.IsValueType) ? Activator.CreateInstance(et) : null;
 
         for (int i = 0; i < tokens.Length; i++)
         {
-          try { array.SetValue(_fromStr.Get(et).Invoke(tokens[i], defaultElement), i); }
-          catch { }
+          array.SetValue(_fromStr.Get(et).Invoke(tokens[i]), i);
         }
 
         return (T)(object)array;
       }
 
-      internal static T ToEnum<T>(string value, T defaultValue)
+      internal static T ToEnum<T>(string value)
       {
         string s = value.Replace("|", ","); ;
         try { return (T)Enum.Parse(typeof(T), s); }
-        catch { return defaultValue; }
+        catch { throw new RuleConversionException(typeof(T), value); }
       }
 
-      internal static T ToEnumArray<T>(string value, T defaultList)
+      internal static T ToEnumArray<T>(string value)
       {
         if (string.IsNullOrWhiteSpace(value))
-          return defaultList;
+          throw new RuleConversionException(typeof(T), value);
 
         string[] tokens = value.Split(ListDelimiter);
 
@@ -142,13 +243,10 @@ namespace Primrose.Primitives.Parsers
 
         for (int i = 0; i < tokens.Length; i++)
         {
-          try { array.SetValue(Enum.Parse(et, tokens[i]), i); }
-          catch { }
+          array.SetValue(Enum.Parse(et, tokens[i]), i);
         }
         return (T)(object)array;
       }
-
-
 
       internal static string ToStrGeneric<T>(T value)
       {
@@ -170,7 +268,7 @@ namespace Primrose.Primitives.Parsers
         return string.Join(ListDelimiter[0].ToString(), list);
       }
 
-      internal static string FloatNToStr<T>(T value)
+      internal static string VecNToStr<T>(T value)
       {
         return value.ToString().Trim('{', '}');
       }

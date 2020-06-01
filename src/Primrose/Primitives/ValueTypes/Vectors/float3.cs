@@ -30,9 +30,34 @@ namespace Primrose.Primitives.ValueTypes
     {
       get
       {
-        if (i < 0 || i > 2)
-          throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of float3".F(i));
-        return (i == 0) ? x : (i == 1) ? y : z;
+        switch (i)
+        {
+          case 0:
+            return x;
+          case 1:
+            return y;
+          case 2:
+            return z;
+          default:
+            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of float3".F(i));
+        }
+      }
+      set
+      {
+        switch (i)
+        {
+          case 0:
+            x = value;
+            break;
+          case 1:
+            y = value;
+            break;
+          case 2:
+            z = value;
+            break;
+          default:
+            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of float3".F(i));
+        }
       }
     }
 
@@ -76,12 +101,12 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a float3 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A float3 value</returns>
-    public static float3 Parse(string s) { return FromArray(Parser.Parse(s, new float[0])); }
+    public static float3 Parse(string s) { return FromArray(Parser.Parse<float[]>(s.Trim('{', '}'))); }
 
     /// <summary>Parses a float3 from a string</summary>
     /// <param name="s">The string value</param>
     /// <param name="defaultValue">The default value</param>
-    /// <returns>A float3 value</returns>
+    /// <returns>A float3 value, or the default value if the parsing fails</returns>
     public static float3 Parse(string s, float3 defaultValue)
     {
       float[] list = Parser.Parse(s, new float[0]);
@@ -101,12 +126,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>True if the parse is successful</returns>
     public static bool TryParse(string s, out float3 result) { result = default(float3); try { result = Parse(s); return true; } catch { return false; } }
 
-    /// <summary>Parses a float3 from a string</summary>
+    /// <summary>Parses a float4 from a string</summary>
     /// <param name="s">The string value</param>
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
     public static bool TryParse(string s, float3 defaultValue, out float3 result) { result = defaultValue; try { result = Parse(s, defaultValue); return true; } catch { return false; } }
+
 
     /// <summary>Performs a memberwise negation of a float3 value</summary>
     /// <param name="a"></param><returns></returns>
@@ -162,6 +188,13 @@ namespace Primrose.Primitives.ValueTypes
     public static float3 operator %(float3 a, float m)
     {
       return new float3(a.x % m, a.y % m, a.z % m);
+    }
+
+    /// <summary>Returns the absolute difference between two float3 values</summary>
+    /// <param name="a"></param><param name="b"></param><returns></returns>
+    public static float Diff(float3 a, float3 b)
+    {
+      return Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y) + Math.Abs(a.z - b.z);
     }
   }
 }
