@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Primrose.Primitives.Eventful
+namespace Primrose.Primitives.Observables
 {
   /// <summary>Represents a list with events that notify on modification</summary>
   /// <typeparam name="TList">The type of the list</typeparam>
   /// <typeparam name="T">The type of elements in the list</typeparam>
-  public class EventedList<TList, T> : IList<T>
+  public class ObservableList<TList, T> : IList<T>
     where TList : IList<T>
   {
     private TList _list;
@@ -28,6 +28,16 @@ namespace Primrose.Primitives.Eventful
     /// <summary>Represents the set of functions to be called when a value is changed</summary>
     public event ChangeEventDelegate<T> ItemChanged { add { _itemChanged.Ev += value; } remove { _itemChanged.Ev -= value; } }
 
+    /// <summary>Represents a list with events that notify on modification</summary>
+    /// <param name="source">The initial list. No events are fired on the assignment of the initial list.</param>
+    public ObservableList(TList source)
+    {
+      _list = source;
+      _listChanged = default(ChangeEvent<IList<T>>);
+      _itemAdded = default(ChangeEvent<T>);
+      _itemRemoved = default(ChangeEvent<T>);
+      _itemChanged = default(ChangeEvent<T>);
+    }
 
     /// <summary>Gets or sets an element in the list, accessed by an index</summary>
     public T this[int index]
@@ -47,7 +57,7 @@ namespace Primrose.Primitives.Eventful
     /// <summary>Gets a value indicating whether the list is read-only</summary>
     public bool IsReadOnly { get { return _list.IsReadOnly; } }
 
-    /// <summary>Represents a list with events that notify on modification</summary>
+    /// <summary>The encapsulated list. Direct method calls to the encapsulated object will not trigger any events.</summary>
     public TList List
     {
       get { return _list; }

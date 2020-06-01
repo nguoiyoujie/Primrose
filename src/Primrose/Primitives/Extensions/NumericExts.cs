@@ -3,7 +3,7 @@
   /// <summary>
   /// Provides extension methods for float values
   /// </summary>
-  public static class FloatExts
+  public static class NumericExts
   {
     /// <summary>
     /// Returns a value at most max_delta value closer to a target
@@ -36,6 +36,37 @@
       else if (max < min)
       {
         float temp = max;
+        max = min;
+        min = temp;
+      }
+
+      value %= max - min;
+
+      if (value > max)
+        value -= max - min;
+      else if (value < min)
+        value += max - min;
+
+      return value;
+    }
+
+    /// <summary>
+    /// Returns the result of (value % (max - min)), scaled so that lies between min and max
+    /// </summary>
+    /// <param name="value">The input value</param>
+    /// <param name="min">The minimum value</param>
+    /// <param name="max">The maximum value</param>
+    /// <returns>(value % (max - min)), scaled so that lies between min and max</returns>
+    public static int Modulus(this int value, int min, int max)
+    {
+      if (max == min)
+      {
+        value = min;
+        return value;
+      }
+      else if (max < min)
+      {
+        int temp = max;
         max = min;
         min = temp;
       }

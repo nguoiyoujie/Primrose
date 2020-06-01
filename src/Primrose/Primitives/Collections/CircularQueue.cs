@@ -4,14 +4,15 @@ using System;
 namespace Primrose.Primitives.Collections
 {
   /// <summary>
-  /// Provides a queue based on circular linkage
+  /// Provides a FIFO queue based on circular linkage
   /// </summary>
   /// <typeparam name="T">The item type stored in the queue</typeparam>
   public class CircularQueue<T>
   {
     private readonly T[] nodes;
-    private int current;
-    private int emptySpot;
+    private int count;
+    private int front;
+    private int rear;
     private readonly bool errifexceed;
 
     /// <summary>
@@ -22,47 +23,42 @@ namespace Primrose.Primitives.Collections
     public CircularQueue(int size, bool errifexceed)
     {
       this.nodes = new T[size];
-      this.current = 0;
-      this.emptySpot = 0;
+      this.count = 0;
+      this.front = 0;
+      this.rear = 0;
       this.errifexceed = errifexceed;
     }
 
     /// <summary>Retrieves the number of elements in the queue</summary>
-    public int Count
-    {
-      get
-      {
-        int ret = emptySpot - current;
-        return ret < 0 ? (ret + nodes.Length) : ret;
-      }
-    }
+    public int Count { get { return count; } }
+
+    /// <summary>Returns whether the queue throws an exception if its capacity is exceeded</summary>
+    public bool ErrorIfExceedCapacity { get { return errifexceed; } }
 
     /// <summary>Enqueues an item from the queue</summary>
     /// <param name="value">The item to be enqueued</param>
     /// <exception cref="InvalidOperationException">Attempted to enqueue an item into the queue that has reached capacity limit.</exception>
     public void Enqueue(T value)
     {
-      if (Count == nodes.Length - 1)
+      if (Count >= nodes.Length)
       {
         if (errifexceed)
           throw new InvalidOperationException("Attempted to enqueue an item into {0} that has reached capacity limit of {1}.".F(GetType().Name, nodes.Length));
         else
           Dequeue();
       }
-      nodes[emptySpot] = value;
-      emptySpot++;
-      if (emptySpot >= nodes.Length)
-        emptySpot = 0;
+      nodes[rear] = value;
+      rear = (rear + 1).Modulus(0, nodes.Length);
+      count++;
     }
 
     /// <summary>Dequeues an item from the queue</summary>
     /// <returns></returns>
     public T Dequeue()
     {
-      int ret = current;
-      current++;
-      if (current >= nodes.Length)
-        current = 0;
+      int ret = front;
+      front = (front + 1).Modulus(0, nodes.Length);
+      count--;
       return nodes[ret];
     }
   }

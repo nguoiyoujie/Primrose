@@ -1,4 +1,4 @@
-﻿using Primrose.Primitives.Eventful;
+﻿using Primrose.Primitives.Observables;
 using System.Collections.Generic;
 
 namespace Primrose.Primitives.TriggerEvents
@@ -12,7 +12,7 @@ namespace Primrose.Primitives.TriggerEvents
   public class Condition<T> : ICondition
   {
     private event ConditionUpdateEventHandler _update;
-    private List<EventedVal<T>> subscribes = new List<EventedVal<T>>();
+    private List<ObservableValue<T>> subscribes = new List<ObservableValue<T>>();
 
     public bool Fulfilled { get { return met; } }
     private bool met;
@@ -40,13 +40,13 @@ namespace Primrose.Primitives.TriggerEvents
 
     public virtual void Check(T oldValue, T newValue) { } // change the signature
 
-    public void Subscribe(EventedVal<T> target)
+    public void Subscribe(ObservableValue<T> target)
     {
       subscribes.Add(target);
       target.ValueChanged += Check;
     }
 
-    public void Unsubscribe(EventedVal<T> target)
+    public void Unsubscribe(ObservableValue<T> target)
     {
       if (subscribes.Contains(target))
       {

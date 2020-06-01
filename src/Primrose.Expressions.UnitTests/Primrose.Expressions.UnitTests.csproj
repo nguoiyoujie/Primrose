@@ -82,7 +82,7 @@
     <Compile Include="Scripting\Functions\MiscFns.cs" />
     <Compile Include="Script_Test.cs" />
     <Compile Include="Operations_Test.cs" />
-    <Compile Include="Literals_Test.cs" />
+    <Compile Include="Literals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,12 @@
 ﻿
 
-namespace Primrose.Primitives.Eventful
+namespace Primrose.Primitives.Observables
 {
   /// <summary>
   /// A wrapper for binding modification events to a variable
   /// </summary>
   /// <typeparam name="T">The encapsulated type</typeparam>
-  public struct EventedVal<T>
+  public struct ObservableValue<T>
   {
     private T _val;
 

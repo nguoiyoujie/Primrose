@@ -1,38 +1,13 @@
 ﻿using Primrose.Primitives.Factories;
 
-namespace Primrose.Primitives.Eventful
+namespace Primrose.Primitives.Observables
 {
-  /// <summary>
-  /// A delegate representing a change in value
-  /// </summary>
-  /// <typeparam name="T"></typeparam>
-  /// <param name="newValue">Represents the new value</param>
-  /// <param name="oldValue">Represents the old value</param>
-  public delegate void ChangeEventDelegate<T>(T newValue, T oldValue);
-
-  internal struct ChangeEvent<T>
-  {
-    private event ChangeEventDelegate<T> _ev;
-
-    internal event ChangeEventDelegate<T> Ev
-    {
-      add { _ev += value; }
-      remove { _ev -= value; }
-    }
-
-    internal void Invoke(T newV, T oldV)
-    {
-      if ((newV == null && oldV != null) || !(newV != null && newV.Equals(oldV)))
-        _ev?.Invoke(newV, oldV);
-    }
-  }
-
   /// <summary>
   /// A wrapper for binding modification events to a registry
   /// </summary>
   /// <typeparam name="K">The encapsulated key type</typeparam>
   /// <typeparam name="V">The encapsulated value type</typeparam>
-  public class EventedRegistry<K, V> : IRegistry<K, V>
+  public class ObservableRegistry<K, V> : IRegistry<K, V>
   {
     private Registry<K, V> _reg;
 
@@ -53,11 +28,9 @@ namespace Primrose.Primitives.Eventful
     /// <summary>Represents the set of functions to be called when a value is changed</summary>
     public event ChangeEventDelegate<V> ValueChanged { add { _valueChanged.Ev += value; } remove { _valueChanged.Ev -= value; } }
 
-    /// <summary>
-    /// Defines an event-bounded registry
-    /// </summary>
-    /// <param name="reg">The initial registry</param>
-    public EventedRegistry(Registry<K, V> reg)
+    /// <summary>Defines an event-bounded registry</summary>
+    /// <param name="reg">The initial registry. No events are fired on the assignment of the initial registry.</param>
+    public ObservableRegistry(Registry<K, V> reg)
     {
       _reg = reg;
       _regChanged = default(ChangeEvent<Registry<K, V>>);
@@ -67,7 +40,7 @@ namespace Primrose.Primitives.Eventful
     }
 
     /// <summary>
-    /// The encapsulated registry
+    /// The encapsulated registry. Direct method calls to the encapsulated object will not trigger any events.
     /// </summary>
     public Registry<K, V> Registry
     {
@@ -80,13 +53,34 @@ namespace Primrose.Primitives.Eventful
       }
     }
 
+    /// <summary>Gets or sets an element in the list, accessed by an index</summary>
+    public V this[K id] { get { return Get(id); } set { Put(id, value); } }
+
+    /// <summary>Gets the number of elements contained in the registry</summary>
+    public int Count { get { return _reg.Count; } }
+
+    /// <summary>Determines whether the registry contains a key</summary>
+    /// <param name="key">The identifier key to check</param>
+    /// <returns>True if the registry contains this key, False if otherwise</returns>
+    public bool Contains(K key) { return _reg.Contains(key); }
+
     /// <summary>Retrieves the value associated with a key</summary>
     /// <param name="key">The identifier key to check</param>
     /// <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
-    public V Get(K key)
-    {
-      return _reg.Get(key);
-    }
+    public V Get(K key) { return _reg.Get(key); }
+
+    /// <summary>Strictly retrieves the value associated with a key</summary>
+    /// <param name="key">The identifier key to check</param>
+    /// <returns>The value associated with the key</returns>
+    public V GetX(K key) { return _reg.GetX(key); }
+
+    /// <summary>Retrives an array of all the keys in the registry</summary>
+    /// <returns></returns>
+    public K[] GetKeys() { return _reg.GetKeys(); }
+
+    /// <summary>Retrives an array of all the values in the registry</summary>
+    /// <returns></returns>
+    public V[] GetValues() { return _reg.GetValues(); }
 
     /// <summary>Adds an object into the registry</summary>
     /// <param name="key">The identifier key to add</param>
@@ -96,7 +90,6 @@ namespace Primrose.Primitives.Eventful
       _reg.Add(key, item);
       _keyAdded.Invoke(key, default(K));
     }
-
 
     /// <summary>Updates or adds an object into the registry</summary>
     /// <param name="key">The identifier key to add</param>

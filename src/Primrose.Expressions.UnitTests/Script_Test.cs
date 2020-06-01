@@ -24,6 +24,7 @@ namespace Primrose.Expressions.UnitTests
         ScriptFile f = new ScriptFile(sfile, c);
         f.NewScriptEvent = ReadScript;
         f.ReadFile();
+        Console.WriteLine();
 
         c.Scripts.Global.Run(c);
 
@@ -41,7 +42,7 @@ namespace Primrose.Expressions.UnitTests
 
     public void ReadScript(string name)
     {
-      Console.Write("loading script:".C(name));
+      Console.WriteLine("loading script:".C(name));
     }
   }
 }
