@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Primrose.Primitives
@@ -10,9 +11,7 @@ namespace Primrose.Primitives
   public class ThreadSafeList<T> : IList<T>
   {
     private object locker = new object();
-    //private ObjectPool<List<T>> pool = new ObjectPool<List<T>>(() => new List<T>(), (t) => { t.Clear(); });
-
-    //private Mutex mu_pending_list = new Mutex();
+    private object locker_modify = new object();
     private List<T> _list = new List<T>();
     private List<T> _pending_list = new List<T>();
     private bool _dirty = true;
@@ -92,22 +91,16 @@ namespace Primrose.Primitives
     {
       Update();
       return _list;
-      //T[] ret = _list.ToArray();
-      //return ret;
     }
 
     private void Update()
     {
-      if (_dirty)
-      {
-        _list = new List<T>(_pending_list);
-        //List<T> temp = _list;
-        //_list = pool.GetNew();
-        //pool.Return(temp);
-        //foreach (T t in _pending_list)
-        //  _list.Add(t);
-      }
-      _dirty = false;
+      lock (locker)
+        if (_dirty)
+        {
+          _list = new List<T>(_pending_list);
+          _dirty = false;
+        }
     }
 
     /// <summary>
@@ -115,7 +108,8 @@ namespace Primrose.Primitives
     /// </summary>
     public void SetDirty()
     {
-      _dirty = true;
+      lock (locker)
+        _dirty = true;
     }
 
     /// <summary>
@@ -133,10 +127,11 @@ namespace Primrose.Primitives
     public void Insert(int index, T item)
     {
       lock (locker)
+      {
         _pending_list.Insert(index, item);
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
+      }
     }
 
     /// <summary>
@@ -145,10 +140,11 @@ namespace Primrose.Primitives
     public void Add(T item)
     {
       lock (locker)
+      {
         _pending_list.Add(item);
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
+      }
     }
 
     /// <summary>
@@ -170,10 +166,11 @@ namespace Primrose.Primitives
     public void Set(int index, T item)
     {
       lock (locker)
+      {
         _pending_list[index] = item;
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
+      }
     }
 
     /// <summary>
@@ -184,13 +181,9 @@ namespace Primrose.Primitives
       lock (locker)
       {
         _pending_list = new List<T>();
-        //List<T> temp = _pending_list;
-        //_pending_list = pool.GetNew();
-        //pool.Return(temp);
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
       }
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
     }
 
     /// <summary>
@@ -200,11 +193,11 @@ namespace Primrose.Primitives
     {
       bool ret;
       lock (locker)
+      {
         ret = _pending_list.Remove(item);
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
-
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
+      }
       return ret;
     }
 
@@ -214,10 +207,11 @@ namespace Primrose.Primitives
     public void RemoveRange(int index, int count)
     {
       lock (locker)
+      {
         _pending_list.RemoveRange(index, count);
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
+      }
     }
 
     /// <summary>
@@ -226,10 +220,11 @@ namespace Primrose.Primitives
     public void RemoveAt(int index)
     {
       lock (locker)
+      {
         _pending_list.RemoveAt(index);
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
+      }
     }
 
     /// <summary>
@@ -244,15 +239,29 @@ namespace Primrose.Primitives
     }
 
     /// <summary>
+    /// Performs a thread-safe modification on a value using an index
+    /// </summary>
+    /// <param name="index">The index to check</param>
+    /// <param name="func">The modify function</param>
+    public void Modify(int index, Func<T, T> func)
+    {
+      lock (locker_modify)
+      {
+        Set(index, func(Get(index)));
+      }
+    }
+
+    /// <summary>
     /// Sorts the list using a comparer
     /// </summary>
     public void Sort(IComparer<T> comparer)
     {
       lock (locker)
+      {
         _pending_list.Sort(comparer);
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
+      }
     }
 
     /// <summary>
@@ -271,6 +280,7 @@ namespace Primrose.Primitives
     /// <returns></returns>
     public IEnumerator<T> GetEnumerator()
     {
+      Update();
       return ((IList<T>)_list).GetEnumerator();
     }
 
@@ -280,6 +290,7 @@ namespace Primrose.Primitives
     /// <returns></returns>
     IEnumerator IEnumerable.GetEnumerator()
     {
+      Update();
       return ((IList<T>)_list).GetEnumerator();
     }
   }

@@ -11,7 +11,8 @@ namespace Primrose.Primitives
   /// <typeparam name="U">The item type to be stored as values in this dictionary</typeparam>
   public class ThreadSafeDictionary<T, U>
   {
-    private object write_locker = new object();
+    private object locker_write = new object();
+    private object locker_modify = new object();
     private Dictionary<T, U> _list = new Dictionary<T, U>();
     private Dictionary<T, U> _pending_list = new Dictionary<T, U>();
     private bool _dirty = true;
@@ -107,23 +108,25 @@ namespace Primrose.Primitives
 
     private void Update()
     {
-      if (_dirty)
-      {
-        Refresh();
-        _dirty = false;
-      }
+      lock (locker_write)
+        if (_dirty)
+        {
+          _list = new Dictionary<T, U>(_pending_list);
+          _dirty = false;
+        }
     }
 
     /// <summary>Explicity triggers the list for update</summary>
     public void SetDirty()
     {
-      _dirty = true;
+      lock (locker_write)
+        _dirty = true;
     }
 
     /// <summary>Forces a refresh</summary>
     public void Refresh()
     {
-      lock (write_locker)
+      lock (locker_write)
       {
         _list = new Dictionary<T, U>(_pending_list);
       }
@@ -134,8 +137,12 @@ namespace Primrose.Primitives
     {
       try
       {
-        lock (write_locker)
+        lock (locker_write)
+        {
           _pending_list.Add(key, value);
+          if (!ExplicitUpdateOnly)
+            _dirty = true;
+        }
       }
       catch (ArgumentNullException ex)
       {
@@ -145,9 +152,6 @@ namespace Primrose.Primitives
       {
         throw new ArgumentException("Attempted to add an existing key '{0}' to a {1}".F(key, GetType().Name), ex);
       }
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
     }
 
     /// <summary>Sets an item to the collection</summary>
@@ -155,8 +159,12 @@ namespace Primrose.Primitives
     {
       try
       {
-        lock (write_locker)
+        lock (locker_write)
+        {
           _pending_list[key] = value;
+          if (!ExplicitUpdateOnly)
+            _dirty = true;
+        }
       }
       catch (ArgumentNullException ex)
       {
@@ -166,9 +174,6 @@ namespace Primrose.Primitives
       {
         throw new ArgumentException("Attempted to set value to an non-existent key '{0}' in a {1}".F(key, GetType().Name), ex);
       }
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
     }
 
     /// <summary>Adds or Sets an item to the collection</summary>
@@ -176,45 +181,60 @@ namespace Primrose.Primitives
     {
       try
       {
-        lock (write_locker)
+        lock (locker_write)
+        {
           if (_pending_list.ContainsKey(key))
             _pending_list[key] = value;
           else
             _pending_list.Add(key, value);
+
+          if (!ExplicitUpdateOnly)
+            _dirty = true;
+        }
       }
       catch (ArgumentNullException ex)
       {
         throw new ArgumentNullException("Attempted to put value of a null key in a {0}".F(GetType().Name), ex);
       }
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
     }
 
     /// <summary>Clears the collection</summary>
     public void Clear()
     {
-      lock (write_locker)
+      lock (locker_write)
       {
         _pending_list.Clear();
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
       }
-
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
     }
 
     /// <summary>Removes an item from the collection</summary>
     public bool Remove(T key)
     {
       bool ret = false;
-      lock (write_locker)
+      lock (locker_write)
+      {
         if (_pending_list.ContainsKey(key))
           ret = _pending_list.Remove(key);
 
-      if (!ExplicitUpdateOnly)
-        _dirty = true;
-
+        if (!ExplicitUpdateOnly)
+          _dirty = true;
+      }
       return ret;
+    }
+
+    /// <summary>
+    /// Performs a thread-safe modification on a value using an index
+    /// </summary>
+    /// <param name="key">The key to check</param>
+    /// <param name="func">The modify function</param>
+    public void Modify(T key, Func<U, U> func)
+    {
+      lock (locker_modify)
+      {
+        Set(key, func(Get(key)));
+      }
     }
   }
 }
