@@ -26,35 +26,43 @@ namespace Primitives.FileFormat.INI
       Required = required;
     }
 
-    internal string[] Read(Type t, INIFile f, string sectionOverride)
+    /// <summary>Defines a list of keys from a section of an INI file</summary>
+    /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
+    public INIKeyListAttribute(bool required = false)
+    {
+      Section = null;
+      Required = required;
+    }
+
+    internal string[] Read(Type t, INIFile f, string defaultSection)
     {
       if (t != typeof(string[]))
         throw new InvalidOperationException("INIKeyList attribute can only be used with string[] data types! ({0})".F(t.Name));
 
-      sectionOverride = sectionOverride ?? Section;
+      string s = INIAttributeExt.GetSection(Section, defaultSection);
       List<string> vals = new List<string>();
-      if (f.HasSection(sectionOverride))
+      if (f.HasSection(s))
       {
-        foreach (INIFile.INISection.INILine ln in f.GetSection(sectionOverride).Lines)
+        foreach (INIFile.INISection.INILine ln in f.GetSection(s).Lines)
           if (ln.HasKey)
             vals.Add(ln.Key);
       }
       else if (Required)
       {
-        throw new InvalidOperationException("Required section is not defined!".F(sectionOverride));
+        throw new InvalidOperationException("Required section is not defined!".F(s));
       }
 
       return vals.ToArray();
     }
 
-    internal void Write(Type t, INIFile f, string[] value, string sectionOverride)
+    internal void Write(Type t, INIFile f, string[] value, string defaultSection)
     {
       if (t != typeof(string[]))
         throw new InvalidOperationException("INIKeyList attribute can only be used with string[] data types! ({0})".F(t.Name));
 
-      sectionOverride = sectionOverride ?? Section;
+      string s = INIAttributeExt.GetSection(Section, defaultSection);
       foreach (string v in value)
-        f.SetEmptyKey(sectionOverride, v);
+        f.SetEmptyKey(s, v);
     }
   }
 }

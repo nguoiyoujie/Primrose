@@ -4,7 +4,6 @@ using Primrose.Primitives.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 
 namespace Primitives.FileFormat.INI
 {
@@ -25,12 +24,8 @@ namespace Primitives.FileFormat.INI
     /// <param name="filepath">The path of the file to be interpreted</param>
     public INIFile(string filepath)
     {
-      FilePath = filepath;
-      ReadFile();
+      ReadFromFile(filepath);
     }
-
-    /// <summary>The path of the source file</summary>
-    public readonly string FilePath;
 
     /// <summary>The configuration attributes of the format</summary>
     public INIFileConfigurationAttribute Attributes
@@ -86,72 +81,85 @@ namespace Primitives.FileFormat.INI
       if (m_sections.ContainsKey(section))
         return m_sections[section];
       else
-        throw new Exception("The section [{0}] does not exist in '{1}'!".F(section, FilePath));
+        throw new Exception("The INI section [{0}] does not exist!".F(section));
     }
 
-    /// <summary>Reads and parses the INI file from its source</summary>
-    public virtual void ReadFile()
+    /// <summary>Reads and parses the INI file from a data stream</summary>
+    public void ReadFromStream(Stream stream)
     {
-      if (!File.Exists(FilePath))
+      using (StreamReader sr = new StreamReader(stream))
+        Read(sr);
+
+      INIFile t = this;
+      LoadByAttribute(ref t);
+    }
+
+    /// <summary>Reads and parses the INI file from a source file</summary>
+    public void ReadFromFile(string filepath)
+    {
+      if (!File.Exists(filepath))
       {
-        throw new Exception("The file {0} is not found!".F(Path.GetFullPath(FilePath)));
+        throw new Exception("The file {0} is not found!".F(Path.GetFullPath(filepath)));
       }
       else
       {
         Reset();
-
-        using (StreamReader sr = new StreamReader(FilePath))
-        {
-          INISection currSection = new INISection("", this);
-          if (Attributes.AllowGlobalSection)
-            m_sections.Add(PreHeaderSectionName, currSection);
-
-          while (!sr.EndOfStream)
-          {
-            string line = sr.ReadLine();
-
-            if (INISection.INIHeaderLine.IsHeader(line))
-            {
-              currSection = new INISection(line, this);
-              if (!m_sections.ContainsKey(currSection.Header))
-              {
-                m_sections.Add(currSection.Header, currSection);
-              }
-              else
-              {
-                switch (Attributes.DuplicateSectionPolicy)
-                {
-                  case DuplicateResolutionPolicy.BOTH:
-                    currSection = m_sections[currSection.Header];
-                    break;
-
-                  case DuplicateResolutionPolicy.NEW:
-                    m_sections.Put(currSection.Header, currSection);
-                    break;
-
-                  case DuplicateResolutionPolicy.OLD:
-                    break;
-
-                  default:
-                  case DuplicateResolutionPolicy.THROW:
-                    throw new InvalidOperationException("Invalid duplicate section [{0}] detected.".F(currSection.Header));
-                }
-              }
-            }
-            else
-            {
-              currSection.ReadLine(line, this);
-            }
-          }
-        }
+        using (StreamReader sr = new StreamReader(filepath))
+          Read(sr);
       }
 
       INIFile t = this;
       LoadByAttribute(ref t);
     }
 
-    /// <summary>Writes into a file and updates its source path</summary>
-    public virtual void SaveFile(string filepath)
+    /// <summary>Reads and parses INI data from a source</summary>
+    protected virtual void Read(StreamReader sr)
+    {
+      INISection currSection = new INISection("", this);
+      if (Attributes.AllowGlobalSection)
+        m_sections.Add(PreHeaderSectionName, currSection);
+
+      while (!sr.EndOfStream)
+      {
+        string line = sr.ReadLine();
+
+        if (INISection.INIHeaderLine.IsHeader(line))
+        {
+          currSection = new INISection(line, this);
+          if (!m_sections.ContainsKey(currSection.Header))
+          {
+            m_sections.Add(currSection.Header, currSection);
+          }
+          else
+          {
+            switch (Attributes.DuplicateSectionPolicy)
+            {
+              case DuplicateResolutionPolicy.BOTH:
+                currSection = m_sections[currSection.Header];
+                break;
+
+              case DuplicateResolutionPolicy.NEW:
+                m_sections.Put(currSection.Header, currSection);
+                break;
+
+              case DuplicateResolutionPolicy.OLD:
+                break;
+
+              default:
+              case DuplicateResolutionPolicy.THROW:
+                throw new InvalidOperationException("Invalid duplicate section [{0}] detected.".F(currSection.Header));
+            }
+          }
+        }
+        else
+        {
+          currSection.ReadLine(line, this);
+        }
+      }
+    }
+
+    /// <summary>Writes the INI data into a file</summary>
+    public void WriteToFile(string filepath)
     {
       INIFile t = this;
       UpdateByAttribute(ref t);
@@ -159,22 +167,36 @@ namespace Primitives.FileFormat.INI
       Directory.CreateDirectory(Path.GetDirectoryName(filepath));
 
       using (StreamWriter sw = new StreamWriter(filepath, false))
+        Write(sw);
+    }
+
+    /// <summary>Writes the INI data into a stream</summary>
+    public void WriteToStream(Stream stream)
+    {
+      INIFile t = this;
+      UpdateByAttribute(ref t);
+
+      using (StreamWriter sw = new StreamWriter(stream))
+        Write(sw);
+    }
+
+    /// <summary>Writes the INI data into a destination</summary>
+    public virtual void Write(StreamWriter sw)
+    {
+      foreach (INISection section in m_sections.Values)
       {
-        foreach (INISection section in m_sections.Values)
+        if (section != null)
         {
-          if (section != null)
+          if (section.Header != null && section.Header.Length > 0)
+            sw.WriteLine(section.HLine.Write(this));
+
+          foreach (INISection.INILine line in section.Lines)
           {
-            if (section.Header != null && section.Header.Length > 0)
-              sw.WriteLine(section.HLine.Write(this));
-
-            foreach (INISection.INILine line in section.Lines)
-            {
-              if (line.HasKey)
-                sw.WriteLine(line.Write(this));
-            }
-
-            sw.WriteLine();
+            if (line.HasKey)
+              sw.WriteLine(line.Write(this));
           }
+
+          sw.WriteLine();
         }
       }
     }

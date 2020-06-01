@@ -91,69 +91,48 @@ namespace Primitives.FileFormat.INI
       Required = required;
     }
 
-    internal object Read(Type t, INIFile f, object defaultValue, string sectionOverride)
+    /// <summary>
+    /// <summary>Defines a value from a section and key of an INI file</summary>
+    /// </summary>
+    /// <param name="key">The key name from which the value is retrieved</param>
+    /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
+    public INIValueAttribute(string key, bool required = false)
+    {
+      if (key == null)
+        throw new ArgumentNullException("key");
+
+      Section = null;
+      Key = key;
+      Required = required;
+    }
+
+    internal object Read(Type t, INIFile f, object defaultValue, string defaultSection)
     {
       MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t);
-      return gmRead.Invoke(this, new object[] { f, defaultValue, sectionOverride });
+      return gmRead.Invoke(this, new object[] { f, defaultValue, defaultSection });
     }
 
-    private T InnerRead<T>(INIFile f, T defaultValue, string sectionOverride)
+    private T InnerRead<T>(INIFile f, T defaultValue, string defaultSection)
     {
-      sectionOverride = sectionOverride ?? Section;
+      string s = INIAttributeExt.GetSection(Section, defaultSection);
+      if (Required && !f.HasKey(s, Key))
+        throw new InvalidOperationException("Required key '{0}' in section '{1}' is not defined!".F(Key, s));
 
-      if (Required && !f.HasKey(sectionOverride, Key))
-        throw new InvalidOperationException("Required key '{0}' in section '{1}' is not defined!".F(Key, sectionOverride));
-
-      return Parser.Parse(f.GetString(sectionOverride, Key, null), defaultValue);
+      return Parser.Parse(f.GetString(s, Key, null), defaultValue);
     }
 
-    internal void Write(Type t, INIFile f, object value, string sectionOverride)
+    internal void Write(Type t, INIFile f, object value, string defaultSection)
     {
       MethodInfo mRead = GetType().GetMethod("InnerWrite", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t);
-      gmRead.Invoke(this, new object[] { f, value, sectionOverride});
+      gmRead.Invoke(this, new object[] { f, value, defaultSection});
     }
 
-    private void InnerWrite<T>(INIFile f, T value, string sectionOverride)
+    private void InnerWrite<T>(INIFile f, T value, string defaultSection)
     {
-      sectionOverride = sectionOverride ?? Section;
-
-      f.SetString(sectionOverride, Key, Parser.Write(value));
+      string s = INIAttributeExt.GetSection(Section, defaultSection);
+      f.SetString(s, Key, Parser.Write(value));
     }
-
-    /*
-    internal void Write(Type t, INIFile f, object value, string sectionOverride)
-    {
-      sectionOverride = sectionOverride ?? Section;
-
-      if (_setter.Contains(t))
-      {
-        _setter.Get(t).Invoke(f, sectionOverride, Key, value);
-      }
-      else if (t.IsEnum)
-      {
-        foreach (MethodInfo m in f.GetType().GetMethods())
-          if (m.IsGenericMethod && m.Name == "SetEnum")
-          {
-            MethodInfo mi = m.MakeGenericMethod(t);
-            mi.Invoke(f, new object[] { sectionOverride, Key, value });
-          }
-      }
-      else if (t.IsArray && t.GetElementType().IsEnum)
-      {
-        foreach (MethodInfo m in f.GetType().GetMethods())
-          if (m.IsGenericMethod && m.Name == "SetEnumArray")
-          {
-            MethodInfo mi = m.MakeGenericMethod(t);
-            mi.Invoke(f, new object[] { sectionOverride, Key, value });
-          }
-      }
-      else
-      {
-        throw new InvalidOperationException("Attempted to set an INIKey value as a value of an unsupported type '{0}' in key '{1}' in section '{2}'".F(t.Name, Key, sectionOverride));
-      }
-    }
-    */
   }
 }

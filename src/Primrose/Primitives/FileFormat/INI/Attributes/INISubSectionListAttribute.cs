@@ -44,20 +44,38 @@ namespace Primitives.FileFormat.INI
       Required = required;
     }
 
-    internal object Read(Type t, INIFile f, string sectionOverride)
+    /// <summary>Defines a value that redirects to other sections of an INI file</summary>
+    /// <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
+    /// <param name="key">The key name from which the value is retrieved</param>
+    /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
+    public INISubSectionListAttribute(string subsectionPrefix, string key, bool required = false)
+    {
+      if (subsectionPrefix == null)
+        throw new ArgumentNullException("subsectionPrefix");
+
+      if (key == null)
+        throw new ArgumentNullException("key");
+
+      Section = null;
+      SubsectionPrefix = subsectionPrefix;
+      Key = key;
+      Required = required;
+    }
+
+    internal object Read(Type t, INIFile f, string defaultSection)
     {
       if (!t.IsArray || t.GetElementType().IsArray)
         throw new InvalidOperationException("INIRegistry attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetElementType());
-      return gmRead.Invoke(this, new object[] { f, sectionOverride });
+      return gmRead.Invoke(this, new object[] { f, defaultSection });
     }
 
-    private T[] InnerRead<T>(INIFile f, string sectionOverride)
+    private T[] InnerRead<T>(INIFile f, string defaultSection)
     {
-      sectionOverride = sectionOverride ?? Section;
-      string[] list =  f.GetStringArray(sectionOverride, Key, new string[0]);
+      string s = INIAttributeExt.GetSection(Section, defaultSection);
+      string[] list =  f.GetStringArray(s, Key, new string[0]);
       T[] ret = new T[list.Length];
       for (int i = 0; i < list.Length; i++)
       {
@@ -69,24 +87,24 @@ namespace Primitives.FileFormat.INI
       return ret;
     }
 
-    internal void Write(Type t, INIFile f, object value, string sectionOverride)
+    internal void Write(Type t, INIFile f, object value, string defaultSection)
     {
       if (!t.IsArray || t.GetElementType().IsArray)
         throw new InvalidOperationException("INIRegistry attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod("InnerWrite", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
-      object val = gmRead.Invoke(this, new object[] { f, value, sectionOverride });
+      object val = gmRead.Invoke(this, new object[] { f, value, defaultSection });
     }
 
-    private void InnerWrite<T>(INIFile f, T[] value, string sectionOverride)
+    private void InnerWrite<T>(INIFile f, T[] value, string defaultSection)
     {
-      sectionOverride = sectionOverride ?? Section;
+      string s = INIAttributeExt.GetSection(Section, defaultSection);
       int i = 1;
       foreach (T t in value)
       {
         T o = t;
-        f.UpdateByAttribute(ref o, sectionOverride + i.ToString());
+        f.UpdateByAttribute(ref o, s + i.ToString());
         i++;
       }
     }
