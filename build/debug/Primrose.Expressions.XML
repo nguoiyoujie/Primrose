@@ -53,6 +53,9 @@
             Provides a context scope for the script
             </summary>
         </member>
+        <member name="P:Primrose.Expressions.ContextScope.Level">
+            <summary>Returns the number of sublevels this scope has derived from the global scope. Evaluates to 0 if this is the global scope</summary>
+        </member>
         <member name="P:Primrose.Expressions.ContextScope.Parent">
             <summary>The parent of this scope. Evaluates to null if this is the global scope</summary>
         </member>
@@ -250,6 +253,10 @@
         <member name="M:Primrose.Expressions.Script.#ctor(System.String,Primrose.Expressions.Script.Registry)">
             <summary>Creates a script</summary>
             <param name="scriptname">The name of the script</param>
+            <param name="registry">The script registry to reference for global scope</param>
+        </member>
+        <member name="P:Primrose.Expressions.Script.Statements">
+            <summary>Lists the statements contained in the script</summary>
         </member>
         <member name="M:Primrose.Expressions.Script.AddStatements(System.String,System.Int32@)">
             <summary>Adds one or more statements to the script.</summary>
@@ -262,6 +269,9 @@
         <member name="M:Primrose.Expressions.Script.Run(Primrose.Expressions.IContext)">
             <summary>Evaluates the script</summary>
             <param name="context">The script context</param>
+        </member>
+        <member name="M:Primrose.Expressions.Script.Write">
+            <summary>Prints the script as a continuous string</summary>
         </member>
         <member name="T:Primrose.Expressions.ScriptExpression">
             <summary>

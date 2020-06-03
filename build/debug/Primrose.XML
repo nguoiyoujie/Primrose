@@ -491,6 +491,10 @@
             </summary>
             <typeparam name="T">The encapsulated type</typeparam>
         </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableValue`1.#ctor(`0)">
+            <summary>Creates an ObservableValue with an initialValue. The initial value does not trigger events</summary>
+            <param name="initialValue"></param>
+        </member>
         <member name="P:Primrose.Primitives.Observables.ObservableValue`1.Value">
             <summary>
             The encapsulated value
@@ -1764,6 +1768,173 @@
         </member>
         <member name="M:Primrose.Primitives.TimeControl.Wait">
             <summary>Performs a wait to suspend process until the target FPS is reached</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.AObservableValueCondition`1">
+            <summary>Represents a condition to be fulfilled</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.AObservableValueCondition`1.ObservableValue">
+            <summary>The ObservableValue to be matched</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.AObservableValueCondition`1.#ctor(Primrose.Primitives.Observables.ObservableValue{`0}@)">
+            <summary>Creates a condition that compares an ObservableValue against a value</summary>
+            <param name="observable">The ObservableValue to be matched</param>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.LogicalNotCondition">
+            <summary>Represents a condition from the logical negation of another condition</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.LogicalNotCondition.#ctor(Primrose.Primitives.Triggers.ICondition)">
+            <summary>Creates a condition from the logical negation of another condition</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.LogicalNotCondition.Evaluate">
+            <summary>Evaluates the condition</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.LogicalOrCondition">
+            <summary>Represents a condition from the logical OR of two conditions</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.LogicalOrCondition.#ctor(Primrose.Primitives.Triggers.ICondition,Primrose.Primitives.Triggers.ICondition)">
+            <summary>Creates a condition from the logical OR of two conditions</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.LogicalOrCondition.Evaluate">
+            <summary>Evaluates the condition</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.LogicalAndCondition">
+            <summary>Represents a condition from the logical AND of two conditions</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.LogicalAndCondition.#ctor(Primrose.Primitives.Triggers.ICondition,Primrose.Primitives.Triggers.ICondition)">
+            <summary>Creates a condition from the logical AND of two conditions</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.LogicalAndCondition.Evaluate">
+            <summary>Evaluates the condition</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.ObservableCompareCondition`1">
+            <summary>Represents a condition that compares two ObservableValues</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.ObservableCompareCondition`1.ObservableValue2">
+            <summary>The value to be matched against</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.ObservableCompareCondition`1.Type">
+            <summary>The comparison type</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ObservableCompareCondition`1.#ctor(Primrose.Primitives.Observables.ObservableValue{`0}@,Primrose.Primitives.Observables.ObservableValue{`0}@,Primrose.Primitives.Triggers.MatchType)">
+            <summary>Creates a condition that compares an ObservableValue against a value</summary>
+            <param name="observable">The ObservableValue to be matched</param>
+            <param name="type">The comparison type</param>
+            <param name="observable2">The second ObservableValue to be matched</param>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ObservableCompareCondition`1.Evaluate">
+            <summary>Evaluates the condition</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.FuncCondition`1">
+            <summary>Represents a condition that compares an ObservableValue against a function</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.FuncCondition`1.Func">
+            <summary>The function to determine if a value satisfies the condition</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.FuncCondition`1.#ctor(Primrose.Primitives.Observables.ObservableValue{`0}@,System.Func{`0,System.Boolean})">
+            <summary>Creates a condition that compares an ObservableValue against a value</summary>
+            <param name="observable">The ObservableValue to be matched</param>
+            <param name="func">The function to determine if a value satisfies the condition</param>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.FuncCondition`1.#ctor(System.Func{`0,System.Boolean},Primrose.Primitives.Observables.ObservableValue{`0}@)">
+            <summary>Creates a condition that compares an ObservableValue against a value</summary>
+            <param name="func">The function to determine if a value satisfies the condition</param>
+            <param name="target">The ObservableValue to be monitored</param>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.FuncCondition`1.Evaluate">
+            <summary>Evaluates the condition</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.ICondition">
+            <summary>Describes an interface for a condition</summary>
+        </member>
+        <member name="E:Primrose.Primitives.Triggers.ICondition.Update">
+            <summary>Occurs when the condition result is updated</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.ICondition.Result">
+            <summary>Gets a value indicating whether the condition is currently met</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ICondition.Evaluate">
+            <summary>Evaluates the condition</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ICondition.And(Primrose.Primitives.Triggers.ICondition)">
+            <summary>Creates a new condition as a logical AND with another condition</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ICondition.Or(Primrose.Primitives.Triggers.ICondition)">
+            <summary>Creates a new condition as a logical OR with another condition</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ICondition.Not">
+            <summary>Creates a new condition as a logical negation of itself</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.ValueCondition`1">
+            <summary>Represents a condition that compares an ObservableValue against a value</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.ValueCondition`1.MatchValue">
+            <summary>The value to be matched against</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.ValueCondition`1.Type">
+            <summary>The comparison type</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ValueCondition`1.#ctor(Primrose.Primitives.Observables.ObservableValue{`0}@,Primrose.Primitives.Triggers.MatchType,`0)">
+            <summary>Creates a condition that compares an ObservableValue against a value</summary>
+            <param name="observable">The ObservableValue to be matched</param>
+            <param name="type">The comparison type</param>
+            <param name="value">The value to be matched</param>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ValueCondition`1.Evaluate">
+            <summary>Evaluates the condition</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.ACondition">
+            <summary>Represents a condition to be fulfilled</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.ACondition.Result">
+            <summary>Gets a value indicating whether the condition is currently met</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ACondition.UpdateResult">
+            <summary>Updates the result and triggers any event based on the result</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ACondition.Evaluate">
+            <summary>Evaluates the condition</summary>
+        </member>
+        <member name="E:Primrose.Primitives.Triggers.ACondition.Update">
+            <summary>Occurs when the condition result is updated</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ACondition.OnUpdate(System.Boolean)">
+            <summary>Raises the Update event</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ACondition.And(Primrose.Primitives.Triggers.ICondition)">
+            <summary>Creates a new condition as a logical AND with another condition</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ACondition.Or(Primrose.Primitives.Triggers.ICondition)">
+            <summary>Creates a new condition as a logical OR with another condition</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ACondition.Not">
+            <summary>Creates a new condition as a logical negation of itself</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.Trigger">
+            <summary>Represents a trigger for performing actions when a condition is fulfilled</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.Trigger.Actions">
+            <summary>The collection of actions to be performed by the trigger</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.Trigger.#ctor(Primrose.Primitives.Triggers.ICondition,System.Action[])">
+            <summary>Creates a trigger for performing actions when a condition is fulfilled</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Triggers.Trigger.Condition">
+            <summary>The condition checked by the trigger</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.Trigger.ActionCollection">
+            <summary>Represents a collection of actions to be performed by the trigger</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.Trigger.ActionCollection.Add(System.Action)">
+            <summary>Adds an action to the trigger</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.Trigger.ActionCollection.AddRange(System.Action[])">
+            <summary>Adds an action to the trigger</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.Trigger.ActionCollection.Remove(System.Action)">
+            <summary>Removes an action from the trigger</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.Trigger.ActionCollection.Clear">
+            <summary>Clears all actions from the trigger</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.uint2">
             <summary>A uint2 pair value</summary>
