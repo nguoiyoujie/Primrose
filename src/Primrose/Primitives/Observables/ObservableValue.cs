@@ -6,9 +6,17 @@ namespace Primrose.Primitives.Observables
   /// A wrapper for binding modification events to a variable
   /// </summary>
   /// <typeparam name="T">The encapsulated type</typeparam>
-  public struct ObservableValue<T>
+  public class ObservableValue<T>
   {
     private T _val;
+
+    /// <summary>Creates an ObservableValue with an initialValue. The initial value does not trigger events</summary>
+    /// <param name="initialValue"></param>
+    public ObservableValue(T initialValue)
+    {
+      _val = initialValue;
+      _valueChanged = default(ChangeEvent<T>);
+    }
 
     /// <summary>
     /// The encapsulated value

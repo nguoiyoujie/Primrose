@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Primrose.Primitives.TriggerEvents
+namespace Primrose.Primitives.Triggers
 {
   public delegate void ConditionUpdateEventHandler(ConditionUpdateEventArgs args);
 

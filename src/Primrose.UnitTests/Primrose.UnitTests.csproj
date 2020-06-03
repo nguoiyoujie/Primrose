@@ -83,6 +83,7 @@
     <Compile Include="Observables\ObservableRegistry.cs" />
     <Compile Include="Observables\ObservableList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Triggers\Triggers.cs" />
     <Compile Include="ValueTypes\float2.cs" />
     <Compile Include="ValueTypes\float3.cs" />
     <Compile Include="ValueTypes\float4.cs" />
@@ -107,6 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Collections\Factories\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
