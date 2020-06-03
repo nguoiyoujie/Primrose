@@ -12,11 +12,14 @@ namespace Primrose.Expressions
   {
     private Dictionary<string, Val> m_variables = new Dictionary<string, Val>();
 
+    /// <summary>Returns the number of sublevels this scope has derived from the global scope. Evaluates to 0 if this is the global scope</summary>
+    public int Level { get; private set; }
+
     /// <summary>The parent of this scope. Evaluates to null if this is the global scope</summary>
     public ContextScope Parent { get; private set; }
 
     /// <summary>Returns a child of this scope.</summary>
-    public ContextScope Next { get { return new ContextScope() { Parent = this }; } }
+    public ContextScope Next { get { return new ContextScope() { Parent = this, Level = this.Level + 1}; } }
 
     /// <summary>Clears the context of information</summary>
     public void Clear()

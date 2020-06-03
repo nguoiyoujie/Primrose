@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
@@ -7,7 +8,7 @@ namespace Primrose.Expressions.Tree.Expressions
   {
     private bool isUnequal = false;
     private CExpression _first;
-    private List<CExpression> _set = new List<CExpression>();
+    private CExpression _second;
 
     internal EqualityExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {
@@ -21,20 +22,20 @@ namespace Primrose.Expressions.Tree.Expressions
         )
       {
         lexer.Next(); //EQUAL
-        _set.Add(new RelationalExpression(scope, lexer).Get());
+        _second = new RelationalExpression(scope, lexer).Get();
       }
       else if (_type == TokenEnum.NOTEQUAL // !=
       )
       {
         lexer.Next(); //NOTEQUAL
         isUnequal = true;
-        _set.Add(new RelationalExpression(scope, lexer).Get());
+        _second = new RelationalExpression(scope, lexer).Get();
       }
     }
 
     public override CExpression Get()
     {
-      if (_set.Count == 0)
+      if (_second == null)
         return _first;
       return this;
     }
@@ -42,15 +43,20 @@ namespace Primrose.Expressions.Tree.Expressions
     public override Val Evaluate(IContext context)
     {
       Val result = _first.Evaluate(context);
-      foreach (CExpression _expr in _set)
-      {
-        Val adden = _expr.Evaluate(context);
-        if (isUnequal)
-          try { result = Ops.IsNotEqual(result, adden); } catch (Exception ex) { throw new EvalException(this, "!=", result, adden, ex); }
-        else
-          try { result = Ops.IsEqual(result, adden); } catch (Exception ex) { throw new EvalException(this, "==", result, adden, ex); }
-      }
+
+      Val adden = _second.Evaluate(context);
+      if (isUnequal)
+        try { result = Ops.IsNotEqual(result, adden); } catch (Exception ex) { throw new EvalException(this, "!=", result, adden, ex); }
+      else
+        try { result = Ops.IsEqual(result, adden); } catch (Exception ex) { throw new EvalException(this, "==", result, adden, ex); }
       return result;
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _first.Write(sb);
+      (isUnequal ? TokenEnum.NOTEQUAL : TokenEnum.EQUAL).Write(sb, Writer.Padding.BOTH);
+      _second.Write(sb);
     }
   }
 }

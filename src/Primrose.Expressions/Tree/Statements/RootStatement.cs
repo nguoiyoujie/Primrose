@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Statements
 {
@@ -21,6 +22,15 @@ namespace Primrose.Expressions.Tree.Statements
       foreach (Statement s in Statements)
       {
         s.Evaluate(context);
+      }
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      foreach (Statement s in Statements)
+      {
+        s.Write(sb);
+        sb.AppendLine();
       }
     }
   }

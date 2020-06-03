@@ -1,11 +1,16 @@
-﻿namespace Primrose.Expressions.Tree.Expressions
+﻿using System.Text;
+
+namespace Primrose.Expressions.Tree.Expressions
 {
   internal class DeclVariable : Variable
   {
+    private TokenEnum _type;
+
     internal DeclVariable(ContextScope scope, Lexer lexer) : base(scope, lexer, 0)
     {
       ValType varType;
-      switch (lexer.TokenType)
+      _type = lexer.TokenType;
+      switch (_type)
       {
         case TokenEnum.DECL_BOOL:
           varType = ValType.BOOL;
@@ -68,6 +73,12 @@
     public override Val Evaluate(IContext context)
     {
       return Val.NULL; 
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _type.Write(sb, Writer.Padding.SUFFIX);
+      sb.Append(varName);
     }
   }
 }

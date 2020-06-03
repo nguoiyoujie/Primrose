@@ -11,5 +11,10 @@
     {
       return Val.NULL;
     }
+
+    public override string ToString()
+    {
+      return "null";
+    }
   }
 }

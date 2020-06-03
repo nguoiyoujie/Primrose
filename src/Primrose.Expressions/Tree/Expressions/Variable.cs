@@ -1,4 +1,6 @@
-﻿namespace Primrose.Expressions.Tree.Expressions
+﻿using System.Text;
+
+namespace Primrose.Expressions.Tree.Expressions
 {
   internal class Variable : CExpression
   {
@@ -17,6 +19,11 @@
     public override Val Evaluate(IContext context)
     {
       return _scope.GetVar(this, varName);
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      sb.Append(varName);
     }
   }
 }

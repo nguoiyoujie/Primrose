@@ -1,6 +1,7 @@
 ﻿using Primrose.Primitives.Extensions;
 using Primrose.Primitives.ValueTypes;
 using System;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
@@ -102,6 +103,14 @@ namespace Primrose.Expressions.Tree.Expressions
       {
         throw new EvalException(this, ex.Message);
       }
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _expression.Write(sb);
+      TokenEnum.SQBRACKETOPEN.Write(sb);
+      _index.Write(sb);
+      TokenEnum.SQBRACKETCLOSE.Write(sb);
     }
   }
 }

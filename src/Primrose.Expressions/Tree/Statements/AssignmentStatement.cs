@@ -1,4 +1,5 @@
 ﻿using Primrose.Expressions.Tree.Expressions;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Statements
 {
@@ -113,6 +114,19 @@ namespace Primrose.Expressions.Tree.Statements
       {
         _value?.Evaluate(context);
       }
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      if (_assigntype != TokenEnum.NOTHING)
+      {
+        _variable.Write(sb);
+        _assigntype.Write(sb, Writer.Padding.BOTH);
+      }
+      _value.Write(sb);
+
+      // statement termination
+      TokenEnum.SEMICOLON.Write(sb, Writer.Padding.SUFFIX);
     }
   }
 }

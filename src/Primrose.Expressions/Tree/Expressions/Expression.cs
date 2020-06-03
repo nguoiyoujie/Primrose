@@ -1,4 +1,6 @@
-﻿namespace Primrose.Expressions.Tree.Expressions
+﻿using System.Text;
+
+namespace Primrose.Expressions.Tree.Expressions
 {
   internal class Expression : CExpression
   {
@@ -18,6 +20,10 @@
     {
       return _expr.Evaluate(context);
     }
-  }
 
+    public override void Write(StringBuilder sb)
+    {
+      _expr.Write(sb);
+    }
+  }
 }

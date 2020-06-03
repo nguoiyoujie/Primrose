@@ -1,4 +1,5 @@
-﻿
+﻿using System.Text;
+
 namespace Primrose.Expressions.Tree.Statements
 {
   internal class Statement : CStatement
@@ -22,6 +23,11 @@ namespace Primrose.Expressions.Tree.Statements
     public override void Evaluate(IContext context)
     {
       _statement.Evaluate(context);
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _statement.Write(sb);
     }
   }
 }

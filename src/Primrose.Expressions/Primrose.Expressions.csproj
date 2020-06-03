@@ -79,6 +79,7 @@
     <Compile Include="Ops.cs" />
     <Compile Include="Parsing\Interfaces.cs" />
     <Compile Include="Parsing\Lexer.cs" />
+    <Compile Include="Parsing\Writer.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Parsing\RegexMatcher.cs" />
     <Compile Include="Parsing\TokenDefinition.cs" />

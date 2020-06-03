@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
@@ -41,6 +42,23 @@ namespace Primrose.Expressions.Tree.Expressions
         parsed.Add(expr.Evaluate(context));
 
       return context.RunFunction(this, _funcName, parsed.ToArray());
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      sb.Append(_funcName);
+      TokenEnum.BRACKETOPEN.Write(sb);
+      bool first = true;
+      foreach (CExpression expr in _param)
+      {
+        if (!first)
+        {
+          TokenEnum.COMMA.Write(sb, Writer.Padding.SUFFIX);
+        }
+        expr.Write(sb);
+        first = false;
+      }
+      TokenEnum.BRACKETCLOSE.Write(sb);
     }
   }
 }

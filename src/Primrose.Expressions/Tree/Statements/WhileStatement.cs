@@ -1,12 +1,13 @@
 ﻿using Primrose.Expressions.Tree.Expressions;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Statements
 {
   internal class WhileStatement : CStatement
   {
     private CExpression _condition;
-    private List<CStatement> _action = new List<CStatement>();
+    private List<CStatement> _actions = new List<CStatement>();
 
     internal WhileStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {
@@ -32,24 +33,24 @@ namespace Primrose.Expressions.Tree.Statements
         {
           lexer.Next(); //BRACEOPEN
           while (lexer.TokenType != TokenEnum.BRACECLOSE)
-            _action.Add(new Statement(scope, lexer).Get());
+            _actions.Add(new Statement(scope, lexer).Get());
           lexer.Next(); //BRACECLOSE
         }
         else
         {
-          _action.Add(new Statement(scope, lexer).Get());
+          _actions.Add(new Statement(scope, lexer).Get());
         }
       }
       else
       {
-        _action.Add(new ForStatement(scope, lexer).Get());
+        _actions.Add(new ForStatement(scope, lexer).Get());
       }
     }
 
     public override CStatement Get()
     {
       if (_condition == null)
-        return _action[0];
+        return _actions[0];
       return this;
     }
 
@@ -57,9 +58,22 @@ namespace Primrose.Expressions.Tree.Statements
     {
       while (_condition.Evaluate(context).IsTrue)
       {
-        foreach (CStatement s in _action)
+        foreach (CStatement s in _actions)
           s.Evaluate(context);
       }
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      TokenEnum.WHILE.Write(sb);
+      TokenEnum.BRACKETOPEN.Write(sb);
+      _condition.Write(sb);
+      TokenEnum.BRACKETCLOSE.Write(sb);
+
+      TokenEnum.BRACEOPEN.Write(sb, Writer.Padding.BOTH);
+      foreach (CStatement s in _actions)
+        s.Write(sb);
+      TokenEnum.BRACECLOSE.Write(sb);
     }
   }
 }

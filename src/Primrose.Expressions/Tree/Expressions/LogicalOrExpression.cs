@@ -1,6 +1,7 @@
 ﻿using Primrose.Primitives.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
@@ -50,6 +51,16 @@ namespace Primrose.Expressions.Tree.Expressions
         }
       }
       return result;
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _first.Write(sb);
+      foreach (CExpression _expr in _set)
+      {
+        TokenEnum.PIPEPIPE.Write(sb, Writer.Padding.BOTH);
+        _expr.Write(sb);
+      }
     }
   }
 }

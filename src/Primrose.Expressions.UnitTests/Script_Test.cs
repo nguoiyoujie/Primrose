@@ -18,7 +18,7 @@ namespace Primrose.Expressions.UnitTests
       foreach (string sfile in Directory.GetFiles(test_dir))
       {
         Console.WriteLine("-----------------------------------------------");
-        Console.WriteLine("loading script file:".C(Path.GetFileName(sfile)));
+        Console.WriteLine("loading script file: ".C(Path.GetFileName(sfile)));
 
         c.Reset();
         ScriptFile f = new ScriptFile(sfile, c);
@@ -27,11 +27,19 @@ namespace Primrose.Expressions.UnitTests
         Console.WriteLine();
 
         c.Scripts.Global.Run(c);
+        Console.WriteLine("global content");
+        Console.WriteLine();
+        Console.WriteLine(c.Scripts.Global.Write());
+        Console.WriteLine();
 
         foreach (Script s in c.Scripts.GetAll())
         {
-          Console.WriteLine("running script:".C(s.Name));
+          Console.WriteLine("running script: ".C(s.Name));
           s.Run(c);
+          Console.WriteLine("script content");
+          Console.WriteLine();
+          Console.WriteLine(s.Write());
+          Console.WriteLine();
           Console.WriteLine("script ".C(s.Name, "... OK!"));
           Console.WriteLine();
         }
@@ -42,7 +50,7 @@ namespace Primrose.Expressions.UnitTests
 
     public void ReadScript(string name)
     {
-      Console.WriteLine("loading script:".C(name));
+      Console.WriteLine("loading script: ".C(name));
     }
   }
 }

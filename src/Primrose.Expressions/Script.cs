@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Primrose.Expressions.Tree.Statements;
+using System.Text;
 
 namespace Primrose.Expressions
 {
@@ -19,11 +20,18 @@ namespace Primrose.Expressions
 
     /// <summary>Creates a script</summary>
     /// <param name="scriptname">The name of the script</param>
+    /// <param name="registry">The script registry to reference for global scope</param>
     public Script(string scriptname, Registry registry)
     {
       Name = scriptname;
       registry.Add(scriptname, this);
       Scope = registry.Global.Scope.Next;
+    }
+
+    /// <summary>Lists the statements contained in the script</summary>
+    internal List<RootStatement> Statements
+    {
+      get { return m_statements; }
     }
 
     /// <summary>Adds one or more statements to the script.</summary>
@@ -51,5 +59,16 @@ namespace Primrose.Expressions
         statement.Evaluate(context);
     }
 
+    /// <summary>Prints the script as a continuous string</summary>
+    public string Write()
+    {
+      StringBuilder sb = new StringBuilder();
+      foreach (RootStatement statement in m_statements)
+      {
+        statement.Write(sb);
+        sb.AppendLine();
+      }
+      return sb.ToString();
+    }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using Primrose.Primitives.Extensions;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions.Literals
 {
@@ -83,6 +84,11 @@ namespace Primrose.Expressions.Tree.Expressions.Literals
           throw new EvalException(this, "Unsupported array member type: {0}".F(t));
       }
 
+    }
+
+    public override string ToString()
+    {
+     return "{{{0}}}".F(string.Join(",", _param));
     }
   }
 }

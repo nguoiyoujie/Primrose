@@ -1,4 +1,5 @@
 ﻿using Primrose.Primitives.Extensions;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
@@ -46,6 +47,15 @@ namespace Primrose.Expressions.Tree.Expressions
         return _true?.Evaluate(context) ?? new Val();
       else
         return _false?.Evaluate(context) ?? new Val();
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _question.Write(sb);
+      TokenEnum.QUESTIONMARK.Write(sb, Writer.Padding.BOTH);
+      _true.Write(sb);
+      TokenEnum.COLON.Write(sb, Writer.Padding.BOTH);
+      _false.Write(sb);
     }
   }
 }

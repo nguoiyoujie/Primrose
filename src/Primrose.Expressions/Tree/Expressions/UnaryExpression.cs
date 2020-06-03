@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
@@ -53,6 +54,12 @@ namespace Primrose.Expressions.Tree.Expressions
         case TokenEnum.NOT:
           try { return Ops.Do(UOp.LOGICAL_NOT, result); } catch (Exception ex) { throw new EvalException(this, "!", result, ex); }
       }
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _type.Write(sb);
+      _primary.Write(sb);
     }
   }
 }

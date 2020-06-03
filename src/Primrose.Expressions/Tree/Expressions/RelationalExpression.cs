@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
@@ -58,6 +59,13 @@ namespace Primrose.Expressions.Tree.Expressions
         default:
           return v1;
       }
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _first.Write(sb);
+      _type.Write(sb, Writer.Padding.BOTH);
+      _second.Write(sb);
     }
   }
 }

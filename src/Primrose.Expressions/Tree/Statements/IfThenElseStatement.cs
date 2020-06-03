@@ -1,5 +1,6 @@
 ﻿using Primrose.Expressions.Tree.Expressions;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Primrose.Expressions.Tree.Statements
 {
@@ -90,6 +91,28 @@ namespace Primrose.Expressions.Tree.Statements
       {
         foreach (CStatement s in _actionIfFalse)
           s.Evaluate(context);
+      }
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      TokenEnum.IF.Write(sb, Writer.Padding.SUFFIX);
+      TokenEnum.BRACKETOPEN.Write(sb);
+      _condition.Write(sb);
+      TokenEnum.BRACKETCLOSE.Write(sb);
+
+      TokenEnum.BRACEOPEN.Write(sb, Writer.Padding.BOTH);
+      foreach (CStatement s in _actionIfTrue)
+        s.Write(sb);
+      TokenEnum.BRACECLOSE.Write(sb);
+
+      if (_actionIfFalse.Count > 0)
+      {
+        TokenEnum.ELSE.Write(sb, Writer.Padding.BOTH);
+        TokenEnum.BRACEOPEN.Write(sb, Writer.Padding.SUFFIX);
+        foreach (CStatement s in _actionIfFalse)
+          s.Write(sb);
+        TokenEnum.BRACECLOSE.Write(sb);
       }
     }
   }

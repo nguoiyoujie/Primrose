@@ -1,4 +1,6 @@
-﻿namespace Primrose.Expressions.Tree.Expressions
+﻿using System.Text;
+
+namespace Primrose.Expressions.Tree.Expressions
 {
   internal class ParenthesizedExpression : CExpression
   {
@@ -33,12 +35,19 @@
 
     public override CExpression Get()
     {
-      return _expression;
+      return this;
     }
 
     public override Val Evaluate(IContext context)
     {
       return _expression.Evaluate(context);
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      TokenEnum.BRACKETOPEN.Write(sb);
+      _expression.Write(sb);
+      TokenEnum.BRACKETCLOSE.Write(sb);
     }
   }
 }

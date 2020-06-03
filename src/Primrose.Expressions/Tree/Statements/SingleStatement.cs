@@ -1,4 +1,6 @@
-﻿namespace Primrose.Expressions.Tree.Statements
+﻿using System.Text;
+
+namespace Primrose.Expressions.Tree.Statements
 {
   internal class SingleStatement : CStatement
   {
@@ -22,6 +24,14 @@
     public override void Evaluate(IContext context)
     {
       _statement.Evaluate(context);
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      _statement.Write(sb);
+
+      // statement termination
+      TokenEnum.SEMICOLON.Write(sb, Writer.Padding.SUFFIX);
     }
   }
 }
