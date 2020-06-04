@@ -1,0 +1,20 @@
+﻿
+BOOLEAN = true
+INT = 1
+INT4 = 4, 5, 6, 7
+FLOAT = 1.2
+FLOAT4 = 23, 3.4, 0.5, .56
+
+[Test1]
+SHORT = 3
+SHORT2 = 5, 7
+SHORT3 = 9, 11, 13
+SHORT4 = 15, 17, 19, 21
+
+[Test2]
+STRING = This is one
+STRING_ARRAY = two, three, four
+
+[Test3]
+ENUM = ONE | TWO
+BOOLEAN_ARRAY = true, false, true, false
