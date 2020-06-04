@@ -13,7 +13,7 @@ namespace Primrose.Expressions.Tree.Expressions
     {
       // OREXPR ? EXPR : EXPR 
 
-      _question = new LogicalOrExpression(scope, lexer).Get();
+      _question = GetNext(scope, lexer);
 
       if (lexer.TokenType == TokenEnum.QUESTIONMARK)
       {

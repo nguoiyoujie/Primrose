@@ -43,7 +43,7 @@ namespace Primrose.Expressions.Tree.Statements
       }
       else
       {
-        _actions.Add(new ForStatement(scope, lexer).Get());
+        _actions.Add(GetNext(scope, lexer));
       }
     }
 

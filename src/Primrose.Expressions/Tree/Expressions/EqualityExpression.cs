@@ -15,21 +15,21 @@ namespace Primrose.Expressions.Tree.Expressions
       // RELATEEXPR == RELATEEXPR ...
       // RELATEEXPR != RELATEEXPR ...
 
-      _first = new RelationalExpression(scope, lexer).Get();
+      _first = GetNext(scope, lexer);
 
       TokenEnum _type = lexer.TokenType;
       if (_type == TokenEnum.EQUAL // ==
         )
       {
         lexer.Next(); //EQUAL
-        _second = new RelationalExpression(scope, lexer).Get();
+        _second = GetNext(scope, lexer);
       }
       else if (_type == TokenEnum.NOTEQUAL // !=
       )
       {
         lexer.Next(); //NOTEQUAL
         isUnequal = true;
-        _second = new RelationalExpression(scope, lexer).Get();
+        _second = GetNext(scope, lexer);
       }
     }
 

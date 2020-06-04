@@ -55,7 +55,7 @@ namespace Primrose.Expressions.Tree.Statements
       }
       else
       {
-        _actions.Add(new ForEachStatement(scope, lexer).Get());
+        _actions.Add(GetNext(scope, lexer));
       }
     }
 

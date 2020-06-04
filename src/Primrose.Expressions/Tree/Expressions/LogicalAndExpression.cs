@@ -14,14 +14,14 @@ namespace Primrose.Expressions.Tree.Expressions
     {
       // EQUALEXPR && EQUALEXPR ...
 
-      _first = new EqualityExpression(scope, lexer).Get();
+      _first = GetNext(scope, lexer);
 
       while (lexer.TokenType == TokenEnum.AMPAMP // &&
         )
       {
         TokenEnum _type = lexer.TokenType;
         lexer.Next(); //AMPAMP
-        _set.Add(new EqualityExpression(scope, lexer).Get());
+        _set.Add(GetNext(scope, lexer));
       }
     }
 

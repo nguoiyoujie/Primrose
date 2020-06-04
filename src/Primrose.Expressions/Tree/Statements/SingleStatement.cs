@@ -8,7 +8,7 @@ namespace Primrose.Expressions.Tree.Statements
 
     internal SingleStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {
-      _statement = new AssignmentStatement(scope, lexer).Get();
+      _statement = GetNext(scope, lexer);
 
       if (lexer.TokenType == TokenEnum.SEMICOLON)
         lexer.Next(); // SEMICOLON

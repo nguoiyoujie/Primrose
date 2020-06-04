@@ -14,14 +14,14 @@ namespace Primrose.Expressions.Tree.Expressions
     {
       // ANDEXPR || ANDEXPR ...
 
-      _first = new LogicalAndExpression(scope, lexer).Get();
+      _first = GetNext(scope, lexer);
 
       while (lexer.TokenType == TokenEnum.PIPEPIPE // ||
         )
       {
         TokenEnum _type = lexer.TokenType;
         lexer.Next(); //PIPEPIPE
-        _set.Add(new LogicalAndExpression(scope, lexer).Get());
+        _set.Add(GetNext(scope, lexer));
       }
     }
 

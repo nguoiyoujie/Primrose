@@ -15,7 +15,7 @@ namespace Primrose.Expressions.Tree.Expressions
       // EXPR[EXPR]
       // ^
 
-      _expression = new PrimaryExpression(scope, lexer).Get();
+      _expression = GetNext(scope, lexer);
 
       // indexer
       if (lexer.TokenType == TokenEnum.SQBRACKETOPEN)

@@ -16,7 +16,7 @@ namespace Primrose.Expressions.Tree.Expressions
       // ADDEXPR <= ADDEXPR
       // ADDEXPR <= ADDEXPR
 
-      _first = new AddExpression(scope, lexer).Get();
+      _first = GetNext(scope, lexer);
 
       _type = lexer.TokenType;
       if (_type == TokenEnum.LESSTHAN // <
@@ -26,7 +26,7 @@ namespace Primrose.Expressions.Tree.Expressions
         )
       {
         lexer.Next(); //LESSTHAN / GREATERTHAN / LESSEQUAL / GREATEREQUAL
-        _second = new AddExpression(scope, lexer).Get();
+        _second = GetNext(scope, lexer);
       }
       else
       {

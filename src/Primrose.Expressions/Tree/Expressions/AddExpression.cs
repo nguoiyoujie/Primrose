@@ -14,7 +14,7 @@ namespace Primrose.Expressions.Tree.Expressions
       // MULTIEXPR + MULTIEXPR ...
       // MULTIEXPR - MULTIEXPR ...
 
-      _first = new MultiplyExpression(scope, lexer).Get();
+      _first = GetNext(scope, lexer);
 
       while (lexer.TokenType == TokenEnum.PLUS // +
         || lexer.TokenType == TokenEnum.MINUS // -
@@ -22,7 +22,7 @@ namespace Primrose.Expressions.Tree.Expressions
       {
         TokenEnum _type = lexer.TokenType;
         lexer.Next(); //PLUS / MINUS
-        _set.Add(new MultiplyExpression(scope, lexer).Get(), _type);
+        _set.Add(GetNext(scope, lexer), _type);
       }
     }
 

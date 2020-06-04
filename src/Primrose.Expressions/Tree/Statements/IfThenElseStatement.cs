@@ -69,7 +69,7 @@ namespace Primrose.Expressions.Tree.Statements
       }
       else
       {
-        _actionIfTrue.Add(new SingleStatement(scope, lexer).Get());
+        _actionIfTrue.Add(GetNext(scope, lexer));
       }
     }
 

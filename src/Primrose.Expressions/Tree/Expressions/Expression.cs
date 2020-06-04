@@ -8,7 +8,7 @@ namespace Primrose.Expressions.Tree.Expressions
 
     internal Expression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {
-      _expr = new TernaryExpression(scope, lexer).Get();
+      _expr = GetNext(scope, lexer);
     }
 
     public override CExpression Get()

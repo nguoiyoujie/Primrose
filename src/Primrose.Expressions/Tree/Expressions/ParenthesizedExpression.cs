@@ -12,10 +12,10 @@ namespace Primrose.Expressions.Tree.Expressions
       // ( TERN_EXPR )
       // ^
 
-      bool parans = false;
+      bool parens = false;
       if (lexer.TokenType == TokenEnum.BRACKETOPEN)
       {
-        parans = true;
+        parens = true;
         _scope = scope.Next;
         lexer.Next(); // BRACKETOPEN
       }
@@ -24,7 +24,7 @@ namespace Primrose.Expressions.Tree.Expressions
 
       _expression = new Expression(_scope, lexer).Get();
 
-      if (parans)
+      if (parens)
       {
         if (lexer.TokenType != TokenEnum.BRACKETCLOSE)
           throw new ParseException(lexer, TokenEnum.BRACKETCLOSE);

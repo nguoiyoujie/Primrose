@@ -15,7 +15,7 @@ namespace Primrose.Expressions.Tree.Expressions
       // UNARYEXPR / UNARYEXPR ...
       // UNARYEXPR % UNARYEXPR ...
 
-      _first = new UnaryExpression(scope, lexer).Get();
+      _first = GetNext(scope, lexer);
 
       while (lexer.TokenType == TokenEnum.ASTERISK // *
         || lexer.TokenType == TokenEnum.SLASH // /
@@ -24,7 +24,7 @@ namespace Primrose.Expressions.Tree.Expressions
       {
         TokenEnum _type = lexer.TokenType;
         lexer.Next(); //ASTERISK / SLASH / PERCENT
-        _set.Add(new UnaryExpression(scope, lexer).Get(), _type);
+        _set.Add(GetNext(scope, lexer), _type);
       }
     }
 

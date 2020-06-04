@@ -12,7 +12,7 @@ namespace Primrose.Expressions.Tree.Statements
 
       if (lexer.TokenType != TokenEnum.NOTHING && lexer.TokenType != TokenEnum.COMMENT)
       {
-        _statement = new WhileStatement(scope, lexer).Get();
+        _statement = GetNext(scope, lexer);
 
         // comment (eliminated by lexer)
         //if (lexer.TokenType == TokenEnum.COMMENT)
