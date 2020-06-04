@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\build\release\</OutputPath>
@@ -32,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +44,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\build\release\</OutputPath>
@@ -52,6 +55,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -94,24 +98,8 @@
     <Compile Include="Primitives\FileFormat\INI\Components\INILine.cs" />
     <Compile Include="Primitives\FileFormat\INI\Components\INISection.cs" />
     <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetValue.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetPrimitivesArray.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetVectorsArray.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetVectors.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetPrimitives.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetStringBuilderArray.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetStringArray.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetEnum.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetEnumArray.cs" />
     <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetString.cs" />
     <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetValue.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetPrimitives.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetPrimitivesArray.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetEnum.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetEnumArray.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetVectors.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetVectorsArray.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetStringArray.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetStringBuilderArray.cs" />
     <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetString.cs" />
     <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetEmptyKey.cs" />
     <Compile Include="Primitives\FileFormat\INI\Helpers\UpdateByAttribute.cs" />

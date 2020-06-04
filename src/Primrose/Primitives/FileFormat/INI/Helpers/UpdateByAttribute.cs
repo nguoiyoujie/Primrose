@@ -37,7 +37,7 @@ namespace Primitives.FileFormat.INI
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIValueAttribute), true))
         {
-          fi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, fi.GetValue(obj), defaultSection));
+          fi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, fi.GetValue(obj), fi.Name, defaultSection));
         }
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIKeyListAttribute), true))
@@ -52,7 +52,7 @@ namespace Primitives.FileFormat.INI
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
         {
-          fi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, defaultSection));
+          fi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, fi.Name, defaultSection));
         }
       }
     }
@@ -73,7 +73,7 @@ namespace Primitives.FileFormat.INI
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIValueAttribute), true))
           {
-            pi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, pi.GetValue(obj, null), defaultSection), null);
+            pi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, pi.GetValue(obj, null), pi.Name, defaultSection), null);
           }
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIKeyListAttribute), true))
@@ -88,7 +88,7 @@ namespace Primitives.FileFormat.INI
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
           {
-            pi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, defaultSection), null);
+            pi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, pi.Name, defaultSection), null);
           }
         }
       }
@@ -124,7 +124,7 @@ namespace Primitives.FileFormat.INI
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIValueAttribute), false))
         {
-          ((INIValueAttribute)a).Write(t, this, fi.GetValue(obj), defaultSection);
+          ((INIValueAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
         }
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIKeyListAttribute), false))
@@ -139,7 +139,7 @@ namespace Primitives.FileFormat.INI
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
         {
-          ((INISubSectionListAttribute)a).Write(t, this, fi.GetValue(obj), defaultSection);
+          ((INISubSectionListAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
         }
       }
     }
@@ -159,7 +159,7 @@ namespace Primitives.FileFormat.INI
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIValueAttribute), true))
           {
-            ((INIValueAttribute)a).Write(t, this, pi.GetValue(obj, null), defaultSection);
+            ((INIValueAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
           }
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIKeyListAttribute), true))
@@ -174,7 +174,7 @@ namespace Primitives.FileFormat.INI
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
           {
-            ((INISubSectionListAttribute)a).Write(t, this, pi.GetValue(obj, null), defaultSection);
+            ((INISubSectionListAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
           }
         }
       }

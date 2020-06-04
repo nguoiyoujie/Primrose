@@ -7,5 +7,10 @@
     {
       return section ?? defaultSection ?? INIFile.PreHeaderSectionName;
     }
+
+    internal static string GetKey(string key, string defaultKey)
+    {
+      return key ?? defaultKey;
+    }
   }
 }
