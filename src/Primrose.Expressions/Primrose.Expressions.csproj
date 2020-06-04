@@ -122,6 +122,7 @@
     <Compile Include="Tree\Statements\SingleStatement.cs" />
     <Compile Include="Tree\Statements\Statement.cs" />
     <Compile Include="Tree\Statements\WhileStatement.cs" />
+    <Compile Include="Tree\ExpressionOrder.cs" />
     <Compile Include="UOp.cs" />
     <Compile Include="Val.cs" />
     <Compile Include="ValType.cs" />
