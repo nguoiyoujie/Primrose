@@ -42,13 +42,13 @@ namespace Primitives.FileFormat.INI
     public INISubSectionListAttribute(string section, string subsectionPrefix, string key, bool required = false)
     {
       if (section == null)
-        throw new ArgumentNullException("section");
+        throw new ArgumentNullException(nameof(section));
 
       if (subsectionPrefix == null)
-        throw new ArgumentNullException("subsectionPrefix");
+        throw new ArgumentNullException(nameof(subsectionPrefix));
 
       if (key == null)
-        throw new ArgumentNullException("key");
+        throw new ArgumentNullException(nameof(key));
 
       Section = section;
       SubsectionPrefix = subsectionPrefix;
@@ -63,7 +63,7 @@ namespace Primitives.FileFormat.INI
     public INISubSectionListAttribute(string subsectionPrefix, string key = null, bool required = false)
     {
       if (subsectionPrefix == null)
-        throw new ArgumentNullException("subsectionPrefix");
+        throw new ArgumentNullException(nameof(subsectionPrefix));
 
       Section = null;
       SubsectionPrefix = subsectionPrefix;

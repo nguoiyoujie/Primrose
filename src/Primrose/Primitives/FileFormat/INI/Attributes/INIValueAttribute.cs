@@ -31,10 +31,10 @@ namespace Primitives.FileFormat.INI
     public INIValueAttribute(string section, string key, bool required = false)
     {
       if (section == null)
-        throw new ArgumentNullException("section");
+        throw new ArgumentNullException(nameof(section));
 
       if (key == null)
-        throw new ArgumentNullException("key");
+        throw new ArgumentNullException(nameof(key));
 
       Section = section;
       Key = key;

@@ -67,7 +67,7 @@ namespace Primrose.Primitives.ValueTypes
     public static float2 FromArray(float[] array)
     {
       if (array == null)
-        throw new ArgumentNullException("array");
+        throw new ArgumentNullException(nameof(array));
       else if (array.Length != 2)
         throw new InvalidOperationException("Attempted assignment of an array of length {0} to a float2".F(array.Length));
       else
@@ -82,7 +82,7 @@ namespace Primrose.Primitives.ValueTypes
     public static float2 FromArray(int[] array)
     {
       if (array == null)
-        throw new ArgumentNullException("array");
+        throw new ArgumentNullException(nameof(array));
       else if (array.Length != 2)
         throw new InvalidOperationException("Attempted assignment of an array of length {0} to a float2".F(array.Length));
       else

@@ -85,7 +85,7 @@ namespace Primrose.Primitives.ValueTypes
     public static short4 FromArray(short[] array)
     {
       if (array == null)
-        throw new ArgumentNullException("array");
+        throw new ArgumentNullException(nameof(array));
       else if (array.Length != 4)
         throw new InvalidOperationException("Attempted assignment of an array of length {0} to a short4".F(array.Length));
       else

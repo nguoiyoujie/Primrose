@@ -18,7 +18,7 @@ namespace Primrose.Primitives.Factories
     public ObjectPool(Func<T> createFn, Action<T> resetFn = null)
     {
       if (createFn == null)
-        throw new ArgumentNullException("createFn");
+        throw new ArgumentNullException(nameof(createFn));
 
       creator = createFn;
       resetor = resetFn;

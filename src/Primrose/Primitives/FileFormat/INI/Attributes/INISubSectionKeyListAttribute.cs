@@ -40,7 +40,7 @@ namespace Primitives.FileFormat.INI
     public INISubSectionKeyListAttribute(string section, string subsectionPrefix, bool required = false)
     {
       if (subsectionPrefix == null)
-        throw new ArgumentNullException("subsectionPrefix");
+        throw new ArgumentNullException(nameof(subsectionPrefix));
 
       Section = section;
       SubsectionPrefix = subsectionPrefix;
@@ -53,7 +53,7 @@ namespace Primitives.FileFormat.INI
     public INISubSectionKeyListAttribute(string subsectionPrefix, bool required = false)
     {
       if (subsectionPrefix == null)
-        throw new ArgumentNullException("subsectionPrefix");
+        throw new ArgumentNullException(nameof(subsectionPrefix));
 
       SubsectionPrefix = subsectionPrefix;
       Required = required;

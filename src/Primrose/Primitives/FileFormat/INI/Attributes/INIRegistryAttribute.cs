@@ -22,7 +22,7 @@ namespace Primitives.FileFormat.INI
     public INIRegistryAttribute(string section, bool required = false)
     {
       if (section == null)
-        throw new ArgumentNullException("section");
+        throw new ArgumentNullException(nameof(section));
 
       Section = section;
       Required = required;

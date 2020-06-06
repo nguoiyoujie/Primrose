@@ -15,8 +15,8 @@ namespace Primrose.Primitives.Extensions
     /// <exception cref="ArgumentNullException"><paramref name="array"/> and <paramref name="rand"/> cannot be null</exception>
     public static T Random<T>(this T[] array, Random rand)
     {
-      if (array == null) throw new ArgumentNullException("array");
-      if (rand == null) throw new ArgumentNullException("rand");
+      if (array == null) throw new ArgumentNullException(nameof(array));
+      if (rand == null) throw new ArgumentNullException(nameof(rand));
       return array.Length == 0 ? default(T) : array[rand.Next(0, array.Length)];
     }
 
@@ -28,7 +28,7 @@ namespace Primrose.Primitives.Extensions
     /// <exception cref="ArgumentNullException"><paramref name="array"/> cannot be null</exception>
     public static bool Contains<T>(this T[] array, T value)
     {
-      if (array == null) throw new ArgumentNullException("array");
+      if (array == null) throw new ArgumentNullException(nameof(array));
       foreach (T t in array)
         if (value?.Equals(t) ?? t == null)
           return true;
@@ -44,9 +44,9 @@ namespace Primrose.Primitives.Extensions
     /// <exception cref="ArgumentNullException"><paramref name="array"/> and <paramref name="convertFn"/> cannot be null</exception>
     public static U[] Convert<T, U>(this T[] array, Func<T, U> convertFn)
     {
-      if (array == null) throw new ArgumentNullException("array");
-      if (convertFn == null) throw new ArgumentNullException("convertFn");
-      
+      if (array == null) throw new ArgumentNullException(nameof(array));
+      if (convertFn == null) throw new ArgumentNullException(nameof(convertFn));
+
       U[] ret = new U[array.Length];
       for (int i = 0; i < array.Length; i++)
         ret[i] = convertFn.Invoke(array[i]);

@@ -20,7 +20,7 @@ namespace Primitives.FileFormat.INI
     public INIKeyListAttribute(string section, bool required = false)
     {
       if (section == null)
-        throw new ArgumentNullException("section");
+        throw new ArgumentNullException(nameof(section));
 
       Section = section;
       Required = required;

@@ -57,7 +57,7 @@ namespace Primrose.Primitives.Extensions
     public static T Max<T>(this T value1, T value2, IComparer<T> comparer) where T : struct, IComparable<T>
     {
       if (comparer == null)
-        throw new ArgumentNullException("comparer");
+        throw new ArgumentNullException(nameof(comparer));
 
       return (comparer.Compare(value1, value2) > 0)
         ? value1
@@ -74,7 +74,7 @@ namespace Primrose.Primitives.Extensions
     public static T Min<T>(this T value1, T value2, IComparer<T> comparer) where T : struct, IComparable<T>
     {
       if (comparer == null)
-        throw new ArgumentNullException("comparer");
+        throw new ArgumentNullException(nameof(comparer));
 
       return (comparer.Compare(value1, value2) > 0)
         ? value2

@@ -90,7 +90,7 @@ namespace Primrose.Primitives.Extensions
     /// <exception cref="ArgumentNullException"><paramref name="rand"/> cannot be null</exception>
     public static string Scramble(this string str, Random rand)
     {
-      if (rand == null) throw new ArgumentNullException("rand");
+      if (rand == null) throw new ArgumentNullException(nameof(rand));
 
       StringBuilder jumble = new StringBuilder(str);
       int length = jumble.Length;

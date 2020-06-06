@@ -76,7 +76,7 @@ namespace Primrose.Primitives.ValueTypes
     public static short3 FromArray(short[] array)
     {
       if (array == null)
-        throw new ArgumentNullException("array");
+        throw new ArgumentNullException(nameof(array));
       else if (array.Length != 3)
         throw new InvalidOperationException("Attempted assignment of an array of length {0} to a short3".F(array.Length));
       else
