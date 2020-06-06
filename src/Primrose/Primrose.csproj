@@ -67,6 +67,7 @@
     <Compile Include="Primitives\Collections\CircularQueue.cs" />
     <Compile Include="Primitives\Collections\ThreadSafeDictionary.cs" />
     <Compile Include="Primitives\Collections\ThreadSafeList.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\INISubSectionKeyListAttribute.cs" />
     <Compile Include="Primitives\Observables\Delegates.cs" />
     <Compile Include="Primitives\Observables\ObservableRegistry.cs" />
     <Compile Include="Primitives\Observables\ObservableList.cs" />

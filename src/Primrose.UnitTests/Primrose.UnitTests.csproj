@@ -121,6 +121,7 @@
     <Folder Include="Collections\Factories\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FileSystem\INI\TestFiles\INI_ReadSubSections.txt" />
     <Content Include="FileSystem\INI\TestFiles\INI_ReadAndMatch.txt" />
   </ItemGroup>
   <ItemGroup>

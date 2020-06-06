@@ -84,17 +84,17 @@ namespace Primitives.FileFormat.INI
     }
 
     /// <summary>Reads and parses the INI file from a data stream</summary>
-    public void ReadFromStream(Stream stream)
+    public void ReadFromStream(Stream stream, string baseSection = null, IResolver resolver = null)
     {
       using (StreamReader sr = new StreamReader(stream))
         Read(sr);
 
       INIFile t = this;
-      LoadByAttribute(ref t);
+      LoadByAttribute(ref t, baseSection, resolver);
     }
 
     /// <summary>Reads and parses the INI file from a source file</summary>
-    public void ReadFromFile(string filepath)
+    public void ReadFromFile(string filepath, string baseSection = null, IResolver resolver = null)
     {
       if (!File.Exists(filepath))
       {
@@ -108,7 +108,7 @@ namespace Primitives.FileFormat.INI
       }
 
       INIFile t = this;
-      LoadByAttribute(ref t);
+      LoadByAttribute(ref t, baseSection, resolver);
     }
 
     /// <summary>Reads and parses INI data from a source</summary>

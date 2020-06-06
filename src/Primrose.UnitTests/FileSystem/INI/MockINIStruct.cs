@@ -11,6 +11,41 @@ namespace Primrose.UnitTests.FileSystem.INI
     THREE = 4
   }
 
+  public struct MockINIInnerStruct
+  {
+    [INIValue]
+    public int VAL1;
+
+    [INIValue]
+    public int VAL2;
+
+    [INIValue]
+    public int VAL3;
+
+    [INIValue]
+    public int VAL4;
+
+    public MockINIInnerStruct(int v1, int v2, int v3, int v4)
+    {
+      VAL1 = v1;
+      VAL2 = v2;
+      VAL3 = v3;
+      VAL4 = v4;
+    }
+  }
+
+  public struct MockINISubSectionListStruct
+  {
+    [INISubSectionList("I")]
+    public MockINIInnerStruct[] INNER;
+  }
+
+  public struct MockINISubSectionKeyListStruct
+  {
+    [INISubSectionKeyList("I")]
+    public MockINIInnerStruct[] INNER;
+  }
+
   public struct MockINIStruct
   {
     [INIValue]

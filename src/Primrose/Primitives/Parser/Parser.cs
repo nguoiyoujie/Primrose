@@ -6,44 +6,52 @@ using System.Text;
 
 namespace Primrose.Primitives.Parsers
 {
+  /// <summary>Allows customized resolution of parsing contentions, if any</summary>
+  public interface IResolver
+  {
+    /// <summary>Resolves parsing contentions for a given input</summary>
+    /// <param name="input">The input to resolve</param>
+    string Resolve(string input);
+  }
+  
   /// <summary>Handles the parsing of primitive values to strings and vice versa</summary>
   public static partial class Parser
   {
     /// <summary>The default list delimiter</summary>
     public static readonly char[] ListDelimiter = new char[] { ',' };
 
-    private static Registry<Type, Func<string, object>> _fromStr = new Registry<Type, Func<string, object>>();
+    private static Registry<Type, Func<string, IResolver, object>> _fromStr = new Registry<Type, Func<string, IResolver, object>>();
     private static Registry<Type, int> _tokens = new Registry<Type, int>();
     private static Registry<Type, Func<object, string>> _toStr = new Registry<Type, Func<object, string>>();
 
     static Parser()
     {
-      _fromStr.Add(typeof(bool), (s) => Rules.ToBool(s));
-      _fromStr.Add(typeof(byte), (s) => Rules.ToByte(s));
-      _fromStr.Add(typeof(byte2), (s) => Rules.ToByte2(s));
-      _fromStr.Add(typeof(byte3), (s) => Rules.ToByte3(s));
-      _fromStr.Add(typeof(byte4), (s) => Rules.ToByte4(s));
-      _fromStr.Add(typeof(short), (s) => Rules.ToShort(s));
-      _fromStr.Add(typeof(short2), (s) => Rules.ToShort2(s));
-      _fromStr.Add(typeof(short3), (s) => Rules.ToShort3(s));
-      _fromStr.Add(typeof(short4), (s) => Rules.ToShort4(s));
-      _fromStr.Add(typeof(int), (s) => Rules.ToInt(s));
-      _fromStr.Add(typeof(int2), (s) => Rules.ToInt2(s));
-      _fromStr.Add(typeof(int3), (s) => Rules.ToInt3(s));
-      _fromStr.Add(typeof(int4), (s) => Rules.ToInt4(s));
-      _fromStr.Add(typeof(uint), (s) => Rules.ToUInt(s));
-      _fromStr.Add(typeof(uint2), (s) => Rules.ToUInt2(s));
-      _fromStr.Add(typeof(uint3), (s) => Rules.ToUInt3(s));
-      _fromStr.Add(typeof(uint4), (s) => Rules.ToUInt4(s));
-      _fromStr.Add(typeof(long), (s) => Rules.ToLong(s));
-      _fromStr.Add(typeof(ulong), (s) => Rules.ToULong(s));
-      _fromStr.Add(typeof(float), (s) => Rules.ToFloat(s));
-      _fromStr.Add(typeof(float2), (s) => Rules.ToFloat2(s));
-      _fromStr.Add(typeof(float3), (s) => Rules.ToFloat3(s));
-      _fromStr.Add(typeof(float4), (s) => Rules.ToFloat4(s));
-      _fromStr.Add(typeof(double), (s) => Rules.ToDouble(s));
-      _fromStr.Add(typeof(string), (s) => s);
-      _fromStr.Add(typeof(StringBuilder), (s) => new StringBuilder(s));
+      _fromStr.Add(typeof(bool), (s, r) => Rules.ToBool(s));
+      _fromStr.Add(typeof(byte), (s, r) => Rules.ToByte(s));
+      _fromStr.Add(typeof(byte2), (s, r) => Rules.ToByte2(s));
+      _fromStr.Add(typeof(byte3), (s, r) => Rules.ToByte3(s));
+      _fromStr.Add(typeof(byte4), (s, r) => Rules.ToByte4(s));
+      _fromStr.Add(typeof(short), (s, r) => Rules.ToShort(s));
+      _fromStr.Add(typeof(short2), (s, r) => Rules.ToShort2(s));
+      _fromStr.Add(typeof(short3), (s, r) => Rules.ToShort3(s));
+      _fromStr.Add(typeof(short4), (s, r) => Rules.ToShort4(s));
+      _fromStr.Add(typeof(int), (s, r) => Rules.ToInt(s));
+      _fromStr.Add(typeof(int2), (s, r) => Rules.ToInt2(s));
+      _fromStr.Add(typeof(int3), (s, r) => Rules.ToInt3(s));
+      _fromStr.Add(typeof(int4), (s, r) => Rules.ToInt4(s));
+      _fromStr.Add(typeof(uint), (s, r) => Rules.ToUInt(s));
+      _fromStr.Add(typeof(uint2), (s, r) => Rules.ToUInt2(s));
+      _fromStr.Add(typeof(uint3), (s, r) => Rules.ToUInt3(s));
+      _fromStr.Add(typeof(uint4), (s, r) => Rules.ToUInt4(s));
+      _fromStr.Add(typeof(long), (s, r) => Rules.ToLong(s));
+      _fromStr.Add(typeof(ulong), (s, r) => Rules.ToULong(s));
+      _fromStr.Add(typeof(float), (s, r) => Rules.ToFloat(s));
+      _fromStr.Add(typeof(float2), (s, r) => Rules.ToFloat2(s));
+      _fromStr.Add(typeof(float3), (s, r) => Rules.ToFloat3(s));
+      _fromStr.Add(typeof(float4), (s, r) => Rules.ToFloat4(s));
+      _fromStr.Add(typeof(double), (s, r) => Rules.ToDouble(s));
+      _fromStr.Add(typeof(string), (s, r) => s);
+      _fromStr.Add(typeof(StringBuilder), (s, r) => new StringBuilder(s));
 
       _toStr.Add(typeof(bool), Rules.ToStrGeneric);
       _toStr.Add(typeof(byte), Rules.ToStrGeneric);
@@ -95,14 +103,22 @@ namespace Primrose.Primitives.Parsers
     /// <param name="value">The value to be parsed</param>
     /// <param name="defaultValue">The default value</param>
     /// <returns>The parsed value, or defaultValue if the string is invalid</returns>
-    public static T Parse<T>(string value, T defaultValue)
+    public static T Parse<T>(string value, T defaultValue) { return Parse<T>(value, null, defaultValue); }
+
+    /// <summary>Parses a value from its string representation</summary>
+    /// <typeparam name="T">The type of the value</typeparam>
+    /// <param name="value">The value to be parsed</param>
+    /// <param name="resolver">A string resolver function</param>
+    /// <param name="defaultValue">The default value</param>
+    /// <returns>The parsed value, or defaultValue if the string is invalid</returns>
+    public static T Parse<T>(string value, IResolver resolver, T defaultValue)
     {
       if (value == null)
         return defaultValue;
 
       try
       {
-        return Parse<T>(value);
+        return Parse<T>(value, resolver);
       }
       catch
       {
@@ -113,8 +129,9 @@ namespace Primrose.Primitives.Parsers
     /// <summary>Parses a value from its string representation</summary>
     /// <typeparam name="T">The type of the value</typeparam>
     /// <param name="value">The value to be parsed</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <returns>The parsed value</returns>
-    public static T Parse<T>(string value)
+    public static T Parse<T>(string value, IResolver resolver = null)
     {
       if (value == null)
         return default(T);
@@ -122,11 +139,11 @@ namespace Primrose.Primitives.Parsers
       Type t = typeof(T); // defaultValue?.GetType() ?? typeof(T);
       if (_fromStr.Contains(t))
       {
-        return (T)_fromStr.Get(t).Invoke(value);
+        return (T)_fromStr.Get(t).Invoke(value, resolver);
       }
       else if (t.IsArray && _fromStr.Contains(t.GetElementType()))
       {
-        return Rules.ToArray<T>(value);
+        return Rules.ToArray<T>(value, resolver);
       }
       else if (t.IsEnum)
       {
@@ -176,16 +193,16 @@ namespace Primrose.Primitives.Parsers
     /// <param name="parserRule">The rule for parsing a string to the object</param>
     /// <param name="tokens">The number of comma delimited elements assigned to a single instance of the object, in the case of array initialization</param>
     /// <param name="writerRule">The rule for expression the object as a string</param>
-    public static void AddRule<T>(Func<string, T> parserRule, int tokens = 1, Func<T, string> writerRule = null)
+    public static void AddRule<T>(Func<string, IResolver, T> parserRule, int tokens = 1, Func<T, string> writerRule = null)
     {
-      _fromStr.Put(typeof(T), (s) => parserRule(s));
+      _fromStr.Put(typeof(T), (s, r) => parserRule(s, r));
 
       if (writerRule == null)
         _toStr.Put(typeof(T), Rules.ToStrGeneric);
       else
         _toStr.Put(typeof(T), (n) => writerRule((T)n));
 
-      _tokens.Add(typeof(T), tokens);
+      _tokens.Put(typeof(T), tokens);
     }
 
     /// <summary>Deletes the conversion rules for an object type</summary>

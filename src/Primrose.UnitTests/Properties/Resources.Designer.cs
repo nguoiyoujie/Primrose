@@ -69,21 +69,55 @@ namespace Primrose.UnitTests.Properties {
         ///FLOAT4 = 23, 3.4, 0.5, .56
         ///
         ///[Test1]
-        ///
-        ///
-        ///
+        ///SHORT = 3
+        ///SHORT2 = 5, 7
+        ///SHORT3 = 9, 11, 13
+        ///SHORT4 = 15, 17, 19, 21
         ///
         ///[Test2]
-        ///
-        ///
-        ///
+        ///STRING = This is one
+        ///STRING_ARRAY = two, three, four
         ///
         ///[Test3]
+        ///ENUM = ONE | TWO
+        ///BOOLEAN_ARRAY = true, false, true, false
         ///.
         /// </summary>
         internal static string INI_ReadAndMatch {
             get {
                 return ResourceManager.GetString("INI_ReadAndMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TestSubsectionList]
+        ///INNER=InnerA,InnerB,InnerC,InnerD
+        ///
+        ///[TestSubsectionKeyList]
+        ///InnerA
+        ///InnerB
+        ///InnerC
+        ///InnerD
+        ///
+        ///[InnerA]
+        ///VAL1=1
+        ///VAL2=2
+        ///
+        ///[InnerB]
+        ///VAL3=3
+        ///VAL4=4
+        ///
+        ///[InnerC]
+        ///VAL1=1
+        ///VAL3=3
+        ///
+        ///[InnerD]
+        ///VAL1=1
+        ///VAL4=4.
+        /// </summary>
+        internal static string INI_ReadSubSections {
+            get {
+                return ResourceManager.GetString("INI_ReadSubSections", resourceCulture);
             }
         }
     }

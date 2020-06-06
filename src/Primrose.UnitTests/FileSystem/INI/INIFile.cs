@@ -31,5 +31,73 @@ namespace Primrose.UnitTests.FileSystem.INI
 
       Assert.That(mock, Is.EqualTo(cmp));
     }
+
+    public const string _ReadSubSectionKeyListSource = "ReadSubSectionKeyListSource";
+    public static object[] ReadSubSectionKeyListSource = new object[]
+    {
+      new object[] { "TestSubsectionKeyList", new MockINISubSectionKeyListStruct() { INNER = new MockINIInnerStruct[4]
+      {
+        new MockINIInnerStruct(1,2,0,0),
+        new MockINIInnerStruct(0,0,3,4),
+        new MockINIInnerStruct(1,0,3,0),
+        new MockINIInnerStruct(1,0,0,4)
+      } } }
+    };
+
+    [TestCaseSource(_ReadSubSectionKeyListSource)]
+    public void INIFile_ReadSubSectionKeyList(string section, MockINISubSectionKeyListStruct cmp)
+    {
+      INIFile f = new INIFile();
+      using (Stream m = new MemoryStream(Encoding.UTF8.GetBytes(Properties.Resources.INI_ReadSubSections)))
+      {
+        f.ReadFromStream(m);
+      }
+      MockINISubSectionKeyListStruct mock = new MockINISubSectionKeyListStruct();
+      f.LoadByAttribute(ref mock, section);
+
+      Assert.Multiple(() =>
+      {
+        Assert.That(mock.INNER.Length, Is.Not.Null);
+        Assert.That(mock.INNER.Length, Is.EqualTo(cmp.INNER.Length));
+        for (int i = 0; i < cmp.INNER.Length; i++)
+        {
+          Assert.That(mock.INNER[i], Is.EqualTo(cmp.INNER[i]));
+        }
+      });
+    }
+
+    public const string _ReadSubSectionListSource = "ReadSubSectionListSource";
+    public static object[] ReadSubSectionListSource = new object[]
+    {
+      new object[] { "TestSubsectionList", new MockINISubSectionKeyListStruct() { INNER = new MockINIInnerStruct[4]
+      {
+        new MockINIInnerStruct(1,2,0,0),
+        new MockINIInnerStruct(0,0,3,4),
+        new MockINIInnerStruct(1,0,3,0),
+        new MockINIInnerStruct(1,0,0,4)
+      } } }
+    };
+
+    [TestCaseSource(_ReadSubSectionListSource)]
+    public void INIFile_ReadSubSectionList(string section, MockINISubSectionKeyListStruct cmp)
+    {
+      INIFile f = new INIFile();
+      using (Stream m = new MemoryStream(Encoding.UTF8.GetBytes(Properties.Resources.INI_ReadSubSections)))
+      {
+        f.ReadFromStream(m);
+      }
+      MockINISubSectionListStruct mock = new MockINISubSectionListStruct();
+      f.LoadByAttribute(ref mock, section);
+
+      Assert.Multiple(() =>
+      {
+        Assert.That(mock.INNER.Length, Is.Not.Null);
+        Assert.That(mock.INNER.Length, Is.EqualTo(cmp.INNER.Length));
+        for (int i = 0; i < cmp.INNER.Length; i++)
+        {
+          Assert.That(mock.INNER[i], Is.EqualTo(cmp.INNER[i]));
+        }
+      });
+    }
   }
 }

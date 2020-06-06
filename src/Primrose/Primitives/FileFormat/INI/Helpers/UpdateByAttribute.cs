@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Primrose.Primitives.Parsers;
+using System;
 using System.Reflection;
 
 namespace Primitives.FileFormat.INI
@@ -6,24 +7,24 @@ namespace Primitives.FileFormat.INI
   public partial class INIFile
   {
     /// <summary>Passes the elements into the fields of another class</summary>
-    public void LoadByAttribute<T>(ref T target, string defaultSection = null)
+    public void LoadByAttribute<T>(ref T target, string defaultSection = null, IResolver resolver = null)
     {
       Type tt = target.GetType();
       object boxed = target; // for this to work on structs/valuetypes it is either boxing or using SetValueDirect/TypedReference.
-      Load(boxed, tt, defaultSection);
+      Load(boxed, tt, defaultSection, resolver);
       target = (T)boxed;
     }
 
-    internal void Load(object obj, Type tt, string defaultSection)
+    internal void Load(object obj, Type tt, string defaultSection, IResolver resolver)
     {
-      LoadFields(obj, tt, defaultSection);
-      LoadProperties(obj, tt, defaultSection);
+      LoadFields(obj, tt, defaultSection, resolver);
+      LoadProperties(obj, tt, defaultSection, resolver);
 
       if (tt.BaseType != null)
-        Load(obj, tt.BaseType, defaultSection);
+        Load(obj, tt.BaseType, defaultSection, resolver);
     }
 
-    private void LoadFields(object obj, Type tt, string defaultSection)
+    private void LoadFields(object obj, Type tt, string defaultSection, IResolver resolver)
     {
       foreach (FieldInfo fi in tt.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
       {
@@ -31,13 +32,13 @@ namespace Primitives.FileFormat.INI
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIEmbedObjectAttribute), true))
         {
           object fObj = fi.GetValue(obj) ?? Activator.CreateInstance(t);
-          LoadByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection);
+          LoadByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection, resolver);
           fi.SetValue(obj, fObj);
         }
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIValueAttribute), true))
         {
-          fi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, fi.GetValue(obj), fi.Name, defaultSection));
+          fi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, fi.GetValue(obj), fi.Name, defaultSection, resolver));
         }
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIKeyListAttribute), true))
@@ -47,17 +48,22 @@ namespace Primitives.FileFormat.INI
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIRegistryAttribute), true))
         {
-          fi.SetValue(obj, ((INIRegistryAttribute)a).Read(t, this, defaultSection));
+          fi.SetValue(obj, ((INIRegistryAttribute)a).Read(t, this, defaultSection, resolver));
         }
 
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
         {
-          fi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, fi.Name, defaultSection));
+          fi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, fi.Name, defaultSection, resolver));
+        }
+
+        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
+        {
+          fi.SetValue(obj, ((INISubSectionKeyListAttribute)a).Read(t, this, fi.Name, defaultSection, resolver));
         }
       }
     }
 
-    private void LoadProperties(object obj, Type tt, string defaultSection)
+    private void LoadProperties(object obj, Type tt, string defaultSection, IResolver resolver)
     {
       foreach (PropertyInfo pi in tt.GetProperties())
       {
@@ -67,13 +73,13 @@ namespace Primitives.FileFormat.INI
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIEmbedObjectAttribute), true))
           {
             object fObj = pi.GetValue(obj, null) ?? Activator.CreateInstance(t);
-            LoadByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection);
+            LoadByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection, resolver);
             pi.SetValue(obj, fObj, null);
           }
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIValueAttribute), true))
           {
-            pi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, pi.GetValue(obj, null), pi.Name, defaultSection), null);
+            pi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, pi.GetValue(obj, null), pi.Name, defaultSection, resolver), null);
           }
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIKeyListAttribute), true))
@@ -83,12 +89,17 @@ namespace Primitives.FileFormat.INI
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIRegistryAttribute), true))
           {
-            pi.SetValue(obj, ((INIRegistryAttribute)a).Read(t, this, defaultSection), null);
+            pi.SetValue(obj, ((INIRegistryAttribute)a).Read(t, this, defaultSection, resolver), null);
           }
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
           {
-            pi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, pi.Name, defaultSection), null);
+            pi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, pi.Name, defaultSection, resolver), null);
+          }
+
+          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
+          {
+            pi.SetValue(obj, ((INISubSectionKeyListAttribute)a).Read(t, this, pi.Name, defaultSection, resolver), null);
           }
         }
       }
@@ -108,7 +119,7 @@ namespace Primitives.FileFormat.INI
       UpdateProperties(obj, tt, defaultSection);
 
       if (tt.BaseType != null)
-        Load(obj, tt.BaseType, defaultSection);
+        Update(obj, tt.BaseType, defaultSection);
     }
 
     private void UpdateFields(object obj, Type tt, string defaultSection)
@@ -140,6 +151,11 @@ namespace Primitives.FileFormat.INI
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
         {
           ((INISubSectionListAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
+        }
+
+        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
+        {
+          ((INISubSectionKeyListAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
         }
       }
     }
@@ -175,6 +191,11 @@ namespace Primitives.FileFormat.INI
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
           {
             ((INISubSectionListAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
+          }
+
+          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
+          {
+            ((INISubSectionKeyListAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
           }
         }
       }

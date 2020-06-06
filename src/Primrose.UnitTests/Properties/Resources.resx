@@ -121,4 +121,7 @@
   <data name="INI_ReadAndMatch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\filesystem\ini\testfiles\ini_readandmatch.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="INI_ReadSubSections" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\filesystem\ini\testfiles\ini_readsubsections.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

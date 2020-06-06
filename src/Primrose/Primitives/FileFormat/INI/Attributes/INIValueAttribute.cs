@@ -53,21 +53,21 @@ namespace Primitives.FileFormat.INI
       Required = required;
     }
 
-    internal object Read(Type t, INIFile f, object defaultValue, string fieldName, string defaultSection)
+    internal object Read(Type t, INIFile f, object defaultValue, string fieldName, string defaultSection, IResolver resolver)
     {
       MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t);
-      return gmRead.Invoke(this, new object[] { f, defaultValue, fieldName, defaultSection });
+      return gmRead.Invoke(this, new object[] { f, defaultValue, fieldName, defaultSection, resolver});
     }
 
-    private T InnerRead<T>(INIFile f, T defaultValue, string fieldName, string defaultSection)
+    private T InnerRead<T>(INIFile f, T defaultValue, string fieldName, string defaultSection, IResolver resolver)
     {
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       string k = INIAttributeExt.GetKey(Key, fieldName);
       if (Required && !f.HasKey(s, k))
         throw new InvalidOperationException("Required key '{0}' in section '{1}' is not defined!".F(k, s));
 
-      return Parser.Parse(f.GetString(s, k, null), defaultValue);
+      return Parser.Parse(f.GetString(s, k, null), resolver, defaultValue);
     }
 
     internal void Write(Type t, INIFile f, object value, string fieldName, string defaultSection)

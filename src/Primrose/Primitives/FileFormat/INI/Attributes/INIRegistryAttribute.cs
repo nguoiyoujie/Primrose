@@ -36,17 +36,17 @@ namespace Primitives.FileFormat.INI
       Required = required;
     }
 
-    internal object Read(Type t, INIFile f, string defaultSection)
+    internal object Read(Type t, INIFile f, string defaultSection, IResolver resolver)
     {
       if (t.GetGenericTypeDefinition() != typeof(Registry<,>))
         throw new InvalidOperationException("INIRegistry attribute can only be used with Registry<K,T> data types! ({0})".F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
-      return gmRead.Invoke(this, new object[] { f, defaultSection });
+      return gmRead.Invoke(this, new object[] { f, defaultSection, resolver });
     }
 
-    private Registry<T, U> InnerRead<T, U>(INIFile f, string defaultSection)
+    private Registry<T, U> InnerRead<T, U>(INIFile f, string defaultSection, IResolver resolver)
     {
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       Registry<T, U> ret = new Registry<T, U>();
@@ -54,7 +54,7 @@ namespace Primitives.FileFormat.INI
       {
         foreach (INIFile.INISection.INILine ln in f.GetSection(s).Lines)
           if (ln.HasKey)
-            ret.Add(Parser.Parse(ln.Key, default(T)), Parser.Parse(ln.Value, default(U)));
+            ret.Add(Parser.Parse(ln.Key, default(T)), Parser.Parse(ln.Value, resolver, default(U)));
       }
       else if (Required)
       {
