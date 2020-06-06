@@ -1240,6 +1240,138 @@
         <member name="T:Primrose.Primitives.Parsers.Parser">
             <summary>Handles the parsing of primitive values to strings and vice versa</summary>
         </member>
+        <member name="T:Primrose.Primitives.Parsers.Parser.Rules">
+            <summary>Defines parsing rules for interpreting strings into values</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToBool(System.String)">
+            <summary>Parses a string to a bool value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte(System.String)">
+            <summary>Parses a string to a byte value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte2(System.String)">
+            <summary>Parses a string to a byte2 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte3(System.String)">
+            <summary>Parses a string to a byte3 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte4(System.String)">
+            <summary>Parses a string to a byte4 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort(System.String)">
+            <summary>Parses a string to a short value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort2(System.String)">
+            <summary>Parses a string to a short2 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort3(System.String)">
+            <summary>Parses a string to a short3 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort4(System.String)">
+            <summary>Parses a string to a short4 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt(System.String)">
+            <summary>Parses a string to an int value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt2(System.String)">
+            <summary>Parses a string to an int2 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt3(System.String)">
+            <summary>Parses a string to an int3 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt4(System.String)">
+            <summary>Parses a string to an int4 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt(System.String)">
+            <summary>Parses a string to an uint value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt2(System.String)">
+            <summary>Parses a string to an uint2 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt3(System.String)">
+            <summary>Parses a string to an uint3 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt4(System.String)">
+            <summary>Parses a string to an uint4 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToLong(System.String)">
+            <summary>Parses a string to a long value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToULong(System.String)">
+            <summary>Parses a string to an ulong value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat(System.String)">
+            <summary>Parses a string to a float value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat2(System.String)">
+            <summary>Parses a string to a float2 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat3(System.String)">
+            <summary>Parses a string to a float3 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat4(System.String)">
+            <summary>Parses a string to a float4 value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToDouble(System.String)">
+            <summary>Parses a string to a double value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToArray``1(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to an array of values</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToEnum``1(System.String)">
+            <summary>Parses a string to a enumerated value</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToEnumArray``1(System.String)">
+            <summary>Parses a string to an array of enumerated values</summary>
+            <param name="value">The string to be parsed</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToStrGeneric``1(``0)">
+            <summary>Converts a value to a string</summary>
+            <param name="value">The value to be converted</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ArrayToStr``1(``0)">
+            <summary>Converts an array of values to a string</summary>
+            <param name="list">The value to be converted</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.EnumToStr``1(``0)">
+            <summary>Converts an enumerated value to a string</summary>
+            <param name="value">The value to be converted</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.EnumArrayToStr``1(``0)">
+            <summary>Converts an array of enumerated values to a string</summary>
+            <param name="list">The value to be converted</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.VecNToStr``1(``0)">
+            <summary>Converts a vectorized value to a string</summary>
+            <param name="value">The value to be converted</param>
+        </member>
         <member name="F:Primrose.Primitives.Parsers.Parser.ListDelimiter">
             <summary>The default list delimiter</summary>
         </member>
@@ -1250,10 +1382,19 @@
             <param name="defaultValue">The default value</param>
             <returns>The parsed value, or defaultValue if the string is invalid</returns>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Parse``1(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Parse``1(System.String,Primrose.Primitives.Parsers.IResolver,``0)">
             <summary>Parses a value from its string representation</summary>
             <typeparam name="T">The type of the value</typeparam>
             <param name="value">The value to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>The parsed value, or defaultValue if the string is invalid</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Parse``1(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a value from its string representation</summary>
+            <typeparam name="T">The type of the value</typeparam>
+            <param name="value">The value to be parsed</param>
+            <param name="resolver">A string resolver function</param>
             <returns>The parsed value</returns>
         </member>
         <member name="M:Primrose.Primitives.Parsers.Parser.Write``1(``0)">
@@ -1262,7 +1403,7 @@
             <param name="value">The value to be converted to a string</param>
             <returns>The string representation of the value</returns>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.AddRule``1(System.Func{System.String,``0},System.Int32,System.Func{``0,System.String})">
+        <member name="M:Primrose.Primitives.Parsers.Parser.AddRule``1(System.Func{System.String,Primrose.Primitives.Parsers.IResolver,``0},System.Int32,System.Func{``0,System.String})">
             <summary>Adds a rule to convert between an object and its string representation</summary>
             <typeparam name="T">The type of the value</typeparam>
             <param name="parserRule">The rule for parsing a string to the object</param>
@@ -1272,6 +1413,13 @@
         <member name="M:Primrose.Primitives.Parsers.Parser.DeleteRule``1">
             <summary>Deletes the conversion rules for an object type</summary>
             <typeparam name="T">The type of the value</typeparam>
+        </member>
+        <member name="T:Primrose.Primitives.Parsers.IResolver">
+            <summary>Allows customized resolution of parsing contentions, if any</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.IResolver.Resolve(System.String)">
+            <summary>Resolves parsing contentions for a given input</summary>
+            <param name="input">The input to resolve</param>
         </member>
         <member name="T:Primrose.Primitives.Pipelines.Pipeline`1">
             <summary>
@@ -3250,6 +3398,29 @@
             <param name="t">The first value</param>
             <param name="u">The second value</param>
         </member>
+        <member name="T:Primitives.FileFormat.INI.INISubSectionKeyListAttribute">
+            <summary>Reads a section whose keys redirect to other sections of an INI file</summary>
+        </member>
+        <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.Section">
+            <summary>The section name of the INI file where the keys are based on</summary>
+        </member>
+        <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.SubsectionPrefix">
+            <summary>The subsection prefix to be used when writing members</summary>
+        </member>
+        <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.Required">
+            <summary>Defines whether the INI file must contain this section/key combination</summary>
+        </member>
+        <member name="M:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.#ctor(System.String,System.String,System.Boolean)">
+            <summary>Defines a value that redirects to other sections of an INI file</summary>
+            <param name="section">The section name from which the keys are retrieved</param>
+            <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="M:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.#ctor(System.String,System.Boolean)">
+            <summary>Defines a value that redirects to other sections of an INI file</summary>
+            <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
         <member name="T:Primitives.FileFormat.INI.DuplicateResolutionPolicy">
             <summary>Determines the policy for resolving duplicate entries</summary>
         </member>
@@ -3511,7 +3682,7 @@
             <param name="section">The section that will contain the key</param>
             <param name="key">The key that will be set</param>
         </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.LoadByAttribute``1(``0@,System.String)">
+        <member name="M:Primitives.FileFormat.INI.INIFile.LoadByAttribute``1(``0@,System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Passes the elements into the fields of another class</summary>
         </member>
         <member name="M:Primitives.FileFormat.INI.INIFile.UpdateByAttribute``1(``0@,System.String)">
@@ -3555,10 +3726,10 @@
             <param name="section">The section name</param>
             <returns>The INISection object representing the section in the file</returns>
         </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.ReadFromStream(System.IO.Stream)">
+        <member name="M:Primitives.FileFormat.INI.INIFile.ReadFromStream(System.IO.Stream,System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Reads and parses the INI file from a data stream</summary>
         </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.ReadFromFile(System.String)">
+        <member name="M:Primitives.FileFormat.INI.INIFile.ReadFromFile(System.String,System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Reads and parses the INI file from a source file</summary>
         </member>
         <member name="M:Primitives.FileFormat.INI.INIFile.Read(System.IO.StreamReader)">
