@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Primrose.Primitives;
 using Primrose.Primitives.Collections;
 using System;
 
@@ -34,7 +35,7 @@ namespace Primrose.UnitTests.Collections
       for (int i = 0; i < size; i++)
         queue.Enqueue(i);
 
-      Assert.Throws<InvalidOperationException>(() => queue.Enqueue(0));
+      Assert.Throws<CapacityExceededException<CircularQueue<int>>>(() => queue.Enqueue(0));
     }
 
     [TestCase(256)]

@@ -36,13 +36,13 @@ namespace Primrose.UnitTests.FileSystem.INI
 
   public struct MockINISubSectionListStruct
   {
-    [INISubSectionList("I")]
+    [INISubSectionList]
     public MockINIInnerStruct[] INNER;
   }
 
   public struct MockINISubSectionKeyListStruct
   {
-    [INISubSectionKeyList("I")]
+    [INISubSectionKeyList]
     public MockINIInnerStruct[] INNER;
   }
 
