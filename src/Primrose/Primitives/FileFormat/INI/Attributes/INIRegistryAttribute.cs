@@ -6,6 +6,13 @@ using System.Reflection;
 
 namespace Primitives.FileFormat.INI
 {
+  //  Visual:
+  //    [Section]
+  //      Key1 = value1
+  //      Key2 = value2
+  //      Key3 = value3
+  //      Key4 = value4
+  //
   /// <summary>Defines a list of keys from a section of an INI file</summary>
   [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
   public class INIRegistryAttribute : Attribute

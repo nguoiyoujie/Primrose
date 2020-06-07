@@ -4,6 +4,10 @@ using System.Reflection;
 
 namespace Primitives.FileFormat.INI
 {
+  //  Visual:
+  //    [Section]
+  //      Key = value
+  //
   /// <summary>Defines a value from a section and key of an INI file</summary>
   [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
   public class INIValueAttribute : Attribute

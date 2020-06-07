@@ -4,6 +4,18 @@ using System.Collections.Generic;
 
 namespace Primitives.FileFormat.INI
 {
+  //  Visual:
+  //    [Section]
+  //      value1
+  //      value2
+  //      value3
+  //
+  //  (ReadValue set to true)
+  //    [Section]
+  //      0=value1
+  //      1=value2
+  //      2=value3 ; key can be anything
+  //
   /// <summary>Defines a list of keys from a section of an INI file</summary>
   [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
   public class INIKeyListAttribute : Attribute
@@ -11,18 +23,23 @@ namespace Primitives.FileFormat.INI
     /// <summary>The section name of the INI file where the keys are based on</summary>
     public string Section;
 
+    /// <summary>Defines whether the values are read instead of keys</summary>
+    public bool ReadValue;
+
     /// <summary>Defines whether the INI file must contain this section/key combination</summary>
     public bool Required;
 
     /// <summary>Defines a list of keys from a section of an INI file</summary>
     /// <param name="section">The section name from which the keys are retrieved</param>
+    /// <param name="readValue">Defines whether the values are read instead of keys</param>
     /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
-    public INIKeyListAttribute(string section, bool required = false)
+    public INIKeyListAttribute(string section, bool readValue = false, bool required = false)
     {
       if (section == null)
         throw new ArgumentNullException(nameof(section));
 
       Section = section;
+      ReadValue = readValue;
       Required = required;
     }
 
@@ -45,7 +62,7 @@ namespace Primitives.FileFormat.INI
       {
         foreach (INIFile.INISection.INILine ln in f.GetSection(s).Lines)
           if (ln.HasKey)
-            vals.Add(ln.Key);
+            vals.Add(ReadValue ? ln.Value : ln.Key);
       }
       else if (Required)
       {

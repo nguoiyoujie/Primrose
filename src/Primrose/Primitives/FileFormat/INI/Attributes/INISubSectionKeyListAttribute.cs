@@ -20,6 +20,21 @@ namespace Primitives.FileFormat.INI
   //    [subsection3]
   //      ...
   //
+  //  (ReadValue set to true)
+  //    [Section]
+  //      0=subsection1
+  //      1=subsection2
+  //      2=subsection3 ; key can be anything
+  //  
+  //    [subsection1]
+  //      ...
+  //  
+  //    [subsection2]
+  //      ...
+  //  
+  //    [subsection3]
+  //      ...
+  //
   /// <summary>Reads a section whose keys redirect to other sections of an INI file</summary>
   [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
   public class INISubSectionKeyListAttribute : Attribute
@@ -30,32 +45,22 @@ namespace Primitives.FileFormat.INI
     /// <summary>The subsection prefix to be used when writing members</summary>
     public string SubsectionPrefix;
 
+    /// <summary>Defines whether the values are read instead of keys</summary>
+    public bool ReadValue;
+
     /// <summary>Defines whether the INI file must contain this section/key combination</summary>
     public bool Required;
 
     /// <summary>Defines a value that redirects to other sections of an INI file</summary>
     /// <param name="section">The section name from which the keys are retrieved</param>
-    /// <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
+    /// <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the section name is used</param>
+    /// <param name="readValue">Defines whether the values are read instead of keys</param>
     /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
-    public INISubSectionKeyListAttribute(string section, string subsectionPrefix, bool required = false)
+    public INISubSectionKeyListAttribute(string section = null, string subsectionPrefix = null, bool readValue = false, bool required = false)
     {
-      if (subsectionPrefix == null)
-        throw new ArgumentNullException(nameof(subsectionPrefix));
-
       Section = section;
       SubsectionPrefix = subsectionPrefix;
-      Required = required;
-    }
-
-    /// <summary>Defines a value that redirects to other sections of an INI file</summary>
-    /// <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
-    /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
-    public INISubSectionKeyListAttribute(string subsectionPrefix, bool required = false)
-    {
-      if (subsectionPrefix == null)
-        throw new ArgumentNullException(nameof(subsectionPrefix));
-
-      SubsectionPrefix = subsectionPrefix;
+      ReadValue = readValue;
       Required = required;
     }
 
@@ -65,7 +70,7 @@ namespace Primitives.FileFormat.INI
         throw new InvalidOperationException("INISubSectionKeyListAttribute attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
-      INIKeyListAttribute kattr = new INIKeyListAttribute(Required);
+      INIKeyListAttribute kattr = new INIKeyListAttribute(s, ReadValue, Required);
       string[] subsections = kattr.Read(typeof(string[]), f, s);
 
       MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -99,13 +104,16 @@ namespace Primitives.FileFormat.INI
     private void InnerWrite<T>(INIFile f, T[] value, string fieldName, string defaultSection)
     {
       string s = INIAttributeExt.GetSection(Section, defaultSection);
-      int i = 1;
-      foreach (T t in value)
+      string k = SubsectionPrefix ?? fieldName;
+      string[] keys = new string[value.Length];
+      for (int i = 0; i < value.Length; i++)
       {
-        T o = t;
-        f.UpdateByAttribute(ref o, s + i.ToString());
+        T o = value[i];
+        keys[i] = fieldName + i.ToString();
+        f.UpdateByAttribute(ref o, keys[i]);
         i++;
       }
+      f.SetValue(s, k, keys);
     }
   }
 }

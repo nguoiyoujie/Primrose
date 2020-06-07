@@ -36,38 +36,14 @@ namespace Primitives.FileFormat.INI
 
     /// <summary>Defines a value that redirects to other sections of an INI file</summary>
     /// <param name="section">The section name from which the keys are retrieved</param>
-    /// <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
     /// <param name="key">The key name from which the value is retrieved</param>
+    /// <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the key name is used</param>
     /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
-    public INISubSectionListAttribute(string section, string subsectionPrefix, string key, bool required = false)
+    public INISubSectionListAttribute(string section = null, string key = null, string subsectionPrefix = null, bool required = false)
     {
-      if (section == null)
-        throw new ArgumentNullException(nameof(section));
-
-      if (subsectionPrefix == null)
-        throw new ArgumentNullException(nameof(subsectionPrefix));
-
-      if (key == null)
-        throw new ArgumentNullException(nameof(key));
-
       Section = section;
-      SubsectionPrefix = subsectionPrefix;
       Key = key;
-      Required = required;
-    }
-
-    /// <summary>Defines a value that redirects to other sections of an INI file</summary>
-    /// <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
-    /// <param name="key">The key name from which the value is retrieved</param>
-    /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
-    public INISubSectionListAttribute(string subsectionPrefix, string key = null, bool required = false)
-    {
-      if (subsectionPrefix == null)
-        throw new ArgumentNullException(nameof(subsectionPrefix));
-
-      Section = null;
       SubsectionPrefix = subsectionPrefix;
-      Key = key;
       Required = required;
     }
 
@@ -110,13 +86,16 @@ namespace Primitives.FileFormat.INI
     private void InnerWrite<T>(INIFile f, T[] value, string fieldName, string defaultSection)
     {
       string s = INIAttributeExt.GetSection(Section, defaultSection);
-      int i = 1;
-      foreach (T t in value)
+      string k = SubsectionPrefix ?? INIAttributeExt.GetKey(Key, fieldName);
+      string[] keys = new string[value.Length];
+      for (int i = 0; i < value.Length; i++)
       {
-        T o = t;
-        f.UpdateByAttribute(ref o, s + i.ToString());
+        T o = value[i];
+        keys[i] = fieldName + i.ToString();
+        f.UpdateByAttribute(ref o, keys[i]);
         i++;
       }
+      f.SetValue(s, k, keys);
     }
   }
 }
