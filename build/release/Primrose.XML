@@ -3475,6 +3475,12 @@
             <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
             <param name="required">Defines whether the INI file must contain this section/key combination</param>
         </member>
+        <member name="T:Primitives.FileFormat.INI.INIHeaderAttribute">
+            <summary>Defines a value from a section header of an INI file</summary>
+        </member>
+        <member name="M:Primitives.FileFormat.INI.INIHeaderAttribute.#ctor">
+            <summary>Defines a value from a section header of an INI file</summary>
+        </member>
         <member name="T:Primitives.FileFormat.INI.INISectionNotFoundException">
             <summary>Represents an exception as a result of a missing section</summary>
         </member>
