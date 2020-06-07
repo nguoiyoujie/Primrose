@@ -3469,7 +3469,7 @@
         </member>
         <member name="M:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.#ctor(System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Defines a value that redirects to other sections of an INI file</summary>
-            <param name="section">The section name from which the keys are retrieved</param>
+            <param name="section">The section name from which the keys are retrieved. If null, the field name is used</param>
             <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the section name is used</param>
             <param name="readValue">Defines whether the values are read instead of keys</param>
             <param name="required">Defines whether the INI file must contain this section/key combination</param>
