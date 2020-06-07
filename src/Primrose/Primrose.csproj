@@ -71,6 +71,7 @@
     <Compile Include="Primitives\Exceptions\ExpectedEnumException.cs" />
     <Compile Include="Primitives\Exceptions\ArrayMismatchException.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\INISubSectionKeyListAttribute.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Attributes\INIHeaderAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\Exceptions\InvalidTypeException.cs" />
     <Compile Include="Primitives\Observables\Delegates.cs" />
     <Compile Include="Primitives\Observables\ObservableRegistry.cs" />

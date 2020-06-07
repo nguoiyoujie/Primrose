@@ -36,6 +36,11 @@ namespace Primitives.FileFormat.INI
           fi.SetValue(obj, fObj);
         }
 
+        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIHeaderAttribute), true))
+        {
+          fi.SetValue(obj, ((INIHeaderAttribute)a).Read(defaultSection));
+        }
+        
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIValueAttribute), true))
         {
           fi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, fi.GetValue(obj), fi.Name, defaultSection, resolver));
@@ -75,6 +80,11 @@ namespace Primitives.FileFormat.INI
             object fObj = pi.GetValue(obj, null) ?? Activator.CreateInstance(t);
             LoadByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection, resolver);
             pi.SetValue(obj, fObj, null);
+          }
+
+          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIHeaderAttribute), true))
+          {
+            pi.SetValue(obj, ((INIHeaderAttribute)a).Read(defaultSection), null);
           }
 
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INIValueAttribute), true))
