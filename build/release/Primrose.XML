@@ -40,7 +40,7 @@
             <param name="p">The parameter value used to generate the updated value</param>
             <param name="cmp">The token comparer</param>
             <returns>If the tokens match, return the cached value, otherwise update this value with func(p) and returns the new value</returns>
-            <exception cref="T:System.InvalidOperationException">Attempted to get an non-existent key from a cache.</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Attempted to get an non-existent key from a cache.</exception>
         </member>
         <member name="M:Primrose.Primitives.Cache`4.GetOrDefine(`0,`1,System.Func{`3,`2},`3,System.Collections.Generic.IEqualityComparer{`1})">
             <summary>
@@ -331,6 +331,36 @@
             Returns an enumerator that iterates through the list.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Primrose.Primitives.CapacityExceededException`1">
+            <summary>Represents an exception as a result of pushing in a value into a collection beyond its capacity</summary>
+        </member>
+        <member name="M:Primrose.Primitives.CapacityExceededException`1.#ctor(System.Int32)">
+            <summary>Represents an exception as a result of pushing in a value into a collection beyond its capacity</summary>
+        </member>
+        <member name="T:Primrose.Primitives.ExpectedEnumException`1">
+            <summary>Represents an exception as a result of receiving a value that is not an enumerable</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ExpectedEnumException`1.#ctor">
+            <summary>Represents an exception as a result of receiving a value that is not an enumerable</summary>
+        </member>
+        <member name="T:Primrose.Primitives.ArrayMismatchException">
+            <summary>Represents an exception as a result of processing an array with an unexpected format</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ArrayMismatchException.#ctor">
+            <summary>
+            Represents an exception in comparing two arrays of different lengths
+            </summary>
+        </member>
+        <member name="M:Primrose.Primitives.ArrayMismatchException.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Represents an exception in comparing two arrays of different lengths
+            </summary>
+        </member>
+        <member name="M:Primrose.Primitives.ArrayMismatchException.#ctor(System.Int32,System.Type)">
+            <summary>
+            Represents an exception when attempting to assign an array to a typed value
+            </summary>
         </member>
         <member name="T:Primrose.Primitives.Observables.ChangeEventDelegate`1">
             <summary>
@@ -1229,6 +1259,20 @@
         <member name="P:Primrose.Primitives.IIdentity.ID">
             <summary>The instance ID</summary>
         </member>
+        <member name="T:Primrose.Primitives.Parsers.UnsupportedWriteException`1">
+            <summary>Defines an exception for errors encountered by an attempt to write from an unsupported type</summary>
+            <typeparam name="T">The unsupported type</typeparam>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.UnsupportedWriteException`1.#ctor">
+            <summary>Defines an exception for errors encountered by an attempt to write from an unsupported type</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Parsers.UnsupportedParseException`1">
+            <summary>Defines an exception for errors encountered by an attempt to parse to an unsupported type</summary>
+            <typeparam name="T">The unsupported type</typeparam>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.UnsupportedParseException`1.#ctor">
+            <summary>Defines an exception for errors encountered by an attempt to parse to an unsupported type</summary>
+        </member>
         <member name="T:Primrose.Primitives.Parsers.RuleConversionException">
             <summary>Defines an exception for errors encountered in parsing and writing conversions</summary>
         </member>
@@ -1700,6 +1744,16 @@
         <member name="P:Primrose.Primitives.ScopedManager`1.ScopedItem.Value">
             <summary>The item in scope</summary>
         </member>
+        <member name="T:Primrose.Primitives.StateMachines.InvalidStateCommandException`2">
+            <summary>Represents an exception as a result of an invalid state command</summary>
+            <typeparam name="T">The state type</typeparam>
+            <typeparam name="U">The command type</typeparam>
+        </member>
+        <member name="M:Primrose.Primitives.StateMachines.InvalidStateCommandException`2.#ctor(`1,`0)">
+            <summary>Represents an exception as a result of an invalid state command</summary>
+            <param name="command">The command</param>
+            <param name="state">The state</param>
+        </member>
         <member name="T:Primrose.Primitives.StateMachines.StateMachine`3">
             <summary>
             A programmable finite state machine, using commands to perform state changes and execute transition actions. This state machine itself does not store the state.
@@ -2116,7 +2170,7 @@
             <param name="array">The array</param>
             <returns>A uint2 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 2 can be converted to a uint2</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 2 can be converted to a uint2</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.uint2.Parse(System.String)">
             <summary>Parses a uint2 from a string</summary>
@@ -2206,7 +2260,7 @@
             <param name="array">The array</param>
             <returns>A uint3 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 3 can be converted to a uint3</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 3 can be converted to a uint3</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.uint3.Parse(System.String)">
             <summary>Parses a uint3 from a string</summary>
@@ -2300,7 +2354,7 @@
             <param name="array">The array</param>
             <returns>A uint4 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 4 can be converted to a uint4</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a uint4</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.uint4.Parse(System.String)">
             <summary>Parses a uint4 from a string</summary>
@@ -2386,7 +2440,7 @@
             <param name="array">The array</param>
             <returns>A short2 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 2 can be converted to a short2</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 2 can be converted to a short2</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.short2.Parse(System.String)">
             <summary>Parses a short2 from a string</summary>
@@ -2444,7 +2498,7 @@
             <param name="array">The array</param>
             <returns>A byte2 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 2 can be converted to a byte2</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 2 can be converted to a byte2</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.byte2.Parse(System.String)">
             <summary>Parses a byte2 from a string</summary>
@@ -2506,7 +2560,7 @@
             <param name="array">The array</param>
             <returns>A short3 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 3 can be converted to a short3</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 3 can be converted to a short3</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.short3.Parse(System.String)">
             <summary>Parses a short3 from a string</summary>
@@ -2572,7 +2626,7 @@
             <param name="array">The array</param>
             <returns>A short4 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 4 can be converted to a short4</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a short4</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.short4.Parse(System.String)">
             <summary>Parses a short4 from a string</summary>
@@ -2630,7 +2684,7 @@
             <param name="array">The array</param>
             <returns>A int2 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 2 can be converted to a int2</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 2 can be converted to a int2</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.int2.Parse(System.String)">
             <summary>Parses a int2 from a string</summary>
@@ -2720,14 +2774,14 @@
             <param name="array">The array</param>
             <returns>A float2 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 2 can be converted to a float2</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 2 can be converted to a float2</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float2.FromArray(System.Int32[])">
             <summary>Creates a float2 from an array</summary>
             <param name="array">The array</param>
             <returns>A float2 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 2 can be converted to a float2</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 2 can be converted to a float2</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float2.Parse(System.String)">
             <summary>Parses a float2 from a string</summary>
@@ -2825,7 +2879,7 @@
             <param name="array">The array</param>
             <returns>A byte3 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 3 can be converted to a byte3</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 3 can be converted to a byte3</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.byte3.Parse(System.String)">
             <summary>Parses a byte3 from a string</summary>
@@ -2887,7 +2941,7 @@
             <param name="array">The array</param>
             <returns>A int3 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 3 can be converted to a int3</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 3 can be converted to a int3</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.int3.Parse(System.String)">
             <summary>Parses a int3 from a string</summary>
@@ -2981,14 +3035,14 @@
             <param name="array">The array</param>
             <returns>A float3 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 3 can be converted to a float3</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 3 can be converted to a float3</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float3.FromArray(System.Int32[])">
             <summary>Creates a float3 from an array</summary>
             <param name="array">The array</param>
             <returns>A float3 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 3 can be converted to a float3</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 3 can be converted to a float3</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float3.Parse(System.String)">
             <summary>Parses a float3 from a string</summary>
@@ -3090,7 +3144,7 @@
             <param name="array">The array</param>
             <returns>A byte4 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 4 can be converted to a byte4</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a byte4</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.byte4.Parse(System.String)">
             <summary>Parses a byte4 from a string</summary>
@@ -3156,7 +3210,7 @@
             <param name="array">The array</param>
             <returns>A int4 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 4 can be converted to a int4</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a int4</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.int4.Parse(System.String)">
             <summary>Parses a int4 from a string</summary>
@@ -3254,14 +3308,14 @@
             <param name="array">The array</param>
             <returns>A float4 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 4 can be converted to a float4</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a float4</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float4.FromArray(System.Int32[])">
             <summary>Creates a float4 from an array</summary>
             <param name="array">The array</param>
             <returns>A float4 value</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-            <exception cref="T:System.InvalidOperationException">Only an array of length 4 can be converted to a float4</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a float4</exception>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float4.Parse(System.String)">
             <summary>Parses a float4 from a string</summary>
@@ -3420,6 +3474,21 @@
             <summary>Defines a value that redirects to other sections of an INI file</summary>
             <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
             <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="T:Primitives.FileFormat.INI.INISectionNotFoundException">
+            <summary>Represents an exception as a result of a missing section</summary>
+        </member>
+        <member name="M:Primitives.FileFormat.INI.INISectionNotFoundException.#ctor(System.String)">
+            <summary>Represents an exception as a result of a missing section</summary>
+            <param name="section">The missing section</param>
+        </member>
+        <member name="T:Primitives.FileFormat.INI.INIKeyNotFoundException">
+            <summary>Represents an exception as a result of a missing section key</summary>
+        </member>
+        <member name="M:Primitives.FileFormat.INI.INIKeyNotFoundException.#ctor(System.String,System.String)">
+            <summary>Represents an exception as a result of a missing section key</summary>
+            <param name="section">The section where the key is missing</param>
+            <param name="key">The missing key</param>
         </member>
         <member name="T:Primitives.FileFormat.INI.DuplicateResolutionPolicy">
             <summary>Determines the policy for resolving duplicate entries</summary>

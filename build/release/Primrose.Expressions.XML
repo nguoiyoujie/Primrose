@@ -115,6 +115,19 @@
             Holds the registry of scripts
             </summary>
         </member>
+        <member name="T:Primrose.Expressions.ValTypeMismatchException">
+            <summary>Represents an exception as a result of processing an array with an unexpected format</summary>
+        </member>
+        <member name="M:Primrose.Expressions.ValTypeMismatchException.#ctor(System.Int32,Primrose.Expressions.ValType)">
+            <summary>
+            Represents an exception when attempting to assign an array to a ValType
+            </summary>
+        </member>
+        <member name="M:Primrose.Expressions.ValTypeMismatchException.#ctor(Primrose.Expressions.ValType,Primrose.Expressions.ValType)">
+            <summary>
+            Represents an exception when attempting to assign an array to a ValType
+            </summary>
+        </member>
         <member name="T:Primrose.Expressions.EvalException">
             <summary>
             Provides script evaluation exceptions
