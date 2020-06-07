@@ -1,7 +1,15 @@
-﻿[TestSubsectionList]
+﻿INNER=InnerA,InnerB,InnerC,InnerD ; for null section
+
+[TestSubsectionList]
 INNER=InnerA,InnerB,InnerC,InnerD
 
 [TestSubsectionKeyList]
+InnerA
+InnerB
+InnerC
+InnerD
+
+[INNER]
 InnerA
 InnerB
 InnerC

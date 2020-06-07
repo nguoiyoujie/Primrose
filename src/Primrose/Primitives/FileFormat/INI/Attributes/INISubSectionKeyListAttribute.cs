@@ -52,7 +52,7 @@ namespace Primitives.FileFormat.INI
     public bool Required;
 
     /// <summary>Defines a value that redirects to other sections of an INI file</summary>
-    /// <param name="section">The section name from which the keys are retrieved</param>
+    /// <param name="section">The section name from which the keys are retrieved. If null, the field name is used</param>
     /// <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the section name is used</param>
     /// <param name="readValue">Defines whether the values are read instead of keys</param>
     /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
@@ -69,7 +69,7 @@ namespace Primitives.FileFormat.INI
       if (!t.IsArray || t.GetElementType().IsArray)
         throw new InvalidOperationException("INISubSectionKeyListAttribute attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
 
-      string s = INIAttributeExt.GetSection(Section, defaultSection);
+      string s = INIAttributeExt.GetSection(Section, defaultSection ?? fieldName);
       INIKeyListAttribute kattr = new INIKeyListAttribute(s, ReadValue, Required);
       string[] subsections = kattr.Read(typeof(string[]), f, s);
 
@@ -103,7 +103,7 @@ namespace Primitives.FileFormat.INI
 
     private void InnerWrite<T>(INIFile f, T[] value, string fieldName, string defaultSection)
     {
-      string s = INIAttributeExt.GetSection(Section, defaultSection);
+      string s = INIAttributeExt.GetSection(Section, defaultSection ?? fieldName);
       string k = SubsectionPrefix ?? fieldName;
       string[] keys = new string[value.Length];
       for (int i = 0; i < value.Length; i++)

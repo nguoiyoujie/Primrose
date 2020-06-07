@@ -41,6 +41,13 @@ namespace Primrose.UnitTests.FileSystem.INI
         new MockINIInnerStruct(0,0,3,4),
         new MockINIInnerStruct(1,0,3,0),
         new MockINIInnerStruct(1,0,0,4)
+      } } },
+      new object[] { null, new MockINISubSectionKeyListStruct() { INNER = new MockINIInnerStruct[4]
+      {
+        new MockINIInnerStruct(1,2,0,0),
+        new MockINIInnerStruct(0,0,3,4),
+        new MockINIInnerStruct(1,0,3,0),
+        new MockINIInnerStruct(1,0,0,4)
       } } }
     };
 
@@ -70,6 +77,13 @@ namespace Primrose.UnitTests.FileSystem.INI
     public static object[] ReadSubSectionListSource = new object[]
     {
       new object[] { "TestSubsectionList", new MockINISubSectionKeyListStruct() { INNER = new MockINIInnerStruct[4]
+      {
+        new MockINIInnerStruct(1,2,0,0),
+        new MockINIInnerStruct(0,0,3,4),
+        new MockINIInnerStruct(1,0,3,0),
+        new MockINIInnerStruct(1,0,0,4)
+      } } },
+      new object[] { null, new MockINISubSectionKeyListStruct() { INNER = new MockINIInnerStruct[4]
       {
         new MockINIInnerStruct(1,2,0,0),
         new MockINIInnerStruct(0,0,3,4),
