@@ -3461,18 +3461,17 @@
         <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.SubsectionPrefix">
             <summary>The subsection prefix to be used when writing members</summary>
         </member>
+        <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.ReadValue">
+            <summary>Defines whether the values are read instead of keys</summary>
+        </member>
         <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.Required">
             <summary>Defines whether the INI file must contain this section/key combination</summary>
         </member>
-        <member name="M:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.#ctor(System.String,System.String,System.Boolean)">
+        <member name="M:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.#ctor(System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Defines a value that redirects to other sections of an INI file</summary>
             <param name="section">The section name from which the keys are retrieved</param>
-            <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.#ctor(System.String,System.Boolean)">
-            <summary>Defines a value that redirects to other sections of an INI file</summary>
-            <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
+            <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the section name is used</param>
+            <param name="readValue">Defines whether the values are read instead of keys</param>
             <param name="required">Defines whether the INI file must contain this section/key combination</param>
         </member>
         <member name="T:Primitives.FileFormat.INI.INIHeaderAttribute">
@@ -3566,14 +3565,8 @@
         <member name="M:Primitives.FileFormat.INI.INISubSectionListAttribute.#ctor(System.String,System.String,System.String,System.Boolean)">
             <summary>Defines a value that redirects to other sections of an INI file</summary>
             <param name="section">The section name from which the keys are retrieved</param>
-            <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
             <param name="key">The key name from which the value is retrieved</param>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INISubSectionListAttribute.#ctor(System.String,System.String,System.Boolean)">
-            <summary>Defines a value that redirects to other sections of an INI file</summary>
-            <param name="subsectionPrefix">The subsection prefix to be used when writing members</param>
-            <param name="key">The key name from which the value is retrieved</param>
+            <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the key name is used</param>
             <param name="required">Defines whether the INI file must contain this section/key combination</param>
         </member>
         <member name="T:Primitives.FileFormat.INI.INIRegistryAttribute">
@@ -3600,12 +3593,16 @@
         <member name="F:Primitives.FileFormat.INI.INIKeyListAttribute.Section">
             <summary>The section name of the INI file where the keys are based on</summary>
         </member>
+        <member name="F:Primitives.FileFormat.INI.INIKeyListAttribute.ReadValue">
+            <summary>Defines whether the values are read instead of keys</summary>
+        </member>
         <member name="F:Primitives.FileFormat.INI.INIKeyListAttribute.Required">
             <summary>Defines whether the INI file must contain this section/key combination</summary>
         </member>
-        <member name="M:Primitives.FileFormat.INI.INIKeyListAttribute.#ctor(System.String,System.Boolean)">
+        <member name="M:Primitives.FileFormat.INI.INIKeyListAttribute.#ctor(System.String,System.Boolean,System.Boolean)">
             <summary>Defines a list of keys from a section of an INI file</summary>
             <param name="section">The section name from which the keys are retrieved</param>
+            <param name="readValue">Defines whether the values are read instead of keys</param>
             <param name="required">Defines whether the INI file must contain this section/key combination</param>
         </member>
         <member name="M:Primitives.FileFormat.INI.INIKeyListAttribute.#ctor(System.Boolean)">
