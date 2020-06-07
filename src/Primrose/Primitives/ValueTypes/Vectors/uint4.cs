@@ -81,13 +81,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="array">The array</param>
     /// <returns>A uint4 value</returns>
     /// <exception cref="ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-    /// <exception cref="InvalidOperationException">Only an array of length 4 can be converted to a uint4</exception>
+    /// <exception cref="ArrayMismatchException">Only an array of length 4 can be converted to a uint4</exception>
     public static uint4 FromArray(uint[] array)
     {
       if (array == null)
         throw new ArgumentNullException(nameof(array));
       else if (array.Length != 4)
-        throw new InvalidOperationException("Attempted assignment of an array of length {0} to a uint4".F(array.Length));
+        throw new ArrayMismatchException(array.Length, typeof(uint4));
       else
         return new uint4(array[0], array[1], array[2], array[3]);
     }

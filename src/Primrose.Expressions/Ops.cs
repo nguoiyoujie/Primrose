@@ -1,4 +1,5 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives;
+using Primrose.Primitives.Extensions;
 using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
@@ -234,7 +235,7 @@ namespace Primrose.Expressions
     private static float[] MemberwiseAdd(float[] v1, float[] v2)
     {
       if (v1.Length != v2.Length)
-        throw new InvalidOperationException("Attempted operation between two arrays of different length");
+        throw new ArrayMismatchException(v1.Length, v2.Length);
 
       float[] ret = new float[v1.Length];
       for (int i = 0; i < ret.Length; i++)
@@ -246,7 +247,7 @@ namespace Primrose.Expressions
     private static float[] MemberwiseSubstract(float[] v1, float[] v2)
     {
       if (v1.Length != v2.Length)
-        throw new InvalidOperationException("Attempted operation between two arrays of different length");
+        throw new ArrayMismatchException(v1.Length, v2.Length);
 
       float[] ret = new float[v1.Length];
       for (int i = 0; i < ret.Length; i++)
@@ -258,7 +259,7 @@ namespace Primrose.Expressions
     private static int[] MemberwiseAdd(int[] v1, int[] v2)
     {
       if (v1.Length != v2.Length)
-        throw new InvalidOperationException("Attempted operation between two arrays of different length");
+        throw new ArrayMismatchException(v1.Length, v2.Length);
 
       int[] ret = new int[v1.Length];
       for (int i = 0; i < ret.Length; i++)
@@ -270,7 +271,7 @@ namespace Primrose.Expressions
     private static int[] MemberwiseSubstract(int[] v1, int[] v2)
     {
       if (v1.Length != v2.Length)
-        throw new InvalidOperationException("Attempted operation between two arrays of different length");
+        throw new ArrayMismatchException(v1.Length, v2.Length);
 
       int[] ret = new int[v1.Length];
       for (int i = 0; i < ret.Length; i++)
@@ -282,7 +283,7 @@ namespace Primrose.Expressions
     private static float[] MemberwiseAdd(float[] v1, int[] v2)
     {
       if (v1.Length != v2.Length)
-        throw new InvalidOperationException("Attempted operation between two arrays of different length");
+        throw new ArrayMismatchException(v1.Length, v2.Length);
 
       float[] ret = new float[v1.Length];
       for (int i = 0; i < ret.Length; i++)
@@ -294,7 +295,7 @@ namespace Primrose.Expressions
     private static float[] MemberwiseSubstract(float[] v1, int[] v2)
     {
       if (v1.Length != v2.Length)
-        throw new InvalidOperationException("Attempted operation between two arrays of different length");
+        throw new ArrayMismatchException(v1.Length, v2.Length);
 
       float[] ret = new float[v1.Length];
       for (int i = 0; i < ret.Length; i++)
@@ -306,7 +307,7 @@ namespace Primrose.Expressions
     private static float[] MemberwiseAdd(int[] v1, float[] v2)
     {
       if (v1.Length != v2.Length)
-        throw new InvalidOperationException("Attempted operation between two arrays of different length");
+        throw new ArrayMismatchException(v1.Length, v2.Length);
 
       float[] ret = new float[v1.Length];
       for (int i = 0; i < ret.Length; i++)
@@ -318,7 +319,7 @@ namespace Primrose.Expressions
     private static float[] MemberwiseSubstract(int[] v1, float[] v2)
     {
       if (v1.Length != v2.Length)
-        throw new InvalidOperationException("Attempted operation between two arrays of different length");
+        throw new ArrayMismatchException(v1.Length, v2.Length);
 
       float[] ret = new float[v1.Length];
       for (int i = 0; i < ret.Length; i++)
@@ -358,7 +359,7 @@ namespace Primrose.Expressions
         if (len == 2)
           return new Val(float2.FromArray(fv));
         else
-          throw new InvalidOperationException("Attempted coercion of an array of length {0} to a type '{1}".F(len, t));
+          throw new ValTypeMismatchException(len, t);
       }
 
       else if (t == ValType.FLOAT3 && val.Type == ValType.FLOAT_ARRAY)
@@ -368,7 +369,7 @@ namespace Primrose.Expressions
         if (len == 3)
           return new Val(float3.FromArray(fv));
         else
-          throw new InvalidOperationException("Attempted coercion of an array of length {0} to a type '{1}".F(len, t));
+          throw new ValTypeMismatchException(len, t);
       }
 
       else if (t == ValType.FLOAT4 && val.Type == ValType.FLOAT_ARRAY)
@@ -378,7 +379,7 @@ namespace Primrose.Expressions
         if (len == 4)
           return new Val(float4.FromArray(fv));
         else
-          throw new InvalidOperationException("Attempted coercion of an array of length {0} to a type '{1}".F(len, t));
+          throw new ValTypeMismatchException(len, t);
       }
 
       else if (t == ValType.FLOAT2 && val.Type == ValType.INT_ARRAY)
@@ -388,7 +389,7 @@ namespace Primrose.Expressions
         if (len == 2)
           return new Val(float2.FromArray(fv));
         else
-          throw new InvalidOperationException("Attempted coercion of an array of length {0} to a type '{1}".F(len, t));
+          throw new ValTypeMismatchException(len, t);
       }
 
       else if (t == ValType.FLOAT3 && val.Type == ValType.INT_ARRAY)
@@ -398,7 +399,7 @@ namespace Primrose.Expressions
         if (len == 3)
           return new Val(float3.FromArray(fv));
         else
-          throw new InvalidOperationException("Attempted coercion of an array of length {0} to a type '{1}".F(len, t));
+          throw new ValTypeMismatchException(len, t);
       }
 
       else if (t == ValType.FLOAT4 && val.Type == ValType.INT_ARRAY)
@@ -408,9 +409,9 @@ namespace Primrose.Expressions
         if (len == 4)
           return new Val(float4.FromArray(fv));
         else
-          throw new InvalidOperationException("Attempted coercion of an array of length {0} to a type '{1}".F(len, t));
+          throw new ValTypeMismatchException(len, t);
       }
-      throw new InvalidOperationException("Attempted coercion of value of type '{0}' to a type '{1}'".F(val.Type, t));
+      throw new ValTypeMismatchException(val.Type, t);
     }
   }
 }

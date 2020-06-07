@@ -1,7 +1,4 @@
-﻿using Primrose.Primitives.Observables;
-using System.Collections.Generic;
-
-namespace Primrose.Primitives.Triggers
+﻿namespace Primrose.Primitives.Triggers
 {
   /*
   /// <summary>Represents a condition to be fulfilled</summary>

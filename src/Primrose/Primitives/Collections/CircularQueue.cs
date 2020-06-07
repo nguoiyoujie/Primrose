@@ -43,7 +43,7 @@ namespace Primrose.Primitives.Collections
       if (Count >= nodes.Length)
       {
         if (errifexceed)
-          throw new InvalidOperationException("Attempted to enqueue an item into {0} that has reached capacity limit of {1}.".F(GetType().Name, nodes.Length));
+          throw new CapacityExceededException<CircularQueue<T>>(nodes.Length);
         else
           Dequeue();
       }

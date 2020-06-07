@@ -73,6 +73,7 @@
     <Compile Include="Context\ParamContracts\ValFunc_T7.cs" />
     <Compile Include="Context\ParamContracts\ValFunc_T8.cs" />
     <Compile Include="Context\ParamContracts\ValParamContract.cs" />
+    <Compile Include="Exceptions\ValTypeMismatchException.cs" />
     <Compile Include="Exceptions\EvalException.cs" />
     <Compile Include="Exceptions\ParseException.cs" />
     <Compile Include="FileFormat\ScriptFile.cs" />

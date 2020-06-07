@@ -1,5 +1,4 @@
-﻿using Primrose.Primitives.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Primrose.Primitives.StateMachines
@@ -92,7 +91,7 @@ namespace Primrose.Primitives.StateMachines
           SM.Initialize(owner, state);
         }
         else
-          throw new InvalidOperationException("Command '{0}' is not valid on state '{1}'".F(command, state));
+          throw new InvalidStateCommandException<T, U>(command, state);
       }
     }
 
@@ -146,7 +145,7 @@ namespace Primrose.Primitives.StateMachines
       if (_transitions.TryGetValue(state, out _in))
         _in.Fire(owner, command, ref state);
       else
-        throw new InvalidOperationException("Command '{0}' is not valid on state '{1}'".F(command, state));
+        throw new InvalidStateCommandException<T, U>(command, state);
     }
   }
 }

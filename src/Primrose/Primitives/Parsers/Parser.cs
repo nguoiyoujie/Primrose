@@ -154,7 +154,7 @@ namespace Primrose.Primitives.Parsers
         return Rules.ToEnumArray<T>(value);
       }
 
-      throw new InvalidOperationException("Attempted to parse a string to an unsupported type '{0}'".F(t.Name));
+      throw new UnsupportedParseException<T>();
     }
 
 
@@ -185,7 +185,7 @@ namespace Primrose.Primitives.Parsers
         return Rules.EnumArrayToStr(value);
       }
 
-      throw new InvalidOperationException("Attempted to write a string from an unsupported type '{0}'".F(t.Name));
+      throw new UnsupportedWriteException<T>();
     }
 
     /// <summary>Adds a rule to convert between an object and its string representation</summary>

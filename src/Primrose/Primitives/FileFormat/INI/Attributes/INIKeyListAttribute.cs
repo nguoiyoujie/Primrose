@@ -49,7 +49,7 @@ namespace Primitives.FileFormat.INI
       }
       else if (Required)
       {
-        throw new InvalidOperationException("Required section is not defined!".F(s));
+        throw new INISectionNotFoundException(s);
       }
 
       return vals.ToArray();

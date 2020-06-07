@@ -63,13 +63,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="array">The array</param>
     /// <returns>A short2 value</returns>
     /// <exception cref="ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-    /// <exception cref="InvalidOperationException">Only an array of length 2 can be converted to a short2</exception>
+    /// <exception cref="ArrayMismatchException">Only an array of length 2 can be converted to a short2</exception>
     public static short2 FromArray(short[] array)
     {
       if (array == null)
         throw new ArgumentNullException(nameof(array));
       else if (array.Length != 2)
-        throw new InvalidOperationException("Attempted assignment of an array of length {0} to a short2".F(array.Length));
+        throw new ArrayMismatchException(array.Length, typeof(short2));
       else
         return new short2(array[0], array[1]);
     }

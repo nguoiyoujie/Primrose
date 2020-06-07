@@ -1,5 +1,4 @@
 ﻿using Primrose.Primitives.Parsers;
-using System.Runtime.CompilerServices;
 
 namespace Primitives.FileFormat.INI
 {

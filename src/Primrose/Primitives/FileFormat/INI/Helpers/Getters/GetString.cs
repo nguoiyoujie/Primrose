@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Primitives.FileFormat.INI
+﻿namespace Primitives.FileFormat.INI
 {
   public partial class INIFile
   {

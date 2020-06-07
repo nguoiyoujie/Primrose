@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Primitives.FileFormat.INI
+﻿namespace Primitives.FileFormat.INI
 {
   /// <summary>Determines the policy for resolving duplicate entries</summary>
   public enum DuplicateResolutionPolicy

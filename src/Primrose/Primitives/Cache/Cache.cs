@@ -54,12 +54,12 @@ namespace Primrose.Primitives
     /// <param name="p">The parameter value used to generate the updated value</param>
     /// <param name="cmp">The token comparer</param>
     /// <returns>If the tokens match, return the cached value, otherwise update this value with func(p) and returns the new value</returns>
-    /// <exception cref="InvalidOperationException">Attempted to get an non-existent key from a cache.</exception>
+    /// <exception cref="KeyNotFoundException">Attempted to get an non-existent key from a cache.</exception>
     public TValue Get(TKey key, Token token, Func<TParam, TValue> func, TParam p, IEqualityComparer<Token> cmp)
     {
       CacheItem<Token, TValue, TParam> item;
       if (!cache.TryGetValue(key, out item))
-        throw new InvalidOperationException("Attempted to get an non-existent key '{0}' from a cache.".F(key));
+        throw new KeyNotFoundException("Attempted to get an non-existent key '{0}' from a cache.".F(key));
 
       return item.Get(token, func, p, cmp);
     }

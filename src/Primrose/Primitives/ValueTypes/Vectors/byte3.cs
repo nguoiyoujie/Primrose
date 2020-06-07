@@ -72,13 +72,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="array">The array</param>
     /// <returns>A byte3 value</returns>
     /// <exception cref="ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-    /// <exception cref="InvalidOperationException">Only an array of length 3 can be converted to a byte3</exception>
+    /// <exception cref="ArrayMismatchException">Only an array of length 3 can be converted to a byte3</exception>
     public static byte3 FromArray(byte[] array)
     {
       if (array == null)
         throw new ArgumentNullException(nameof(array));
       else if (array.Length != 3)
-        throw new InvalidOperationException("Attempted assignment of an array of length {0} to a byte3".F(array.Length));
+        throw new ArrayMismatchException(array.Length, typeof(byte3));
       else
         return new byte3(array[0], array[1], array[2]);
     }

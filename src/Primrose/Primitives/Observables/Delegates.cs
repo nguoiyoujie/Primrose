@@ -1,6 +1,4 @@
-﻿using Primrose.Primitives.Factories;
-
-namespace Primrose.Primitives.Observables
+﻿namespace Primrose.Primitives.Observables
 {
   /// <summary>
   /// A delegate representing a change in value

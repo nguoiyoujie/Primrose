@@ -1,11 +1,6 @@
-﻿using Primrose.Primitives;
-using Primrose.Primitives.Extensions;
-using Primrose.Primitives.Factories;
-using Primrose.Primitives.Parsers;
-using Primrose.Primitives.ValueTypes;
+﻿using Primrose.Primitives.Parsers;
 using System;
 using System.Reflection;
-using System.Text;
 
 namespace Primitives.FileFormat.INI
 {
@@ -65,7 +60,7 @@ namespace Primitives.FileFormat.INI
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       string k = INIAttributeExt.GetKey(Key, fieldName);
       if (Required && !f.HasKey(s, k))
-        throw new InvalidOperationException("Required key '{0}' in section '{1}' is not defined!".F(k, s));
+        throw new INIKeyNotFoundException(s, k);
 
       return Parser.Parse(f.GetString(s, k, null), resolver, defaultValue);
     }

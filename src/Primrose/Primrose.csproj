@@ -67,7 +67,11 @@
     <Compile Include="Primitives\Collections\CircularQueue.cs" />
     <Compile Include="Primitives\Collections\ThreadSafeDictionary.cs" />
     <Compile Include="Primitives\Collections\ThreadSafeList.cs" />
+    <Compile Include="Primitives\Exceptions\ExceededCapacityException.cs" />
+    <Compile Include="Primitives\Exceptions\ExpectedEnumException.cs" />
+    <Compile Include="Primitives\Exceptions\ArrayMismatchException.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\INISubSectionKeyListAttribute.cs" />
+    <Compile Include="Primitives\FileFormat\INI\Exceptions\InvalidTypeException.cs" />
     <Compile Include="Primitives\Observables\Delegates.cs" />
     <Compile Include="Primitives\Observables\ObservableRegistry.cs" />
     <Compile Include="Primitives\Observables\ObservableList.cs" />
@@ -106,12 +110,15 @@
     <Compile Include="Primitives\FileFormat\INI\Helpers\UpdateByAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\INIFile.cs" />
     <Compile Include="Primitives\Interfaces.cs" />
-    <Compile Include="Primitives\Parser\Rules\RuleConversionException.cs" />
-    <Compile Include="Primitives\Parser\Rules\Rules.cs" />
-    <Compile Include="Primitives\Parser\Parser.cs" />
+    <Compile Include="Primitives\Parsers\Exceptions\UnsupportedWriteException.cs" />
+    <Compile Include="Primitives\Parsers\Exceptions\UnsupportedParseException.cs" />
+    <Compile Include="Primitives\Parsers\Exceptions\RuleConversionException.cs" />
+    <Compile Include="Primitives\Parsers\Rules\Rules.cs" />
+    <Compile Include="Primitives\Parsers\Parser.cs" />
     <Compile Include="Primitives\Pipelines\Pipeline.cs" />
     <Compile Include="Primitives\ScopeCounter.cs" />
     <Compile Include="Primitives\Scope.cs" />
+    <Compile Include="Primitives\StateMachines\Exceptions\InvalidStateCommandException.cs" />
     <Compile Include="Primitives\StateMachines\StateMachine.cs" />
     <Compile Include="Primitives\StaticEnumerators.cs" />
     <Compile Include="Primitives\Tasks\TaskHandler.cs" />
@@ -151,7 +158,9 @@
     <Compile Include="Primitives\ValueTypes\Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Primitives\Strings\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
