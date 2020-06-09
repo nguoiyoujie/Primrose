@@ -58,7 +58,7 @@ namespace Primrose.Primitives
     public TValue Get(TKey key, Token token, Func<TParam, TValue> func, TParam p, IEqualityComparer<Token> cmp)
     {
       CacheItem<Token, TValue, TParam> item;
-      if (!cache.TryGetValue(key, out item))
+      if (key == null || !cache.TryGetValue(key, out item))
         throw new KeyNotFoundException("Attempted to get an non-existent key '{0}' from a cache.".F(key));
 
       return item.Get(token, func, p, cmp);
@@ -76,7 +76,7 @@ namespace Primrose.Primitives
     public TValue GetOrDefine(TKey key, Token token, Func<TParam, TValue> func, TParam p, IEqualityComparer<Token> cmp)
     {
       CacheItem<Token, TValue, TParam> item;
-      if (!cache.TryGetValue(key, out item))
+      if (key == null || !cache.TryGetValue(key, out item))
       {
         cache.Add(key, new CacheItem<Token, TValue, TParam>(default(Token)));
         item = cache[key];

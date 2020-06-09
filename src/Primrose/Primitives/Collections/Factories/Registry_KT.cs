@@ -37,8 +37,8 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Retrieves the value associated with a key</summary>
     /// <param name="key">The identifier key to check</param>
-    /// <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
-    public T Get(K key) { lock (locker) { T t; if (!list.TryGetValue(key, out t)) return Default; return t; } }
+    /// <returns>The value associated with the key. If the registry does not contain this key or the key is null, returns Default</returns>
+    public T Get(K key) { lock (locker) { T t; if (key == null || !list.TryGetValue(key, out t)) return Default; return t; } }
 
     /// <summary>Strictly retrieves the value associated with a key</summary>
     /// <param name="key">The identifier key to check</param>
