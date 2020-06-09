@@ -114,21 +114,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a float4 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <returns>A float4 value, or the default value if the parsing fails</returns>
-    public static float4 Parse(string s, float4 defaultValue)
+    public static float4 Parse(string s, IResolver resolver, float4 defaultValue)
     {
-      float[] list = Parser.Parse(s, new float[0]);
-      if (list.Length >= 4)
-        return new float4(list[0], list[1], list[2], list[3]);
-      else if (list.Length == 3)
-        return new float4(list[0], list[1], list[2], defaultValue[3]);
-      else if (list.Length == 2)
-        return new float4(list[0], list[1], defaultValue[2], defaultValue[3]);
-      else if (list.Length == 1)
-        return new float4(list[0], defaultValue[1], defaultValue[2], defaultValue[3]);
+      float[] list = Parser.Parse(s.Trim('{', '}'), resolver, new float[0]);
+      float4 value = defaultValue;
+      for (int i = 0; i < list.Length; i++)
+        value[i] = list[i];
 
-      return defaultValue;
+      return value;
     }
 
     /// <summary>Parses a float4 from a string</summary>
@@ -139,10 +135,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a float4 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, float4 defaultValue, out float4 result) { result = defaultValue; try { result = Parse(s, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out float4 result, IResolver resolver = null, float4 defaultValue = default(float4)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
 
 
     /// <summary>Performs a memberwise negation of a float4 value</summary>

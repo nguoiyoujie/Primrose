@@ -54,7 +54,7 @@ namespace Primitives.FileFormat.INI
 
     internal object Read(Type t, INIFile f, object defaultValue, string fieldName, string defaultSection, IResolver resolver)
     {
-      MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t);
       return gmRead.Invoke(this, new object[] { f, defaultValue, fieldName, defaultSection, resolver});
     }
@@ -71,7 +71,7 @@ namespace Primitives.FileFormat.INI
 
     internal void Write(Type t, INIFile f, object value, string fieldName, string defaultSection)
     {
-      MethodInfo mRead = GetType().GetMethod("InnerWrite", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t);
       gmRead.Invoke(this, new object[] { f, value, fieldName, defaultSection });
     }

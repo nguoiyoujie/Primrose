@@ -81,17 +81,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a int2 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <returns>A int2 value, or the default value if the parsing fails</returns>
-    public static int2 Parse(string s, int2 defaultValue)
+    public static int2 Parse(string s, IResolver resolver, int2 defaultValue)
     {
-      int[] list = Parser.Parse(s, new int[0]);
-      if (list.Length >= 2)
-        return new int2(list[0], list[1]);
-      else if (list.Length == 1)
-        return new int2(list[0], defaultValue[1]);
+      int[] list = Parser.Parse(s.Trim('{', '}'), resolver, new int[0]);
+      int2 value = defaultValue;
+      for (int i = 0; i < list.Length; i++)
+        value[i] = list[i];
 
-      return defaultValue;
+      return value;
     }
 
     /// <summary>Parses a int2 from a string</summary>
@@ -102,10 +102,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a int2 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, int2 defaultValue, out int2 result) { result = defaultValue; try { result = Parse(s, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out int2 result, IResolver resolver = null, int2 defaultValue = default(int2)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
 
 
     /// <summary>Performs a memberwise negation of a int2 value</summary>

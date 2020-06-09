@@ -105,19 +105,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a float3 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <returns>A float3 value, or the default value if the parsing fails</returns>
-    public static float3 Parse(string s, float3 defaultValue)
+    public static float3 Parse(string s, IResolver resolver, float3 defaultValue)
     {
-      float[] list = Parser.Parse(s, new float[0]);
-      if (list.Length >= 3)
-        return new float3(list[0], list[1], list[2]);
-      else if (list.Length == 2)
-        return new float3(list[0], list[1], defaultValue[2]);
-      else if (list.Length == 1)
-        return new float3(list[0], defaultValue[1], defaultValue[2]);
+      float[] list = Parser.Parse(s.Trim('{', '}'), resolver, new float[0]);
+      float3 value = defaultValue;
+      for (int i = 0; i < list.Length; i++)
+        value[i] = list[i];
 
-      return defaultValue;
+      return value;
     }
 
     /// <summary>Parses a float3 from a string</summary>
@@ -128,10 +126,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a float4 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, float3 defaultValue, out float3 result) { result = defaultValue; try { result = Parse(s, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out float3 result, IResolver resolver, float3 defaultValue = default(float3)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
 
 
     /// <summary>Performs a memberwise negation of a float3 value</summary>

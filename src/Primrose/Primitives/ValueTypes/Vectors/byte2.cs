@@ -81,17 +81,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a byte2 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <returns>A byte2 value, or the default value if the parsing fails</returns>
-    public static byte2 Parse(string s, byte2 defaultValue)
+    public static byte2 Parse(string s, IResolver resolver, byte2 defaultValue)
     {
-      byte[] list = Parser.Parse(s, new byte[0]);
-      if (list.Length >= 2)
-        return new byte2(list[0], list[1]);
-      else if (list.Length == 1)
-        return new byte2(list[0], defaultValue[1]);
+      byte[] list = Parser.Parse(s.Trim('{', '}'), resolver, new byte[0]);
+      byte2 value = defaultValue;
+      for (int i = 0; i < list.Length; i++)
+        value[i] = list[i];
 
-      return defaultValue;
+      return value;
     }
 
     /// <summary>Parses a byte2 from a string</summary>
@@ -102,9 +102,10 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a byte2 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, byte2 defaultValue, out byte2 result) { result = defaultValue; try { result = Parse(s, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out byte2 result, IResolver resolver, byte2 defaultValue = default(byte2)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
   }
 }

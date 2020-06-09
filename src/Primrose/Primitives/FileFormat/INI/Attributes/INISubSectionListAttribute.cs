@@ -52,7 +52,7 @@ namespace Primitives.FileFormat.INI
       if (!t.IsArray || t.GetElementType().IsArray)
         throw new InvalidOperationException("INISubSectionListAttribute attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
 
-      MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetElementType());
       return gmRead.Invoke(this, new object[] { f, fieldName, defaultSection, resolver });
     }
@@ -61,7 +61,7 @@ namespace Primitives.FileFormat.INI
     {
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       string k = INIAttributeExt.GetKey(Key, fieldName);
-      string[] list =  f.GetValue(s, k, new string[0]);
+      string[] list =  f.GetValue(s, k, resolver, new string[0]);
       T[] ret = new T[list.Length];
       for (int i = 0; i < list.Length; i++)
       {
@@ -78,7 +78,7 @@ namespace Primitives.FileFormat.INI
       if (!t.IsArray || t.GetElementType().IsArray)
         throw new InvalidOperationException("INISubSectionListAttribute attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
 
-      MethodInfo mRead = GetType().GetMethod("InnerWrite", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
       object val = gmRead.Invoke(this, new object[] { f, value, fieldName, defaultSection });
     }

@@ -73,7 +73,7 @@ namespace Primitives.FileFormat.INI
       INIKeyListAttribute kattr = new INIKeyListAttribute(s, ReadValue, Required);
       string[] subsections = kattr.Read(typeof(string[]), f, s);
 
-      MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetElementType());
       return gmRead.Invoke(this, new object[] { f, subsections, resolver });
     }
@@ -96,7 +96,7 @@ namespace Primitives.FileFormat.INI
       if (!t.IsArray || t.GetElementType().IsArray)
         throw new InvalidOperationException("INISubSectionKeyListAttribute attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
 
-      MethodInfo mRead = GetType().GetMethod("InnerWrite", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
       object val = gmRead.Invoke(this, new object[] { f, value, fieldName, defaultSection });
     }

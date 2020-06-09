@@ -22,7 +22,7 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>The value indexer</summary>
     /// <exception cref="IndexOutOfRangeException">The array is accessed with an invalid index</exception>
-    public uint this[uint i]
+    public uint this[int i]
     {
       get
       {
@@ -81,17 +81,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a uint2 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <returns>A uint2 value, or the default value if the parsing fails</returns>
-    public static uint2 Parse(string s, uint2 defaultValue)
+    public static uint2 Parse(string s, IResolver resolver, uint2 defaultValue)
     {
-      uint[] list = Parser.Parse(s, new uint[0]);
-      if (list.Length >= 2)
-        return new uint2(list[0], list[1]);
-      else if (list.Length == 1)
-        return new uint2(list[0], defaultValue[1]);
+      uint[] list = Parser.Parse(s.Trim('{', '}'), resolver, new uint[0]);
+      uint2 value = defaultValue;
+      for (int i = 0; i < list.Length; i++)
+        value[i] = list[i];
 
-      return defaultValue;
+      return value;
     }
 
     /// <summary>Parses a uint2 from a string</summary>
@@ -102,10 +102,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a uint2 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, uint2 defaultValue, out uint2 result) { result = defaultValue; try { result = Parse(s, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out uint2 result, IResolver resolver = null, uint2 defaultValue = default(uint2)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
 
 
     /// <summary>Performs an addition operation between two uint2 values</summary>

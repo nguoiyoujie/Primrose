@@ -90,19 +90,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a short3 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <returns>A short3 value, or the default value if the parsing fails</returns>
-    public static short3 Parse(string s, short3 defaultValue)
+    public static short3 Parse(string s, IResolver resolver, short3 defaultValue)
     {
-      short[] list = Parser.Parse(s, new short[0]);
-      if (list.Length >= 3)
-        return new short3(list[0], list[1], list[2]);
-      else if (list.Length == 2)
-        return new short3(list[0], list[1], defaultValue[2]);
-      else if (list.Length == 1)
-        return new short3(list[0], defaultValue[1], defaultValue[2]);
+      short[] list = Parser.Parse(s.Trim('{', '}'), resolver, new short[0]);
+      short3 value = defaultValue;
+      for (int i = 0; i < list.Length; i++)
+        value[i] = list[i];
 
-      return defaultValue;
+      return value;
     }
 
     /// <summary>Parses a short3 from a string</summary>
@@ -113,9 +111,10 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Parses a short3 from a string</summary>
     /// <param name="s">The string value</param>
+    /// <param name="resolver">A string resolver function</param>
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, short3 defaultValue, out short3 result) { result = defaultValue; try { result = Parse(s, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out short3 result, IResolver resolver = null, short3 defaultValue = default(short3)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
   }
 }

@@ -26,30 +26,30 @@ namespace Primrose.Primitives.Parsers
 
     static Parser()
     {
-      _fromStr.Add(typeof(bool), (s, r) => Rules.ToBool(s));
-      _fromStr.Add(typeof(byte), (s, r) => Rules.ToByte(s));
-      _fromStr.Add(typeof(byte2), (s, r) => Rules.ToByte2(s));
-      _fromStr.Add(typeof(byte3), (s, r) => Rules.ToByte3(s));
-      _fromStr.Add(typeof(byte4), (s, r) => Rules.ToByte4(s));
-      _fromStr.Add(typeof(short), (s, r) => Rules.ToShort(s));
-      _fromStr.Add(typeof(short2), (s, r) => Rules.ToShort2(s));
-      _fromStr.Add(typeof(short3), (s, r) => Rules.ToShort3(s));
-      _fromStr.Add(typeof(short4), (s, r) => Rules.ToShort4(s));
-      _fromStr.Add(typeof(int), (s, r) => Rules.ToInt(s));
-      _fromStr.Add(typeof(int2), (s, r) => Rules.ToInt2(s));
-      _fromStr.Add(typeof(int3), (s, r) => Rules.ToInt3(s));
-      _fromStr.Add(typeof(int4), (s, r) => Rules.ToInt4(s));
-      _fromStr.Add(typeof(uint), (s, r) => Rules.ToUInt(s));
-      _fromStr.Add(typeof(uint2), (s, r) => Rules.ToUInt2(s));
-      _fromStr.Add(typeof(uint3), (s, r) => Rules.ToUInt3(s));
-      _fromStr.Add(typeof(uint4), (s, r) => Rules.ToUInt4(s));
-      _fromStr.Add(typeof(long), (s, r) => Rules.ToLong(s));
-      _fromStr.Add(typeof(ulong), (s, r) => Rules.ToULong(s));
-      _fromStr.Add(typeof(float), (s, r) => Rules.ToFloat(s));
-      _fromStr.Add(typeof(float2), (s, r) => Rules.ToFloat2(s));
-      _fromStr.Add(typeof(float3), (s, r) => Rules.ToFloat3(s));
-      _fromStr.Add(typeof(float4), (s, r) => Rules.ToFloat4(s));
-      _fromStr.Add(typeof(double), (s, r) => Rules.ToDouble(s));
+      _fromStr.Add(typeof(bool), (s, r) => Rules.ToBool(s, r));
+      _fromStr.Add(typeof(byte), (s, r) => Rules.ToByte(s, r));
+      _fromStr.Add(typeof(byte2), (s, r) => Rules.ToByte2(s, r));
+      _fromStr.Add(typeof(byte3), (s, r) => Rules.ToByte3(s, r));
+      _fromStr.Add(typeof(byte4), (s, r) => Rules.ToByte4(s, r));
+      _fromStr.Add(typeof(short), (s, r) => Rules.ToShort(s, r));
+      _fromStr.Add(typeof(short2), (s, r) => Rules.ToShort2(s, r));
+      _fromStr.Add(typeof(short3), (s, r) => Rules.ToShort3(s, r));
+      _fromStr.Add(typeof(short4), (s, r) => Rules.ToShort4(s, r));
+      _fromStr.Add(typeof(int), (s, r) => Rules.ToInt(s, r));
+      _fromStr.Add(typeof(int2), (s, r) => Rules.ToInt2(s, r));
+      _fromStr.Add(typeof(int3), (s, r) => Rules.ToInt3(s, r));
+      _fromStr.Add(typeof(int4), (s, r) => Rules.ToInt4(s, r));
+      _fromStr.Add(typeof(uint), (s, r) => Rules.ToUInt(s, r));
+      _fromStr.Add(typeof(uint2), (s, r) => Rules.ToUInt2(s, r));
+      _fromStr.Add(typeof(uint3), (s, r) => Rules.ToUInt3(s, r));
+      _fromStr.Add(typeof(uint4), (s, r) => Rules.ToUInt4(s, r));
+      _fromStr.Add(typeof(long), (s, r) => Rules.ToLong(s, r));
+      _fromStr.Add(typeof(ulong), (s, r) => Rules.ToULong(s, r));
+      _fromStr.Add(typeof(float), (s, r) => Rules.ToFloat(s, r));
+      _fromStr.Add(typeof(float2), (s, r) => Rules.ToFloat2(s, r));
+      _fromStr.Add(typeof(float3), (s, r) => Rules.ToFloat3(s, r));
+      _fromStr.Add(typeof(float4), (s, r) => Rules.ToFloat4(s, r));
+      _fromStr.Add(typeof(double), (s, r) => Rules.ToDouble(s, r));
       _fromStr.Add(typeof(string), (s, r) => s);
       _fromStr.Add(typeof(StringBuilder), (s, r) => new StringBuilder(s));
 

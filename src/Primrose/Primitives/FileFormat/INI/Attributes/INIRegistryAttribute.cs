@@ -48,7 +48,7 @@ namespace Primitives.FileFormat.INI
       if (t.GetGenericTypeDefinition() != typeof(Registry<,>))
         throw new InvalidOperationException("INIRegistry attribute can only be used with Registry<K,T> data types! ({0})".F(t.Name));
 
-      MethodInfo mRead = GetType().GetMethod("InnerRead", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
       return gmRead.Invoke(this, new object[] { f, defaultSection, resolver });
     }
@@ -76,7 +76,7 @@ namespace Primitives.FileFormat.INI
       if (t.GetGenericTypeDefinition() != typeof(Registry<,>))
         throw new InvalidOperationException("INIRegistry attribute can only be used with Registry<K,T> data types! ({0})".F(t.Name));
 
-      MethodInfo mRead = GetType().GetMethod("InnerWrite", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+      MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetElementType());
       gmRead.Invoke(this, new object[] { f, value, defaultSection });
     }

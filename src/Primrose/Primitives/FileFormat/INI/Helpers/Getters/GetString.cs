@@ -9,7 +9,7 @@
     /// <param name="key">The key containing the value</param>
     /// <param name="defaultValue">The default value</param>
     /// <returns>The value belonging to the section and key in the INIFile. If the key does not exist, returns defaultValue</returns>
-    public string GetString(string section, string key, string defaultValue = "")
+    public string GetString(string section, string key, string defaultValue = null)
     {
       return GetString(section, key, defaultValue, section);
     }
