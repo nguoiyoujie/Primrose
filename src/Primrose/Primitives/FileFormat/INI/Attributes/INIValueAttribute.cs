@@ -29,11 +29,8 @@ namespace Primitives.FileFormat.INI
     /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
     public INIValueAttribute(string section, string key, bool required = false)
     {
-      if (section == null)
-        throw new ArgumentNullException(nameof(section));
-
-      if (key == null)
-        throw new ArgumentNullException(nameof(key));
+      if (section == null) { throw new ArgumentNullException(nameof(section)); }
+      if (key == null) { throw new ArgumentNullException(nameof(key)); }
 
       Section = section;
       Key = key;

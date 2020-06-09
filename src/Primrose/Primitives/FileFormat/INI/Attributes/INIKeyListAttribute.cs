@@ -35,8 +35,7 @@ namespace Primitives.FileFormat.INI
     /// <param name="required">Defines whether the INI file must contain this section/key combination</param>
     public INIKeyListAttribute(string section, bool readValue = false, bool required = false)
     {
-      if (section == null)
-        throw new ArgumentNullException(nameof(section));
+      if (section == null) { throw new ArgumentNullException(nameof(section)); }
 
       Section = section;
       ReadValue = readValue;

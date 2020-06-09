@@ -23,10 +23,6 @@ namespace Primrose.Primitives.Extensions
       while (start != end)
       {
         int mid = (start + end) / 2;
-        // debug
-        if (list[mid] == null)
-        { }
-
         if (list[mid].ID < searchFor)
           start = mid + 1;
         else
@@ -43,8 +39,8 @@ namespace Primrose.Primitives.Extensions
     /// <exception cref="ArgumentNullException"><paramref name="list"/> and <paramref name="rand"/> cannot be null</exception>
     public static T Random<T>(this List<T> list, Random rand)
     {
-      if (list == null) throw new ArgumentNullException(nameof(list));
-      if (rand == null) throw new ArgumentNullException(nameof(rand));
+      if (list == null) { throw new ArgumentNullException(nameof(list)); }
+      if (rand == null) { throw new ArgumentNullException(nameof(rand)); }
       return list[rand.Next(0, list.Count)];
     }
 
@@ -56,8 +52,8 @@ namespace Primrose.Primitives.Extensions
     /// <exception cref="ArgumentNullException"><paramref name="list"/> and <paramref name="rand"/> cannot be null</exception>
     public static T Random<T>(this ConcurrentBag<T> list, Random rand)
     {
-      if (list == null) throw new ArgumentNullException(nameof(list));
-      if (rand == null) throw new ArgumentNullException(nameof(rand));
+      if (list == null) { throw new ArgumentNullException(nameof(list)); }
+      if (rand == null) { throw new ArgumentNullException(nameof(rand)); }
       return list.ToArray()[rand.Next(0, list.Count)];
     }
 
@@ -70,8 +66,8 @@ namespace Primrose.Primitives.Extensions
     /// <returns></returns>
     public static int RemoveAll<T>(this LinkedList<T> list, Predicate<T> match)
     {
-      if (list == null) throw new ArgumentNullException(nameof(list));
-      if (match == null) throw new ArgumentNullException(nameof(match));
+      if (list == null) { throw new ArgumentNullException(nameof(list)); }
+      if (match == null) { throw new ArgumentNullException(nameof(match)); }
 
       int count = 0;
       LinkedListNode<T> node = list.First;
@@ -97,8 +93,8 @@ namespace Primrose.Primitives.Extensions
     /// <exception cref="ArgumentNullException"><paramref name="list"/> and <paramref name="rand"/> cannot be null</exception>
     public static T Random<T>(this LinkedList<T> list, Random rand)
     {
-      if (list == null) throw new ArgumentNullException(nameof(list));
-      if (rand == null) throw new ArgumentNullException(nameof(rand));
+      if (list == null) { throw new ArgumentNullException(nameof(list)); }
+      if (rand == null) { throw new ArgumentNullException(nameof(rand)); }
 
       int count = rand.Next(0, list.Count);
       LinkedListNode<T> node = list.First;

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Primrose.Primitives.Extensions;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Primrose.Primitives
@@ -12,7 +13,6 @@ namespace Primrose.Primitives
     private int _FPScounter;
     private float _addTime;
     private float _FPScountTime;
-    private float _FPSrefreshInterval = 0.2f;
     private object waitlock = new object();
     private Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -21,14 +21,17 @@ namespace Primrose.Primitives
     /// </summary>
     public TimeControl() { TargetFPS = 60; }
 
-    /// <summary>Defines the minimum desirable FPS</summary>
+    /// <summary>Defines the minimum desirable FPS for throttling purposes</summary>
     public uint MinimumFPS { get; set; } = 15;
 
-    /// <summary>Defines the maximum desirable FPS</summary>
+    /// <summary>Defines the maximum desirable FPS for throttling purposes</summary>
     public uint MaximumFPS { get; set; } = 90;
 
     /// <summary>Defines the FPS where performance savings should be triggered</summary>
     public uint PerformanceSavingFPS { get; set; } = 25;
+
+    /// <summary>The time period in which FPS is updated</summary>
+    public float FPSRefreshInterval = 0.2f;
 
     /// <summary>The current FPS</summary>
     public float FPS { get; private set; }
@@ -42,9 +45,7 @@ namespace Primrose.Primitives
       }
       set
       {
-        if (value < MinimumFPS)
-          value = MinimumFPS;
-        _targetFPS = value;
+        _targetFPS = value.Max(MinimumFPS);
       }
     }
 
@@ -63,15 +64,10 @@ namespace Primrose.Primitives
     /// <summary>Updates the time</summary>
     public void Update()
     {
-      UpdateInterval = (float)stopwatch.Elapsed.TotalSeconds;
-      if (UpdateInterval < 1f / MaximumFPS)
-        UpdateInterval = 1f / MaximumFPS;
-
-      if (UpdateInterval > 1f / MinimumFPS)
-        UpdateInterval = 1f / MinimumFPS;
+      float interval = (float)stopwatch.Elapsed.TotalSeconds;
 
       stopwatch.Restart();
-      if (_FPScountTime > _FPSrefreshInterval)
+      if (_FPScountTime > FPSRefreshInterval)
       {
         FPS = _FPScounter / _FPScountTime;
 
@@ -80,7 +76,9 @@ namespace Primrose.Primitives
       }
 
       _FPScounter++;
-      _FPScountTime += UpdateInterval;
+      _FPScountTime += interval;
+
+      UpdateInterval = interval.Clamp(1f / MaximumFPS, 1f / MinimumFPS);
       WorldTime += WorldInterval;
       _addTime = 0;
     }
