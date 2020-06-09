@@ -9,6 +9,31 @@ namespace Primrose.Primitives.Extensions
   public static class ComparableExts
   {
     /// <summary>
+    /// Checks if a value equals the default, and provides a replacement value if so
+    /// </summary>
+    /// <param name="value">The input value</param>
+    /// <param name="replacevalue">The replacement value</param>
+    /// <returns>replacevalue if the input equals the default value of the type, the original input value otherwise</returns>
+    public static T ReplaceIfDefault<T>(this T value, T replacevalue)
+    {
+      return Comparer<T>.Default.Compare(default(T), value) == 0 ? replacevalue : value;
+    }
+
+    /// <summary>
+    /// Checks if a value satisfies a condition, and provides a replacement value if so
+    /// </summary>
+    /// <param name="value">The input value</param>
+    /// <param name="replacevalue">The replacement value</param>
+    /// <param name="condition">The condition function</param>
+    /// <returns>replacevalue if the input satisfies the condition, the original input value otherwise</returns>
+    public static T ReplaceIf<T>(this T value, T replacevalue, Predicate<T> condition)
+    {
+      if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
+
+      return condition(value) ? replacevalue : value;
+    }
+
+    /// <summary>
     /// Returns a value clamped between a minimum and a maximum
     /// </summary>
     /// <param name="value">The input value</param>
