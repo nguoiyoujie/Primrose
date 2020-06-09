@@ -5,6 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A int4 quad value</summary>
+  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
   public struct int4
   {
     /// <summary>The x or [0] value</summary>
@@ -116,7 +117,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="s">The string value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, out int4 result) { result = default(int4); try { result = Parse(s); return true; } catch { return false; } }
+    public static bool TryParse(string s, out int4 result) { result = default; try { result = Parse(s); return true; } catch { return false; } }
 
     /// <summary>Parses a int4 from a string</summary>
     /// <param name="s">The string value</param>
@@ -124,7 +125,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, out int4 result, IResolver resolver = null, int4 defaultValue = default(int4)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out int4 result, IResolver resolver = null, int4 defaultValue = default) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
 
 
     /// <summary>Performs a memberwise negation of a int4 value</summary>

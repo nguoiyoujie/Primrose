@@ -17,7 +17,7 @@ namespace Primrose.Primitives.Extensions
     {
       if (array == null) { throw new ArgumentNullException(nameof(array)); }
       if (rand == null) { throw new ArgumentNullException(nameof(rand)); }
-      return array.Length == 0 ? default(T) : array[rand.Next(0, array.Length)];
+      return array.Length == 0 ? default : array[rand.Next(0, array.Length)];
     }
 
     /// <summary>Determines if an array contains a value</summary>

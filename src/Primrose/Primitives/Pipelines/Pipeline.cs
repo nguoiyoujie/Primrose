@@ -30,7 +30,7 @@ namespace Primrose.Primitives.Pipelines
     public int Run()
     {
       int x = 0;
-      T pobj = default(T);
+      T pobj = default;
       while (++x < MaxExecutionsPerRun && pipe.TryDequeue(out pobj))
       {
         pobj.Execute();
@@ -41,7 +41,7 @@ namespace Primrose.Primitives.Pipelines
     /// <summary>Clears the queue without execution</summary>
     public void Clear()
     {
-      T pobj = default(T);
+      T pobj = default;
       while (pipe.TryDequeue(out pobj)) { }
     }
   }

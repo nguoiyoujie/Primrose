@@ -36,7 +36,7 @@ namespace Primrose.Primitives.Extensions
     {
       V ret;
       if (!d.TryGetValue(k, out ret))
-        return default(V);
+        return default;
       return ret;
     }
 

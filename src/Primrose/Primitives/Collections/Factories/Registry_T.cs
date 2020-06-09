@@ -23,7 +23,7 @@ namespace Primrose.Primitives.Factories
     protected Dictionary<string, T> list;
 
     /// <summary>The default value returned</summary>
-    public T Default = default(T);
+    public T Default = default;
 
     /// <summary>Determines whether the registry contains a key</summary>
     /// <param name="id">The identifier key to check</param>

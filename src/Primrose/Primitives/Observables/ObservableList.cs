@@ -33,10 +33,10 @@ namespace Primrose.Primitives.Observables
     public ObservableList(TList source)
     {
       _list = source;
-      _listChanged = default(ChangeEvent<IList<T>>);
-      _itemAdded = default(ChangeEvent<T>);
-      _itemRemoved = default(ChangeEvent<T>);
-      _itemChanged = default(ChangeEvent<T>);
+      _listChanged = default;
+      _itemAdded = default;
+      _itemRemoved = default;
+      _itemChanged = default;
     }
 
     /// <summary>Gets or sets an element in the list, accessed by an index</summary>
@@ -76,7 +76,7 @@ namespace Primrose.Primitives.Observables
     {
       // event
       _list.Add(item);
-      _itemAdded.Invoke(item, default(T));
+      _itemAdded.Invoke(item, default);
     }
 
     /// <summary>Removes all items from the list</summary>
@@ -102,7 +102,7 @@ namespace Primrose.Primitives.Observables
     public void Insert(int index, T item)
     {
       _list.Insert(index, item);
-      _itemAdded.Invoke(item, default(T));
+      _itemAdded.Invoke(item, default);
     }
 
     /// <summary>Removes the first occurrence of a specific object from the list</summary>
@@ -112,7 +112,7 @@ namespace Primrose.Primitives.Observables
     {
       bool ret = _list.Remove(item);
       if (ret)
-        _itemRemoved.Invoke(default(T), item);
+        _itemRemoved.Invoke(default, item);
 
       return ret;
     }
@@ -123,7 +123,7 @@ namespace Primrose.Primitives.Observables
     {
       T item = _list[index];
       _list.RemoveAt(index);
-      _itemRemoved.Invoke(default(T), item);
+      _itemRemoved.Invoke(default, item);
     }
 
     /// <summary>Returns an enumerator that iterates through the collection.</summary>

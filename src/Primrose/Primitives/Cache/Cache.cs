@@ -78,7 +78,7 @@ namespace Primrose.Primitives
       CacheItem<Token, TValue, TParam> item;
       if (key == null || !cache.TryGetValue(key, out item))
       {
-        cache.Add(key, new CacheItem<Token, TValue, TParam>(default(Token)));
+        cache.Add(key, new CacheItem<Token, TValue, TParam>(default));
         item = cache[key];
       }
       return item.Get(token, func, p, cmp);
@@ -104,7 +104,7 @@ namespace Primrose.Primitives
       public CacheItem(E token)
       {
         ExpiryToken = token;
-        val = default(T);
+        val = default;
       }
 
       public T Get(E token, Func<TP, T> func, TP p)

@@ -16,7 +16,7 @@ namespace Primrose.Primitives.Extensions
     /// <returns>replacevalue if the input equals the default value of the type, the original input value otherwise</returns>
     public static T ReplaceIfDefault<T>(this T value, T replacevalue)
     {
-      return Comparer<T>.Default.Compare(default(T), value) == 0 ? replacevalue : value;
+      return Comparer<T>.Default.Compare(default, value) == 0 ? replacevalue : value;
     }
 
     /// <summary>

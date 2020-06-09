@@ -5,6 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A int3 triple value</summary>
+  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
   public struct int3
   {
     /// <summary>The x or [0] value</summary>
@@ -107,7 +108,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="s">The string value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, out int3 result) { result = default(int3); try { result = Parse(s); return true; } catch { return false; } }
+    public static bool TryParse(string s, out int3 result) { result = default; try { result = Parse(s); return true; } catch { return false; } }
 
     /// <summary>Parses a int3 from a string</summary>
     /// <param name="s">The string value</param>
@@ -115,7 +116,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, out int3 result, IResolver resolver = null, int3 defaultValue = default(int3)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out int3 result, IResolver resolver = null, int3 defaultValue = default) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
 
     /// <summary>Performs a memberwise negation of a int3 value</summary>
     /// <param name="a"></param><returns></returns>

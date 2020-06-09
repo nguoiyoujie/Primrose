@@ -33,10 +33,10 @@ namespace Primrose.Primitives.Observables
     public ObservableRegistry(Registry<K, V> reg)
     {
       _reg = reg;
-      _regChanged = default(ChangeEvent<Registry<K, V>>);
-      _keyAdded = default(ChangeEvent<K>);
-      _keyRemoved = default(ChangeEvent<K>);
-      _valueChanged = default(ChangeEvent<V>);
+      _regChanged = default;
+      _keyAdded = default;
+      _keyRemoved = default;
+      _valueChanged = default;
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ namespace Primrose.Primitives.Observables
     public void Add(K key, V item)
     {
       _reg.Add(key, item);
-      _keyAdded.Invoke(key, default(K));
+      _keyAdded.Invoke(key, default);
     }
 
     /// <summary>Updates or adds an object into the registry</summary>
@@ -105,7 +105,7 @@ namespace Primrose.Primitives.Observables
       else
       {
         _reg.Add(key, item);
-        _keyAdded.Invoke(key, default(K));
+        _keyAdded.Invoke(key, default);
       }
     }
 
@@ -114,7 +114,7 @@ namespace Primrose.Primitives.Observables
     public void Remove(K key)
     {
       _reg.Remove(key);
-      _keyRemoved.Invoke(default(K), key);
+      _keyRemoved.Invoke(default, key);
     }
 
     /// <summary>Purges all data from the registry</summary>

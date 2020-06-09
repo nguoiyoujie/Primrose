@@ -101,7 +101,7 @@ namespace Primrose.Primitives
     public U Get(T key)
     {
       Update();
-      U ret = default(U);
+      U ret = default;
       _list.TryGetValue(key, out ret);
       return ret;
     }

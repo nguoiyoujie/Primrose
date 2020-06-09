@@ -12,7 +12,7 @@ namespace Primrose.Expressions.Tree.Expressions
     internal CExpression(ContextScope scope, Lexer lexer) { SourceName = lexer.SourceName; LineNumber = lexer.LineNumber; Position = lexer.Position; }
     public virtual CExpression Get() { return this; }
     public CExpression GetNext(ContextScope scope, Lexer lexer) { return ExpressionOrder.NextExpression[this.GetType()](scope, lexer).Get(); }
-    public virtual Val Evaluate(IContext context) { return default(Val); }
+    public virtual Val Evaluate(IContext context) { return default; }
     public virtual void Write(StringBuilder sb) { sb.Append(ToString()); }
     public string Write() { StringBuilder sb = new StringBuilder(); Write(sb); return sb.ToString(); }
 

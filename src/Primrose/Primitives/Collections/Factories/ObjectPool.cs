@@ -17,9 +17,7 @@ namespace Primrose.Primitives.Factories
     /// <exception cref="ArgumentNullException">createFn cannot be null</exception>
     public ObjectPool(Func<T> createFn, Action<T> resetFn = null)
     {
-      if (createFn == null) { throw new ArgumentNullException(nameof(createFn)); }
-
-      creator = createFn;
+      creator = createFn ?? throw new ArgumentNullException(nameof(createFn));
       resetor = resetFn;
     }
 
@@ -37,9 +35,8 @@ namespace Primrose.Primitives.Factories
     /// <returns>An instance of <typeparamref name="T"/> from the pool, or created from the creator function if the pool is empty</returns>
     public T GetNew()
     {
-      T ret;
       UncollectedCount++;
-      if (list.TryDequeue(out ret))
+      if (list.TryDequeue(out T ret))
         return ret;
       return creator();
     }

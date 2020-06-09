@@ -134,7 +134,7 @@ namespace Primrose.Primitives.Parsers
     public static T Parse<T>(string value, IResolver resolver = null)
     {
       if (value == null)
-        return default(T);
+        return default;
 
       Type t = typeof(T); // defaultValue?.GetType() ?? typeof(T);
       if (_fromStr.Contains(t))

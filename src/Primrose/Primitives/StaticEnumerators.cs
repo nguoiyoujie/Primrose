@@ -30,7 +30,7 @@ namespace Primrose.Primitives
     public bool MoveNext() { return (current = (current == null) ? L?.First : current?.Next) != null; }
 
     /// <summary>Retrieves the current item</summary>
-    public T Current { get { return (current == null) ? default(T) : current.Value; } }
+    public T Current { get { return (current == null) ? default : current.Value; } }
   }
 
 }

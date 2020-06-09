@@ -15,7 +15,7 @@ namespace Primrose.Primitives.Observables
     public ObservableValue(T initialValue)
     {
       _val = initialValue;
-      _valueChanged = default(ChangeEvent<T>);
+      _valueChanged = default;
     }
 
     /// <summary>

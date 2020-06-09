@@ -5,6 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A short4 quad value</summary>
+  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
   public struct short4
   {
     /// <summary>The x or [0] value</summary>
@@ -116,7 +117,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="s">The string value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, out short4 result) { result = default(short4); try { result = Parse(s); return true; } catch { return false; } }
+    public static bool TryParse(string s, out short4 result) { result = default; try { result = Parse(s); return true; } catch { return false; } }
 
     /// <summary>Parses a short4 from a string</summary>
     /// <param name="s">The string value</param>
@@ -124,6 +125,6 @@ namespace Primrose.Primitives.ValueTypes
     /// <param name="defaultValue">The default value</param>
     /// <param name="result">The parsed value</param>
     /// <returns>True if the parse is successful</returns>
-    public static bool TryParse(string s, out short4 result, IResolver resolver = null, short4 defaultValue = default(short4)) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
+    public static bool TryParse(string s, out short4 result, IResolver resolver = null, short4 defaultValue = default) { result = defaultValue; try { result = Parse(s, resolver, defaultValue); return true; } catch { return false; } }
   }
 }
