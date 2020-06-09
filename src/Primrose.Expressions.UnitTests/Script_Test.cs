@@ -22,7 +22,7 @@ namespace Primrose.Expressions.UnitTests
 
         c.Reset();
         ScriptFile f = new ScriptFile(sfile, c);
-        f.NewScriptEvent = ReadScript;
+        f.ScriptReadBegin = ReadScript;
         f.ReadFile();
         Console.WriteLine();
 

@@ -1,36 +1,30 @@
 ﻿namespace Primrose.Expressions.UnitTests.Scripting
 {
-  public delegate Val FunctionDelegate(Context context, Val[] param);
-
   public class Context : ContextBase
   {
     public Context() { }
     
-    public override void DefineFunc()
+    protected override void DefineFunctions()
     {
-      ValFuncs.Clear();
-      Functions.Clear();
-      ValFuncRef.Clear();
-
       // Assert
-      AddFunc("Assert.AreEqual", new ValFunc<Val, Val>(AssertFns.AreEqual));
-      AddFunc("Assert.AreNotEqual", new ValFunc<Val, Val>(AssertFns.AreNotEqual));
+      AddFunc<Val, Val>("Assert.AreEqual", AssertFns.AreEqual);
+      AddFunc<Val, Val>("Assert.AreNotEqual", AssertFns.AreNotEqual);
 
       // Console
-      AddFunc("Console.Write", new ValFunc<Val>(ConsoleFns.Write));
-      AddFunc("Console.WriteLine", new ValFunc<Val>(ConsoleFns.WriteLine));
+      AddFunc<Val>("Console.Write", ConsoleFns.Write);
+      AddFunc<Val>("Console.WriteLine", ConsoleFns.WriteLine);
 
       // Math
-      AddFunc("Math.Int", new ValFunc<float>(MathFns.Int));
-      AddFunc("Math.Max", new ValFunc<float, float>(MathFns.Max));
-      AddFunc("Math.Min", new ValFunc<float, float>(MathFns.Min));
+      AddFunc<float>("Math.Int", MathFns.Int);
+      AddFunc<float, float>("Math.Max", MathFns.Max);
+      AddFunc<float, float>("Math.Min", MathFns.Min);
 
       // Misc
-      AddFunc("IsNull", new ValFunc<Val>(MiscFns.IsNull));
-      AddFunc("Random", new ValFunc(MiscFns.Random));
-      AddFunc("Random", new ValFunc<int>(MiscFns.Random));
-      AddFunc("Random", new ValFunc<int, int>(MiscFns.Random));
-      AddFunc("GetArrayElement", new ValFunc<Val, int>(MiscFns.GetArrayElement));
+      AddFunc<Val>("IsNull", MiscFns.IsNull);
+      AddFunc("Random", MiscFns.Random);
+      AddFunc<int>("Random", MiscFns.Random);
+      AddFunc<int, int>("Random", MiscFns.Random);
+      AddFunc<Val, int>("GetArrayElement", MiscFns.GetArrayElement);
     }
   }
 }

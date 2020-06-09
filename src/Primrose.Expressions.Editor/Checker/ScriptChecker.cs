@@ -19,7 +19,7 @@ namespace Primrose.Expressions.Editor.Checker
       {
         ScriptFile f = new ScriptFile(Path, context);
         if (Log != null)
-          f.NewScriptEvent = (s) => { Log(s); };
+          f.ScriptReadBegin += (s) => { Log(s); };
         f.ReadFile();
         return true;
       }

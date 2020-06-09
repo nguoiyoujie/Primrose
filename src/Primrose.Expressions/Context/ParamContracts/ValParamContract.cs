@@ -6,7 +6,8 @@ using System.Collections.Generic;
 
 namespace Primrose.Expressions
 {
-  public static class ValParamContract
+  /// <summary>Defines the contract for handling parameters between primitive types and Val types</summary>
+  internal static class ValParamContract
   {
     static Func<Val, bool> v_bool = new Func<Val, bool>((v) => { return (bool)v; });
     static Func<Val, int> v_int = new Func<Val, int>((v) => { return (int)v; });
@@ -63,12 +64,19 @@ namespace Primrose.Expressions
       { new Pair<Type, ValType>(typeof(Val), ValType.STRING_ARRAY), v_val },
     };
 
-    public static T Convert<T>(ITracker caller, string _funcName, int argnum, Val v)
+    /// <summary>Converts a Val to a typed variable</summary>
+    /// <typeparam name="T">The type of the target output</typeparam>
+    /// <param name="caller">The tracking object calling this method</param>
+    /// <param name="function">The function calling this method</param>
+    /// <param name="argnum">The function argument number representing the Val</param>
+    /// <param name="v">The Val object to be converted</param>
+    /// <returns></returns>
+    public static T Convert<T>(ITracker caller, string function, int argnum, Val v)
     {
       Pair<Type, ValType> tv = new Pair<Type, ValType>(typeof(T), v.Type);
       object ofunc = null;
       if (!contracts.TryGetValue(tv, out ofunc))
-        throw new EvalException(caller, "Argument type mismatch for argument {0} of function '{1}': expected {2}, received {3}".F(argnum, _funcName, typeof(T).Name, v.Type));
+        throw new EvalException(caller, "Argument type mismatch for argument {0} of function '{1}': expected {2}, received {3}".F(argnum, function, typeof(T).Name, v.Type));
 
       Func<Val, T> func = (Func<Val, T>)ofunc;
       return func(v);

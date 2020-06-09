@@ -2,10 +2,12 @@
 
 namespace Primrose.Expressions
 {
-  public class ValFunc<T1, T2, T3, T4, T5> : IValFunc
+  internal class ValFunc<T1, T2, T3, T4, T5> : IValFunc
   {
     Func<IContext, T1, T2, T3, T4, T5, Val> F;
     public ValFunc(Func<IContext, T1, T2, T3, T4, T5, Val> fn) { F = fn; }
+
+    public object Func { get { return F; } }
 
     public Val Execute(ITracker caller, string _funcName, IContext c, Val[] p)
     {

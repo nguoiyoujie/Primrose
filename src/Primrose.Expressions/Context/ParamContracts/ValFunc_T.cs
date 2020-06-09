@@ -2,15 +2,13 @@
 
 namespace Primrose.Expressions
 {
-  /// <summary>Defines a script function</summary>
-  /// <typeparam name="T">The type of the first argument</typeparam>
-  public class ValFunc<T> : IValFunc
+  internal class ValFunc<T> : IValFunc
   {
     Func<IContext, T, Val> F;
 
-    /// <summary>Creates a script function</summary>
-    /// <param name="fn">The function</param>
     public ValFunc(Func<IContext, T, Val> fn) { F = fn; }
+
+    public object Func { get { return F; } }
 
     public Val Execute(ITracker caller, string _funcName, IContext c, Val[] p)
     {

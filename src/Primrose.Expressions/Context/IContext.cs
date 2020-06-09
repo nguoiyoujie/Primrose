@@ -18,19 +18,13 @@ namespace Primrose.Expressions
     /// <returns></returns>
     Val RunFunction(ITracker caller, string fnname, Val[] param);
 
-    /// <summary>
-    /// Holds a registry of functions based on the function name and the number of function parameters
-    /// </summary>
-    Registry<Pair<string, int>, IValFunc> ValFuncs { get; }
-
-    /// <summary>
-    /// Holds a registry of functions based on the function name only
-    /// </summary>
+    /// <summary>The list of function names contained in this context</summary>
     List<string> ValFuncRef { get; }
 
-    /// <summary>
-    /// Holds the registry of scripts
-    /// </summary>
+    /// <summary>Retrieves a function from the function list</summary>
+    object GetFunction(string name, int argnum);
+
+    /// <summary>The scripts contained in this context</summary>
     Script.Registry Scripts { get; }
   }
 }

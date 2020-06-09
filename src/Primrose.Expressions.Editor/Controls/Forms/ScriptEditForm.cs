@@ -164,7 +164,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
       {
         for (int i = 0; i < 12; i++)
         {
-          IValFunc iv = Context.ValFuncs.Get(new Pair<string, int>(s, i));
+          object iv = Context.GetFunction(s, i);
           if (iv != null)
           {
             Type t = iv.GetType();

@@ -1,4 +1,8 @@
 ﻿namespace Primrose.Expressions
 {
-  public interface IValFunc { Val Execute(ITracker caller, string _funcName, IContext c, Val[] p); }
+  internal interface IValFunc 
+  {
+    object Func { get; }
+    Val Execute(ITracker caller, string _funcName, IContext c, Val[] p); 
+  }
 }
