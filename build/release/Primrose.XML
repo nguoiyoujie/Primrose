@@ -650,6 +650,23 @@
             Provides extension methods for generic comparable values
             </summary>
         </member>
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.ReplaceIfDefault``1(``0,``0)">
+            <summary>
+            Checks if a value equals the default, and provides a replacement value if so
+            </summary>
+            <param name="value">The input value</param>
+            <param name="replacevalue">The replacement value</param>
+            <returns>replacevalue if the input equals the default value of the type, the original input value otherwise</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.ReplaceIf``1(``0,``0,System.Predicate{``0})">
+            <summary>
+            Checks if a value satisfies a condition, and provides a replacement value if so
+            </summary>
+            <param name="value">The input value</param>
+            <param name="replacevalue">The replacement value</param>
+            <param name="condition">The condition function</param>
+            <returns>replacevalue if the input satisfies the condition, the original input value otherwise</returns>
+        </member>
         <member name="M:Primrose.Primitives.Extensions.ComparableExts.Clamp``1(``0,``0,``0)">
             <summary>
             Returns a value clamped between a minimum and a maximum
@@ -789,12 +806,13 @@
             Provides extension methods for string values
             </summary>
         </member>
-        <member name="M:Primrose.Primitives.Extensions.StringExts.Multiline(System.String,System.Int32)">
+        <member name="M:Primrose.Primitives.Extensions.StringExts.Multiline(System.String,System.Int32,System.String)">
             <summary>
             Provides a multiline representation of a string
             </summary>
             <param name="input">The input string</param>
             <param name="maxLineLength">The maximum length of each line</param>
+            <param name="separator">The line separator</param>
             <returns>A multiline representation of a string. Each new line is preceded by a newline "\n" character</returns>
         </member>
         <member name="M:Primrose.Primitives.Extensions.StringExts.SplitBy(System.String,System.Char,System.Int32)">
@@ -1142,7 +1160,7 @@
         <member name="M:Primrose.Primitives.Factories.Registry`2.Get(`0)">
             <summary>Retrieves the value associated with a key</summary>
             <param name="key">The identifier key to check</param>
-            <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
+            <returns>The value associated with the key. If the registry does not contain this key or the key is null, returns Default</returns>
         </member>
         <member name="M:Primrose.Primitives.Factories.Registry`2.GetX(`0)">
             <summary>Strictly retrieves the value associated with a key</summary>
@@ -1209,13 +1227,13 @@
         <member name="M:Primrose.Primitives.Factories.Registry`1.Get(System.String)">
             <summary>Retrieves the value associated with a key</summary>
             <param name="id">The identifier key to check</param>
-            <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
+            <returns>The value associated with the key. If the registry does not contain this key or the key is null, returns Default</returns>
         </member>
         <member name="M:Primrose.Primitives.Factories.Registry`1.Get(System.String,`0)">
             <summary>Retrieves the value associated with a key</summary>
             <param name="id">The identifier key to check</param>
             <param name="defaultValue">The default value to return if the key is not found in the registry</param>
-            <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
+            <returns>The value associated with the key. If the registry does not contain this key or the key is null, returns Default</returns>
         </member>
         <member name="M:Primrose.Primitives.Factories.Registry`1.GetX(System.String)">
             <summary>Strictly retrieves the value associated with a key</summary>
@@ -1287,101 +1305,125 @@
         <member name="T:Primrose.Primitives.Parsers.Parser.Rules">
             <summary>Defines parsing rules for interpreting strings into values</summary>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToBool(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToBool(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a bool value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a byte value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte2(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte2(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a byte2 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte3(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte3(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a byte3 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte4(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToByte4(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a byte4 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a short value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort2(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort2(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a short2 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort3(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort3(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a short3 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort4(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort4(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a short4 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an int value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt2(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt2(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an int2 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt3(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt3(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an int3 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt4(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToInt4(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an int4 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an uint value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt2(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt2(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an uint2 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt3(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt3(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an uint3 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt4(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUInt4(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an uint4 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToLong(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToLong(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a long value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToULong(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToULong(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an ulong value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a float value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat2(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat2(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a float2 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat3(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat3(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a float3 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat4(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToFloat4(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a float4 value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
-        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToDouble(System.String)">
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToDouble(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a double value</summary>
             <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
         <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToArray``1(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to an array of values</summary>
@@ -1935,13 +1977,16 @@
             </summary>
         </member>
         <member name="P:Primrose.Primitives.TimeControl.MinimumFPS">
-            <summary>Defines the minimum desirable FPS</summary>
+            <summary>Defines the minimum desirable FPS for throttling purposes</summary>
         </member>
         <member name="P:Primrose.Primitives.TimeControl.MaximumFPS">
-            <summary>Defines the maximum desirable FPS</summary>
+            <summary>Defines the maximum desirable FPS for throttling purposes</summary>
         </member>
         <member name="P:Primrose.Primitives.TimeControl.PerformanceSavingFPS">
             <summary>Defines the FPS where performance savings should be triggered</summary>
+        </member>
+        <member name="F:Primrose.Primitives.TimeControl.FPSRefreshInterval">
+            <summary>The time period in which FPS is updated</summary>
         </member>
         <member name="P:Primrose.Primitives.TimeControl.FPS">
             <summary>The current FPS</summary>
@@ -2154,7 +2199,7 @@
             <param name="x"></param>
             <param name="y"></param>
         </member>
-        <member name="P:Primrose.Primitives.ValueTypes.uint2.Item(System.UInt32)">
+        <member name="P:Primrose.Primitives.ValueTypes.uint2.Item(System.Int32)">
             <summary>The value indexer</summary>
             <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
         </member>
@@ -2177,9 +2222,10 @@
             <param name="s">The string value</param>
             <returns>A uint2 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.uint2.Parse(System.String,Primrose.Primitives.ValueTypes.uint2)">
+        <member name="M:Primrose.Primitives.ValueTypes.uint2.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.uint2)">
             <summary>Parses a uint2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A uint2 value, or the default value if the parsing fails</returns>
         </member>
@@ -2189,9 +2235,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.uint2.TryParse(System.String,Primrose.Primitives.ValueTypes.uint2,Primrose.Primitives.ValueTypes.uint2@)">
+        <member name="M:Primrose.Primitives.ValueTypes.uint2.TryParse(System.String,Primrose.Primitives.ValueTypes.uint2@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.uint2)">
             <summary>Parses a uint2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2244,7 +2291,7 @@
             <param name="y"></param>
             <param name="z"></param>
         </member>
-        <member name="P:Primrose.Primitives.ValueTypes.uint3.Item(System.UInt32)">
+        <member name="P:Primrose.Primitives.ValueTypes.uint3.Item(System.Int32)">
             <summary>The value indexer</summary>
             <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
         </member>
@@ -2267,9 +2314,10 @@
             <param name="s">The string value</param>
             <returns>A uint3 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.uint3.Parse(System.String,Primrose.Primitives.ValueTypes.uint3)">
+        <member name="M:Primrose.Primitives.ValueTypes.uint3.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.uint3)">
             <summary>Parses a uint3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A uint3 value, or the default value if the parsing fails</returns>
         </member>
@@ -2279,9 +2327,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.uint3.TryParse(System.String,Primrose.Primitives.ValueTypes.uint3,Primrose.Primitives.ValueTypes.uint3@)">
+        <member name="M:Primrose.Primitives.ValueTypes.uint3.TryParse(System.String,Primrose.Primitives.ValueTypes.uint3@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.uint3)">
             <summary>Parses a uint3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2338,7 +2387,7 @@
             <param name="z"></param>
             <param name="w"></param>
         </member>
-        <member name="P:Primrose.Primitives.ValueTypes.uint4.Item(System.UInt32)">
+        <member name="P:Primrose.Primitives.ValueTypes.uint4.Item(System.Int32)">
             <summary>The value indexer</summary>
             <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
         </member>
@@ -2361,9 +2410,10 @@
             <param name="s">The string value</param>
             <returns>A uint4 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.uint4.Parse(System.String,Primrose.Primitives.ValueTypes.uint4)">
+        <member name="M:Primrose.Primitives.ValueTypes.uint4.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.uint4)">
             <summary>Parses a uint4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A uint4 value, or the default value if the parsing fails</returns>
         </member>
@@ -2373,9 +2423,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.uint4.TryParse(System.String,Primrose.Primitives.ValueTypes.uint4,Primrose.Primitives.ValueTypes.uint4@)">
+        <member name="M:Primrose.Primitives.ValueTypes.uint4.TryParse(System.String,Primrose.Primitives.ValueTypes.uint4@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.uint4)">
             <summary>Parses a uint4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2447,9 +2498,10 @@
             <param name="s">The string value</param>
             <returns>A short2 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.short2.Parse(System.String,Primrose.Primitives.ValueTypes.short2)">
+        <member name="M:Primrose.Primitives.ValueTypes.short2.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.short2)">
             <summary>Parses a short2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A short2 value, or the default value if the parsing fails</returns>
         </member>
@@ -2459,9 +2511,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.short2.TryParse(System.String,Primrose.Primitives.ValueTypes.short2,Primrose.Primitives.ValueTypes.short2@)">
+        <member name="M:Primrose.Primitives.ValueTypes.short2.TryParse(System.String,Primrose.Primitives.ValueTypes.short2@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.short2)">
             <summary>Parses a short2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2505,9 +2558,10 @@
             <param name="s">The string value</param>
             <returns>A byte2 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.byte2.Parse(System.String,Primrose.Primitives.ValueTypes.byte2)">
+        <member name="M:Primrose.Primitives.ValueTypes.byte2.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.byte2)">
             <summary>Parses a byte2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A byte2 value, or the default value if the parsing fails</returns>
         </member>
@@ -2517,9 +2571,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.byte2.TryParse(System.String,Primrose.Primitives.ValueTypes.byte2,Primrose.Primitives.ValueTypes.byte2@)">
+        <member name="M:Primrose.Primitives.ValueTypes.byte2.TryParse(System.String,Primrose.Primitives.ValueTypes.byte2@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.byte2)">
             <summary>Parses a byte2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2567,9 +2622,10 @@
             <param name="s">The string value</param>
             <returns>A short3 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.short3.Parse(System.String,Primrose.Primitives.ValueTypes.short3)">
+        <member name="M:Primrose.Primitives.ValueTypes.short3.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.short3)">
             <summary>Parses a short3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A short3 value, or the default value if the parsing fails</returns>
         </member>
@@ -2579,9 +2635,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.short3.TryParse(System.String,Primrose.Primitives.ValueTypes.short3,Primrose.Primitives.ValueTypes.short3@)">
+        <member name="M:Primrose.Primitives.ValueTypes.short3.TryParse(System.String,Primrose.Primitives.ValueTypes.short3@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.short3)">
             <summary>Parses a short3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2633,9 +2690,10 @@
             <param name="s">The string value</param>
             <returns>A short4 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.short4.Parse(System.String,Primrose.Primitives.ValueTypes.short4)">
+        <member name="M:Primrose.Primitives.ValueTypes.short4.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.short4)">
             <summary>Parses a short4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A short4 value, or the default value if the parsing fails</returns>
         </member>
@@ -2645,9 +2703,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.short4.TryParse(System.String,Primrose.Primitives.ValueTypes.short4,Primrose.Primitives.ValueTypes.short4@)">
+        <member name="M:Primrose.Primitives.ValueTypes.short4.TryParse(System.String,Primrose.Primitives.ValueTypes.short4@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.short4)">
             <summary>Parses a short4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2691,9 +2750,10 @@
             <param name="s">The string value</param>
             <returns>A int2 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int2.Parse(System.String,Primrose.Primitives.ValueTypes.int2)">
+        <member name="M:Primrose.Primitives.ValueTypes.int2.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.int2)">
             <summary>Parses a int2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A int2 value, or the default value if the parsing fails</returns>
         </member>
@@ -2703,9 +2763,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int2.TryParse(System.String,Primrose.Primitives.ValueTypes.int2,Primrose.Primitives.ValueTypes.int2@)">
+        <member name="M:Primrose.Primitives.ValueTypes.int2.TryParse(System.String,Primrose.Primitives.ValueTypes.int2@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.int2)">
             <summary>Parses a int2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2788,9 +2849,10 @@
             <param name="s">The string value</param>
             <returns>A float2 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float2.Parse(System.String,Primrose.Primitives.ValueTypes.float2)">
+        <member name="M:Primrose.Primitives.ValueTypes.float2.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.float2)">
             <summary>Parses a float2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A float2 value, or the default value if the parsing fails</returns>
         </member>
@@ -2800,9 +2862,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float2.TryParse(System.String,Primrose.Primitives.ValueTypes.float2,Primrose.Primitives.ValueTypes.float2@)">
+        <member name="M:Primrose.Primitives.ValueTypes.float2.TryParse(System.String,Primrose.Primitives.ValueTypes.float2@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.float2)">
             <summary>Parses a float2 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2886,9 +2949,10 @@
             <param name="s">The string value</param>
             <returns>A byte3 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.byte3.Parse(System.String,Primrose.Primitives.ValueTypes.byte3)">
+        <member name="M:Primrose.Primitives.ValueTypes.byte3.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.byte3)">
             <summary>Parses a byte3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A byte3 value, or the default value if the parsing fails</returns>
         </member>
@@ -2898,9 +2962,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.byte3.TryParse(System.String,Primrose.Primitives.ValueTypes.byte3,Primrose.Primitives.ValueTypes.byte3@)">
+        <member name="M:Primrose.Primitives.ValueTypes.byte3.TryParse(System.String,Primrose.Primitives.ValueTypes.byte3@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.byte3)">
             <summary>Parses a byte3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -2948,9 +3013,10 @@
             <param name="s">The string value</param>
             <returns>A int3 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int3.Parse(System.String,Primrose.Primitives.ValueTypes.int3)">
+        <member name="M:Primrose.Primitives.ValueTypes.int3.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.int3)">
             <summary>Parses a int3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A int3 value, or the default value if the parsing fails</returns>
         </member>
@@ -2960,9 +3026,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int3.TryParse(System.String,Primrose.Primitives.ValueTypes.int3,Primrose.Primitives.ValueTypes.int3@)">
+        <member name="M:Primrose.Primitives.ValueTypes.int3.TryParse(System.String,Primrose.Primitives.ValueTypes.int3@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.int3)">
             <summary>Parses a int3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -3049,9 +3116,10 @@
             <param name="s">The string value</param>
             <returns>A float3 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float3.Parse(System.String,Primrose.Primitives.ValueTypes.float3)">
+        <member name="M:Primrose.Primitives.ValueTypes.float3.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.float3)">
             <summary>Parses a float3 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A float3 value, or the default value if the parsing fails</returns>
         </member>
@@ -3061,9 +3129,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float3.TryParse(System.String,Primrose.Primitives.ValueTypes.float3,Primrose.Primitives.ValueTypes.float3@)">
+        <member name="M:Primrose.Primitives.ValueTypes.float3.TryParse(System.String,Primrose.Primitives.ValueTypes.float3@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.float3)">
             <summary>Parses a float4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -3151,9 +3220,10 @@
             <param name="s">The string value</param>
             <returns>A byte4 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.byte4.Parse(System.String,Primrose.Primitives.ValueTypes.byte4)">
+        <member name="M:Primrose.Primitives.ValueTypes.byte4.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.byte4)">
             <summary>Parses a byte4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A byte4 value, or the default value if the parsing fails</returns>
         </member>
@@ -3163,9 +3233,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.byte4.TryParse(System.String,Primrose.Primitives.ValueTypes.byte4,Primrose.Primitives.ValueTypes.byte4@)">
+        <member name="M:Primrose.Primitives.ValueTypes.byte4.TryParse(System.String,Primrose.Primitives.ValueTypes.byte4@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.byte4)">
             <summary>Parses a byte4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -3217,9 +3288,10 @@
             <param name="s">The string value</param>
             <returns>A int4 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int4.Parse(System.String,Primrose.Primitives.ValueTypes.int4)">
+        <member name="M:Primrose.Primitives.ValueTypes.int4.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.int4)">
             <summary>Parses a int4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A int4 value, or the default value if the parsing fails</returns>
         </member>
@@ -3229,9 +3301,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int4.TryParse(System.String,Primrose.Primitives.ValueTypes.int4,Primrose.Primitives.ValueTypes.int4@)">
+        <member name="M:Primrose.Primitives.ValueTypes.int4.TryParse(System.String,Primrose.Primitives.ValueTypes.int4@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.int4)">
             <summary>Parses a int4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -3322,9 +3395,10 @@
             <param name="s">The string value</param>
             <returns>A float4 value</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float4.Parse(System.String,Primrose.Primitives.ValueTypes.float4)">
+        <member name="M:Primrose.Primitives.ValueTypes.float4.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.float4)">
             <summary>Parses a float4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>A float4 value, or the default value if the parsing fails</returns>
         </member>
@@ -3334,9 +3408,10 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float4.TryParse(System.String,Primrose.Primitives.ValueTypes.float4,Primrose.Primitives.ValueTypes.float4@)">
+        <member name="M:Primrose.Primitives.ValueTypes.float4.TryParse(System.String,Primrose.Primitives.ValueTypes.float4@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.float4)">
             <summary>Parses a float4 from a string</summary>
             <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
@@ -3717,10 +3792,11 @@
             <summary>Merges the content of this section with another section</summary>
             <param name="section">The name of the other section</param>
         </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.GetValue``1(System.String,System.String,``0)">
+        <member name="M:Primitives.FileFormat.INI.INIFile.GetValue``1(System.String,System.String,Primrose.Primitives.Parsers.IResolver,``0)">
             <summary>Gets a value from the INIFile</summary>
             <param name="section">The section containing the key-value pair</param>
             <param name="key">The key containing the value</param>
+            <param name="resolver">A string resolver function</param>
             <param name="defaultValue">The default value</param>
             <returns>The value belonging to the section and key in the INIFile. If the key does not exist, returns defaultValue</returns>
         </member>
