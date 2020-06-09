@@ -18,14 +18,15 @@ namespace Primrose.Primitives.Extensions
     /// </summary>
     /// <param name="input">The input string</param>
     /// <param name="maxLineLength">The maximum length of each line</param>
+    /// <param name="separator">The line separator</param>
     /// <returns>A multiline representation of a string. Each new line is preceded by a newline "\n" character</returns>
-    public static string Multiline(this string input, int maxLineLength)
+    public static string Multiline(this string input, int maxLineLength, string separator = "\n")
     {
       string[] lines = input.Split(NewLines, StringSplitOptions.None);
       for (int i = 0; i < lines.Length; i++)
-        lines[i] = string.Join("\n", lines[i].SplitToLines(maxLineLength));
+        lines[i] = string.Join(separator, lines[i].SplitToLines(maxLineLength));
 
-      return string.Join("\n", lines);
+      return string.Join(separator, lines);
     }
 
     /// <summary>Splits a string every nth occurence of a character</summary>
