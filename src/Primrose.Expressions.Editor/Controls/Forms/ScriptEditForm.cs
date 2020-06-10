@@ -197,13 +197,60 @@ namespace Primrose.Expressions.Editor.Controls.Forms
       UpdateTitle();
     }
 
+    private void GetEligibleTypesFromAssembly(Assembly asm, List<Type> eligible_types, List<string> processed = null)
+    {
+      if (processed ==  null) { processed = new List<string>(); }
+      if (processed.Contains(asm.FullName)) { return; }
+      processed.Add(asm.FullName);
+
+      try
+      {
+        // extract types embedded by Costura
+        Type loader = asm.GetType("Costura.AssemblyLoader", false);
+        MethodInfo attachMethod = loader?.GetMethod("Attach", BindingFlags.Static | BindingFlags.Public);
+        attachMethod?.Invoke(null, new object[] { });
+
+        Type[] types = asm.GetTypes();
+          foreach (Type t in types)
+            foreach (Type i in t.GetInterfaces())
+              if (i == typeof(IContext))
+                eligible_types.Add(t);
+
+        foreach (AssemblyName refasmname in asm.GetReferencedAssemblies())
+        {
+          Assembly refasm;
+          try
+          {
+            refasm = Assembly.Load(refasmname);
+          }
+          catch (Exception ex)
+          {
+            MessageBox.Show("Error loading reference assembly '{0}'!\n\n{1}".F(refasmname.FullName, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+          }
+          GetEligibleTypesFromAssembly(refasm, eligible_types, processed);
+        }
+      }
+      catch (ReflectionTypeLoadException rex)
+      {
+        string load_ex = rex.LoaderExceptions.Length > 0 ? rex.LoaderExceptions[0].ToString() : "";
+        MessageBox.Show("Error loading types from assembly '{0}':\n\n{1}\n\n{2}".F(asm.FullName, rex.Message, load_ex), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show("Error loading types from assembly '{0}':\n\n{1}".F(asm.FullName, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+      }
+    }
+
     private void setContextDllToolStripMenuItem_Click(object sender, EventArgs e)
     {
       if (ofd_dll.ShowDialog() == DialogResult.OK)
       {
         string path_dll = ofd_dll.FileName;
-        Assembly asm = null;
 
+        Assembly asm = null;
         try
         {
           asm = Assembly.LoadFile(path_dll);
@@ -215,29 +262,10 @@ namespace Primrose.Expressions.Editor.Controls.Forms
         }
 
         List<Type> eligible_types = new List<Type>();
-        try
+        GetEligibleTypesFromAssembly(asm, eligible_types);
+        if (eligible_types.Count == 0)
         {
-          Type[] types = asm.GetTypes();
-          foreach (Type t in types)
-            foreach (Type i in t.GetInterfaces())
-              if (i == typeof(IContext))
-                eligible_types.Add(t);
-
-          if (eligible_types.Count == 0)
-          {
-            MessageBox.Show("No suitable context found from assembly file '{0}'!".F(path_dll), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return;
-          }
-        }
-        catch (ReflectionTypeLoadException rex)
-        {
-          string load_ex = rex.LoaderExceptions.Length > 0 ? rex.LoaderExceptions[0].ToString() : "";
-          MessageBox.Show("Error loading types from assembly file '{0}':\n\n{1}\n\n{2}".F(path_dll, rex.Message, load_ex), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
-          return;
-        }
-        catch (Exception ex)
-        {
-          MessageBox.Show("Error loading types from assembly file '{0}':\n\n{1}".F(path_dll, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+          MessageBox.Show("No suitable context found from assembly file '{0}'!".F(path_dll), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
           return;
         }
 
