@@ -2111,6 +2111,77 @@
         <member name="M:Primrose.Primitives.Triggers.ICondition.Not">
             <summary>Creates a new condition as a logical negation of itself</summary>
         </member>
+        <member name="T:Primrose.Primitives.Triggers.MatchType">
+            <summary>
+            Provides a listing of comparison options
+            </summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.EQUALS">
+            <summary>Matches if two objects are equal</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.NOT_EQUALS">
+            <summary>Matches if two objects are not equal</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.SAME_TYPE">
+            <summary>Matches if two objects have the same type</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.NUMERIC_EQUALS">
+            <summary>Matches if two objects are comparable and are equal</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.NUMERIC_NOT_EQUALS">
+            <summary>Matches if two objects are comparable and are not equal</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.LESS_THAN">
+            <summary>Matches if two objects are comparable and the first element precedes the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.MORE_THAN">
+            <summary>Matches if two objects are comparable and the first element succeeds the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.LESS_THAN_OR_EQUAL_TO">
+            <summary>Matches if two objects are comparable and the first element precedes or equals the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.MORE_THAN_OR_EQUAL_TO">
+            <summary>Matches if two objects are comparable and the first element succeeds or equals the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.SAME_LENGTH">
+            <summary>Matches if two objects are strings and have the same length</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.LENGTH_SHORTER_THAN">
+            <summary>Matches if two objects are strings and the first element has a character length shorter than the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.LENGTH_LONGER_THAN">
+            <summary>Matches if two objects are strings and the first element has a character length longer than the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.LENGTH_SHORTER_THAN_OR_EQUAL_TO">
+            <summary>Matches if two objects are strings and the first element has a character length shorter than or equal to the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.LENGTH_LONGER_THAN_OR_EQUAL_TO">
+            <summary>Matches if two objects are strings and the first element has a character length shorter than or equal to the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.CONTAINS">
+            <summary>Matches if two objects are strings and the first element contains the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.IS_CONTAINED_BY">
+            <summary>Matches if two objects are strings and the second element contains the first</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.STARTS_WITH">
+            <summary>Matches if two objects are strings and the first element starts with the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.ENDS_WITH">
+            <summary>Matches if two objects are strings and the first element ends with the second</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.CASE_INSENSITIVE_CONTAINS">
+            <summary>Matches if two objects are strings and the first element contains the second, disregarding character case</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.CASE_INSENSITIVE_IS_CONTAINED_BY">
+            <summary>Matches if two objects are strings and the second element contains the first, disregarding character case</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.CASE_INSENSITIVE_STARTS_WITH">
+            <summary>Matches if two objects are strings and the first element starts with the second, disregarding character case</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.MatchType.CASE_INSENSITIVE_ENDS_WITH">
+            <summary>Matches if two objects are strings and the first element ends with the second, disregarding character case</summary>
+        </member>
         <member name="T:Primrose.Primitives.Triggers.ValueCondition`1">
             <summary>Represents a condition that compares an ObservableValue against a value</summary>
         </member>
@@ -2155,6 +2226,22 @@
         </member>
         <member name="M:Primrose.Primitives.Triggers.ACondition.Not">
             <summary>Creates a new condition as a logical negation of itself</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.ConditionUpdateEventHandler">
+            <summary>An event delegate for handling condition updates</summary>
+            <param name="args"></param>
+        </member>
+        <member name="T:Primrose.Primitives.Triggers.ConditionUpdateEventArgs">
+            <summary>Represents a condition update</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.ConditionUpdateEventArgs.Condition">
+            <summary>The condition being updated</summary>
+        </member>
+        <member name="F:Primrose.Primitives.Triggers.ConditionUpdateEventArgs.Fulfilled">
+            <summary>Indicates whether the condition is currently met</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Triggers.ConditionUpdateEventArgs.#ctor(Primrose.Primitives.Triggers.ICondition,System.Boolean)">
+            <summary>Represents a condition update</summary>
         </member>
         <member name="T:Primrose.Primitives.Triggers.Trigger">
             <summary>Represents a trigger for performing actions when a condition is fulfilled</summary>

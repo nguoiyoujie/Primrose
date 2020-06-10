@@ -48,6 +48,142 @@
         <member name="F:Primrose.Expressions.BOp.LESS_THAN_OR_EQUAL_TO">
             <summary>The numerical less than and equality comparer (a &lt;= b)</summary>
         </member>
+        <member name="T:Primrose.Expressions.FunctionDelegate">
+            <summary>
+            Defines a delegate representing a function expression
+            </summary>
+            <param name="context">The script context</param>
+            <param name="param">The input parameters to the function</param>
+            <returns>The result of the function</returns>
+        </member>
+        <member name="T:Primrose.Expressions.ContextBase">
+            <summary>Defines a context for evaluating scripts</summary>
+        </member>
+        <member name="F:Primrose.Expressions.ContextBase.Functions">
+            <summary>The collection of functions contained in this context</summary>
+        </member>
+        <member name="P:Primrose.Expressions.ContextBase.Scripts">
+            <summary>The scripts contained in this context</summary>
+        </member>
+        <member name="P:Primrose.Expressions.ContextBase.ValFuncs">
+            <summary>The registry of functions based on the function name and the number of function parameters</summary>
+        </member>
+        <member name="P:Primrose.Expressions.ContextBase.ValFuncRef">
+            <summary>The list of function names contained in this context</summary>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.#ctor">
+            <summary>Creates a new context for evaluating scripts</summary>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.RunGlobalScript">
+            <summary>Performs evaluation of the global script</summary>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.RunScript(System.String)">
+            <summary>Performs evaluation of a script</summary>
+            <param name="name">The name of the script to run</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.RunFunction(Primrose.Expressions.ITracker,System.String,Primrose.Expressions.Val[])">
+            <summary>Performs evaluation of a function</summary>
+            <param name="caller">The tracking object calling the function</param>
+            <param name="name">The function name</param>
+            <param name="param">The function parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.GetFunction(System.String,System.Int32)">
+            <summary>Retrieves a function from the function list</summary>
+            <param name="name">The function name</param>
+            <param name="argnum">The number of arguments for the function</param>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.Reset">
+            <summary>Resets the context and clears the script</summary>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc(System.String,System.Func{Primrose.Expressions.IContext,Primrose.Expressions.Val})">
+            <summary>Adds a function to the context</summary>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc``1(System.String,System.Func{Primrose.Expressions.IContext,``0,Primrose.Expressions.Val})">
+            <summary>Adds a parameterized function to the context</summary>
+            <typeparam name="T1">The type of the first argument</typeparam>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc``2(System.String,System.Func{Primrose.Expressions.IContext,``0,``1,Primrose.Expressions.Val})">
+            <summary>Adds a parameterized function to the context</summary>
+            <typeparam name="T1">The type of the first argument</typeparam>
+            <typeparam name="T2">The type of the second argument</typeparam>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc``3(System.String,System.Func{Primrose.Expressions.IContext,``0,``1,``2,Primrose.Expressions.Val})">
+            <summary>Adds a parameterized function to the context</summary>
+            <typeparam name="T1">The type of the first argument</typeparam>
+            <typeparam name="T2">The type of the second argument</typeparam>
+            <typeparam name="T3">The type of the third argument</typeparam>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc``4(System.String,System.Func{Primrose.Expressions.IContext,``0,``1,``2,``3,Primrose.Expressions.Val})">
+            <summary>Adds a parameterized function to the context</summary>
+            <typeparam name="T1">The type of the first argument</typeparam>
+            <typeparam name="T2">The type of the second argument</typeparam>
+            <typeparam name="T3">The type of the third argument</typeparam>
+            <typeparam name="T4">The type of the fourth argument</typeparam>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc``5(System.String,System.Func{Primrose.Expressions.IContext,``0,``1,``2,``3,``4,Primrose.Expressions.Val})">
+            <summary>Adds a parameterized function to the context</summary>
+            <typeparam name="T1">The type of the first argument</typeparam>
+            <typeparam name="T2">The type of the second argument</typeparam>
+            <typeparam name="T3">The type of the third argument</typeparam>
+            <typeparam name="T4">The type of the fourth argument</typeparam>
+            <typeparam name="T5">The type of the fifth argument</typeparam>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc``6(System.String,System.Func{Primrose.Expressions.IContext,``0,``1,``2,``3,``4,``5,Primrose.Expressions.Val})">
+            <summary>Adds a parameterized function to the context</summary>
+            <typeparam name="T1">The type of the first argument</typeparam>
+            <typeparam name="T2">The type of the second argument</typeparam>
+            <typeparam name="T3">The type of the third argument</typeparam>
+            <typeparam name="T4">The type of the fourth argument</typeparam>
+            <typeparam name="T5">The type of the fifth argument</typeparam>
+            <typeparam name="T6">The type of the sixth argument</typeparam>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc``7(System.String,System.Func{Primrose.Expressions.IContext,``0,``1,``2,``3,``4,``5,``6,Primrose.Expressions.Val})">
+            <summary>Adds a parameterized function to the context</summary>
+            <typeparam name="T1">The type of the first argument</typeparam>
+            <typeparam name="T2">The type of the second argument</typeparam>
+            <typeparam name="T3">The type of the third argument</typeparam>
+            <typeparam name="T4">The type of the fourth argument</typeparam>
+            <typeparam name="T5">The type of the fifth argument</typeparam>
+            <typeparam name="T6">The type of the sixth argument</typeparam>
+            <typeparam name="T7">The type of the seventh argument</typeparam>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.AddFunc``8(System.String,System.Func{Primrose.Expressions.IContext,``0,``1,``2,``3,``4,``5,``6,``7,Primrose.Expressions.Val})">
+            <summary>Adds a parameterized function to the context</summary>
+            <typeparam name="T1">The type of the first argument</typeparam>
+            <typeparam name="T2">The type of the second argument</typeparam>
+            <typeparam name="T3">The type of the third argument</typeparam>
+            <typeparam name="T4">The type of the fourth argument</typeparam>
+            <typeparam name="T5">The type of the fifth argument</typeparam>
+            <typeparam name="T6">The type of the sixth argument</typeparam>
+            <typeparam name="T7">The type of the seventh argument</typeparam>
+            <typeparam name="T8">The type of the eighth argument</typeparam>
+            <param name="name">The function name</param>
+            <param name="fn">The function delegate</param>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.ClearFunctions">
+            <summary>Clears all function definitions in the context</summary>
+        </member>
+        <member name="M:Primrose.Expressions.ContextBase.DefineFunctions">
+            <summary>Provides function definitions to the context</summary>
+        </member>
         <member name="T:Primrose.Expressions.ContextScope">
             <summary>
             Provides a context scope for the script
@@ -100,20 +236,26 @@
             <param name="param">The list of parameters</param>
             <returns></returns>
         </member>
-        <member name="P:Primrose.Expressions.IContext.ValFuncs">
-            <summary>
-            Holds a registry of functions based on the function name and the number of function parameters
-            </summary>
-        </member>
         <member name="P:Primrose.Expressions.IContext.ValFuncRef">
-            <summary>
-            Holds a registry of functions based on the function name only
-            </summary>
+            <summary>The list of function names contained in this context</summary>
+        </member>
+        <member name="M:Primrose.Expressions.IContext.GetFunction(System.String,System.Int32)">
+            <summary>Retrieves a function from the function list</summary>
         </member>
         <member name="P:Primrose.Expressions.IContext.Scripts">
-            <summary>
-            Holds the registry of scripts
-            </summary>
+            <summary>The scripts contained in this context</summary>
+        </member>
+        <member name="T:Primrose.Expressions.ValParamContract">
+            <summary>Defines the contract for handling parameters between primitive types and Val types</summary>
+        </member>
+        <member name="M:Primrose.Expressions.ValParamContract.Convert``1(Primrose.Expressions.ITracker,System.String,System.Int32,Primrose.Expressions.Val)">
+            <summary>Converts a Val to a typed variable</summary>
+            <typeparam name="T">The type of the target output</typeparam>
+            <param name="caller">The tracking object calling this method</param>
+            <param name="function">The function calling this method</param>
+            <param name="argnum">The function argument number representing the Val</param>
+            <param name="v">The Val object to be converted</param>
+            <returns></returns>
         </member>
         <member name="T:Primrose.Expressions.ValTypeMismatchException">
             <summary>Represents an exception as a result of processing an array with an unexpected format</summary>
@@ -158,6 +300,35 @@
             <param name="v1">The first value in the operation</param>
             <param name="v2">The second value in the operation</param>
             <param name="ex">The inner exception message</param>
+        </member>
+        <member name="T:Primrose.Expressions.ScriptReadDelegate">
+            <summary>Represents a delegate for script reading events</summary>
+            <param name="name">The name of the script being read</param>
+        </member>
+        <member name="T:Primrose.Expressions.ScriptFile">
+            <summary>
+            Performs reading and creation of scripts into a context from a source file
+            </summary>
+        </member>
+        <member name="M:Primrose.Expressions.ScriptFile.#ctor(System.String,Primrose.Expressions.IContext)">
+            <summary>Creates a new script file from a source file</summary>
+            <param name="filepath">The path of the source file</param>
+            <param name="context">The context where the scripts are loaded into</param>
+        </member>
+        <member name="F:Primrose.Expressions.ScriptFile.FilePath">
+            <summary>The path of the source file</summary>
+        </member>
+        <member name="F:Primrose.Expressions.ScriptFile.Registry">
+            <summary>Represents the scripts contained in this file</summary>
+        </member>
+        <member name="F:Primrose.Expressions.ScriptFile.ScriptReadBegin">
+            <summary>Invokes when a new script is being loaded</summary>
+        </member>
+        <member name="F:Primrose.Expressions.ScriptFile.ScriptReadEnd">
+            <summary>Invokes when a new script has finished loading</summary>
+        </member>
+        <member name="M:Primrose.Expressions.ScriptFile.ReadFile">
+            <summary>Reads and populates the script registry</summary>
         </member>
         <member name="T:Primrose.Expressions.Ops">
             <summary>
