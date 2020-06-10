@@ -62,7 +62,7 @@ namespace Primrose.Expressions
             string header = line.TrimEnd(headerSeperator).Trim();
 
             ScriptReadBegin?.Invoke(header);
-            script = new Script(line, Registry);
+            script = new Script(header, Registry);
             sb.Clear();
           }
           else
