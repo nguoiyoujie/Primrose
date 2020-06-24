@@ -1330,6 +1330,26 @@
             <param name="value">The string to be parsed</param>
             <param name="resolver">A string resolver function</param>
         </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToSByte(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a sbyte value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToSByte2(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a sbyte2 value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToSByte3(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a sbyte3 value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToSByte4(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a sbyte4 value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
         <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a short value</summary>
             <param name="value">The string to be parsed</param>
@@ -1347,6 +1367,26 @@
         </member>
         <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToShort4(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a short4 value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUShort(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a ushort value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUShort2(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a ushort2 value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUShort3(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a ushort3 value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToUShort4(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a ushort4 value</summary>
             <param name="value">The string to be parsed</param>
             <param name="resolver">A string resolver function</param>
         </member>
@@ -1422,6 +1462,16 @@
         </member>
         <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToDouble(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a double value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToNullable``1(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a nullable value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToNullableEnum``1(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Parses a string to a nullable value</summary>
             <param name="value">The string to be parsed</param>
             <param name="resolver">A string resolver function</param>
         </member>
@@ -2270,6 +2320,486 @@
         <member name="M:Primrose.Primitives.Triggers.Trigger.ActionCollection.Clear">
             <summary>Clears all actions from the trigger</summary>
         </member>
+        <member name="T:Primrose.Primitives.ValueTypes.sbyte2">
+            <summary>A sbyte2 pair value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte2.x">
+            <summary>The x or [0] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte2.y">
+            <summary>The y or [1] value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.#ctor(System.SByte,System.SByte)">
+            <summary>
+            Creates a sbyte2 value
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.sbyte2.Item(System.Int32)">
+            <summary>The value indexer</summary>
+            <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.ToString">
+            <summary>Returns the string representation of this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.ToArray">
+            <summary>Creates a sbyte[] array from this value</summary>
+            <returns>An array of length 2 with identical indexed values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.FromArray(System.SByte[])">
+            <summary>Creates a sbyte2 from an array</summary>
+            <param name="array">The array</param>
+            <returns>A sbyte2 value</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 2 can be converted to a sbyte2</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.Parse(System.String)">
+            <summary>Parses a sbyte2 from a string</summary>
+            <param name="s">The string value</param>
+            <returns>A sbyte2 value</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.sbyte2)">
+            <summary>Parses a sbyte2 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>A sbyte2 value, or the default value if the parsing fails</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.TryParse(System.String,Primrose.Primitives.ValueTypes.sbyte2@)">
+            <summary>Parses a sbyte2 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.TryParse(System.String,Primrose.Primitives.ValueTypes.sbyte2@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.sbyte2)">
+            <summary>Parses a sbyte2 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.op_Equality(Primrose.Primitives.ValueTypes.sbyte2,Primrose.Primitives.ValueTypes.sbyte2)">
+            <summary>Determines if two sbyte2 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.op_Inequality(Primrose.Primitives.ValueTypes.sbyte2,Primrose.Primitives.ValueTypes.sbyte2)">
+            <summary>Determines if two sbyte2 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.sbyte2.Empty">
+            <summary>Returns a sbyte2 value with all elements set to their default value</summary>
+        </member>
+        <member name="T:Primrose.Primitives.ValueTypes.sbyte3">
+            <summary>A sbyte3 triple value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte3.x">
+            <summary>The x or [0] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte3.y">
+            <summary>The y or [1] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte3.z">
+            <summary>The z or [2] value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.#ctor(System.SByte,System.SByte,System.SByte)">
+            <summary>
+            Creates a sbyte3 value
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="z"></param>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.sbyte3.Item(System.Int32)">
+            <summary>The value indexer</summary>
+            <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.ToString">
+            <summary>Returns the string representation of this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.ToArray">
+            <summary>Creates a sbyte[] array from this value</summary>
+            <returns>An array of length 3 with identical indexed values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.FromArray(System.SByte[])">
+            <summary>Creates a sbyte3 from an array</summary>
+            <param name="array">The array</param>
+            <returns>A sbyte3 value</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 3 can be converted to a sbyte3</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.Parse(System.String)">
+            <summary>Parses a sbyte3 from a string</summary>
+            <param name="s">The string value</param>
+            <returns>A sbyte3 value</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.sbyte3)">
+            <summary>Parses a sbyte3 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>A sbyte3 value, or the default value if the parsing fails</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.TryParse(System.String,Primrose.Primitives.ValueTypes.sbyte3@)">
+            <summary>Parses a sbyte3 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.TryParse(System.String,Primrose.Primitives.ValueTypes.sbyte3@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.sbyte3)">
+            <summary>Parses a sbyte3 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.op_Equality(Primrose.Primitives.ValueTypes.sbyte3,Primrose.Primitives.ValueTypes.sbyte3)">
+            <summary>Determines if two sbyte3 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.op_Inequality(Primrose.Primitives.ValueTypes.sbyte3,Primrose.Primitives.ValueTypes.sbyte3)">
+            <summary>Determines if two sbyte3 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.sbyte3.Empty">
+            <summary>Returns a sbyte3 value with all elements set to their default value</summary>
+        </member>
+        <member name="T:Primrose.Primitives.ValueTypes.sbyte4">
+            <summary>A sbyte4 quad value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte4.x">
+            <summary>The x or [0] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte4.y">
+            <summary>The y or [1] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte4.z">
+            <summary>The z or [2] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.sbyte4.w">
+            <summary>The w or [3] value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.#ctor(System.SByte,System.SByte,System.SByte,System.SByte)">
+            <summary>
+            Creates a sbyte4 value
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="z"></param>
+            <param name="w"></param>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.sbyte4.Item(System.Int32)">
+            <summary>The value indexer</summary>
+            <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.ToString">
+            <summary>Returns the string representation of this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.ToArray">
+            <summary>Creates a sbyte[] array from this value</summary>
+            <returns>An array of length 4 with identical indexed values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.FromArray(System.SByte[])">
+            <summary>Creates a sbyte4 from an array</summary>
+            <param name="array">The array</param>
+            <returns>A sbyte4 value</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a sbyte4</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.Parse(System.String)">
+            <summary>Parses a sbyte4 from a string</summary>
+            <param name="s">The string value</param>
+            <returns>A sbyte4 value</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.sbyte4)">
+            <summary>Parses a sbyte4 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>A sbyte4 value, or the default value if the parsing fails</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.TryParse(System.String,Primrose.Primitives.ValueTypes.sbyte4@)">
+            <summary>Parses a sbyte4 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.TryParse(System.String,Primrose.Primitives.ValueTypes.sbyte4@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.sbyte4)">
+            <summary>Parses a sbyte4 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.op_Equality(Primrose.Primitives.ValueTypes.sbyte4,Primrose.Primitives.ValueTypes.sbyte4)">
+            <summary>Determines if two sbyte4 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.op_Inequality(Primrose.Primitives.ValueTypes.sbyte4,Primrose.Primitives.ValueTypes.sbyte4)">
+            <summary>Determines if two sbyte4 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.sbyte4.Empty">
+            <summary>Returns a sbyte4 value with all elements set to their default value</summary>
+        </member>
+        <member name="T:Primrose.Primitives.ValueTypes.ushort2">
+            <summary>A ushort2 pair value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort2.x">
+            <summary>The x or [0] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort2.y">
+            <summary>The y or [1] value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.#ctor(System.UInt16,System.UInt16)">
+            <summary>
+            Creates a ushort2 value
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.ushort2.Item(System.Int32)">
+            <summary>The value indexer</summary>
+            <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.ToString">
+            <summary>Returns the string representation of this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.ToArray">
+            <summary>Creates a ushort[] array from this value</summary>
+            <returns>An array of length 2 with identical indexed values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.FromArray(System.UInt16[])">
+            <summary>Creates a ushort2 from an array</summary>
+            <param name="array">The array</param>
+            <returns>A ushort2 value</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 2 can be converted to a ushort2</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.Parse(System.String)">
+            <summary>Parses a ushort2 from a string</summary>
+            <param name="s">The string value</param>
+            <returns>A ushort2 value</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.ushort2)">
+            <summary>Parses a ushort2 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>A ushort2 value, or the default value if the parsing fails</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.TryParse(System.String,Primrose.Primitives.ValueTypes.ushort2@)">
+            <summary>Parses a ushort2 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.TryParse(System.String,Primrose.Primitives.ValueTypes.ushort2@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.ushort2)">
+            <summary>Parses a ushort2 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.op_Equality(Primrose.Primitives.ValueTypes.ushort2,Primrose.Primitives.ValueTypes.ushort2)">
+            <summary>Determines if two ushort2 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.op_Inequality(Primrose.Primitives.ValueTypes.ushort2,Primrose.Primitives.ValueTypes.ushort2)">
+            <summary>Determines if two ushort2 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.ushort2.Empty">
+            <summary>Returns a ushort2 value with all elements set to their default value</summary>
+        </member>
+        <member name="T:Primrose.Primitives.ValueTypes.ushort3">
+            <summary>A ushort3 triple value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort3.x">
+            <summary>The x or [0] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort3.y">
+            <summary>The y or [1] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort3.z">
+            <summary>The z or [2] value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.#ctor(System.UInt16,System.UInt16,System.UInt16)">
+            <summary>
+            Creates a ushort3 value
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="z"></param>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.ushort3.Item(System.Int32)">
+            <summary>The value indexer</summary>
+            <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.ToString">
+            <summary>Returns the string representation of this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.ToArray">
+            <summary>Creates a ushort[] array from this value</summary>
+            <returns>An array of length 3 with identical indexed values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.FromArray(System.UInt16[])">
+            <summary>Creates a ushort3 from an array</summary>
+            <param name="array">The array</param>
+            <returns>A ushort3 value</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 3 can be converted to a ushort3</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.Parse(System.String)">
+            <summary>Parses a ushort3 from a string</summary>
+            <param name="s">The string value</param>
+            <returns>A ushort3 value</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.ushort3)">
+            <summary>Parses a ushort3 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>A ushort3 value, or the default value if the parsing fails</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.TryParse(System.String,Primrose.Primitives.ValueTypes.ushort3@)">
+            <summary>Parses a ushort3 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.TryParse(System.String,Primrose.Primitives.ValueTypes.ushort3@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.ushort3)">
+            <summary>Parses a ushort3 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.op_Equality(Primrose.Primitives.ValueTypes.ushort3,Primrose.Primitives.ValueTypes.ushort3)">
+            <summary>Determines if two ushort3 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.op_Inequality(Primrose.Primitives.ValueTypes.ushort3,Primrose.Primitives.ValueTypes.ushort3)">
+            <summary>Determines if two ushort3 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.ushort3.Empty">
+            <summary>Returns a ushort3 value with all elements set to their default value</summary>
+        </member>
+        <member name="T:Primrose.Primitives.ValueTypes.ushort4">
+            <summary>A ushort4 quad value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort4.x">
+            <summary>The x or [0] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort4.y">
+            <summary>The y or [1] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort4.z">
+            <summary>The z or [2] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.ushort4.w">
+            <summary>The w or [3] value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16)">
+            <summary>
+            Creates a ushort4 value
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="z"></param>
+            <param name="w"></param>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.ushort4.Item(System.Int32)">
+            <summary>The value indexer</summary>
+            <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.ToString">
+            <summary>Returns the string representation of this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.ToArray">
+            <summary>Creates a ushort[] array from this value</summary>
+            <returns>An array of length 4 with identical indexed values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.FromArray(System.UInt16[])">
+            <summary>Creates a ushort4 from an array</summary>
+            <param name="array">The array</param>
+            <returns>A ushort4 value</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a ushort4</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.Parse(System.String)">
+            <summary>Parses a ushort4 from a string</summary>
+            <param name="s">The string value</param>
+            <returns>A ushort4 value</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.ushort4)">
+            <summary>Parses a ushort4 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>A ushort4 value, or the default value if the parsing fails</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.TryParse(System.String,Primrose.Primitives.ValueTypes.ushort4@)">
+            <summary>Parses a ushort4 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.TryParse(System.String,Primrose.Primitives.ValueTypes.ushort4@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.ushort4)">
+            <summary>Parses a ushort4 from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.op_Equality(Primrose.Primitives.ValueTypes.ushort4,Primrose.Primitives.ValueTypes.ushort4)">
+            <summary>Determines if two ushort4 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.op_Inequality(Primrose.Primitives.ValueTypes.ushort4,Primrose.Primitives.ValueTypes.ushort4)">
+            <summary>Determines if two ushort4 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.ushort4.Empty">
+            <summary>Returns a ushort4 value with all elements set to their default value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.uint2">
             <summary>A uint2 pair value</summary>
         </member>
@@ -2357,6 +2887,22 @@
         <member name="M:Primrose.Primitives.ValueTypes.uint2.op_Modulus(Primrose.Primitives.ValueTypes.uint2,System.UInt32)">
             <summary>Performs a modulus operation between a uint2 value and a uint divisor</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint2.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint2.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint2.op_Equality(Primrose.Primitives.ValueTypes.uint2,Primrose.Primitives.ValueTypes.uint2)">
+            <summary>Determines if two uint2 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint2.op_Inequality(Primrose.Primitives.ValueTypes.uint2,Primrose.Primitives.ValueTypes.uint2)">
+            <summary>Determines if two uint2 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.uint2.Empty">
+            <summary>Returns a uint2 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.uint3">
             <summary>A uint3 triple value</summary>
@@ -2449,6 +2995,22 @@
         <member name="M:Primrose.Primitives.ValueTypes.uint3.op_Modulus(Primrose.Primitives.ValueTypes.uint3,System.UInt32)">
             <summary>Performs a modulus operation between a uint3 value and a uint divisor</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint3.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint3.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint3.op_Equality(Primrose.Primitives.ValueTypes.uint3,Primrose.Primitives.ValueTypes.uint3)">
+            <summary>Determines if two uint3 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint3.op_Inequality(Primrose.Primitives.ValueTypes.uint3,Primrose.Primitives.ValueTypes.uint3)">
+            <summary>Determines if two uint3 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.uint3.Empty">
+            <summary>Returns a uint3 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.uint4">
             <summary>A uint4 quad value</summary>
@@ -2546,6 +3108,22 @@
             <summary>Performs a modulus operation between a uint4 value and a uint divisor</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint4.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint4.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint4.op_Equality(Primrose.Primitives.ValueTypes.uint4,Primrose.Primitives.ValueTypes.uint4)">
+            <summary>Determines if two uint4 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint4.op_Inequality(Primrose.Primitives.ValueTypes.uint4,Primrose.Primitives.ValueTypes.uint4)">
+            <summary>Determines if two uint4 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.uint4.Empty">
+            <summary>Returns a uint4 value with all elements set to their default value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.short2">
             <summary>A short2 pair value</summary>
         </member>
@@ -2606,6 +3184,22 @@
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short2.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short2.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short2.op_Equality(Primrose.Primitives.ValueTypes.short2,Primrose.Primitives.ValueTypes.short2)">
+            <summary>Determines if two short2 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short2.op_Inequality(Primrose.Primitives.ValueTypes.short2,Primrose.Primitives.ValueTypes.short2)">
+            <summary>Determines if two short2 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.short2.Empty">
+            <summary>Returns a short2 value with all elements set to their default value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.byte2">
             <summary>A byte2 pair value</summary>
         </member>
@@ -2665,6 +3259,22 @@
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte2.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte2.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte2.op_Equality(Primrose.Primitives.ValueTypes.byte2,Primrose.Primitives.ValueTypes.byte2)">
+            <summary>Determines if two byte2 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte2.op_Inequality(Primrose.Primitives.ValueTypes.byte2,Primrose.Primitives.ValueTypes.byte2)">
+            <summary>Determines if two byte2 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.byte2.Empty">
+            <summary>Returns a byte2 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.short3">
             <summary>A short3 triple value</summary>
@@ -2729,6 +3339,22 @@
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short3.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short3.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short3.op_Equality(Primrose.Primitives.ValueTypes.short3,Primrose.Primitives.ValueTypes.short3)">
+            <summary>Determines if two short3 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short3.op_Inequality(Primrose.Primitives.ValueTypes.short3,Primrose.Primitives.ValueTypes.short3)">
+            <summary>Determines if two short3 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.short3.Empty">
+            <summary>Returns a short3 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.short4">
             <summary>A short4 quad value</summary>
@@ -2797,6 +3423,22 @@
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short4.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short4.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short4.op_Equality(Primrose.Primitives.ValueTypes.short4,Primrose.Primitives.ValueTypes.short4)">
+            <summary>Determines if two short4 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short4.op_Inequality(Primrose.Primitives.ValueTypes.short4,Primrose.Primitives.ValueTypes.short4)">
+            <summary>Determines if two short4 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.short4.Empty">
+            <summary>Returns a short4 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.int2">
             <summary>A int2 pair value</summary>
@@ -2889,6 +3531,22 @@
         <member name="M:Primrose.Primitives.ValueTypes.int2.op_Modulus(Primrose.Primitives.ValueTypes.int2,System.Int32)">
             <summary>Performs a modulus operation between a int2 value and a int divisor</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int2.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int2.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Equality(Primrose.Primitives.ValueTypes.int2,Primrose.Primitives.ValueTypes.int2)">
+            <summary>Determines if two int2 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Inequality(Primrose.Primitives.ValueTypes.int2,Primrose.Primitives.ValueTypes.int2)">
+            <summary>Determines if two int2 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.int2.Empty">
+            <summary>Returns a int2 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float2">
             <summary>A float2 pair value</summary>
@@ -2993,6 +3651,22 @@
             <summary>Returns the absolute difference between two float2 values</summary>
             <param name="a"></param><param name="b"></param><returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Equality(Primrose.Primitives.ValueTypes.float2,Primrose.Primitives.ValueTypes.float2)">
+            <summary>Determines if two float2 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Inequality(Primrose.Primitives.ValueTypes.float2,Primrose.Primitives.ValueTypes.float2)">
+            <summary>Determines if two float2 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.float2.Empty">
+            <summary>Returns a float2 value with all elements set to their default value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.byte3">
             <summary>A byte3 triple value</summary>
         </member>
@@ -3056,6 +3730,22 @@
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte3.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte3.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte3.op_Equality(Primrose.Primitives.ValueTypes.byte3,Primrose.Primitives.ValueTypes.byte3)">
+            <summary>Determines if two byte3 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte3.op_Inequality(Primrose.Primitives.ValueTypes.byte3,Primrose.Primitives.ValueTypes.byte3)">
+            <summary>Determines if two byte3 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.byte3.Empty">
+            <summary>Returns a byte3 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.int3">
             <summary>A int3 triple value</summary>
@@ -3152,6 +3842,22 @@
         <member name="M:Primrose.Primitives.ValueTypes.int3.op_Modulus(Primrose.Primitives.ValueTypes.int3,System.Int32)">
             <summary>Performs a modulus operation between a int3 value and a int divisor</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int3.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int3.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Equality(Primrose.Primitives.ValueTypes.int3,Primrose.Primitives.ValueTypes.int3)">
+            <summary>Determines if two int3 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Inequality(Primrose.Primitives.ValueTypes.int3,Primrose.Primitives.ValueTypes.int3)">
+            <summary>Determines if two int3 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.int3.Empty">
+            <summary>Returns a int3 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float3">
             <summary>A float3 triple value</summary>
@@ -3260,6 +3966,22 @@
             <summary>Returns the absolute difference between two float3 values</summary>
             <param name="a"></param><param name="b"></param><returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Equality(Primrose.Primitives.ValueTypes.float3,Primrose.Primitives.ValueTypes.float3)">
+            <summary>Determines if two float3 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Inequality(Primrose.Primitives.ValueTypes.float3,Primrose.Primitives.ValueTypes.float3)">
+            <summary>Determines if two float3 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.float3.Empty">
+            <summary>Returns a float3 value with all elements set to their default value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.byte4">
             <summary>A byte4 quad value</summary>
         </member>
@@ -3327,6 +4049,22 @@
             <param name="defaultValue">The default value</param>
             <param name="result">The parsed value</param>
             <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte4.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte4.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte4.op_Equality(Primrose.Primitives.ValueTypes.byte4,Primrose.Primitives.ValueTypes.byte4)">
+            <summary>Determines if two byte4 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte4.op_Inequality(Primrose.Primitives.ValueTypes.byte4,Primrose.Primitives.ValueTypes.byte4)">
+            <summary>Determines if two byte4 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.byte4.Empty">
+            <summary>Returns a byte4 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.int4">
             <summary>A int4 quad value</summary>
@@ -3427,6 +4165,22 @@
         <member name="M:Primrose.Primitives.ValueTypes.int4.op_Modulus(Primrose.Primitives.ValueTypes.int4,System.Int32)">
             <summary>Performs a modulus operation between a int4 value and a int divisor</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int4.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int4.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Equality(Primrose.Primitives.ValueTypes.int4,Primrose.Primitives.ValueTypes.int4)">
+            <summary>Determines if two int4 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Inequality(Primrose.Primitives.ValueTypes.int4,Primrose.Primitives.ValueTypes.int4)">
+            <summary>Determines if two int4 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.int4.Empty">
+            <summary>Returns a int4 value with all elements set to their default value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float4">
             <summary>A float4 quad value</summary>
@@ -3539,6 +4293,22 @@
             <summary>Returns the absolute difference between two float4 values</summary>
             <param name="a"></param><param name="b"></param><returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Equality(Primrose.Primitives.ValueTypes.float4,Primrose.Primitives.ValueTypes.float4)">
+            <summary>Determines if two float4 values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Inequality(Primrose.Primitives.ValueTypes.float4,Primrose.Primitives.ValueTypes.float4)">
+            <summary>Determines if two float4 values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.float4.Empty">
+            <summary>Returns a float4 value with all elements set to their default value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.Trip`3">
             <summary>
             A value triple
@@ -3613,6 +4383,162 @@
             </summary>
             <param name="t">The first value</param>
             <param name="u">The second value</param>
+        </member>
+        <member name="T:Primrose.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_AFactoryObjectDuplicateID">
+            <summary>
+              Looks up a localized string similar to Setting ID to AFactoryObject with existing ID &apos;{0}&apos; is not allowed!.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_ArrayMismatchException">
+            <summary>
+              Looks up a localized string similar to Attempted operation between two arrays of different length.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_ArrayMismatchException_length_length">
+            <summary>
+              Looks up a localized string similar to Attempted operation between two arrays of different lengths &apos;{0}&apos; and &apos;{1}&apos;.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_ArrayMismatchException_length_type">
+            <summary>
+              Looks up a localized string similar to Attempted assignment of an array of length {0} to {1}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_CacheKeyNotFound">
+            <summary>
+              Looks up a localized string similar to Attempted to get an non-existent key &apos;{0}&apos; from a cache..
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_CapacityExceededException">
+            <summary>
+              Looks up a localized string similar to Attempted to push an item into {0} that has reached capacity limit of {1}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_CollectionAddDuplicateKey">
+            <summary>
+              Looks up a localized string similar to Attempted to add an existing key &apos;{0}&apos; to a {1}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_CollectionAddNullKey">
+            <summary>
+              Looks up a localized string similar to Attempted to add a null key to a {0}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_CollectionPutNullKey">
+            <summary>
+              Looks up a localized string similar to Attempted to put value of a null key in a {0}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_CollectionSetKeyNotFound">
+            <summary>
+              Looks up a localized string similar to Attempted to set value to an non-existent key &apos;{0}&apos; in a {1}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_CollectionSetNullKey">
+            <summary>
+              Looks up a localized string similar to Attempted to set value of a null key to a {0}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_DuplicateINISection">
+            <summary>
+              Looks up a localized string similar to Invalid duplicate section [{0}] detected..
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_ExpectedEnumException">
+            <summary>
+              Looks up a localized string similar to Type &apos;{0}&apos; is not an enum.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_FileNotFound">
+            <summary>
+              Looks up a localized string similar to The file {0} is not found!.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_INIFileAttributeNotFound">
+            <summary>
+              Looks up a localized string similar to The attribute does not exist!.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_INIKeyListInvalidType">
+            <summary>
+              Looks up a localized string similar to INIKeyList attribute can only be used with string[] data types! ({0}).
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_INIKeyNotFound">
+            <summary>
+              Looks up a localized string similar to The key &apos;{0}&apos; in section &apos;{1}&apos; is not defined!.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_INIRegistryListInvalidType">
+            <summary>
+              Looks up a localized string similar to INIRegistry attribute can only be used with Registry&lt;K,T&gt; data types! ({0}).
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_INISectionNotFound">
+            <summary>
+              Looks up a localized string similar to The section &apos;{0}&apos; is not defined!.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_INISubSectionKeyListInvalidType">
+            <summary>
+              Looks up a localized string similar to INISubSectionKeyListAttribute attribute can only be used with a single-level array (T[]) data type! ({0}).
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_INISubSectionListInvalidType">
+            <summary>
+              Looks up a localized string similar to INISubSectionListAttribute attribute can only be used with a single-level array (T[]) data type! ({0}).
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_InvalidIndex">
+            <summary>
+              Looks up a localized string similar to Attempted to access invalid index &apos;{0}&apos; of {1}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_InvalidStateCommandException">
+            <summary>
+              Looks up a localized string similar to Command &apos;{0}&apos; is not valid on state &apos;{1}&apos;.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_ObjectPoolBackgroundPoolNotCreated">
+            <summary>
+              Looks up a localized string similar to The background object pool for &apos;{0}&apos; has not been created..
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_ObjectPoolDuplicateBackgroundPool">
+            <summary>
+              Looks up a localized string similar to There is already a background object pool for &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_RuleConversionException">
+            <summary>
+              Looks up a localized string similar to Attempted to parse invalid value &apos;{0}&apos; as {1}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_UnsupportedParseException">
+            <summary>
+              Looks up a localized string similar to Attempted to parse a string from an unsupported type &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:Primrose.Properties.Resources.Error_UnsupportedWriteException">
+            <summary>
+              Looks up a localized string similar to Attempted to write a string from an unsupported type &apos;{0}&apos;.
+            </summary>
         </member>
         <member name="T:Primitives.FileFormat.INI.INISubSectionKeyListAttribute">
             <summary>Reads a section whose keys redirect to other sections of an INI file</summary>
@@ -3978,6 +4904,98 @@
         </member>
         <member name="M:Primitives.FileFormat.INI.INIFile.Write(System.IO.StreamWriter)">
             <summary>Writes the INI data into a destination</summary>
+        </member>
+        <member name="T:Primitives.Log.StringSource">
+            <summary>Defines a data resource that maps a code to a string resource</summary>
+        </member>
+        <member name="M:Primitives.Log.StringSource.Add(System.Int32,System.String)">
+            <summary>Registers a new string code with a formatted string</summary>
+            <param name="key">The identifier string code</param>
+            <param name="formattedString">The formatted string</param>
+        </member>
+        <member name="M:Primitives.Log.StringSource.Put(System.Int32,System.String)">
+            <summary>Registers or redefines a new string code with a formatted string</summary>
+            <param name="key">The identifier string code</param>
+            <param name="formattedString">The formatted string</param>
+        </member>
+        <member name="M:Primitives.Log.StringSource.Get(System.Int32)">
+            <summary>Retrieves a formatted string from its code</summary>
+            <param name="key">The identifier string code.</param>
+        </member>
+        <member name="T:Primitives.Log.Logger">
+            <summary>Handles logging behaviour for the program</summary>
+        </member>
+        <member name="F:Primitives.Log.Logger.LOG_EXT">
+            <summary>The default log extension appended to log files, unless explicitly defined</summary>
+        </member>
+        <member name="M:Primitives.Log.Logger.Define(System.String,System.String)">
+            <summary>Creates a log channel associated with a log file. If the channel already exists, update its definition</summary>
+            <param name="channel">The name used to identify the logging channel</param>
+            <param name="path">The path of the log file</param>
+        </member>
+        <member name="M:Primitives.Log.Logger.GetOrCreateInner(System.String)">
+            <summary>Gets or creates a logging handle</summary>
+            <param name="channel">The name used to identify the logging channel</param>
+            <returns></returns>
+        </member>
+        <member name="M:Primitives.Log.Logger.GetOrCreateInner(System.String,System.String)">
+            <summary>Gets or creates a logging handle</summary>
+            <param name="channel">The name used to identify the logging channel</param>
+            <param name="path">The path of the log file</param>
+            <returns></returns>
+        </member>
+        <member name="M:Primitives.Log.Logger.Log(System.String,System.String)">
+            <summary>Writes a predefined message into a log channel</summary>
+            <param name="channel">The log channel to write to</param>
+            <param name="message">The log message</param>
+        </member>
+        <member name="M:Primitives.Log.Logger.Log(System.String,System.String,System.Object[])">
+            <summary>Writes a predefined message into a log channel</summary>
+            <param name="channel">The log channel to write to</param>
+            <param name="format">The log message format</param>
+            <param name="args">The parameterized message arguments</param>
+        </member>
+        <member name="M:Primitives.Log.Logger.Log``1(System.String,Primitives.Log.StringSource,System.Int32,``0)">
+            <summary>Writes a predefined message into a log channel</summary>
+            <typeparam name="T">The type of the message argument</typeparam>
+            <param name="channel">The log channel to write to</param>
+            <param name="source">The log message definitions</param>
+            <param name="code">The predefined log message type</param>
+            <param name="arg">The message argument</param>
+        </member>
+        <member name="M:Primitives.Log.Logger.Log``2(System.String,Primitives.Log.StringSource,System.Int32,``0,``1)">
+            <summary>Writes a predefined message into a log channel</summary>
+            <typeparam name="T1">The type of the first message argument</typeparam>
+            <typeparam name="T2">The type of the second message argument</typeparam>
+            <param name="channel">The log channel to write to</param>
+            <param name="source">The log message definitions</param>
+            <param name="code">The predefined log message type</param>
+            <param name="a1">The first message argument</param>
+            <param name="a2">The second message argument</param>
+        </member>
+        <member name="M:Primitives.Log.Logger.Log``3(System.String,Primitives.Log.StringSource,System.Int32,``0,``1,``2)">
+            <summary>Writes a predefined message into a log channel</summary>
+            <typeparam name="T1">The type of the first message argument</typeparam>
+            <typeparam name="T2">The type of the second message argument</typeparam>
+            <typeparam name="T3">The type of the third message argument</typeparam>
+            <param name="channel">The log channel to write to</param>
+            <param name="source">The log message definitions</param>
+            <param name="code">The predefined log message type</param>
+            <param name="a1">The first message argument</param>
+            <param name="a2">The second message argument</param>
+            <param name="a3">The third message argument</param>
+        </member>
+        <member name="M:Primitives.Log.Logger.Log(System.String,Primitives.Log.StringSource,System.Int32,System.Object[])">
+            <summary>Writes a predefined message into a log channel</summary>
+            <param name="channel">The log channel to write to</param>
+            <param name="source">The log message definitions</param>
+            <param name="code">The predefined log message type</param>
+            <param name="args">The parameterized message arguments</param>
+        </member>
+        <member name="M:Primitives.Log.Logger.WriteErr(System.String,System.Exception)">
+            <summary>Writes an error message into the channel</summary>
+            <param name="channel"></param>
+            <param name="ex"></param>
         </member>
     </members>
 </doc>
