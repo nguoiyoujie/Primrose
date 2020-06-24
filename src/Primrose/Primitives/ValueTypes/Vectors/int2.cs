@@ -34,7 +34,7 @@ namespace Primrose.Primitives.ValueTypes
           case 1:
             return y;
           default:
-            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of int2".F(i));
+            throw new IndexOutOfRangeException(Properties.Resources.Error_InvalidIndex.F(i, GetType()));
         }
       }
       set
@@ -48,7 +48,7 @@ namespace Primrose.Primitives.ValueTypes
             y = value;
             break;
           default:
-            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of int2".F(i));
+            throw new IndexOutOfRangeException(Properties.Resources.Error_InvalidIndex.F(i, GetType()));
         }
       }
     }
@@ -165,5 +165,36 @@ namespace Primrose.Primitives.ValueTypes
     {
       return new int2(a.x % m, a.y % m);
     }
+
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="obj">The object to compare for equality</param>
+    public override bool Equals(object obj)
+    {
+      return obj is int2 fobj && x == fobj.x && y == fobj.y;
+    }
+
+    /// <summary>Generates the hash code for this object</summary>
+    public override int GetHashCode()
+    {
+      int hashCode = 1502939027;
+      hashCode = hashCode * -1521134295 + x.GetHashCode();
+      hashCode = hashCode * -1521134295 + y.GetHashCode();
+      return hashCode;
+    }
+
+    /// <summary>Determines if two int2 values are equal</summary>
+    public static bool operator ==(int2 a, int2 b)
+    {
+      return a.Equals(b);
+    }
+
+    /// <summary>Determines if two int2 values are not equal</summary>
+    public static bool operator !=(int2 a, int2 b)
+    {
+      return !a.Equals(b);
+    }
+
+    /// <summary>Returns a int2 value with all elements set to their default value</summary>
+    public static int2 Empty { get { return new int2(); } }
   }
 }

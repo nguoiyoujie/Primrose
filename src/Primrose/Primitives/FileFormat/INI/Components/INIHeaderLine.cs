@@ -67,8 +67,6 @@ namespace Primitives.FileFormat.INI
                 }
                 line = line.Substring(0, inhpos);
               }
-              //else
-              //  throw new InvalidOperationException("Section inheritance is not allowed on this file.");
             }
 
             int startpos = line.IndexOf('[');

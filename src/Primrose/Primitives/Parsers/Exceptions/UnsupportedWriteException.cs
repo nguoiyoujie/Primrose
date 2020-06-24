@@ -8,6 +8,6 @@ namespace Primrose.Primitives.Parsers
   public class UnsupportedWriteException<T> : InvalidOperationException
   {
     /// <summary>Defines an exception for errors encountered by an attempt to write from an unsupported type</summary>
-    public UnsupportedWriteException() : base("Attempted to write a string from an unsupported type '{0}'".F(typeof(T).Name)) { }
+    public UnsupportedWriteException() : base(Properties.Resources.Error_UnsupportedWriteException.F(typeof(T).Name)) { }
   }
 }

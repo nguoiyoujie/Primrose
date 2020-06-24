@@ -50,7 +50,7 @@ namespace Primitives.FileFormat.INI
     internal object Read(Type t, INIFile f, string fieldName, string defaultSection, IResolver resolver)
     {
       if (!t.IsArray || t.GetElementType().IsArray)
-        throw new InvalidOperationException("INISubSectionListAttribute attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
+        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INISubSectionListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetElementType());
@@ -76,7 +76,7 @@ namespace Primitives.FileFormat.INI
     internal void Write(Type t, INIFile f, object value, string fieldName, string defaultSection)
     {
       if (!t.IsArray || t.GetElementType().IsArray)
-        throw new InvalidOperationException("INISubSectionListAttribute attribute can only be used with a single-level array (T[]) data type! ({0})".F(t.Name));
+        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INISubSectionListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
@@ -85,6 +85,9 @@ namespace Primitives.FileFormat.INI
 
     private void InnerWrite<T>(INIFile f, T[] value, string fieldName, string defaultSection)
     {
+      if (value == default)
+        return;
+
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       string k = SubsectionPrefix ?? INIAttributeExt.GetKey(Key, fieldName);
       string[] keys = new string[value.Length];

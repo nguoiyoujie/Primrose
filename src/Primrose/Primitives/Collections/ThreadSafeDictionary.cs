@@ -146,11 +146,11 @@ namespace Primrose.Primitives
       }
       catch (ArgumentNullException ex)
       {
-        throw new ArgumentNullException("Attempted to add a null key to a {0}".F(GetType().Name), ex);
+        throw new ArgumentNullException(Properties.Resources.Error_CollectionAddNullKey.F(GetType().Name), ex);
       }
       catch (ArgumentException ex)
       {
-        throw new ArgumentException("Attempted to add an existing key '{0}' to a {1}".F(key, GetType().Name), ex);
+        throw new ArgumentException(Properties.Resources.Error_CollectionAddDuplicateKey.F(key, GetType().Name), ex);
       }
     }
 
@@ -168,11 +168,11 @@ namespace Primrose.Primitives
       }
       catch (ArgumentNullException ex)
       {
-        throw new ArgumentNullException("Attempted to set value of a null key to a {0}".F(GetType().Name), ex);
+        throw new ArgumentNullException(Properties.Resources.Error_CollectionSetNullKey.F(GetType().Name), ex);
       }
       catch (KeyNotFoundException ex)
       {
-        throw new ArgumentException("Attempted to set value to an non-existent key '{0}' in a {1}".F(key, GetType().Name), ex);
+        throw new ArgumentException(Properties.Resources.Error_CollectionSetKeyNotFound.F(key, GetType().Name), ex);
       }
     }
 
@@ -194,7 +194,7 @@ namespace Primrose.Primitives
       }
       catch (ArgumentNullException ex)
       {
-        throw new ArgumentNullException("Attempted to put value of a null key in a {0}".F(GetType().Name), ex);
+        throw new ArgumentNullException(Properties.Resources.Error_CollectionPutNullKey.F(GetType().Name), ex);
       }
     }
 

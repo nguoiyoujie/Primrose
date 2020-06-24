@@ -40,7 +40,7 @@ namespace Primrose.Primitives.ValueTypes
           case 2:
             return z;
           default:
-            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of float3".F(i));
+            throw new IndexOutOfRangeException(Properties.Resources.Error_InvalidIndex.F(i, GetType()));
         }
       }
       set
@@ -57,7 +57,7 @@ namespace Primrose.Primitives.ValueTypes
             z = value;
             break;
           default:
-            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of float3".F(i));
+            throw new IndexOutOfRangeException(Properties.Resources.Error_InvalidIndex.F(i, GetType()));
         }
       }
     }
@@ -196,5 +196,37 @@ namespace Primrose.Primitives.ValueTypes
     {
       return Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y) + Math.Abs(a.z - b.z);
     }
+
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="obj">The object to compare for equality</param>
+    public override bool Equals(object obj)
+    {
+      return obj is float3 fobj && x == fobj.x && y == fobj.y && z == fobj.z;
+    }
+
+    /// <summary>Generates the hash code for this object</summary>
+    public override int GetHashCode()
+    {
+      int hashCode = 1502939027;
+      hashCode = hashCode * -1521134295 + x.GetHashCode();
+      hashCode = hashCode * -1521134295 + y.GetHashCode();
+      hashCode = hashCode * -1521134295 + z.GetHashCode();
+      return hashCode;
+    }
+
+    /// <summary>Determines if two float3 values are equal</summary>
+    public static bool operator ==(float3 a, float3 b)
+    {
+      return a.Equals(b);
+    }
+
+    /// <summary>Determines if two float3 values are not equal</summary>
+    public static bool operator !=(float3 a, float3 b)
+    {
+      return !a.Equals(b);
+    }
+
+    /// <summary>Returns a float3 value with all elements set to their default value</summary>
+    public static float3 Empty { get { return new float3(); } }
   }
 }

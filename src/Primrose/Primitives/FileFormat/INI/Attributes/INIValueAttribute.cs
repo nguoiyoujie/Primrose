@@ -72,6 +72,9 @@ namespace Primitives.FileFormat.INI
 
     private void InnerWrite<T>(INIFile f, T value, string fieldName, string defaultSection)
     {
+      if (value == null || value.Equals(default(T)))
+        return;
+
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       string k = INIAttributeExt.GetKey(Key, fieldName);
       f.SetString(s, k, Parser.Write(value));

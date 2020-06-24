@@ -3,6 +3,7 @@ using Primrose.Primitives.Factories;
 using Primrose.Primitives.Parsers;
 using System;
 using System.Reflection;
+using System.Runtime.Remoting.Channels;
 
 namespace Primitives.FileFormat.INI
 {
@@ -43,7 +44,7 @@ namespace Primitives.FileFormat.INI
     internal object Read(Type t, INIFile f, string defaultSection, IResolver resolver)
     {
       if (t.GetGenericTypeDefinition() != typeof(Registry<,>))
-        throw new InvalidOperationException("INIRegistry attribute can only be used with Registry<K,T> data types! ({0})".F(t.Name));
+        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INIRegistryListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
@@ -71,15 +72,18 @@ namespace Primitives.FileFormat.INI
     internal void Write(Type t, INIFile f, object value, string defaultSection)
     {
       if (t.GetGenericTypeDefinition() != typeof(Registry<,>))
-        throw new InvalidOperationException("INIRegistry attribute can only be used with Registry<K,T> data types! ({0})".F(t.Name));
+        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INIRegistryListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-      MethodInfo gmRead = mRead.MakeGenericMethod(t.GetElementType());
+      MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
       gmRead.Invoke(this, new object[] { f, value, defaultSection });
     }
 
     private void InnerWrite<T, U>(INIFile f, Registry<T, U> reg, string defaultSection)
     {
+      if (reg == default)
+        return;
+
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       foreach (T t in reg.GetKeys())
       {

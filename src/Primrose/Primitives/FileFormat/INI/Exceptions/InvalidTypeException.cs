@@ -8,7 +8,7 @@ namespace Primitives.FileFormat.INI
   {
     /// <summary>Represents an exception as a result of a missing section</summary>
     /// <param name="section">The missing section</param>
-    public INISectionNotFoundException(string section) : base("Required section '{0}' is not defined!".F(section)) { }
+    public INISectionNotFoundException(string section) : base(Primrose.Properties.Resources.Error_INISectionNotFound.F(section)) { }
   }
 
   /// <summary>Represents an exception as a result of a missing section key</summary>
@@ -17,6 +17,6 @@ namespace Primitives.FileFormat.INI
     /// <summary>Represents an exception as a result of a missing section key</summary>
     /// <param name="section">The section where the key is missing</param>
     /// <param name="key">The missing key</param>
-    public INIKeyNotFoundException(string section, string key) : base("Required key '{0}' in section '{1}' is not defined!".F(key, section)) { }
+    public INIKeyNotFoundException(string section, string key) : base(Primrose.Properties.Resources.Error_INIKeyNotFound.F(key, section)) { }
   }
 }

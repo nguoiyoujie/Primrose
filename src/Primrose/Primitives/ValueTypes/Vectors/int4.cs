@@ -46,7 +46,7 @@ namespace Primrose.Primitives.ValueTypes
           case 3:
             return w;
           default:
-            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of int4".F(i));
+            throw new IndexOutOfRangeException(Properties.Resources.Error_InvalidIndex.F(i, GetType()));
         }
       }
       set
@@ -66,7 +66,7 @@ namespace Primrose.Primitives.ValueTypes
             w = value;
             break;
           default:
-            throw new IndexOutOfRangeException("Attempted to access invalid index '{0}' of int4".F(i));
+            throw new IndexOutOfRangeException(Properties.Resources.Error_InvalidIndex.F(i, GetType()));
         }
       }
     }
@@ -183,5 +183,38 @@ namespace Primrose.Primitives.ValueTypes
     {
       return new int4(a.x % m, a.y % m, a.z % m, a.w % m);
     }
+
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="obj">The object to compare for equality</param>
+    public override bool Equals(object obj)
+    {
+      return obj is int4 fobj && x == fobj.x && y == fobj.y && z == fobj.z && w == fobj.w;
+    }
+
+    /// <summary>Generates the hash code for this object</summary>
+    public override int GetHashCode()
+    {
+      int hashCode = 1502939027;
+      hashCode = hashCode * -1521134295 + x.GetHashCode();
+      hashCode = hashCode * -1521134295 + y.GetHashCode();
+      hashCode = hashCode * -1521134295 + z.GetHashCode();
+      hashCode = hashCode * -1521134295 + w.GetHashCode();
+      return hashCode;
+    }
+
+    /// <summary>Determines if two int4 values are equal</summary>
+    public static bool operator ==(int4 a, int4 b)
+    {
+      return a.Equals(b);
+    }
+
+    /// <summary>Determines if two int4 values are not equal</summary>
+    public static bool operator !=(int4 a, int4 b)
+    {
+      return !a.Equals(b);
+    }
+
+    /// <summary>Returns a int4 value with all elements set to their default value</summary>
+    public static int4 Empty { get { return new int4(); } }
   }
 }

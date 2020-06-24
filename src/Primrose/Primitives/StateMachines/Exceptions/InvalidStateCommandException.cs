@@ -11,6 +11,6 @@ namespace Primrose.Primitives.StateMachines
     /// <summary>Represents an exception as a result of an invalid state command</summary>
     /// <param name="command">The command</param>
     /// <param name="state">The state</param>
-    public InvalidStateCommandException(U command, T state) : base("Command '{0}' is not valid on state '{1}'".F(command, state)) { }
+    public InvalidStateCommandException(U command, T state) : base(Properties.Resources.Error_InvalidStateCommandException.F(command, state)) { }
   }
 }

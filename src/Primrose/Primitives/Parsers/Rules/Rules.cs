@@ -67,6 +67,51 @@ namespace Primrose.Primitives.Parsers
         throw new RuleConversionException(typeof(byte4), value);
       }
 
+
+      /// <summary>Parses a string to a sbyte value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static sbyte ToSByte(string value, IResolver resolver)
+      {
+        sbyte ret;
+        if (value != null && sbyte.TryParse(value, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(sbyte), value);
+      }
+
+      /// <summary>Parses a string to a sbyte2 value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static sbyte2 ToSByte2(string value, IResolver resolver)
+      {
+        sbyte2 ret = default; ;
+        if (value != null && sbyte2.TryParse(value, out ret, resolver, ret))
+          return ret;
+        throw new RuleConversionException(typeof(sbyte2), value);
+      }
+
+      /// <summary>Parses a string to a sbyte3 value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static sbyte3 ToSByte3(string value, IResolver resolver)
+      {
+        sbyte3 ret = default;
+        if (value != null && sbyte3.TryParse(value, out ret, resolver, ret))
+          return ret;
+        throw new RuleConversionException(typeof(sbyte3), value);
+      }
+
+      /// <summary>Parses a string to a sbyte4 value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static sbyte4 ToSByte4(string value, IResolver resolver)
+      {
+        sbyte4 ret = default;
+        if (value != null && sbyte4.TryParse(value, out ret, resolver, ret))
+          return ret;
+        throw new RuleConversionException(typeof(sbyte4), value);
+      }
+
       /// <summary>Parses a string to a short value</summary>
       /// <param name="value">The string to be parsed</param>
       /// <param name="resolver">A string resolver function</param>
@@ -109,6 +154,50 @@ namespace Primrose.Primitives.Parsers
         if (value != null && short4.TryParse(value, out ret, resolver, ret))
           return ret;
         throw new RuleConversionException(typeof(short4), value);
+      }
+
+      /// <summary>Parses a string to a ushort value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static ushort ToUShort(string value, IResolver resolver)
+      {
+        ushort ret = default;
+        if (value != null && ushort.TryParse(value, out ret))
+          return ret;
+        throw new RuleConversionException(typeof(ushort), value);
+      }
+
+      /// <summary>Parses a string to a ushort2 value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static ushort2 ToUShort2(string value, IResolver resolver)
+      {
+        ushort2 ret = default;
+        if (value != null && ushort2.TryParse(value, out ret, resolver, ret))
+          return ret;
+        throw new RuleConversionException(typeof(ushort2), value);
+      }
+
+      /// <summary>Parses a string to a ushort3 value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static ushort3 ToUShort3(string value, IResolver resolver)
+      {
+        ushort3 ret = default;
+        if (value != null && ushort3.TryParse(value, out ret, resolver, ret))
+          return ret;
+        throw new RuleConversionException(typeof(ushort3), value);
+      }
+
+      /// <summary>Parses a string to a ushort4 value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static ushort4 ToUShort4(string value, IResolver resolver)
+      {
+        ushort4 ret = default;
+        if (value != null && ushort4.TryParse(value, out ret, resolver, ret))
+          return ret;
+        throw new RuleConversionException(typeof(ushort4), value);
       }
 
       /// <summary>Parses a string to an int value</summary>
@@ -276,6 +365,31 @@ namespace Primrose.Primitives.Parsers
         throw new RuleConversionException(typeof(double), value);
       }
 
+      /// <summary>Parses a string to a nullable value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static T ToNullable<T>(string value, IResolver resolver)
+      {
+        if (string.IsNullOrWhiteSpace(value))
+          return default(T);
+
+        Type et = Nullable.GetUnderlyingType(typeof(T));
+        return (T)_fromStr.Get(et).Invoke(value, resolver);
+      }
+
+      /// <summary>Parses a string to a nullable value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static T ToNullableEnum<T>(string value, IResolver resolver)
+      {
+        if (string.IsNullOrWhiteSpace(value))
+          return default(T);
+
+        string s = value.Replace("|", ",");
+        Type et = Nullable.GetUnderlyingType(typeof(T));
+        return (T)Enum.Parse(et, s);
+      }
+
       /// <summary>Parses a string to an array of values</summary>
       /// <param name="value">The string to be parsed</param>
       /// <param name="resolver">A string resolver function</param>
@@ -294,7 +408,7 @@ namespace Primrose.Primitives.Parsers
 
         for (int i = 0; i < tokens.Length; i++)
         {
-          array.SetValue(_fromStr.Get(et).Invoke(tokens[i], resolver), i);
+          array.SetValue(_fromStr.Get(et).Invoke(tokens[i].Trim(), resolver), i);
         }
 
         return (T)(object)array;
@@ -304,7 +418,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="value">The string to be parsed</param>
       public static T ToEnum<T>(string value)
       {
-        string s = value.Replace("|", ","); ;
+        string s = value.Replace("|", ",");
         try { return (T)Enum.Parse(typeof(T), s); }
         catch { throw new RuleConversionException(typeof(T), value); }
       }
@@ -316,14 +430,15 @@ namespace Primrose.Primitives.Parsers
         if (string.IsNullOrWhiteSpace(value))
           throw new RuleConversionException(typeof(T), value);
 
-        string[] tokens = value.Split(ListDelimiter);
+        string s = value.Replace("|", ",");
+        string[] tokens = s.Split(ListDelimiter);
 
         Type et = typeof(T).GetElementType();
         Array array = Array.CreateInstance(et, tokens.Length);
 
         for (int i = 0; i < tokens.Length; i++)
         {
-          array.SetValue(Enum.Parse(et, tokens[i]), i);
+          array.SetValue(Enum.Parse(et, tokens[i].Trim()), i);
         }
         return (T)(object)array;
       }

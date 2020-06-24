@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Primrose.Primitives.Extensions;
+using System;
 
 namespace Primrose.Primitives.Factories
 {
@@ -63,7 +64,7 @@ namespace Primrose.Primitives.Factories
         if (id == null)
           id = value;
         else
-          throw new InvalidOperationException("Setting ID to AFactoryObject with existing ID '" + id + "' is not allowed!");
+          throw new InvalidOperationException(Properties.Resources.Error_AFactoryObjectDuplicateID.F(id));
       }
     }
 

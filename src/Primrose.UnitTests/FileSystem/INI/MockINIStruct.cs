@@ -70,10 +70,10 @@ namespace Primrose.UnitTests.FileSystem.INI
     public short SHORT;
 
     [INIValue]
-    public short2 SHORT2;
+    public short2? SHORT2;
 
     [INIValue]
-    public short3 SHORT3;
+    public short3? SHORT3;
 
     [INIValue]
     public short4 SHORT4;

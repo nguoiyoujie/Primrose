@@ -59,7 +59,7 @@ namespace Primrose.Primitives
     {
       CacheItem<Token, TValue, TParam> item;
       if (key == null || !cache.TryGetValue(key, out item))
-        throw new KeyNotFoundException("Attempted to get an non-existent key '{0}' from a cache.".F(key));
+        throw new KeyNotFoundException(Properties.Resources.Error_CacheKeyNotFound.F(key));
 
       return item.Get(token, func, p, cmp);
     }

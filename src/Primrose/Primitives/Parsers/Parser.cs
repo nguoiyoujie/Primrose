@@ -31,10 +31,18 @@ namespace Primrose.Primitives.Parsers
       _fromStr.Add(typeof(byte2), (s, r) => Rules.ToByte2(s, r));
       _fromStr.Add(typeof(byte3), (s, r) => Rules.ToByte3(s, r));
       _fromStr.Add(typeof(byte4), (s, r) => Rules.ToByte4(s, r));
+      _fromStr.Add(typeof(sbyte), (s, r) => Rules.ToSByte(s, r));
+      _fromStr.Add(typeof(sbyte2), (s, r) => Rules.ToSByte2(s, r));
+      _fromStr.Add(typeof(sbyte3), (s, r) => Rules.ToSByte3(s, r));
+      _fromStr.Add(typeof(sbyte4), (s, r) => Rules.ToSByte4(s, r));
       _fromStr.Add(typeof(short), (s, r) => Rules.ToShort(s, r));
       _fromStr.Add(typeof(short2), (s, r) => Rules.ToShort2(s, r));
       _fromStr.Add(typeof(short3), (s, r) => Rules.ToShort3(s, r));
       _fromStr.Add(typeof(short4), (s, r) => Rules.ToShort4(s, r));
+      _fromStr.Add(typeof(ushort), (s, r) => Rules.ToUShort(s, r));
+      _fromStr.Add(typeof(ushort2), (s, r) => Rules.ToUShort2(s, r));
+      _fromStr.Add(typeof(ushort3), (s, r) => Rules.ToUShort3(s, r));
+      _fromStr.Add(typeof(ushort4), (s, r) => Rules.ToUShort4(s, r));
       _fromStr.Add(typeof(int), (s, r) => Rules.ToInt(s, r));
       _fromStr.Add(typeof(int2), (s, r) => Rules.ToInt2(s, r));
       _fromStr.Add(typeof(int3), (s, r) => Rules.ToInt3(s, r));
@@ -58,10 +66,18 @@ namespace Primrose.Primitives.Parsers
       _toStr.Add(typeof(byte2), (o) => Rules.VecNToStr((byte2)o));
       _toStr.Add(typeof(byte3), (o) => Rules.VecNToStr((byte3)o));
       _toStr.Add(typeof(byte4), (o) => Rules.VecNToStr((byte4)o));
+      _toStr.Add(typeof(sbyte), Rules.ToStrGeneric);
+      _toStr.Add(typeof(sbyte2), (o) => Rules.VecNToStr((byte2)o));
+      _toStr.Add(typeof(sbyte3), (o) => Rules.VecNToStr((byte3)o));
+      _toStr.Add(typeof(sbyte4), (o) => Rules.VecNToStr((byte4)o));
       _toStr.Add(typeof(short), Rules.ToStrGeneric);
       _toStr.Add(typeof(short2), (o) => Rules.VecNToStr((short2)o));
       _toStr.Add(typeof(short3), (o) => Rules.VecNToStr((short3)o));
       _toStr.Add(typeof(short4), (o) => Rules.VecNToStr((short4)o));
+      _toStr.Add(typeof(ushort), Rules.ToStrGeneric);
+      _toStr.Add(typeof(ushort2), (o) => Rules.VecNToStr((short2)o));
+      _toStr.Add(typeof(ushort3), (o) => Rules.VecNToStr((short3)o));
+      _toStr.Add(typeof(ushort4), (o) => Rules.VecNToStr((short4)o));
       _toStr.Add(typeof(int), Rules.ToStrGeneric);
       _toStr.Add(typeof(int2), (o) => Rules.VecNToStr((int2)o));
       _toStr.Add(typeof(int3), (o) => Rules.VecNToStr((int3)o));
@@ -84,9 +100,15 @@ namespace Primrose.Primitives.Parsers
       _tokens.Add(typeof(byte2), 2);
       _tokens.Add(typeof(byte3), 3);
       _tokens.Add(typeof(byte4), 4);
+      _tokens.Add(typeof(sbyte2), 2);
+      _tokens.Add(typeof(sbyte3), 3);
+      _tokens.Add(typeof(sbyte4), 4);
       _tokens.Add(typeof(short2), 2);
       _tokens.Add(typeof(short3), 3);
       _tokens.Add(typeof(short4), 4);
+      _tokens.Add(typeof(ushort2), 2);
+      _tokens.Add(typeof(ushort3), 3);
+      _tokens.Add(typeof(ushort4), 4);
       _tokens.Add(typeof(int2), 2);
       _tokens.Add(typeof(int3), 3);
       _tokens.Add(typeof(int4), 4);
@@ -141,6 +163,18 @@ namespace Primrose.Primitives.Parsers
       {
         return (T)_fromStr.Get(t).Invoke(value, resolver);
       }
+      else if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
+      {
+        Type et = Nullable.GetUnderlyingType(typeof(T));
+        if (_fromStr.Contains(et))
+        {
+          return Rules.ToNullable<T>(value, resolver);
+        }
+        else if (et.IsEnum)
+        {
+          return Rules.ToNullableEnum<T>(value, resolver);
+        }
+      }
       else if (t.IsArray && _fromStr.Contains(t.GetElementType()))
       {
         return Rules.ToArray<T>(value, resolver);
@@ -171,6 +205,18 @@ namespace Primrose.Primitives.Parsers
       if (_toStr.Contains(t))
       {
         return _toStr.Get(t).Invoke(value);
+      }
+      else if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
+      {
+        Type et = Nullable.GetUnderlyingType(typeof(T));
+        if (_fromStr.Contains(et))
+        {
+          return _toStr.Get(et).Invoke(value);
+        }
+        else if (et.IsEnum)
+        {
+          return Rules.EnumToStr(value);
+        }
       }
       else if (t.IsArray && _fromStr.Contains(t.GetElementType()))
       {

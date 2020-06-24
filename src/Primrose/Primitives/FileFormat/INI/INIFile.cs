@@ -33,7 +33,7 @@ namespace Primitives.FileFormat.INI
       {
         object[] list = GetType().GetCustomAttributes(typeof(INIFileConfigurationAttribute), true);
         if (list == null || list.Length < 1)
-          throw new Exception("The attribute does not exist!");
+          throw new Exception(Primrose.Properties.Resources.Error_INIFileAttributeNotFound);
         return ((INIFileConfigurationAttribute)list[0]);
       }
     }
@@ -80,7 +80,7 @@ namespace Primitives.FileFormat.INI
       if (m_sections.ContainsKey(section))
         return m_sections[section];
       else
-        throw new Exception("The INI section [{0}] does not exist!".F(section));
+        throw new Exception(Primrose.Properties.Resources.Error_INISectionNotFound.F(section));
     }
 
     /// <summary>Reads and parses the INI file from a data stream</summary>
@@ -98,7 +98,7 @@ namespace Primitives.FileFormat.INI
     {
       if (!File.Exists(filepath))
       {
-        throw new Exception("The file {0} is not found!".F(Path.GetFullPath(filepath)));
+        throw new FileNotFoundException(Primrose.Properties.Resources.Error_FileNotFound.F(Path.GetFullPath(filepath)));
       }
       else
       {
@@ -146,7 +146,7 @@ namespace Primitives.FileFormat.INI
 
               default:
               case DuplicateResolutionPolicy.THROW:
-                throw new InvalidOperationException("Invalid duplicate section [{0}] detected.".F(currSection.Header));
+                throw new InvalidOperationException(Primrose.Properties.Resources.Error_DuplicateINISection.F(currSection.Header));
             }
           }
         }
@@ -180,7 +180,7 @@ namespace Primitives.FileFormat.INI
     }
 
     /// <summary>Writes the INI data into a destination</summary>
-    public virtual void Write(StreamWriter sw)
+    protected virtual void Write(StreamWriter sw)
     {
       foreach (INISection section in m_sections.Values)
       {

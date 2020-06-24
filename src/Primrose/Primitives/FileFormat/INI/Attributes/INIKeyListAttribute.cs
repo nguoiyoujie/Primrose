@@ -51,7 +51,7 @@ namespace Primitives.FileFormat.INI
     internal string[] Read(Type t, INIFile f, string defaultSection)
     {
       if (t != typeof(string[]))
-        throw new InvalidOperationException("INIKeyList attribute can only be used with string[] data types! ({0})".F(t.Name));
+        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INIKeyListInvalidType.F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       List<string> vals = new List<string>();
@@ -71,8 +71,11 @@ namespace Primitives.FileFormat.INI
 
     internal void Write(Type t, INIFile f, string[] value, string defaultSection)
     {
+      if (value == null)
+        return;
+
       if (t != typeof(string[]))
-        throw new InvalidOperationException("INIKeyList attribute can only be used with string[] data types! ({0})".F(t.Name));
+        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INIKeyListInvalidType.F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       foreach (string v in value)

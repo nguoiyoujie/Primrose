@@ -63,6 +63,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Primitives\Cache\Cache.cs" />
     <Compile Include="Primitives\Cache\EnumNames.cs" />
     <Compile Include="Primitives\Collections\CircularQueue.cs" />
@@ -74,6 +75,9 @@
     <Compile Include="Primitives\FileFormat\INI\Attributes\INISubSectionKeyListAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\Attributes\INIHeaderAttribute.cs" />
     <Compile Include="Primitives\FileFormat\INI\Exceptions\InvalidTypeException.cs" />
+    <Compile Include="Primitives\Log\LogDecorator.cs" />
+    <Compile Include="Primitives\Log\Logger.cs" />
+    <Compile Include="Primitives\Log\LogItem.cs" />
     <Compile Include="Primitives\Observables\Delegates.cs" />
     <Compile Include="Primitives\Observables\ObservableRegistry.cs" />
     <Compile Include="Primitives\Observables\ObservableList.cs" />
@@ -140,6 +144,12 @@
     <Compile Include="Primitives\Triggers\Conditions\ACondition.cs" />
     <Compile Include="Primitives\Triggers\Events.cs" />
     <Compile Include="Primitives\Triggers\Trigger.cs" />
+    <Compile Include="Primitives\ValueTypes\Vectors\sbyte2.cs" />
+    <Compile Include="Primitives\ValueTypes\Vectors\sbyte3.cs" />
+    <Compile Include="Primitives\ValueTypes\Vectors\sbyte4.cs" />
+    <Compile Include="Primitives\ValueTypes\Vectors\ushort2.cs" />
+    <Compile Include="Primitives\ValueTypes\Vectors\ushort3.cs" />
+    <Compile Include="Primitives\ValueTypes\Vectors\ushort4.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\uint2.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\uint3.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\uint4.cs" />
@@ -159,9 +169,20 @@
     <Compile Include="Primitives\ValueTypes\Quad.cs" />
     <Compile Include="Primitives\ValueTypes\Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Primitives\Strings\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
