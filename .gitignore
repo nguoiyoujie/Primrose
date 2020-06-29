@@ -16,8 +16,6 @@
 
 /unittest
 
-**/log
-**/screenshots
 /build/update_release.bat
 /build/update_debug.bat
 /build/release.txt
