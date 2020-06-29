@@ -48,6 +48,18 @@
         <member name="F:Primrose.Expressions.BOp.LESS_THAN_OR_EQUAL_TO">
             <summary>The numerical less than and equality comparer (a &lt;= b)</summary>
         </member>
+        <member name="T:Primrose.Expressions.Build">
+            <summary>Provides internal build information for this project</summary> 
+        </member>
+        <member name="F:Primrose.Expressions.Build.Time">
+            <summary>The time of build</summary> 
+        </member>
+        <member name="F:Primrose.Expressions.Build.BuildDate">
+            <summary>The date of build in YYYYMMDD format</summary> 
+        </member>
+        <member name="F:Primrose.Expressions.Build.Revision">
+            <summary>The daily revision number of the build</summary> 
+        </member>
         <member name="T:Primrose.Expressions.FunctionDelegate">
             <summary>
             Defines a delegate representing a function expression

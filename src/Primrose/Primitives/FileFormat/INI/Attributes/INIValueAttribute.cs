@@ -18,6 +18,9 @@ namespace Primitives.FileFormat.INI
     /// <summary>The key name of the INI file where the value is read</summary>
     public string Key;
 
+    /// <summary>If the value string matches this value, skip this line when writing to file</summary>
+    public object NoWriteValue;
+
     /// <summary>Defines whether the INI file must contain this section/key combination</summary>
     public bool Required;
 
@@ -72,12 +75,14 @@ namespace Primitives.FileFormat.INI
 
     private void InnerWrite<T>(INIFile f, T value, string fieldName, string defaultSection)
     {
-      if (value == null || value.Equals(default(T)))
+      if (value == null)
         return;
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       string k = INIAttributeExt.GetKey(Key, fieldName);
-      f.SetString(s, k, Parser.Write(value));
+      string v = Parser.Write(value);
+      if (!v.Equals(NoWriteValue))
+        f.SetString(s, k, v);
     }
   }
 }

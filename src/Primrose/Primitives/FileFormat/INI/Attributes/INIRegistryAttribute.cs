@@ -3,7 +3,6 @@ using Primrose.Primitives.Factories;
 using Primrose.Primitives.Parsers;
 using System;
 using System.Reflection;
-using System.Runtime.Remoting.Channels;
 
 namespace Primitives.FileFormat.INI
 {
@@ -23,6 +22,9 @@ namespace Primitives.FileFormat.INI
 
     /// <summary>Defines whether the INI file must contain this section/key combination</summary>
     public bool Required;
+
+    /// <summary>If the value string matches this value, skip this line when writing to file</summary>
+    public object NoWriteValue;
 
     /// <summary>Defines a list of keys from a section of an INI file</summary>
     /// <param name="section">The section name from which the keys are retrieved</param>
@@ -89,7 +91,8 @@ namespace Primitives.FileFormat.INI
       {
         string key = Parser.Write(t);
         string value = Parser.Write(reg.Get(t));
-        f.SetString(s, key, value);
+        if (!value.Equals(NoWriteValue))
+          f.SetString(s, key, value);
       }
     }
   }
