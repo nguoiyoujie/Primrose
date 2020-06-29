@@ -15,7 +15,7 @@ namespace Primrose.Primitives
       pool = new ObjectPool<ScopedItem>(() => new ScopedItem(), (p) => { });// p.Dispose());
     }
 
-    private static ObjectPool<ScopedItem> pool;
+    private static readonly ObjectPool<ScopedItem> pool;
 
     /// <summary>The number of scope objects in the pool</summary>
     public static int PoolCount { get { return pool.Count; } }

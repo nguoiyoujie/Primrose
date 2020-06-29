@@ -3,8 +3,8 @@
   /// <summary>Represents a condition from the logical AND of two conditions</summary>
   public class LogicalAndCondition : ACondition
   {
-    private ICondition m_cond1;
-    private ICondition m_cond2;
+    private readonly ICondition m_cond1;
+    private readonly ICondition m_cond2;
 
     /// <summary>Creates a condition from the logical AND of two conditions</summary>
     public LogicalAndCondition(ICondition cond1, ICondition cond2) : base()

@@ -10,7 +10,7 @@ namespace Primrose.Primitives
   /// <typeparam name="T">The enumerable type</typeparam>
   public static class EnumNames<T>
   {
-    private static Dictionary<T, string> _dict;
+    private static readonly Dictionary<T, string> _dict;
 
     static EnumNames()
     {

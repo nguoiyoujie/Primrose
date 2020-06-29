@@ -8,7 +8,7 @@ namespace Primrose.Primitives
   /// </summary>
   public static class ScopeCounters
   {
-    private static ScopeGlobalCounter[] _cache;
+    private static readonly ScopeGlobalCounter[] _cache;
     static ScopeCounters()
     {
       _cache = new ScopeGlobalCounter[byte.MaxValue + 1];

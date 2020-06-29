@@ -33,7 +33,7 @@ namespace Primrose.Primitives.Observables
       }
     }
 
-    private ChangeEvent<T> _valueChanged; //= new ChangeEvent<T>();
+    private readonly ChangeEvent<T> _valueChanged; //= new ChangeEvent<T>();
 
     /// <summary>Represents the set of functions to be called when a value is changed</summary>
     public event ChangeEventDelegate<T> ValueChanged { add { _valueChanged.Ev += value; } remove { _valueChanged.Ev -= value; } }

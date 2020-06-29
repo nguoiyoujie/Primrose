@@ -6,23 +6,15 @@ using System.Text;
 
 namespace Primrose.Primitives.Parsers
 {
-  /// <summary>Allows customized resolution of parsing contentions, if any</summary>
-  public interface IResolver
-  {
-    /// <summary>Resolves parsing contentions for a given input</summary>
-    /// <param name="input">The input to resolve</param>
-    string Resolve(string input);
-  }
-  
   /// <summary>Handles the parsing of primitive values to strings and vice versa</summary>
   public static partial class Parser
   {
     /// <summary>The default list delimiter</summary>
     public static readonly char[] ListDelimiter = new char[] { ',' };
 
-    private static Registry<Type, Func<string, IResolver, object>> _fromStr = new Registry<Type, Func<string, IResolver, object>>();
-    private static Registry<Type, int> _tokens = new Registry<Type, int>();
-    private static Registry<Type, Func<object, string>> _toStr = new Registry<Type, Func<object, string>>();
+    private static readonly Registry<Type, Func<string, IResolver, object>> _fromStr = new Registry<Type, Func<string, IResolver, object>>();
+    private static readonly Registry<Type, int> _tokens = new Registry<Type, int>();
+    private static readonly Registry<Type, Func<object, string>> _toStr = new Registry<Type, Func<object, string>>();
 
     static Parser()
     {
@@ -58,7 +50,7 @@ namespace Primrose.Primitives.Parsers
       _fromStr.Add(typeof(float3), (s, r) => Rules.ToFloat3(s, r));
       _fromStr.Add(typeof(float4), (s, r) => Rules.ToFloat4(s, r));
       _fromStr.Add(typeof(double), (s, r) => Rules.ToDouble(s, r));
-      _fromStr.Add(typeof(string), (s, r) => s);
+      _fromStr.Add(typeof(string), (s, r) => { return r?.Resolve(s) ?? s; });
       _fromStr.Add(typeof(StringBuilder), (s, r) => new StringBuilder(s));
 
       _toStr.Add(typeof(bool), Rules.ToStrGeneric);

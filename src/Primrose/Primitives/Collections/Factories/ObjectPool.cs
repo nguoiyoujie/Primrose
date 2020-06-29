@@ -22,8 +22,8 @@ namespace Primrose.Primitives.Factories
     }
 
     private ConcurrentQueue<T> list = new ConcurrentQueue<T>();
-    private Func<T> creator;
-    private Action<T> resetor;
+    private readonly Func<T> creator;
+    private readonly Action<T> resetor;
 
     /// <summary>Retrieves the number of elements in the pool</summary>
     public int Count { get { return list.Count; } }

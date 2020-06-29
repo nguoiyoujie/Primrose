@@ -10,18 +10,12 @@
 
   internal struct ChangeEvent<T>
   {
-    private event ChangeEventDelegate<T> _ev;
-
-    internal event ChangeEventDelegate<T> Ev
-    {
-      add { _ev += value; }
-      remove { _ev -= value; }
-    }
+    internal event ChangeEventDelegate<T> Ev;
 
     internal void Invoke(T newV, T oldV)
     {
       if ((newV == null && oldV != null) || !(newV != null && newV.Equals(oldV)))
-        _ev?.Invoke(newV, oldV);
+        Ev?.Invoke(newV, oldV);
     }
   }
 }

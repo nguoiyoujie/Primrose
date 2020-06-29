@@ -11,10 +11,10 @@ namespace Primrose.Primitives
   /// <typeparam name="U">The item type to be stored as values in this dictionary</typeparam>
   public class ThreadSafeDictionary<T, U>
   {
-    private object locker_write = new object();
-    private object locker_modify = new object();
+    private readonly object locker_write = new object();
+    private readonly object locker_modify = new object();
     private Dictionary<T, U> _list = new Dictionary<T, U>();
-    private Dictionary<T, U> _pending_list = new Dictionary<T, U>();
+    private readonly Dictionary<T, U> _pending_list = new Dictionary<T, U>();
     private bool _dirty = true;
 
     /// <summary>
@@ -101,8 +101,7 @@ namespace Primrose.Primitives
     public U Get(T key)
     {
       Update();
-      U ret = default;
-      _list.TryGetValue(key, out ret);
+      _list.TryGetValue(key, out U ret);
       return ret;
     }
 

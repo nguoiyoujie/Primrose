@@ -3,8 +3,8 @@
   /// <summary>Represents a condition from the logical OR of two conditions</summary>
   public class LogicalOrCondition : ACondition
   {
-    private ICondition m_cond1;
-    private ICondition m_cond2;
+    private readonly ICondition m_cond1;
+    private readonly ICondition m_cond2;
 
     /// <summary>Creates a condition from the logical OR of two conditions</summary>
     public LogicalOrCondition(ICondition cond1, ICondition cond2) : base()

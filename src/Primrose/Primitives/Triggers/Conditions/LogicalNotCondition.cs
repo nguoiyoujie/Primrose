@@ -3,7 +3,7 @@
   /// <summary>Represents a condition from the logical negation of another condition</summary>
   public class LogicalNotCondition : ACondition
   {
-    private ICondition m_cond;
+    private readonly ICondition m_cond;
 
     /// <summary>Creates a condition from the logical negation of another condition</summary>
     public LogicalNotCondition(ICondition cond) : base()

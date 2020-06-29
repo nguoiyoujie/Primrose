@@ -10,8 +10,8 @@ namespace Primrose.Primitives
   /// <typeparam name="T">The item type to be stored in this list</typeparam>
   public class ThreadSafeList<T> : IList<T>
   {
-    private object locker = new object();
-    private object locker_modify = new object();
+    private readonly object locker = new object();
+    private readonly object locker_modify = new object();
     private List<T> _list = new List<T>();
     private List<T> _pending_list = new List<T>();
     private bool _dirty = true;

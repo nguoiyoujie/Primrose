@@ -11,7 +11,7 @@ namespace Primrose.Primitives.Factories
   /// <typeparam name="T">The type of the registered object</typeparam>
   public class Registry<K, T> : IRegistry<K, T>
   {
-    private object locker = new object();
+    private readonly object locker = new object();
 
     /// <summary>Creates an object registry</summary>
     public Registry() { list = new Dictionary<K, T>(); }

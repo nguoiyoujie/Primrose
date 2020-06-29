@@ -13,7 +13,7 @@ namespace Primrose.Primitives.StateMachines
     where T : struct 
     where U : struct
   {
-    private Dictionary<T, InStateMachine> _transitions = new Dictionary<T, InStateMachine>();
+    private readonly Dictionary<T, InStateMachine> _transitions = new Dictionary<T, InStateMachine>();
 
     /// <summary>Initializes the state machine with an initial state</summary>
     /// <param name="owner">The owner object</param>
@@ -44,11 +44,11 @@ namespace Primrose.Primitives.StateMachines
     /// </summary>
     protected class InStateMachine
     {
-      private StateMachine<O, T, U> SM;
-      private T State;
+      private readonly StateMachine<O, T, U> SM;
+      private readonly T State;
       private Action<O, T> Entry;
       private Action<O, T> Exit;
-      private Dictionary<U, OutStateMachine> _transitions = new Dictionary<U, OutStateMachine>();
+      private readonly Dictionary<U, OutStateMachine> _transitions = new Dictionary<U, OutStateMachine>();
 
       internal InStateMachine(StateMachine<O, T, U> statemachine, T state) { State = state; SM = statemachine; }
 
@@ -100,9 +100,9 @@ namespace Primrose.Primitives.StateMachines
     /// </summary>
     protected class OutStateMachine
     {
-      private StateMachine<O, T, U> SM;
-      private InStateMachine IN;
-      private U Command;
+      private readonly StateMachine<O, T, U> SM;
+      private readonly InStateMachine IN;
+      private readonly U Command;
       private T NewState;
       private Action<O, T> Transit;
 

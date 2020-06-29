@@ -6,7 +6,7 @@ namespace Primitives.FileFormat.INI
   [AttributeUsage(AttributeTargets.Class)]
   public class INIFileConfigurationAttribute : Attribute
   {
-    private static string[] DefaultCommentDelimiters = new string[] { ";" };
+    private static readonly string[] DefaultCommentDelimiters = new string[] { ";" };
 
     /// <summary>Indicates if section inheritance is supported</summary>
     public bool SupportSectionInheritance = true;

@@ -9,7 +9,7 @@ namespace Primrose.Primitives.Triggers
     /// <summary>The collection of actions to be performed by the trigger</summary>
     public ActionCollection Actions;
     private ICondition _cond = null;
-    private List<Action> _actions = new List<Action>();
+    private readonly List<Action> _actions = new List<Action>();
 
     /// <summary>Creates a trigger for performing actions when a condition is fulfilled</summary>
     public Trigger(ICondition condition, params Action[] actions)

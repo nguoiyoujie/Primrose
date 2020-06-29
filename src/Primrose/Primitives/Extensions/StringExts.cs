@@ -10,8 +10,8 @@ namespace Primrose.Primitives.Extensions
   public static class StringExts
   {
     // cached
-    private static string[] NewLines = new string[] { "\r\n", "\r", "\n" };
-    private static char[] Spaces = new char[] { ' ' };
+    private static readonly string[] NewLines = new string[] { "\r\n", "\r", "\n" };
+    private static readonly char[] Spaces = new char[] { ' ' };
 
     /// <summary>
     /// Provides a multiline representation of a string

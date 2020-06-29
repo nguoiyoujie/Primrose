@@ -10,9 +10,9 @@ namespace Primitives.FileFormat.INI
       internal INISection(string headerline, INIFile src)
       {
         if (headerline == null)
-          m_headerline = new INIHeaderLine();
+          HLine = new INIHeaderLine();
         else
-          m_headerline = INIHeaderLine.ReadLine(headerline, src);
+          HLine = INIHeaderLine.ReadLine(headerline, src);
       }
 
       /// <summary>Provides a string representation of the INISection</summary>
@@ -21,15 +21,14 @@ namespace Primitives.FileFormat.INI
         return (Header == null || Header.Length == 0 || Header == PreHeaderSectionName) ? "{Global}" : Header;
       }
 
-      private INIHeaderLine m_headerline;
-      private List<INILine> m_lines = new List<INILine>();
-      internal INIHeaderLine HLine { get { return m_headerline; } }
+      private readonly List<INILine> m_lines = new List<INILine>();
+      internal INIHeaderLine HLine { get; }
 
       /// <summary>The name of the section</summary>
-      public string Header { get { return m_headerline.Header; } set { m_headerline.Header = value; } }
+      public string Header { get { return HLine.Header; } set { HLine.Header = value; } }
 
       /// <summary>Defines what other sections this section may inherit its values from</summary>
-      public string[] Inherits { get { return m_headerline.Inherits; } set { m_headerline.Inherits = value; } }
+      public string[] Inherits { get { return HLine.Inherits; } set { HLine.Inherits = value; } }
 
 
       /// <summary>The content of the section</summary>

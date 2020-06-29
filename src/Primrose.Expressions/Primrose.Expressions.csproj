@@ -58,7 +58,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BOp.cs" />
+    <Compile Include="Operators\BOp.cs" />
+    <Compile Include="Build.cs" />
     <Compile Include="Context\ContextBase.cs" />
     <Compile Include="Context\ContextScope.cs" />
     <Compile Include="Context\IContext.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="Exceptions\EvalException.cs" />
     <Compile Include="Exceptions\ParseException.cs" />
     <Compile Include="FileFormat\ScriptFile.cs" />
-    <Compile Include="Ops.cs" />
+    <Compile Include="Operators\Ops.cs" />
     <Compile Include="Parsing\Interfaces.cs" />
     <Compile Include="Parsing\Lexer.cs" />
     <Compile Include="Parsing\Writer.cs" />
@@ -85,10 +86,10 @@
     <Compile Include="Parsing\RegexMatcher.cs" />
     <Compile Include="Parsing\TokenDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registry.cs" />
-    <Compile Include="ScriptExpression.cs" />
-    <Compile Include="Script.cs" />
-    <Compile Include="TokenEnum.cs" />
+    <Compile Include="Script\Registry.cs" />
+    <Compile Include="Script\ScriptExpression.cs" />
+    <Compile Include="Script\Script.cs" />
+    <Compile Include="Parsing\TokenEnum.cs" />
     <Compile Include="Tree\Expressions\AddExpression.cs" />
     <Compile Include="Tree\Expressions\DeclVariable.cs" />
     <Compile Include="Tree\Expressions\EqualityExpression.cs" />
@@ -124,9 +125,9 @@
     <Compile Include="Tree\Statements\Statement.cs" />
     <Compile Include="Tree\Statements\WhileStatement.cs" />
     <Compile Include="Tree\ExpressionOrder.cs" />
-    <Compile Include="UOp.cs" />
-    <Compile Include="Val.cs" />
-    <Compile Include="ValType.cs" />
+    <Compile Include="Operators\UOp.cs" />
+    <Compile Include="Val\Val.cs" />
+    <Compile Include="Val\ValType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Primrose\Primrose.csproj">
@@ -134,8 +135,19 @@
       <Name>Primrose</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="postbuild.bat" />
+    <None Include="prebuild.bat" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>cd $(ProjectDir)
+call prebuild.bat</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>cd $(ProjectDir)
+call postbuild.bat</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

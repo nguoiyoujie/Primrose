@@ -13,8 +13,8 @@ namespace Primrose.Primitives
     private int _FPScounter;
     private float _addTime;
     private float _FPScountTime;
-    private object waitlock = new object();
-    private Stopwatch stopwatch = Stopwatch.StartNew();
+    private readonly object waitlock = new object();
+    private readonly Stopwatch stopwatch = Stopwatch.StartNew();
 
     /// <summary>
     /// Initializes a time control

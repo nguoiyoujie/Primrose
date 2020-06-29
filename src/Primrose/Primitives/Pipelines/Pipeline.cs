@@ -8,7 +8,7 @@ namespace Primrose.Primitives.Pipelines
   /// <typeparam name="T">A piped object</typeparam>
   public class Pipeline<T> where T : IPipedObject
   {
-    private ConcurrentQueue<T> pipe = new ConcurrentQueue<T>();
+    private readonly ConcurrentQueue<T> pipe = new ConcurrentQueue<T>();
 
     /// <summary>The maximum number of piped objects to be executed per call to Run()</summary>
     public int MaxExecutionsPerRun = 1;
