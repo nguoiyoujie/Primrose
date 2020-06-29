@@ -1,6 +1,6 @@
 ﻿using Primrose.Primitives.Factories;
 
-namespace Primitives.Strings
+namespace Primrose.Primitives.Strings
 {
   /// <summary>Defines a data resource that maps a token code to a string resource</summary>
   public class StringSource<T>
