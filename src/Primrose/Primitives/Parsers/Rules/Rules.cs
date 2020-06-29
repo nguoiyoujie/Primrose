@@ -15,6 +15,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static bool ToBool(string value, IResolver resolver)
       {
+        value = resolver?.Resolve(value) ?? value;
         string s = value.ToLower().Trim();
         if (s.Equals("0") || s.Trim().Equals("false") || s.Equals("no"))
           return false;
@@ -28,8 +29,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static byte ToByte(string value, IResolver resolver)
       {
-        byte ret;
-        if (value != null && byte.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && byte.TryParse(value, out byte ret))
           return ret;
         throw new RuleConversionException(typeof(byte), value);
       }
@@ -39,8 +40,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static byte2 ToByte2(string value, IResolver resolver)
       {
-        byte2 ret = default; ;
-        if (value != null && byte2.TryParse(value, out ret, resolver, ret))
+        if (value != null && byte2.TryParse(value, out byte2 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(byte2), value);
       }
@@ -50,8 +50,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static byte3 ToByte3(string value, IResolver resolver)
       {
-        byte3 ret = default;
-        if (value != null && byte3.TryParse(value, out ret, resolver, ret))
+
+        if (value != null && byte3.TryParse(value, out byte3 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(byte3), value);
       }
@@ -61,8 +61,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static byte4 ToByte4(string value, IResolver resolver)
       {
-        byte4 ret = default;
-        if (value != null && byte4.TryParse(value, out ret, resolver, ret))
+        if (value != null && byte4.TryParse(value, out byte4 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(byte4), value);
       }
@@ -73,8 +72,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static sbyte ToSByte(string value, IResolver resolver)
       {
-        sbyte ret;
-        if (value != null && sbyte.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && sbyte.TryParse(value, out sbyte ret))
           return ret;
         throw new RuleConversionException(typeof(sbyte), value);
       }
@@ -84,8 +83,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static sbyte2 ToSByte2(string value, IResolver resolver)
       {
-        sbyte2 ret = default; ;
-        if (value != null && sbyte2.TryParse(value, out ret, resolver, ret))
+        ;
+        if (value != null && sbyte2.TryParse(value, out sbyte2 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(sbyte2), value);
       }
@@ -95,8 +94,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static sbyte3 ToSByte3(string value, IResolver resolver)
       {
-        sbyte3 ret = default;
-        if (value != null && sbyte3.TryParse(value, out ret, resolver, ret))
+        if (value != null && sbyte3.TryParse(value, out sbyte3 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(sbyte3), value);
       }
@@ -106,8 +104,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static sbyte4 ToSByte4(string value, IResolver resolver)
       {
-        sbyte4 ret = default;
-        if (value != null && sbyte4.TryParse(value, out ret, resolver, ret))
+        if (value != null && sbyte4.TryParse(value, out sbyte4 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(sbyte4), value);
       }
@@ -117,8 +114,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static short ToShort(string value, IResolver resolver)
       {
-        short ret = default;
-        if (value != null && short.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && short.TryParse(value, out short ret))
           return ret;
         throw new RuleConversionException(typeof(short), value);
       }
@@ -128,8 +125,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static short2 ToShort2(string value, IResolver resolver)
       {
-        short2 ret = default;
-        if (value != null && short2.TryParse(value, out ret, resolver, ret))
+        if (value != null && short2.TryParse(value, out short2 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(short2), value);
       }
@@ -139,8 +135,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static short3 ToShort3(string value, IResolver resolver)
       {
-        short3 ret = default;
-        if (value != null && short3.TryParse(value, out ret, resolver, ret))
+        if (value != null && short3.TryParse(value, out short3 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(short3), value);
       }
@@ -150,8 +145,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static short4 ToShort4(string value, IResolver resolver)
       {
-        short4 ret = default;
-        if (value != null && short4.TryParse(value, out ret, resolver, ret))
+        if (value != null && short4.TryParse(value, out short4 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(short4), value);
       }
@@ -161,8 +155,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static ushort ToUShort(string value, IResolver resolver)
       {
-        ushort ret = default;
-        if (value != null && ushort.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && ushort.TryParse(value, out ushort ret))
           return ret;
         throw new RuleConversionException(typeof(ushort), value);
       }
@@ -172,8 +166,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static ushort2 ToUShort2(string value, IResolver resolver)
       {
-        ushort2 ret = default;
-        if (value != null && ushort2.TryParse(value, out ret, resolver, ret))
+        if (value != null && ushort2.TryParse(value, out ushort2 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(ushort2), value);
       }
@@ -183,8 +176,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static ushort3 ToUShort3(string value, IResolver resolver)
       {
-        ushort3 ret = default;
-        if (value != null && ushort3.TryParse(value, out ret, resolver, ret))
+        if (value != null && ushort3.TryParse(value, out ushort3 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(ushort3), value);
       }
@@ -194,8 +186,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static ushort4 ToUShort4(string value, IResolver resolver)
       {
-        ushort4 ret = default;
-        if (value != null && ushort4.TryParse(value, out ret, resolver, ret))
+        if (value != null && ushort4.TryParse(value, out ushort4 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(ushort4), value);
       }
@@ -205,8 +196,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static int ToInt(string value, IResolver resolver)
       {
-        int ret = default;
-        if (value != null && int.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && int.TryParse(value, out int ret))
           return ret;
         throw new RuleConversionException(typeof(int), value);
       }
@@ -216,8 +207,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static int2 ToInt2(string value, IResolver resolver)
       {
-        int2 ret = default;
-        if (value != null && int2.TryParse(value, out ret, resolver, ret))
+        if (value != null && int2.TryParse(value, out int2 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(int2), value);
       }
@@ -227,8 +217,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static int3 ToInt3(string value, IResolver resolver)
       {
-        int3 ret = default;
-        if (value != null && int3.TryParse(value, out ret, resolver, ret))
+        if (value != null && int3.TryParse(value, out int3 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(int3), value);
       }
@@ -238,8 +227,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static int4 ToInt4(string value, IResolver resolver)
       {
-        int4 ret = default;
-        if (value != null && int4.TryParse(value, out ret, resolver, ret))
+        if (value != null && int4.TryParse(value, out int4 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(int4), value);
       }
@@ -249,8 +237,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static uint ToUInt(string value, IResolver resolver)
       {
-        uint ret = default;
-        if (value != null && uint.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && uint.TryParse(value, out uint ret))
           return ret;
         throw new RuleConversionException(typeof(uint), value);
       }
@@ -260,8 +248,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static uint2 ToUInt2(string value, IResolver resolver)
       {
-        uint2 ret = default;
-        if (value != null && uint2.TryParse(value, out ret, resolver, ret))
+        if (value != null && uint2.TryParse(value, out uint2 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(uint2), value);
       }
@@ -271,8 +258,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static uint3 ToUInt3(string value, IResolver resolver)
       {
-        uint3 ret = default;
-        if (value != null && uint3.TryParse(value, out ret, resolver, ret))
+        if (value != null && uint3.TryParse(value, out uint3 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(uint3), value);
       }
@@ -282,8 +268,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static uint4 ToUInt4(string value, IResolver resolver)
       {
-        uint4 ret = default;
-        if (value != null && uint4.TryParse(value, out ret, resolver, ret))
+        if (value != null && uint4.TryParse(value, out uint4 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(uint4), value);
       }
@@ -293,8 +278,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static long ToLong(string value, IResolver resolver)
       {
-        long ret = default;
-        if (value != null && long.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && long.TryParse(value, out long ret))
           return ret;
         throw new RuleConversionException(typeof(long), value);
       }
@@ -304,8 +289,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static ulong ToULong(string value, IResolver resolver)
       {
-        ulong ret = default;
-        if (value != null && ulong.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && ulong.TryParse(value, out ulong ret))
           return ret;
         throw new RuleConversionException(typeof(ulong), value);
       }
@@ -315,8 +300,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static float ToFloat(string value, IResolver resolver)
       {
-        float ret = default;
-        if (value != null && float.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && float.TryParse(value, out float ret))
           return ret;
         throw new RuleConversionException(typeof(float), value);
       }
@@ -326,8 +311,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static float2 ToFloat2(string value, IResolver resolver)
       {
-        float2 ret = default;
-        if (value != null && float2.TryParse(value, out ret, resolver, ret))
+        if (value != null && float2.TryParse(value, out float2 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(float2), value);
       }
@@ -337,8 +321,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static float3 ToFloat3(string value, IResolver resolver)
       {
-        float3 ret = default;
-        if (value != null && float3.TryParse(value, out ret, resolver, ret))
+        if (value != null && float3.TryParse(value, out float3 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(float3), value);
       }
@@ -348,8 +331,7 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static float4 ToFloat4(string value, IResolver resolver)
       {
-        float4 ret = default;
-        if (value != null && float4.TryParse(value, out ret, resolver, ret))
+        if (value != null && float4.TryParse(value, out float4 ret, resolver, default))
           return ret;
         throw new RuleConversionException(typeof(float4), value);
       }
@@ -359,8 +341,8 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static double ToDouble(string value, IResolver resolver)
       {
-        double ret = default;
-        if (value != null && double.TryParse(value, out ret))
+        value = resolver?.Resolve(value) ?? value;
+        if (value != null && double.TryParse(value, out double ret))
           return ret;
         throw new RuleConversionException(typeof(double), value);
       }
@@ -371,7 +353,7 @@ namespace Primrose.Primitives.Parsers
       public static T ToNullable<T>(string value, IResolver resolver)
       {
         if (string.IsNullOrWhiteSpace(value))
-          return default(T);
+          return default;
 
         Type et = Nullable.GetUnderlyingType(typeof(T));
         return (T)_fromStr.Get(et).Invoke(value, resolver);
@@ -382,8 +364,9 @@ namespace Primrose.Primitives.Parsers
       /// <param name="resolver">A string resolver function</param>
       public static T ToNullableEnum<T>(string value, IResolver resolver)
       {
+        value = resolver?.Resolve(value) ?? value;
         if (string.IsNullOrWhiteSpace(value))
-          return default(T);
+          return default;
 
         string s = value.Replace("|", ",");
         Type et = Nullable.GetUnderlyingType(typeof(T));
