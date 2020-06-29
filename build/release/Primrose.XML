@@ -16,6 +16,389 @@
         <member name="F:Primrose.Build.Revision">
             <summary>The daily revision number of the build</summary> 
         </member>
+        <member name="T:Primrose.FileFormat.INI.ValueSource">
+            <summary>Defines where a desired value is stored in a [key=value] format</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.ValueSource.KEY_ONLY">
+            <summary>The desired value is taken from the key only, ignoring the value</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.ValueSource.VALUE_ONLY">
+            <summary>The desired value is taken from the value only, ignoring all items with only the key</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.ValueSource.VALUE_OR_KEY">
+            <summary>The desired value is taken first from the value, then from the key if the value does not exist</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INISubSectionKeyListAttribute">
+            <summary>Reads a section whose keys redirect to other sections of an INI file</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionKeyListAttribute.Section">
+            <summary>The section name of the INI file where the keys are based on</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionKeyListAttribute.SubsectionPrefix">
+            <summary>The subsection prefix to be used when writing members</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionKeyListAttribute.ValueSource">
+            <summary>Defines whether the values are read instead of keys</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionKeyListAttribute.Required">
+            <summary>Defines whether the INI file must contain this section/key combination</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INISubSectionKeyListAttribute.#ctor(System.String,System.String,Primrose.FileFormat.INI.ValueSource,System.Boolean)">
+            <summary>Defines a value that redirects to other sections of an INI file</summary>
+            <param name="section">The section name from which the keys are retrieved. If null, the field name is used</param>
+            <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the section name is used</param>
+            <param name="valueSource">Defines whether the values are read instead of keys</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIHeaderAttribute">
+            <summary>Defines a value from a section header of an INI file</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIHeaderAttribute.#ctor">
+            <summary>Defines a value from a section header of an INI file</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INISectionNotFoundException">
+            <summary>Represents an exception as a result of a missing section</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INISectionNotFoundException.#ctor(System.String)">
+            <summary>Represents an exception as a result of a missing section</summary>
+            <param name="section">The missing section</param>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIKeyNotFoundException">
+            <summary>Represents an exception as a result of a missing section key</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIKeyNotFoundException.#ctor(System.String,System.String)">
+            <summary>Represents an exception as a result of a missing section key</summary>
+            <param name="section">The section where the key is missing</param>
+            <param name="key">The missing key</param>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.DuplicateResolutionPolicy">
+            <summary>Determines the policy for resolving duplicate entries</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.DuplicateResolutionPolicy.THROW">
+            <summary>Throws an exception</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.DuplicateResolutionPolicy.OLD">
+            <summary>Use the old value</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.DuplicateResolutionPolicy.NEW">
+            <summary>Use the new value</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.DuplicateResolutionPolicy.BOTH">
+            <summary>Write both values</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIFileConfigurationAttribute">
+            <summary>Defines settings for an INI file</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFileConfigurationAttribute.SupportSectionInheritance">
+            <summary>Indicates if section inheritance is supported</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFileConfigurationAttribute.AllowGlobalSection">
+            <summary>Indicates a global section (key-values prior to the first section declaration) is allowed</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFileConfigurationAttribute.DuplicateSectionPolicy">
+            <summary>Determines the policy for handling duplicate sections</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFileConfigurationAttribute.CommentDelimiters">
+            <summary>Defines the delimiters for identifying the start of comments</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFileConfigurationAttribute.SectionInheritanceDelimiter">
+            <summary>Defines the delimiter for identifying the start of a section inheritance list</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFileConfigurationAttribute.KeyValueDelimiter">
+            <summary>Defines the delimiter for a key-value pair</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFileConfigurationAttribute.#ctor">
+            <summary>Defines settings for an INI file</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIEmbedObjectAttribute">
+            <summary>Signals to the INIFile LoadField method to load the fields contained in the class / struct </summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIEmbedObjectAttribute.#ctor(System.String)">
+            <summary>Signals to the INIFile LoadField method to load the fields contained in the class / struct </summary>
+            <param name="overrideSection">The section name of the INI file where the key is based on</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIEmbedObjectAttribute.#ctor">
+            <summary>Signals to the INIFile LoadField method to load the fields contained in the class / struct </summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIEmbedObjectAttribute.Section">
+            <summary>The section name of the INI file where the keys in the attributed object are based on</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INISubSectionListAttribute">
+            <summary>Defines a value that redirects to other sections of an INI file</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionListAttribute.Section">
+            <summary>The section name of the INI file where the keys are based on</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionListAttribute.SubsectionPrefix">
+            <summary>The subsection prefix to be used when writing members</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionListAttribute.Key">
+            <summary>The key name of the INI file where the value is read</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionListAttribute.Required">
+            <summary>Defines whether the INI file must contain this section/key combination</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INISubSectionListAttribute.#ctor(System.String,System.String,System.String,System.Boolean)">
+            <summary>Defines a value that redirects to other sections of an INI file</summary>
+            <param name="section">The section name from which the keys are retrieved</param>
+            <param name="key">The key name from which the value is retrieved</param>
+            <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the key name is used</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIRegistryAttribute">
+            <summary>Defines a list of keys from a section of an INI file</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIRegistryAttribute.Section">
+            <summary>The section name of the INI file where the keys are based on</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIRegistryAttribute.Required">
+            <summary>Defines whether the INI file must contain this section/key combination</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIRegistryAttribute.NoWriteValue">
+            <summary>If the value string matches this value, skip this line when writing to file</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIRegistryAttribute.#ctor(System.String,System.Boolean)">
+            <summary>Defines a list of keys from a section of an INI file</summary>
+            <param name="section">The section name from which the keys are retrieved</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIRegistryAttribute.#ctor(System.Boolean)">
+            <summary>Defines a list of keys from a section of an INI file</summary>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIKeyListAttribute">
+            <summary>Defines a list of keys from a section of an INI file</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIKeyListAttribute.Section">
+            <summary>The section name of the INI file where the keys are based on</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIKeyListAttribute.ValueSource">
+            <summary>Defines whether the values are read instead of keys</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIKeyListAttribute.Required">
+            <summary>Defines whether the INI file must contain this section/key combination</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIKeyListAttribute.#ctor(System.String,Primrose.FileFormat.INI.ValueSource,System.Boolean)">
+            <summary>Defines a list of keys from a section of an INI file</summary>
+            <param name="section">The section name from which the keys are retrieved</param>
+            <param name="valueSource">Defines whether the values are read instead of keys</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIKeyListAttribute.#ctor(System.Boolean)">
+            <summary>Defines a list of keys from a section of an INI file</summary>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIAttributeExt">
+            <summary>Defines external methods for INI attributes</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIValueAttribute">
+            <summary>Defines a value from a section and key of an INI file</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIValueAttribute.Section">
+            <summary>The section name of the INI file where the key is based on</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIValueAttribute.Key">
+            <summary>The key name of the INI file where the value is read</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIValueAttribute.NoWriteValue">
+            <summary>If the value string matches this value, skip this line when writing to file</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIValueAttribute.Required">
+            <summary>Defines whether the INI file must contain this section/key combination</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIValueAttribute.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            <summary>Defines a value from a section and key of an INI file</summary>
+            </summary>
+            <param name="section">The section name from which the key-value is retrieved</param>
+            <param name="key">The key name from which the value is retrieved</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIValueAttribute.#ctor(System.String,System.Boolean)">
+            <summary>
+            <summary>Defines a value from a section and key of an INI file</summary>
+            </summary>
+            <param name="key">The key name from which the value is retrieved</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIFile">
+            <summary>Defines a standard for INI configuration file format</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIFile.INISection">
+            <summary>Defines a section within an INI configuration file format</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIFile.INISection.INIHeaderLine">
+            <summary>Defines the header line within a section within an INI configuration file format</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFile.INISection.INIHeaderLine.Header">
+            <summary>The header</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFile.INISection.INIHeaderLine.Inherits">
+            <summary>Defines what other sections this section may inherit its values from</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.INIHeaderLine.ToString">
+            <summary>Provides a string representation of the line</summary>
+        </member>
+        <member name="T:Primrose.FileFormat.INI.INIFile.INISection.INILine">
+            <summary>Defines a line within a section within an INI configuration file format</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFile.INISection.INILine.Key">
+            <summary>The key associated in this line</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFile.INISection.INILine.Value">
+            <summary>The value associated in this line</summary>
+        </member>
+        <member name="P:Primrose.FileFormat.INI.INIFile.INISection.INILine.HasKey">
+            <summary>Denotes if this line has a key</summary>
+        </member>
+        <member name="P:Primrose.FileFormat.INI.INIFile.INISection.INILine.HasValue">
+            <summary>Denotes if this line has a value</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.INILine.ToString">
+            <summary>Provides a string representation of the line</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.ToString">
+            <summary>Provides a string representation of the INISection</summary>
+        </member>
+        <member name="P:Primrose.FileFormat.INI.INIFile.INISection.Header">
+            <summary>The name of the section</summary>
+        </member>
+        <member name="P:Primrose.FileFormat.INI.INIFile.INISection.Inherits">
+            <summary>Defines what other sections this section may inherit its values from</summary>
+        </member>
+        <member name="P:Primrose.FileFormat.INI.INIFile.INISection.Lines">
+            <summary>The content of the section</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.GetKeys">
+            <summary>Retrieves the list containing all non-empty keys in the section</summary>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.GetValues">
+            <summary>Retrieves the list containing all values in the section</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.HasKey(System.String)">
+            <summary>Determines if a key is defined in the section</summary>
+            <param name="key">The key name</param>
+            <returns>True if the section and key is defined in the section</returns>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.GetLine(System.String)">
+            <summary>Retrieves the line containing the key in the section</summary>
+            <param name="key">The key name</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.GetValue(System.String,System.String)">
+            <summary>Retrieves the value associated with the key in the section</summary>
+            <param name="key">The key name</param>
+            <param name="defaultvalue">The default value, if the key is not found</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.SetValue(System.String,System.String)">
+            <summary>Adds or sets the value associated with the key in the section</summary>
+            <param name="key">The key name</param>
+            <param name="value">The new value to be assigned to the key</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.INISection.Merge(Primrose.FileFormat.INI.INIFile.INISection)">
+            <summary>Merges the content of this section with another section</summary>
+            <param name="section">The name of the other section</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.GetValue``1(System.String,System.String,Primrose.Primitives.Parsers.IResolver,``0)">
+            <summary>Gets a value from the INIFile</summary>
+            <param name="section">The section containing the key-value pair</param>
+            <param name="key">The key containing the value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>The value belonging to the section and key in the INIFile. If the key does not exist, returns defaultValue</returns>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.GetString(System.String,System.String,System.String)">
+            <summary>
+            Gets a string value from the INIFile 
+            </summary>
+            <param name="section">The section containing the key-value pair</param>
+            <param name="key">The key containing the value</param>
+            <param name="defaultValue">The default value</param>
+            <returns>The value belonging to the section and key in the INIFile. If the key does not exist, returns defaultValue</returns>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.SetValue``1(System.String,System.String,``0)">
+            <summary>Sets a value from the INIFile </summary>
+            <param name="section">The section that will contain the key-value pair</param>
+            <param name="key">The key that will contain the value</param>
+            <param name="value">The value to be set</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.SetString(System.String,System.String,System.String)">
+            <summary>
+            Sets a string value in the INIFile 
+            </summary>
+            <param name="section">The section that will contain the key-value pair</param>
+            <param name="key">The key that will contain the value</param>
+            <param name="value">The value to be set</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.SetEmptyKey(System.String,System.String)">
+            <summary>
+            Sets an empty value in the INIFile 
+            </summary>
+            <param name="section">The section that will contain the key</param>
+            <param name="key">The key that will be set</param>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.LoadByAttribute``1(``0@,System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Passes the elements into the fields of another class</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.UpdateByAttribute``1(``0@,System.String)">
+            <summary>Updates the elements from the fields of another class</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INIFile.PreHeaderSectionName">
+            <summary>The internal name of the global section</summary>
+        </member>
+        <member name="P:Primrose.FileFormat.INI.INIFile.ListDelimiter">
+            <summary>The default list delimiter used in an INIFile class</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.#ctor">
+            <summary>Initializes an empty INI file</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.#ctor(System.String)">
+            <summary>Initializes an INI file with a given filepath</summary>
+            <param name="filepath">The path of the file to be interpreted</param>
+        </member>
+        <member name="P:Primrose.FileFormat.INI.INIFile.Attributes">
+            <summary>The configuration attributes of the format</summary>
+        </member>
+        <member name="P:Primrose.FileFormat.INI.INIFile.Sections">
+            <summary>The sections contained within the format</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.Reset">
+            <summary>Clears all information in the format</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.HasSection(System.String)">
+            <summary>Determines if a section is defined in the file</summary>
+            <param name="section">The section name</param>
+            <returns>True if the section is defined in the file</returns>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.HasKey(System.String,System.String)">
+            <summary>Determines if a key is defined in the file</summary>
+            <param name="section">The section name</param>
+            <param name="key">The key name</param>
+            <returns>True if the section and key is defined in the file</returns>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.GetSection(System.String)">
+            <summary>Gets a section from the file</summary>
+            <param name="section">The section name</param>
+            <returns>The INISection object representing the section in the file</returns>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.ReadFromStream(System.IO.Stream,System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Reads and parses the INI file from a data stream</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.ReadFromFile(System.String,System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Reads and parses the INI file from a source file</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.Read(System.IO.StreamReader)">
+            <summary>Reads and parses INI data from a source</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.WriteToFile(System.String)">
+            <summary>Writes the INI data into a file</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.WriteToStream(System.IO.Stream)">
+            <summary>Writes the INI data into a stream</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.Write(System.IO.StreamWriter)">
+            <summary>Writes the INI data into a destination</summary>
+        </member>
         <member name="T:Primrose.Primitives.Cache`4">
             <summary>
             Provides a basic cache functionality in a dictionary-like lookup.
@@ -373,6 +756,30 @@
             <summary>
             Represents an exception when attempting to assign an array to a typed value
             </summary>
+        </member>
+        <member name="T:Primrose.Primitives.Strings.StringSource`1">
+            <summary>Defines a data resource that maps a token code to a string resource</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Add(`0,System.String)">
+            <summary>Registers a new string token with a formatted string</summary>
+            <param name="key">The identifier string token</param>
+            <param name="formattedString">The formatted string</param>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Put(`0,System.String)">
+            <summary>Registers or redefines a new string token with a formatted string</summary>
+            <param name="key">The identifier string token</param>
+            <param name="formattedString">The formatted string</param>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Get(`0)">
+            <summary>Retrieves a formatted string from its code</summary>
+            <param name="key">The identifier string code.</param>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Remove(`0)">
+            <summary>Removes a new string token</summary>
+            <param name="key">The identifier string token to remove</param>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Clear">
+            <summary>Clears the source of all tokens</summary>
         </member>
         <member name="T:Primrose.Primitives.Observables.ChangeEventDelegate`1">
             <summary>
@@ -4477,540 +4884,161 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_AFactoryObjectDuplicateID">
+        <member name="T:Primrose.Resource.Strings">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Primrose.Resource.Strings.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Primrose.Resource.Strings.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Primrose.Resource.Strings.Error_AFactoryObjectDuplicateID">
             <summary>
               Looks up a localized string similar to Setting ID to AFactoryObject with existing ID &apos;{0}&apos; is not allowed!.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_ArrayMismatchException">
+        <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException">
             <summary>
               Looks up a localized string similar to Attempted operation between two arrays of different length.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_ArrayMismatchException_length_length">
+        <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException_length_length">
             <summary>
               Looks up a localized string similar to Attempted operation between two arrays of different lengths &apos;{0}&apos; and &apos;{1}&apos;.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_ArrayMismatchException_length_type">
+        <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException_length_type">
             <summary>
               Looks up a localized string similar to Attempted assignment of an array of length {0} to {1}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_CacheKeyNotFound">
+        <member name="P:Primrose.Resource.Strings.Error_CacheKeyNotFound">
             <summary>
               Looks up a localized string similar to Attempted to get an non-existent key &apos;{0}&apos; from a cache..
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_CapacityExceededException">
+        <member name="P:Primrose.Resource.Strings.Error_CapacityExceededException">
             <summary>
               Looks up a localized string similar to Attempted to push an item into {0} that has reached capacity limit of {1}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_CollectionAddDuplicateKey">
+        <member name="P:Primrose.Resource.Strings.Error_CollectionAddDuplicateKey">
             <summary>
               Looks up a localized string similar to Attempted to add an existing key &apos;{0}&apos; to a {1}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_CollectionAddNullKey">
+        <member name="P:Primrose.Resource.Strings.Error_CollectionAddNullKey">
             <summary>
               Looks up a localized string similar to Attempted to add a null key to a {0}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_CollectionPutNullKey">
+        <member name="P:Primrose.Resource.Strings.Error_CollectionPutNullKey">
             <summary>
               Looks up a localized string similar to Attempted to put value of a null key in a {0}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_CollectionSetKeyNotFound">
+        <member name="P:Primrose.Resource.Strings.Error_CollectionSetKeyNotFound">
             <summary>
               Looks up a localized string similar to Attempted to set value to an non-existent key &apos;{0}&apos; in a {1}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_CollectionSetNullKey">
+        <member name="P:Primrose.Resource.Strings.Error_CollectionSetNullKey">
             <summary>
               Looks up a localized string similar to Attempted to set value of a null key to a {0}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_DuplicateINISection">
+        <member name="P:Primrose.Resource.Strings.Error_DuplicateINISection">
             <summary>
               Looks up a localized string similar to Invalid duplicate section [{0}] detected..
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_ExpectedEnumException">
+        <member name="P:Primrose.Resource.Strings.Error_ExpectedEnumException">
             <summary>
               Looks up a localized string similar to Type &apos;{0}&apos; is not an enum.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_FileNotFound">
+        <member name="P:Primrose.Resource.Strings.Error_FileNotFound">
             <summary>
               Looks up a localized string similar to The file {0} is not found!.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_INIFileAttributeNotFound">
+        <member name="P:Primrose.Resource.Strings.Error_INIFileAttributeNotFound">
             <summary>
               Looks up a localized string similar to The attribute does not exist!.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_INIKeyListInvalidType">
+        <member name="P:Primrose.Resource.Strings.Error_INIKeyListInvalidType">
             <summary>
               Looks up a localized string similar to INIKeyList attribute can only be used with string[] data types! ({0}).
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_INIKeyNotFound">
+        <member name="P:Primrose.Resource.Strings.Error_INIKeyNotFound">
             <summary>
               Looks up a localized string similar to The key &apos;{0}&apos; in section &apos;{1}&apos; is not defined!.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_INIRegistryListInvalidType">
+        <member name="P:Primrose.Resource.Strings.Error_INIRegistryListInvalidType">
             <summary>
               Looks up a localized string similar to INIRegistry attribute can only be used with Registry&lt;K,T&gt; data types! ({0}).
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_INISectionNotFound">
+        <member name="P:Primrose.Resource.Strings.Error_INISectionNotFound">
             <summary>
               Looks up a localized string similar to The section &apos;{0}&apos; is not defined!.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_INISubSectionKeyListInvalidType">
+        <member name="P:Primrose.Resource.Strings.Error_INISubSectionKeyListInvalidType">
             <summary>
               Looks up a localized string similar to INISubSectionKeyListAttribute attribute can only be used with a single-level array (T[]) data type! ({0}).
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_INISubSectionListInvalidType">
+        <member name="P:Primrose.Resource.Strings.Error_INISubSectionListInvalidType">
             <summary>
               Looks up a localized string similar to INISubSectionListAttribute attribute can only be used with a single-level array (T[]) data type! ({0}).
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_InvalidIndex">
+        <member name="P:Primrose.Resource.Strings.Error_InvalidIndex">
             <summary>
               Looks up a localized string similar to Attempted to access invalid index &apos;{0}&apos; of {1}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_InvalidStateCommandException">
+        <member name="P:Primrose.Resource.Strings.Error_InvalidStateCommandException">
             <summary>
               Looks up a localized string similar to Command &apos;{0}&apos; is not valid on state &apos;{1}&apos;.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_ObjectPoolBackgroundPoolNotCreated">
+        <member name="P:Primrose.Resource.Strings.Error_ObjectPoolBackgroundPoolNotCreated">
             <summary>
               Looks up a localized string similar to The background object pool for &apos;{0}&apos; has not been created..
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_ObjectPoolDuplicateBackgroundPool">
+        <member name="P:Primrose.Resource.Strings.Error_ObjectPoolDuplicateBackgroundPool">
             <summary>
               Looks up a localized string similar to There is already a background object pool for &apos;{0}&apos;.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_RuleConversionException">
+        <member name="P:Primrose.Resource.Strings.Error_RuleConversionException">
             <summary>
               Looks up a localized string similar to Attempted to parse invalid value &apos;{0}&apos; as {1}.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_UnsupportedParseException">
+        <member name="P:Primrose.Resource.Strings.Error_UnsupportedParseException">
             <summary>
               Looks up a localized string similar to Attempted to parse a string from an unsupported type &apos;{0}&apos;.
             </summary>
         </member>
-        <member name="P:Primrose.Properties.Resources.Error_UnsupportedWriteException">
+        <member name="P:Primrose.Resource.Strings.Error_UnsupportedWriteException">
             <summary>
               Looks up a localized string similar to Attempted to write a string from an unsupported type &apos;{0}&apos;.
             </summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INISubSectionKeyListAttribute">
-            <summary>Reads a section whose keys redirect to other sections of an INI file</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.Section">
-            <summary>The section name of the INI file where the keys are based on</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.SubsectionPrefix">
-            <summary>The subsection prefix to be used when writing members</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.ReadValue">
-            <summary>Defines whether the values are read instead of keys</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.Required">
-            <summary>Defines whether the INI file must contain this section/key combination</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INISubSectionKeyListAttribute.#ctor(System.String,System.String,System.Boolean,System.Boolean)">
-            <summary>Defines a value that redirects to other sections of an INI file</summary>
-            <param name="section">The section name from which the keys are retrieved. If null, the field name is used</param>
-            <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the section name is used</param>
-            <param name="readValue">Defines whether the values are read instead of keys</param>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIHeaderAttribute">
-            <summary>Defines a value from a section header of an INI file</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIHeaderAttribute.#ctor">
-            <summary>Defines a value from a section header of an INI file</summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INISectionNotFoundException">
-            <summary>Represents an exception as a result of a missing section</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INISectionNotFoundException.#ctor(System.String)">
-            <summary>Represents an exception as a result of a missing section</summary>
-            <param name="section">The missing section</param>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIKeyNotFoundException">
-            <summary>Represents an exception as a result of a missing section key</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIKeyNotFoundException.#ctor(System.String,System.String)">
-            <summary>Represents an exception as a result of a missing section key</summary>
-            <param name="section">The section where the key is missing</param>
-            <param name="key">The missing key</param>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.DuplicateResolutionPolicy">
-            <summary>Determines the policy for resolving duplicate entries</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.DuplicateResolutionPolicy.THROW">
-            <summary>Throws an exception</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.DuplicateResolutionPolicy.OLD">
-            <summary>Use the old value</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.DuplicateResolutionPolicy.NEW">
-            <summary>Use the new value</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.DuplicateResolutionPolicy.BOTH">
-            <summary>Write both values</summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIFileConfigurationAttribute">
-            <summary>Defines settings for an INI file</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFileConfigurationAttribute.SupportSectionInheritance">
-            <summary>Indicates if section inheritance is supported</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFileConfigurationAttribute.AllowGlobalSection">
-            <summary>Indicates a global section (key-values prior to the first section declaration) is allowed</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFileConfigurationAttribute.DuplicateSectionPolicy">
-            <summary>Determines the policy for handling duplicate sections</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFileConfigurationAttribute.CommentDelimiters">
-            <summary>Defines the delimiters for identifying the start of comments</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFileConfigurationAttribute.SectionInheritanceDelimiter">
-            <summary>Defines the delimiter for identifying the start of a section inheritance list</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFileConfigurationAttribute.KeyValueDelimiter">
-            <summary>Defines the delimiter for a key-value pair</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFileConfigurationAttribute.#ctor">
-            <summary>Defines settings for an INI file</summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIEmbedObjectAttribute">
-            <summary>Signals to the INIFile LoadField method to load the fields contained in the class / struct </summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIEmbedObjectAttribute.#ctor(System.String)">
-            <summary>Signals to the INIFile LoadField method to load the fields contained in the class / struct </summary>
-            <param name="overrideSection">The section name of the INI file where the key is based on</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIEmbedObjectAttribute.#ctor">
-            <summary>Signals to the INIFile LoadField method to load the fields contained in the class / struct </summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIEmbedObjectAttribute.Section">
-            <summary>The section name of the INI file where the keys in the attributed object are based on</summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INISubSectionListAttribute">
-            <summary>Defines a value that redirects to other sections of an INI file</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INISubSectionListAttribute.Section">
-            <summary>The section name of the INI file where the keys are based on</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INISubSectionListAttribute.SubsectionPrefix">
-            <summary>The subsection prefix to be used when writing members</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INISubSectionListAttribute.Key">
-            <summary>The key name of the INI file where the value is read</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INISubSectionListAttribute.Required">
-            <summary>Defines whether the INI file must contain this section/key combination</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INISubSectionListAttribute.#ctor(System.String,System.String,System.String,System.Boolean)">
-            <summary>Defines a value that redirects to other sections of an INI file</summary>
-            <param name="section">The section name from which the keys are retrieved</param>
-            <param name="key">The key name from which the value is retrieved</param>
-            <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the key name is used</param>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIRegistryAttribute">
-            <summary>Defines a list of keys from a section of an INI file</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIRegistryAttribute.Section">
-            <summary>The section name of the INI file where the keys are based on</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIRegistryAttribute.Required">
-            <summary>Defines whether the INI file must contain this section/key combination</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIRegistryAttribute.NoWriteValue">
-            <summary>If the value string matches this value, skip this line when writing to file</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIRegistryAttribute.#ctor(System.String,System.Boolean)">
-            <summary>Defines a list of keys from a section of an INI file</summary>
-            <param name="section">The section name from which the keys are retrieved</param>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIRegistryAttribute.#ctor(System.Boolean)">
-            <summary>Defines a list of keys from a section of an INI file</summary>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIKeyListAttribute">
-            <summary>Defines a list of keys from a section of an INI file</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIKeyListAttribute.Section">
-            <summary>The section name of the INI file where the keys are based on</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIKeyListAttribute.ReadValue">
-            <summary>Defines whether the values are read instead of keys</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIKeyListAttribute.Required">
-            <summary>Defines whether the INI file must contain this section/key combination</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIKeyListAttribute.#ctor(System.String,System.Boolean,System.Boolean)">
-            <summary>Defines a list of keys from a section of an INI file</summary>
-            <param name="section">The section name from which the keys are retrieved</param>
-            <param name="readValue">Defines whether the values are read instead of keys</param>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIKeyListAttribute.#ctor(System.Boolean)">
-            <summary>Defines a list of keys from a section of an INI file</summary>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIAttributeExt">
-            <summary>Defines external methods for INI attributes</summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIValueAttribute">
-            <summary>Defines a value from a section and key of an INI file</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIValueAttribute.Section">
-            <summary>The section name of the INI file where the key is based on</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIValueAttribute.Key">
-            <summary>The key name of the INI file where the value is read</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIValueAttribute.NoWriteValue">
-            <summary>If the value string matches this value, skip this line when writing to file</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIValueAttribute.Required">
-            <summary>Defines whether the INI file must contain this section/key combination</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIValueAttribute.#ctor(System.String,System.String,System.Boolean)">
-            <summary>
-            <summary>Defines a value from a section and key of an INI file</summary>
-            </summary>
-            <param name="section">The section name from which the key-value is retrieved</param>
-            <param name="key">The key name from which the value is retrieved</param>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIValueAttribute.#ctor(System.String,System.Boolean)">
-            <summary>
-            <summary>Defines a value from a section and key of an INI file</summary>
-            </summary>
-            <param name="key">The key name from which the value is retrieved</param>
-            <param name="required">Defines whether the INI file must contain this section/key combination</param>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIFile">
-            <summary>Defines a standard for INI configuration file format</summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIFile.INISection">
-            <summary>Defines a section within an INI configuration file format</summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIFile.INISection.INIHeaderLine">
-            <summary>Defines the header line within a section within an INI configuration file format</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFile.INISection.INIHeaderLine.Header">
-            <summary>The header</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFile.INISection.INIHeaderLine.Inherits">
-            <summary>Defines what other sections this section may inherit its values from</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.INIHeaderLine.ToString">
-            <summary>Provides a string representation of the line</summary>
-        </member>
-        <member name="T:Primitives.FileFormat.INI.INIFile.INISection.INILine">
-            <summary>Defines a line within a section within an INI configuration file format</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFile.INISection.INILine.Key">
-            <summary>The key associated in this line</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFile.INISection.INILine.Value">
-            <summary>The value associated in this line</summary>
-        </member>
-        <member name="P:Primitives.FileFormat.INI.INIFile.INISection.INILine.HasKey">
-            <summary>Denotes if this line has a key</summary>
-        </member>
-        <member name="P:Primitives.FileFormat.INI.INIFile.INISection.INILine.HasValue">
-            <summary>Denotes if this line has a value</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.INILine.ToString">
-            <summary>Provides a string representation of the line</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.ToString">
-            <summary>Provides a string representation of the INISection</summary>
-        </member>
-        <member name="P:Primitives.FileFormat.INI.INIFile.INISection.Header">
-            <summary>The name of the section</summary>
-        </member>
-        <member name="P:Primitives.FileFormat.INI.INIFile.INISection.Inherits">
-            <summary>Defines what other sections this section may inherit its values from</summary>
-        </member>
-        <member name="P:Primitives.FileFormat.INI.INIFile.INISection.Lines">
-            <summary>The content of the section</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.GetKeys">
-            <summary>Retrieves the list containing all non-empty keys in the section</summary>
-            <returns></returns>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.GetValues">
-            <summary>Retrieves the list containing all values in the section</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.HasKey(System.String)">
-            <summary>Determines if a key is defined in the section</summary>
-            <param name="key">The key name</param>
-            <returns>True if the section and key is defined in the section</returns>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.GetLine(System.String)">
-            <summary>Retrieves the line containing the key in the section</summary>
-            <param name="key">The key name</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.GetValue(System.String,System.String)">
-            <summary>Retrieves the value associated with the key in the section</summary>
-            <param name="key">The key name</param>
-            <param name="defaultvalue">The default value, if the key is not found</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.SetValue(System.String,System.String)">
-            <summary>Adds or sets the value associated with the key in the section</summary>
-            <param name="key">The key name</param>
-            <param name="value">The new value to be assigned to the key</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.INISection.Merge(Primitives.FileFormat.INI.INIFile.INISection)">
-            <summary>Merges the content of this section with another section</summary>
-            <param name="section">The name of the other section</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.GetValue``1(System.String,System.String,Primrose.Primitives.Parsers.IResolver,``0)">
-            <summary>Gets a value from the INIFile</summary>
-            <param name="section">The section containing the key-value pair</param>
-            <param name="key">The key containing the value</param>
-            <param name="resolver">A string resolver function</param>
-            <param name="defaultValue">The default value</param>
-            <returns>The value belonging to the section and key in the INIFile. If the key does not exist, returns defaultValue</returns>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.GetString(System.String,System.String,System.String)">
-            <summary>
-            Gets a string value from the INIFile 
-            </summary>
-            <param name="section">The section containing the key-value pair</param>
-            <param name="key">The key containing the value</param>
-            <param name="defaultValue">The default value</param>
-            <returns>The value belonging to the section and key in the INIFile. If the key does not exist, returns defaultValue</returns>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.SetValue``1(System.String,System.String,``0)">
-            <summary>Sets a value from the INIFile </summary>
-            <param name="section">The section that will contain the key-value pair</param>
-            <param name="key">The key that will contain the value</param>
-            <param name="value">The value to be set</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.SetString(System.String,System.String,System.String)">
-            <summary>
-            Sets a string value in the INIFile 
-            </summary>
-            <param name="section">The section that will contain the key-value pair</param>
-            <param name="key">The key that will contain the value</param>
-            <param name="value">The value to be set</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.SetEmptyKey(System.String,System.String)">
-            <summary>
-            Sets an empty value in the INIFile 
-            </summary>
-            <param name="section">The section that will contain the key</param>
-            <param name="key">The key that will be set</param>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.LoadByAttribute``1(``0@,System.String,Primrose.Primitives.Parsers.IResolver)">
-            <summary>Passes the elements into the fields of another class</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.UpdateByAttribute``1(``0@,System.String)">
-            <summary>Updates the elements from the fields of another class</summary>
-        </member>
-        <member name="F:Primitives.FileFormat.INI.INIFile.PreHeaderSectionName">
-            <summary>The internal name of the global section</summary>
-        </member>
-        <member name="P:Primitives.FileFormat.INI.INIFile.ListDelimiter">
-            <summary>The default list delimiter used in an INIFile class</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.#ctor">
-            <summary>Initializes an empty INI file</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.#ctor(System.String)">
-            <summary>Initializes an INI file with a given filepath</summary>
-            <param name="filepath">The path of the file to be interpreted</param>
-        </member>
-        <member name="P:Primitives.FileFormat.INI.INIFile.Attributes">
-            <summary>The configuration attributes of the format</summary>
-        </member>
-        <member name="P:Primitives.FileFormat.INI.INIFile.Sections">
-            <summary>The sections contained within the format</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.Reset">
-            <summary>Clears all information in the format</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.HasSection(System.String)">
-            <summary>Determines if a section is defined in the file</summary>
-            <param name="section">The section name</param>
-            <returns>True if the section is defined in the file</returns>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.HasKey(System.String,System.String)">
-            <summary>Determines if a key is defined in the file</summary>
-            <param name="section">The section name</param>
-            <param name="key">The key name</param>
-            <returns>True if the section and key is defined in the file</returns>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.GetSection(System.String)">
-            <summary>Gets a section from the file</summary>
-            <param name="section">The section name</param>
-            <returns>The INISection object representing the section in the file</returns>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.ReadFromStream(System.IO.Stream,System.String,Primrose.Primitives.Parsers.IResolver)">
-            <summary>Reads and parses the INI file from a data stream</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.ReadFromFile(System.String,System.String,Primrose.Primitives.Parsers.IResolver)">
-            <summary>Reads and parses the INI file from a source file</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.Read(System.IO.StreamReader)">
-            <summary>Reads and parses INI data from a source</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.WriteToFile(System.String)">
-            <summary>Writes the INI data into a file</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.WriteToStream(System.IO.Stream)">
-            <summary>Writes the INI data into a stream</summary>
-        </member>
-        <member name="M:Primitives.FileFormat.INI.INIFile.Write(System.IO.StreamWriter)">
-            <summary>Writes the INI data into a destination</summary>
-        </member>
-        <member name="T:Primitives.Strings.StringSource`1">
-            <summary>Defines a data resource that maps a token code to a string resource</summary>
-        </member>
-        <member name="M:Primitives.Strings.StringSource`1.Add(`0,System.String)">
-            <summary>Registers a new string token with a formatted string</summary>
-            <param name="key">The identifier string token</param>
-            <param name="formattedString">The formatted string</param>
-        </member>
-        <member name="M:Primitives.Strings.StringSource`1.Put(`0,System.String)">
-            <summary>Registers or redefines a new string token with a formatted string</summary>
-            <param name="key">The identifier string token</param>
-            <param name="formattedString">The formatted string</param>
-        </member>
-        <member name="M:Primitives.Strings.StringSource`1.Get(`0)">
-            <summary>Retrieves a formatted string from its code</summary>
-            <param name="key">The identifier string code.</param>
-        </member>
-        <member name="M:Primitives.Strings.StringSource`1.Remove(`0)">
-            <summary>Removes a new string token</summary>
-            <param name="key">The identifier string token to remove</param>
-        </member>
-        <member name="M:Primitives.Strings.StringSource`1.Clear">
-            <summary>Clears the source of all tokens</summary>
         </member>
     </members>
 </doc>
