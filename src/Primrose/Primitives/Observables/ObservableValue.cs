@@ -33,7 +33,9 @@ namespace Primrose.Primitives.Observables
       }
     }
 
-    private readonly ChangeEvent<T> _valueChanged; //= new ChangeEvent<T>();
+#pragma warning disable IDE0044 // Add readonly modifier
+    private ChangeEvent<T> _valueChanged;
+#pragma warning restore IDE0044 // Add readonly modifier
 
     /// <summary>Represents the set of functions to be called when a value is changed</summary>
     public event ChangeEventDelegate<T> ValueChanged { add { _valueChanged.Ev += value; } remove { _valueChanged.Ev -= value; } }

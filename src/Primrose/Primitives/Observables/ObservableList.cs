@@ -11,10 +11,12 @@ namespace Primrose.Primitives.Observables
   {
     private TList _list;
 
-    private readonly ChangeEvent<IList<T>> _listChanged = new ChangeEvent<IList<T>>();
-    private readonly ChangeEvent<T> _itemAdded = new ChangeEvent<T>();
-    private readonly ChangeEvent<T> _itemRemoved = new ChangeEvent<T>();
-    private readonly ChangeEvent<T> _itemChanged = new ChangeEvent<T>();
+#pragma warning disable IDE0044 // Add readonly modifier
+    private ChangeEvent<IList<T>> _listChanged = new ChangeEvent<IList<T>>();
+    private ChangeEvent<T> _itemAdded = new ChangeEvent<T>();
+    private ChangeEvent<T> _itemRemoved = new ChangeEvent<T>();
+    private ChangeEvent<T> _itemChanged = new ChangeEvent<T>();
+#pragma warning restore IDE0044 // Add readonly modifier
 
     /// <summary>Represents the set of functions to be called when the registry is replaced</summary>
     public event ChangeEventDelegate<IList<T>> ListChanged { add { _listChanged.Ev += value; } remove { _listChanged.Ev -= value; } }

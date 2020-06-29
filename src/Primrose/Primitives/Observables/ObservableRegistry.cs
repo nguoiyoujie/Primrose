@@ -11,10 +11,12 @@ namespace Primrose.Primitives.Observables
   {
     private Registry<K, V> _reg;
 
-    private readonly ChangeEvent<Registry<K, V>> _regChanged = new ChangeEvent<Registry<K, V>>();
-    private readonly ChangeEvent<K> _keyAdded = new ChangeEvent<K>();
-    private readonly ChangeEvent<K> _keyRemoved = new ChangeEvent<K>();
-    private readonly ChangeEvent<V> _valueChanged = new ChangeEvent<V>();
+#pragma warning disable IDE0044 // Add readonly modifier
+    private ChangeEvent<Registry<K, V>> _regChanged = new ChangeEvent<Registry<K, V>>();
+    private ChangeEvent<K> _keyAdded = new ChangeEvent<K>();
+    private ChangeEvent<K> _keyRemoved = new ChangeEvent<K>();
+    private ChangeEvent<V> _valueChanged = new ChangeEvent<V>();
+#pragma warning restore IDE0044 // Add readonly modifier
 
     /// <summary>Represents the set of functions to be called when the registry is replaced</summary>
     public event ChangeEventDelegate<Registry<K, V>> RegistryChanged { add { _regChanged.Ev += value; } remove { _regChanged.Ev -= value; } }
