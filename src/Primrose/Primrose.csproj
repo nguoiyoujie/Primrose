@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Build.cs" />
+    <Compile Include="FileFormat\INI\Enums\ValueSource.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Primitives\Cache\Cache.cs" />
     <Compile Include="Primitives\Cache\EnumNames.cs" />
@@ -73,9 +74,9 @@
     <Compile Include="Primitives\Exceptions\ExceededCapacityException.cs" />
     <Compile Include="Primitives\Exceptions\ExpectedEnumException.cs" />
     <Compile Include="Primitives\Exceptions\ArrayMismatchException.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INISubSectionKeyListAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INIHeaderAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Exceptions\InvalidTypeException.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INISubSectionKeyListAttribute.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INIHeaderAttribute.cs" />
+    <Compile Include="FileFormat\INI\Exceptions\InvalidTypeException.cs" />
     <Compile Include="Primitives\Strings\StringSource.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogItem.cs" />
@@ -98,24 +99,24 @@
     <Compile Include="Primitives\Collections\Factories\ObjectPool.cs" />
     <Compile Include="Primitives\Collections\Factories\Registry_KT.cs" />
     <Compile Include="Primitives\Collections\Factories\Registry_T.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\DuplicateResolutionPolicy.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INIFileConfigurationAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INIEmbedObjectAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INISubSectionListAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INIRegistryAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INIKeyListAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INIAttributeExt.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Attributes\INIValueAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Components\INIHeaderLine.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Components\INILine.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Components\INISection.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetValue.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Getters\GetString.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetValue.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetString.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\Setters\SetEmptyKey.cs" />
-    <Compile Include="Primitives\FileFormat\INI\Helpers\UpdateByAttribute.cs" />
-    <Compile Include="Primitives\FileFormat\INI\INIFile.cs" />
+    <Compile Include="FileFormat\INI\Attributes\DuplicateResolutionPolicy.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INIFileConfigurationAttribute.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INIEmbedObjectAttribute.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INISubSectionListAttribute.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INIRegistryAttribute.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INIKeyListAttribute.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INIAttributeExt.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INIValueAttribute.cs" />
+    <Compile Include="FileFormat\INI\Components\INIHeaderLine.cs" />
+    <Compile Include="FileFormat\INI\Components\INILine.cs" />
+    <Compile Include="FileFormat\INI\Components\INISection.cs" />
+    <Compile Include="FileFormat\INI\Helpers\Getters\GetValue.cs" />
+    <Compile Include="FileFormat\INI\Helpers\Getters\GetString.cs" />
+    <Compile Include="FileFormat\INI\Helpers\Setters\SetValue.cs" />
+    <Compile Include="FileFormat\INI\Helpers\Setters\SetString.cs" />
+    <Compile Include="FileFormat\INI\Helpers\Setters\SetEmptyKey.cs" />
+    <Compile Include="FileFormat\INI\Helpers\UpdateByAttribute.cs" />
+    <Compile Include="FileFormat\INI\INIFile.cs" />
     <Compile Include="Primitives\Interfaces.cs" />
     <Compile Include="Primitives\Parsers\Exceptions\UnsupportedWriteException.cs" />
     <Compile Include="Primitives\Parsers\Exceptions\UnsupportedParseException.cs" />
@@ -176,6 +177,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resource\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="postbuild.bat" />
@@ -185,6 +191,10 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
