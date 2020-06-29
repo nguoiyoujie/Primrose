@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Primitives.FileFormat.INI;
+using Primrose.FileFormat.INI;
 using Primrose.Primitives.ValueTypes;
 using System.IO;
 using System.Text;
