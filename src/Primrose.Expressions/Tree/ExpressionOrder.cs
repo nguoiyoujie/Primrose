@@ -13,8 +13,8 @@ namespace Primrose.Expressions.Tree
 
     static ExpressionOrder()
     {
-      NextExpression.Default = (_, __) => { throw new InvalidOperationException("No candidate for next expression found!"); };
-      NextStatement.Default = (_, __) => { throw new InvalidOperationException("No candidate for next statement found!"); };
+      NextExpression.Default = (_, __) => { throw new InvalidOperationException(Resource.Strings.Error_ExpressionNotFound); };
+      NextStatement.Default = (_, __) => { throw new InvalidOperationException(Resource.Strings.Error_StatementNotFound); };
 
       NextExpression.Add(typeof(Expression), (s, l) => { return new TernaryExpression(s, l); });
       NextExpression.Add(typeof(TernaryExpression), (s, l) => { return new LogicalOrExpression(s, l); });

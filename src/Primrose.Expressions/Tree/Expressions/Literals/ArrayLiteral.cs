@@ -54,7 +54,7 @@ namespace Primrose.Expressions.Tree.Expressions.Literals
           else if (t == ValType.FLOAT && vL[i].Type == ValType.INT)
             continue;
           else
-            throw new EvalException(this, "Incompatible types detected in array: {0}, {1}".F(t, vL[i].Type));
+            throw new EvalException(this, Resource.Strings.Error_EvalException_IncompatibleArrayElement.F(t, vL[i].Type));
         }
       }
 
@@ -81,7 +81,7 @@ namespace Primrose.Expressions.Tree.Expressions.Literals
           return new Val(sL);
 
         default:
-          throw new EvalException(this, "Unsupported array member type: {0}".F(t));
+          throw new EvalException(this, Resource.Strings.Error_EvalException_UnsupportedArrayElement.F(t));
       }
 
     }

@@ -58,6 +58,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\InvalidValCastException.cs" />
     <Compile Include="Operators\BOp.cs" />
     <Compile Include="Build.cs" />
     <Compile Include="Context\ContextBase.cs" />
@@ -86,6 +87,11 @@
     <Compile Include="Parsing\RegexMatcher.cs" />
     <Compile Include="Parsing\TokenDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Script\Registry.cs" />
     <Compile Include="Script\ScriptExpression.cs" />
     <Compile Include="Script\Script.cs" />
@@ -138,6 +144,12 @@
   <ItemGroup>
     <None Include="postbuild.bat" />
     <None Include="prebuild.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

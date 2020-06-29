@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Bool" xml:space="preserve">
+    <value>&lt;bool&gt;</value>
+  </data>
+  <data name="Error_EvalException_4" xml:space="preserve">
+    <value>Unable to execute script function '{0}' at line {1}:{2} 
+Reason: {3}</value>
+  </data>
+  <data name="Error_EvalException_6" xml:space="preserve">
+    <value>Unable to perform '{0}' operation on {1} in function '{2}' at line {3}:{4} 
+Reason: {5}</value>
+  </data>
+  <data name="Error_EvalException_7" xml:space="preserve">
+    <value>Unable to perform '{0}' operation between {1} and {2} in function '{3}' at line {4}:{5} 
+Reason: {6}</value>
+  </data>
+  <data name="Error_EvalException_ArgumentTypeMismatch" xml:space="preserve">
+    <value>Argument type mismatch for argument {0} of function '{1}': expected {2}, received {3}</value>
+  </data>
+  <data name="Error_EvalException_FunctionNotFound" xml:space="preserve">
+    <value>The function '{0}' does not exist!</value>
+  </data>
+  <data name="Error_EvalException_Get_VariableNotFound" xml:space="preserve">
+    <value>Attempted to get undeclared variable '{0}'</value>
+  </data>
+  <data name="Error_EvalException_IncompatibleArrayElement" xml:space="preserve">
+    <value>Incompatible types detected in array: {0}, {1}</value>
+  </data>
+  <data name="Error_EvalException_IncorrectParameters" xml:space="preserve">
+    <value>Incorrect number/type of parameters supplied to function '{0}'!</value>
+  </data>
+  <data name="Error_EvalException_IndexOnNonArray" xml:space="preserve">
+    <value>Attempted to index a non-array: {0}</value>
+  </data>
+  <data name="Error_EvalException_IndexOutOfRange" xml:space="preserve">
+    <value>Index ({0}) for an array (length: {1}) is out of range!</value>
+  </data>
+  <data name="Error_EvalException_InvalidArrayIndex" xml:space="preserve">
+    <value>Attempted to index an array with a non-integer!</value>
+  </data>
+  <data name="Error_EvalException_InvalidVariableAssignment" xml:space="preserve">
+    <value>Illegal assignment to '{0} {1}': {2}</value>
+  </data>
+  <data name="Error_EvalException_NonBooleanConditional" xml:space="preserve">
+    <value>Non-boolean value {0} found at start of conditional expression</value>
+  </data>
+  <data name="Error_EvalException_Set_VariableNotFound" xml:space="preserve">
+    <value>Attempted to set undeclared variable '{0}'</value>
+  </data>
+  <data name="Error_EvalException_UnsupportedArrayElement" xml:space="preserve">
+    <value>Unsupported array member type: {0}</value>
+  </data>
+  <data name="Error_ExpressionNotFound" xml:space="preserve">
+    <value>No candidate for next expression found!</value>
+  </data>
+  <data name="Error_IncompatibleBOp" xml:space="preserve">
+    <value>Operation '{0}' incompatible between {1} and {2}</value>
+  </data>
+  <data name="Error_IncompatibleUOp" xml:space="preserve">
+    <value>Operation '{0}' incompatible with {1}</value>
+  </data>
+  <data name="Error_InvalidValCastException" xml:space="preserve">
+    <value>Attempted to read {0} value from a {1}</value>
+  </data>
+  <data name="Error_Lexer_InvalidToken" xml:space="preserve">
+    <value>Unable to match against any tokens at line {0} position {1} '{2}'</value>
+  </data>
+  <data name="Error_ParseException_5" xml:space="preserve">
+    <value>Unexpected token '{0}' found in function '{1}' line {2}:{3}.
+Line: {4}</value>
+  </data>
+  <data name="Error_ParseException_5M" xml:space="preserve">
+    <value>{0}
+Function '{1}' at line {2}:{3}. 
+Line: {4}</value>
+  </data>
+  <data name="Error_ParseException_6" xml:space="preserve">
+    <value>Unexpected token '{0}' found in function '{1}' at line {2}:{3}. Expected: {4}.
+Line: {5}</value>
+  </data>
+  <data name="Error_ParseException_DuplicateVariable" xml:space="preserve">
+    <value>Duplicate declaration of variable '{0}' in the same scope</value>
+  </data>
+  <data name="Error_ScriptFileNotFound" xml:space="preserve">
+    <value>Script file '{0}' is not found!</value>
+  </data>
+  <data name="Error_StatementNotFound" xml:space="preserve">
+    <value>No candidate for next statement found!</value>
+  </data>
+  <data name="Error_ValTypeMismatchException_Length" xml:space="preserve">
+    <value>Attempted assignment of an array of length {0} to {1}</value>
+  </data>
+  <data name="Error_ValTypeMismatchException_Type" xml:space="preserve">
+    <value>Attempted assignment of value of type '{0}' to {1}</value>
+  </data>
+  <data name="Float" xml:space="preserve">
+    <value>&lt;float&gt;</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>&lt;func&gt;</value>
+  </data>
+  <data name="HexInt" xml:space="preserve">
+    <value>&lt;hex_int&gt;</value>
+  </data>
+  <data name="Int" xml:space="preserve">
+    <value>&lt;int&gt;</value>
+  </data>
+  <data name="Null" xml:space="preserve">
+    <value>&lt;null&gt;</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>&lt;string&gt;</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>&lt;???&gt;</value>
+  </data>
+  <data name="Variable" xml:space="preserve">
+    <value>&lt;variable&gt;</value>
+  </data>
+</root>

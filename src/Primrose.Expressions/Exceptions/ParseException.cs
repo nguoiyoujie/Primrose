@@ -6,7 +6,7 @@ namespace Primrose.Expressions
 {
   internal class ParseException : Exception
   {
-    internal ParseException(Lexer lexer) : base("Unexpected token '{0}' found in function '{1}' line {2}:{3}.\nLine: {4}"
+    internal ParseException(Lexer lexer) : base(Resource.Strings.Error_ParseException_5
                                                                             .F(lexer.TokenContents.Replace("\n", "")
                                                                             , lexer.SourceName
                                                                             , lexer.LineNumber
@@ -14,7 +14,7 @@ namespace Primrose.Expressions
                                                                             , lexer.LineText))
     { }
 
-    internal ParseException(Lexer lexer, TokenEnum expected) : base("Unexpected token '{0}' found in function '{1}' at line {2}:{3}. Expected: {4}.\nLine: {5}"
+    internal ParseException(Lexer lexer, TokenEnum expected) : base(Resource.Strings.Error_ParseException_6
                                                                               .F(lexer.TokenContents.Replace("\n", "")
                                                                               , lexer.SourceName
                                                                               , lexer.LineNumber
@@ -23,7 +23,7 @@ namespace Primrose.Expressions
                                                                               , lexer.LineText))
     { }
 
-    internal ParseException(Lexer lexer, string message) : base("{0}\nFunction '{1}' at line {2}:{3}. \nLine: {4}"
+    internal ParseException(Lexer lexer, string message) : base(Resource.Strings.Error_ParseException_5M
                                                                           .F(message
                                                                           , lexer.SourceName
                                                                           , lexer.LineNumber

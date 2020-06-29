@@ -35,7 +35,7 @@ namespace Primrose.Expressions
     internal void DeclVar(string name, ValType type, Lexer lexer)
     {
       if (m_variables.ContainsKey(name))
-        throw new ParseException(lexer, "Duplicate declaration of variable '{0}' in the same scope".F(name));
+        throw new ParseException(lexer, Resource.Strings.Error_ParseException_DuplicateVariable.F(name));
 
       m_variables.Add(name, new Val(type));
     }
@@ -52,7 +52,7 @@ namespace Primrose.Expressions
         if (Parent != null)
           return Parent.GetVar(eval, name);
         else
-          throw new EvalException(eval, "Attempted to get undeclared variable '{0}'".F(name));
+          throw new EvalException(eval, Resource.Strings.Error_EvalException_Get_VariableNotFound.F(name));
       return ret;
     }
 
@@ -72,7 +72,7 @@ namespace Primrose.Expressions
         if (Parent != null)
           Parent.SetVar(eval, name, val);
         else
-          throw new EvalException(eval, "Attempted to set undeclared variable '{0}'".F(name));
+          throw new EvalException(eval, Resource.Strings.Error_EvalException_Set_VariableNotFound.F(name));
       }
     }
 
@@ -85,7 +85,7 @@ namespace Primrose.Expressions
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException("Illegal assignment to '{0} {1}': {2}".F(t, name, ex.Message));
+        throw new InvalidOperationException(Resource.Strings.Error_EvalException_InvalidVariableAssignment.F(t, name, ex.Message));
       }
 
       /*

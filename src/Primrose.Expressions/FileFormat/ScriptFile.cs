@@ -20,7 +20,7 @@ namespace Primrose.Expressions
     public ScriptFile(string filepath, IContext context)
     {
       if (!File.Exists(filepath))
-        throw new FileNotFoundException("Script file '{0}' is not found!".F(Path.GetFullPath(filepath)));
+        throw new FileNotFoundException(Resource.Strings.Error_ScriptFileNotFound.F(Path.GetFullPath(filepath)));
 
       FilePath = filepath;
       Registry = context.Scripts;

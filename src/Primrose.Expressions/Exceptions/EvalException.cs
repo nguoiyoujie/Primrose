@@ -13,7 +13,7 @@ namespace Primrose.Expressions
     /// </summary>
     /// <param name="eval">The object that produced the exception</param>
     /// <param name="reason">The message of the exception</param>
-    public EvalException(ITracker eval, string reason) : base("Unable to execute script function '{0}' at line {1}:{2} \nReason: {3} \n"
+    public EvalException(ITracker eval, string reason) : base(Resource.Strings.Error_EvalException_4
                                                                                 .F(eval.SourceName
                                                                                 , eval.LineNumber
                                                                                 , eval.Position
@@ -27,9 +27,9 @@ namespace Primrose.Expressions
     /// <param name="opname">The operation being attempted</param>
     /// <param name="v">The value in the operation</param>
     /// <param name="ex">The inner exception message</param>
-    public EvalException(ITracker eval, string opname, Val v, Exception ex) : base("Unable to perform '{0}' operation on {1} in function '{2}' at line {3}:{4} \nReason: {5}"
+    public EvalException(ITracker eval, string opname, Val v, Exception ex) : base(Resource.Strings.Error_EvalException_6 
                                                                                 .F(opname
-                                                                                , v.Value?.ToString() ?? "<null>"
+                                                                                , v.Value?.ToString() ?? Resource.Strings.Null
                                                                                 , eval.SourceName
                                                                                 , eval.LineNumber
                                                                                 , eval.Position
@@ -44,10 +44,10 @@ namespace Primrose.Expressions
     /// <param name="v1">The first value in the operation</param>
     /// <param name="v2">The second value in the operation</param>
     /// <param name="ex">The inner exception message</param>
-    public EvalException(ITracker eval, string opname, Val v1, Val v2, Exception ex) : base("Unable to perform '{0}' operation between {1} and {2} in function '{3}' at line {4}:{5} \nReason: {6}"
+    public EvalException(ITracker eval, string opname, Val v1, Val v2, Exception ex) : base(Resource.Strings.Error_EvalException_7
                                                                                 .F(opname
-                                                                                , v1.Value?.ToString() ?? "<null>"
-                                                                                , v2.Value?.ToString() ?? "<null>"
+                                                                                , v1.Value?.ToString() ?? Resource.Strings.Null
+                                                                                , v2.Value?.ToString() ?? Resource.Strings.Null
                                                                                 , eval.SourceName
                                                                                 , eval.LineNumber
                                                                                 , eval.Position

@@ -64,9 +64,9 @@ namespace Primrose.Expressions
         IValFunc vfs = ValFuncs.Get(new Pair<string, int>(name, param.Length));
         if (vfs == null)
           if (ValFuncRef.Contains(name))
-            throw new EvalException(caller, "Incorrect number/type of parameters supplied to function '{0}'!".F(name));
+            throw new EvalException(caller, Resource.Strings.Error_EvalException_IncorrectParameters.F(name));
           else
-            throw new EvalException(caller, "The function '{0}' does not exist!".F(name));
+            throw new EvalException(caller, Resource.Strings.Error_EvalException_FunctionNotFound.F(name));
 
         return vfs.Execute(caller, name, this, param);
       }

@@ -42,7 +42,7 @@ namespace Primrose.Expressions.Tree.Expressions
 
       Val i = _index.Evaluate(context);
       if (!(i.Type == ValType.INT || (i.Type == ValType.FLOAT && (float)i == (int)i)))
-        throw new EvalException(this, "Attempted to index an array with a non-integer!");
+        throw new EvalException(this, Resource.Strings.Error_EvalException_InvalidArrayIndex);
 
       int x = (int)i;
       try
@@ -67,7 +67,7 @@ namespace Primrose.Expressions.Tree.Expressions
             return new Val(((string[])c)[x]);
 
           default:
-            throw new EvalException(this, "Attempted to index a non-array: {0}".F(c));
+            throw new EvalException(this, Resource.Strings.Error_EvalException_IndexOnNonArray.F(c));
         }
       }
       catch (IndexOutOfRangeException)
@@ -97,7 +97,7 @@ namespace Primrose.Expressions.Tree.Expressions
             len = ((string)c).Length;
             break;
         }
-        throw new EvalException(this, "Index ({0}) for an array (length: {1}) is out of range!".F(x, len));
+        throw new EvalException(this, Resource.Strings.Error_EvalException_IndexOutOfRange.F(x, len));
       }
       catch (Exception ex)
       {

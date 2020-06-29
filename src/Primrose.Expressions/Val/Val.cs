@@ -129,7 +129,7 @@ namespace Primrose.Expressions
         case ValType.BOOL:
           return a._vB;
         default:
-          throw new InvalidCastException("Attempted to read bool value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(bool), a.Type);
       }
     }
 
@@ -145,7 +145,7 @@ namespace Primrose.Expressions
         case ValType.STRING:
           return Convert.ToInt32(a._obj.vS);
         default:
-          throw new InvalidCastException("Attempted to read int value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(int), a.Type);
       }
     }
 
@@ -161,7 +161,7 @@ namespace Primrose.Expressions
         case ValType.STRING:
           return Convert.ToSingle(a._obj.vS);
         default:
-          throw new InvalidCastException("Attempted to read float value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(float), a.Type);
       }
     }
 
@@ -194,7 +194,7 @@ namespace Primrose.Expressions
         case ValType.INT_ARRAY:
           return float2.FromArray(a._obj.aI);
         default:
-          throw new InvalidCastException("Attempted to read float2 value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(float2), a.Type);
       }
     }
 
@@ -209,7 +209,7 @@ namespace Primrose.Expressions
         case ValType.INT_ARRAY:
           return float3.FromArray(a._obj.aI);
         default:
-          throw new InvalidCastException("Attempted to read float3 value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(float3), a.Type);
       }
     }
 
@@ -224,7 +224,7 @@ namespace Primrose.Expressions
         case ValType.INT_ARRAY:
           return float4.FromArray(a._obj.aI);
         default:
-          throw new InvalidCastException("Attempted to read float4 value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(float4), a.Type);
       }
     }
 
@@ -236,7 +236,7 @@ namespace Primrose.Expressions
         case ValType.BOOL_ARRAY:
           return a._obj.aB;
         default:
-          throw new InvalidCastException("Attempted to read bool[] value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(bool[]), a.Type);
       }
     }
 
@@ -248,7 +248,7 @@ namespace Primrose.Expressions
         case ValType.INT_ARRAY:
           return a._obj.aI;
         default:
-          throw new InvalidCastException("Attempted to read int[] value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(int[]), a.Type);
       }
     }
 
@@ -263,7 +263,7 @@ namespace Primrose.Expressions
         case ValType.FLOAT_ARRAY:
           return a._obj.aF;
         default:
-          throw new InvalidCastException("Attempted to read float[] value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(float[]), a.Type);
       }
     }
 
@@ -275,7 +275,7 @@ namespace Primrose.Expressions
         case ValType.STRING_ARRAY:
           return a._obj.aS;
         default:
-          throw new InvalidCastException("Attempted to read string[] value from a {0}".F(a.Type));
+          throw new InvalidValCastException(typeof(string[]), a.Type);
       }
     }
 

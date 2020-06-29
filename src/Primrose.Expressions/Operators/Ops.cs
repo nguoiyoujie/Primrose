@@ -166,7 +166,7 @@ namespace Primrose.Expressions
     {
       Func<Val, Val> fn;
       if (!unaryops.TryGetValue(new Pair<UOp, ValType>(op, v.Type), out fn))
-        throw new ArgumentException("Operation '{0}' incompatible with {1}".F(op, v.Type));
+        throw new ArgumentException(Resource.Strings.Error_IncompatibleUOp.F(op, v.Type));
 
       return fn.Invoke(v);
     }
@@ -185,7 +185,7 @@ namespace Primrose.Expressions
         v2 = Coerce(v1.Type, v2);
 
       if (!binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(op, v1.Type, v2.Type), out fn))
-        throw new ArgumentException("Operation '{0}' incompatible between {1} and {2}".F(op, v1.Type, v2.Type));
+        throw new ArgumentException(Resource.Strings.Error_IncompatibleBOp.F(op, v1.Type, v2.Type));
 
       return fn.Invoke(v1, v2);
     }

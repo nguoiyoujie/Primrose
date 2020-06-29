@@ -87,8 +87,7 @@ namespace Primrose.Expressions
           return matched;
         }
       }
-      throw new Exception("Unable to match against any tokens at line {0} position {1} \"{2}\""
-                                  .F(LineNumber, Position, lineRemaining));
+      throw new Exception(Resource.Strings.Error_Lexer_InvalidToken.F(LineNumber, Position, lineRemaining));
     }
 
     public bool Next()

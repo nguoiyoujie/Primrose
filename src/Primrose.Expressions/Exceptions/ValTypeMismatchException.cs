@@ -1,5 +1,6 @@
 ﻿using Primrose.Primitives.Extensions;
 using System;
+using System.Runtime.Versioning;
 
 namespace Primrose.Expressions
 {
@@ -9,12 +10,12 @@ namespace Primrose.Expressions
     /// <summary>
     /// Represents an exception when attempting to assign an array to a ValType
     /// </summary>
-    public ValTypeMismatchException(int length, ValType type) : base("Attempted assignment of an array of length {0} to {1}".F(length, type)) { }
+    public ValTypeMismatchException(int length, ValType type) : base(Resource.Strings.Error_ValTypeMismatchException_Length.F(length, type)) { }
 
     /// <summary>
     /// Represents an exception when attempting to assign an array to a ValType
     /// </summary>
-    public ValTypeMismatchException(ValType type1, ValType type2) : base("Attempted assignment of value of type '{0}' to {1}".F(type1, type2)) { }
+    public ValTypeMismatchException(ValType type1, ValType type2) : base(Resource.Strings.Error_ValTypeMismatchException_Type.F(type1, type2)) { }
   }
 }
 

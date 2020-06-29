@@ -76,7 +76,7 @@ namespace Primrose.Expressions
       Pair<Type, ValType> tv = new Pair<Type, ValType>(typeof(T), v.Type);
       object ofunc = null;
       if (!contracts.TryGetValue(tv, out ofunc))
-        throw new EvalException(caller, "Argument type mismatch for argument {0} of function '{1}': expected {2}, received {3}".F(argnum, function, typeof(T).Name, v.Type));
+        throw new EvalException(caller, Resource.Strings.Error_EvalException_ArgumentTypeMismatch.F(argnum, function, typeof(T).Name, v.Type));
 
       Func<Val, T> func = (Func<Val, T>)ofunc;
       return func(v);

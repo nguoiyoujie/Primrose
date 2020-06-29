@@ -20,7 +20,7 @@ namespace Primrose.Expressions
 
     static Writer()
     {
-      Definitions.Default = "<???>";
+      Definitions.Default = Resource.Strings.Unknown;
       Definitions.Add(TokenEnum.WHITESPACE, " ");
 
       Definitions.Add(TokenEnum.DECL_BOOL, "bool");
@@ -43,14 +43,14 @@ namespace Primrose.Expressions
       Definitions.Add(TokenEnum.FOR, "for");
       Definitions.Add(TokenEnum.WHILE, "while");
 
-      Definitions.Add(TokenEnum.NULLLITERAL, "<null>");
-      Definitions.Add(TokenEnum.BOOLEANLITERAL, "<bool>");
-      Definitions.Add(TokenEnum.FUNCTION, "<func>");
-      Definitions.Add(TokenEnum.VARIABLE, "<variable>");
-      Definitions.Add(TokenEnum.STRINGLITERAL, "<string>");
-      Definitions.Add(TokenEnum.HEXINTEGERLITERAL, "<hex_int>");
-      Definitions.Add(TokenEnum.DECIMALINTEGERLITERAL, "<int>");
-      Definitions.Add(TokenEnum.REALLITERAL, "<float>");
+      Definitions.Add(TokenEnum.NULLLITERAL, Resource.Strings.Null);
+      Definitions.Add(TokenEnum.BOOLEANLITERAL, Resource.Strings.Bool);
+      Definitions.Add(TokenEnum.FUNCTION, Resource.Strings.Function);
+      Definitions.Add(TokenEnum.VARIABLE, Resource.Strings.Variable);
+      Definitions.Add(TokenEnum.STRINGLITERAL, Resource.Strings.String);
+      Definitions.Add(TokenEnum.HEXINTEGERLITERAL, Resource.Strings.HexInt);
+      Definitions.Add(TokenEnum.DECIMALINTEGERLITERAL, Resource.Strings.Int);
+      Definitions.Add(TokenEnum.REALLITERAL, Resource.Strings.Float);
 
       Definitions.Add(TokenEnum.BRACEOPEN, "{");
       Definitions.Add(TokenEnum.BRACECLOSE, "}");
