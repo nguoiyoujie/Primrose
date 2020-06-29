@@ -29,7 +29,7 @@ namespace Primrose.Primitives.Factories
     public static ObjectPool<T> CreateStaticPool(Func<T> createFn, Action<T> resetFn = null)
     {
       if (_staticpool != null)
-        throw new InvalidOperationException(Properties.Resources.Error_ObjectPoolDuplicateBackgroundPool.F(typeof(T).Name));
+        throw new InvalidOperationException(Resource.Strings.Error_ObjectPoolDuplicateBackgroundPool.F(typeof(T).Name));
 
       _staticpool = new ObjectPool<T>(createFn, resetFn);
       return _staticpool;
@@ -43,7 +43,7 @@ namespace Primrose.Primitives.Factories
     public static ObjectPool<T> GetStaticPool()
     {
       if (_staticpool == null)
-        throw new InvalidOperationException(Properties.Resources.Error_ObjectPoolBackgroundPoolNotCreated.F(typeof(T).Name));
+        throw new InvalidOperationException(Resource.Strings.Error_ObjectPoolBackgroundPoolNotCreated.F(typeof(T).Name));
 
       return _staticpool;
     }

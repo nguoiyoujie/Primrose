@@ -8,6 +8,6 @@ namespace Primrose.Primitives.Parsers
   public class UnsupportedParseException<T> : InvalidOperationException
   {
     /// <summary>Defines an exception for errors encountered by an attempt to parse to an unsupported type</summary>
-    public UnsupportedParseException() : base(Properties.Resources.Error_UnsupportedParseException.F(typeof(T).Name)) { }
+    public UnsupportedParseException() : base(Resource.Strings.Error_UnsupportedParseException.F(typeof(T).Name)) { }
   }
 }

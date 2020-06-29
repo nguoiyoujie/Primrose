@@ -33,7 +33,7 @@ namespace Primrose.FileFormat.INI
       {
         object[] list = GetType().GetCustomAttributes(typeof(INIFileConfigurationAttribute), true);
         if (list == null || list.Length < 1)
-          throw new Exception(Primrose.Properties.Resources.Error_INIFileAttributeNotFound);
+          throw new Exception(Resource.Strings.Error_INIFileAttributeNotFound);
         return ((INIFileConfigurationAttribute)list[0]);
       }
     }
@@ -80,7 +80,7 @@ namespace Primrose.FileFormat.INI
       if (m_sections.ContainsKey(section))
         return m_sections[section];
       else
-        throw new Exception(Primrose.Properties.Resources.Error_INISectionNotFound.F(section));
+        throw new Exception(Resource.Strings.Error_INISectionNotFound.F(section));
     }
 
     /// <summary>Reads and parses the INI file from a data stream</summary>
@@ -98,7 +98,7 @@ namespace Primrose.FileFormat.INI
     {
       if (!File.Exists(filepath))
       {
-        throw new FileNotFoundException(Primrose.Properties.Resources.Error_FileNotFound.F(Path.GetFullPath(filepath)));
+        throw new FileNotFoundException(Resource.Strings.Error_FileNotFound.F(Path.GetFullPath(filepath)));
       }
       else
       {
@@ -146,7 +146,7 @@ namespace Primrose.FileFormat.INI
 
               default:
               case DuplicateResolutionPolicy.THROW:
-                throw new InvalidOperationException(Primrose.Properties.Resources.Error_DuplicateINISection.F(currSection.Header));
+                throw new InvalidOperationException(Resource.Strings.Error_DuplicateINISection.F(currSection.Header));
             }
           }
         }

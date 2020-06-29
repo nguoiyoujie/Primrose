@@ -9,17 +9,17 @@ namespace Primrose.Primitives
     /// <summary>
     /// Represents an exception in comparing two arrays of different lengths
     /// </summary>
-    public ArrayMismatchException() : base(Properties.Resources.Error_ArrayMismatchException) { }
+    public ArrayMismatchException() : base(Resource.Strings.Error_ArrayMismatchException) { }
 
     /// <summary>
     /// Represents an exception in comparing two arrays of different lengths
     /// </summary>
-    public ArrayMismatchException(int length1, int length2) : base(Properties.Resources.Error_ArrayMismatchException_length_length.F(length1, length2)) { }
+    public ArrayMismatchException(int length1, int length2) : base(Resource.Strings.Error_ArrayMismatchException_length_length.F(length1, length2)) { }
 
     /// <summary>
     /// Represents an exception when attempting to assign an array to a typed value
     /// </summary>
-    public ArrayMismatchException(int length, Type type) : base(Properties.Resources.Error_ArrayMismatchException_length_type.F(length, type)) { }
+    public ArrayMismatchException(int length, Type type) : base(Resource.Strings.Error_ArrayMismatchException_length_type.F(length, type)) { }
   }
 }
 

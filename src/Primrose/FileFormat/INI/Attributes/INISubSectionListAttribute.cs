@@ -50,7 +50,7 @@ namespace Primrose.FileFormat.INI
     internal object Read(Type t, INIFile f, string fieldName, string defaultSection, IResolver resolver)
     {
       if (!t.IsArray || t.GetElementType().IsArray)
-        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INISubSectionListInvalidType.F(t.Name));
+        throw new InvalidOperationException(Resource.Strings.Error_INISubSectionListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetElementType());
@@ -76,7 +76,7 @@ namespace Primrose.FileFormat.INI
     internal void Write(Type t, INIFile f, object value, string fieldName, string defaultSection)
     {
       if (!t.IsArray || t.GetElementType().IsArray)
-        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INISubSectionListInvalidType.F(t.Name));
+        throw new InvalidOperationException(Resource.Strings.Error_INISubSectionListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());

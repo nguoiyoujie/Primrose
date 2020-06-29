@@ -7,7 +7,7 @@ namespace Primrose.Primitives
   public class ExpectedEnumException<T> : InvalidOperationException
   {
     /// <summary>Represents an exception as a result of receiving a value that is not an enumerable</summary>
-    public ExpectedEnumException() : base(Properties.Resources.Error_ExpectedEnumException.F(typeof(T))) { }
+    public ExpectedEnumException() : base(Resource.Strings.Error_ExpectedEnumException.F(typeof(T))) { }
   }
 }
 

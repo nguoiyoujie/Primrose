@@ -145,11 +145,11 @@ namespace Primrose.Primitives
       }
       catch (ArgumentNullException ex)
       {
-        throw new ArgumentNullException(Properties.Resources.Error_CollectionAddNullKey.F(GetType().Name), ex);
+        throw new ArgumentNullException(Resource.Strings.Error_CollectionAddNullKey.F(GetType().Name), ex);
       }
       catch (ArgumentException ex)
       {
-        throw new ArgumentException(Properties.Resources.Error_CollectionAddDuplicateKey.F(key, GetType().Name), ex);
+        throw new ArgumentException(Resource.Strings.Error_CollectionAddDuplicateKey.F(key, GetType().Name), ex);
       }
     }
 
@@ -167,11 +167,11 @@ namespace Primrose.Primitives
       }
       catch (ArgumentNullException ex)
       {
-        throw new ArgumentNullException(Properties.Resources.Error_CollectionSetNullKey.F(GetType().Name), ex);
+        throw new ArgumentNullException(Resource.Strings.Error_CollectionSetNullKey.F(GetType().Name), ex);
       }
       catch (KeyNotFoundException ex)
       {
-        throw new ArgumentException(Properties.Resources.Error_CollectionSetKeyNotFound.F(key, GetType().Name), ex);
+        throw new ArgumentException(Resource.Strings.Error_CollectionSetKeyNotFound.F(key, GetType().Name), ex);
       }
     }
 
@@ -193,7 +193,7 @@ namespace Primrose.Primitives
       }
       catch (ArgumentNullException ex)
       {
-        throw new ArgumentNullException(Properties.Resources.Error_CollectionPutNullKey.F(GetType().Name), ex);
+        throw new ArgumentNullException(Resource.Strings.Error_CollectionPutNullKey.F(GetType().Name), ex);
       }
     }
 

@@ -57,7 +57,7 @@ namespace Primrose.FileFormat.INI
     internal string[] Read(Type t, INIFile f, string defaultSection)
     {
       if (t != typeof(string[]))
-        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INIKeyListInvalidType.F(t.Name));
+        throw new InvalidOperationException(Resource.Strings.Error_INIKeyListInvalidType.F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       List<string> vals = new List<string>();
@@ -97,7 +97,7 @@ namespace Primrose.FileFormat.INI
         return;
 
       if (t != typeof(string[]))
-        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INIKeyListInvalidType.F(t.Name));
+        throw new InvalidOperationException(Resource.Strings.Error_INIKeyListInvalidType.F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       foreach (string v in value)

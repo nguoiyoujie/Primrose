@@ -46,7 +46,7 @@ namespace Primrose.FileFormat.INI
     internal object Read(Type t, INIFile f, string defaultSection, IResolver resolver)
     {
       if (t.GetGenericTypeDefinition() != typeof(Registry<,>))
-        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INIRegistryListInvalidType.F(t.Name));
+        throw new InvalidOperationException(Resource.Strings.Error_INIRegistryListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
@@ -74,7 +74,7 @@ namespace Primrose.FileFormat.INI
     internal void Write(Type t, INIFile f, object value, string defaultSection)
     {
       if (t.GetGenericTypeDefinition() != typeof(Registry<,>))
-        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INIRegistryListInvalidType.F(t.Name));
+        throw new InvalidOperationException(Resource.Strings.Error_INIRegistryListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());

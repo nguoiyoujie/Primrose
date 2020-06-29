@@ -46,7 +46,7 @@ namespace Primrose.Primitives.ValueTypes
           case 3:
             return w;
           default:
-            throw new IndexOutOfRangeException(Properties.Resources.Error_InvalidIndex.F(i, GetType()));
+            throw new IndexOutOfRangeException(Resource.Strings.Error_InvalidIndex.F(i, GetType()));
         }
       }
       set
@@ -66,7 +66,7 @@ namespace Primrose.Primitives.ValueTypes
             w = value;
             break;
           default:
-            throw new IndexOutOfRangeException(Properties.Resources.Error_InvalidIndex.F(i, GetType()));
+            throw new IndexOutOfRangeException(Resource.Strings.Error_InvalidIndex.F(i, GetType()));
         }
       }
     }

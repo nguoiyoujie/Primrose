@@ -83,7 +83,7 @@ namespace Primrose.FileFormat.INI
     internal object Read(Type t, INIFile f, string fieldName, string defaultSection, IResolver resolver)
     {
       if (!t.IsArray || t.GetElementType().IsArray)
-        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INISubSectionKeyListInvalidType.F(t.Name));
+        throw new InvalidOperationException(Resource.Strings.Error_INISubSectionKeyListInvalidType.F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection ?? fieldName);
       INIKeyListAttribute kattr = new INIKeyListAttribute(s, ValueSource, Required);
@@ -110,7 +110,7 @@ namespace Primrose.FileFormat.INI
     internal void Write(Type t, INIFile f, object value, string fieldName, string defaultSection)
     {
       if (!t.IsArray || t.GetElementType().IsArray)
-        throw new InvalidOperationException(Primrose.Properties.Resources.Error_INISubSectionKeyListInvalidType.F(t.Name));
+        throw new InvalidOperationException(Resource.Strings.Error_INISubSectionKeyListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
       MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());

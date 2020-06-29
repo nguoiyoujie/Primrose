@@ -64,7 +64,7 @@ namespace Primrose.Primitives.Factories
         if (id == null)
           id = value;
         else
-          throw new InvalidOperationException(Properties.Resources.Error_AFactoryObjectDuplicateID.F(id));
+          throw new InvalidOperationException(Resource.Strings.Error_AFactoryObjectDuplicateID.F(id));
       }
     }
 
