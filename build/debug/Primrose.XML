@@ -16,6 +16,17 @@
         <member name="F:Primrose.Build.Revision">
             <summary>The daily revision number of the build</summary> 
         </member>
+        <member name="T:Primrose.FileFormats.Common.IFile">
+            <summary>Defines an interface for reading and writing to a file</summary>
+        </member>
+        <member name="M:Primrose.FileFormats.Common.IFile.ReadFromFile(System.String)">
+            <summary>Opens and reads information from a source file</summary>
+            <param name="filePath">The file to read from</param>
+        </member>
+        <member name="M:Primrose.FileFormats.Common.IFile.WriteToFile(System.String)">
+            <summary>Writes information to a destination file</summary>
+            <param name="destinationPath">The file to write to</param>
+        </member>
         <member name="T:Primrose.FileFormat.INI.ValueSource">
             <summary>Defines where a desired value is stored in a [key=value] format</summary>
         </member>
@@ -383,6 +394,9 @@
         </member>
         <member name="M:Primrose.FileFormat.INI.INIFile.ReadFromStream(System.IO.Stream,System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Reads and parses the INI file from a data stream</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.ReadFromFile(System.String)">
+            <summary>Reads and parses the INI file from a source file</summary>
         </member>
         <member name="M:Primrose.FileFormat.INI.INIFile.ReadFromFile(System.String,System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Reads and parses the INI file from a source file</summary>

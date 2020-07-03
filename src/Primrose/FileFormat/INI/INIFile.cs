@@ -1,4 +1,5 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.FileFormats.Common;
+using Primrose.Primitives.Extensions;
 using Primrose.Primitives.Parsers;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace Primrose.FileFormat.INI
 {
   /// <summary>Defines a standard for INI configuration file format</summary>
   [INIFileConfiguration()]
-  public partial class INIFile
+  public partial class INIFile : IFile
   {
     /// <summary>The internal name of the global section</summary>
     public const string PreHeaderSectionName = "\n"; // not possible to duplicate in a real section
@@ -92,6 +93,9 @@ namespace Primrose.FileFormat.INI
       INIFile t = this;
       LoadByAttribute(ref t, baseSection, resolver);
     }
+
+    /// <summary>Reads and parses the INI file from a source file</summary>
+    public void ReadFromFile(string filepath) { ReadFromFile(filepath, null, null); }
 
     /// <summary>Reads and parses the INI file from a source file</summary>
     public void ReadFromFile(string filepath, string baseSection = null, IResolver resolver = null)
