@@ -1,4 +1,5 @@
 ﻿using Primrose.FileFormat.INI;
+using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 
 namespace Primrose.UnitTests.FileSystem.INI
@@ -44,6 +45,12 @@ namespace Primrose.UnitTests.FileSystem.INI
   {
     [INISubSectionKeyList]
     public MockINIInnerStruct[] INNER;
+  }
+
+  public struct MockINISubSectionRegistryStruct
+  {
+    [INISubSectionRegistry]
+    public Registry<int, MockINIInnerStruct> INNER;
   }
 
   public struct MockINIStruct

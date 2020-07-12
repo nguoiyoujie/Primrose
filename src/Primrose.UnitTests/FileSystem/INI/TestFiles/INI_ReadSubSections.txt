@@ -9,6 +9,12 @@ InnerB
 InnerC
 InnerD
 
+[TestSubSectionRegistryStruct]
+1=InnerA
+2=InnerB
+3=InnerC
+4=InnerD
+
 [INNER]
 InnerA
 InnerB

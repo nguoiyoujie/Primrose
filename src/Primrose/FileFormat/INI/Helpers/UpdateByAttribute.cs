@@ -65,6 +65,11 @@ namespace Primrose.FileFormat.INI
         {
           fi.SetValue(obj, ((INISubSectionKeyListAttribute)a).Read(t, this, fi.Name, defaultSection, resolver));
         }
+
+        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionRegistryAttribute), true))
+        {
+          fi.SetValue(obj, ((INISubSectionRegistryAttribute)a).Read(t, this, fi.Name, defaultSection, resolver));
+        }
       }
     }
 
@@ -110,6 +115,11 @@ namespace Primrose.FileFormat.INI
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
           {
             pi.SetValue(obj, ((INISubSectionKeyListAttribute)a).Read(t, this, pi.Name, defaultSection, resolver), null);
+          }
+
+          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionRegistryAttribute), true))
+          {
+            pi.SetValue(obj, ((INISubSectionRegistryAttribute)a).Read(t, this, pi.Name, defaultSection, resolver), null);
           }
         }
       }
@@ -167,6 +177,11 @@ namespace Primrose.FileFormat.INI
         {
           ((INISubSectionKeyListAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
         }
+
+        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionRegistryAttribute), true))
+        {
+          ((INISubSectionRegistryAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
+        }
       }
     }
 
@@ -206,6 +221,11 @@ namespace Primrose.FileFormat.INI
           foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
           {
             ((INISubSectionKeyListAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
+          }
+
+          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionRegistryAttribute), true))
+          {
+            ((INISubSectionRegistryAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
           }
         }
       }
