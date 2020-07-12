@@ -27,6 +27,24 @@
             <summary>Writes information to a destination file</summary>
             <param name="destinationPath">The file to write to</param>
         </member>
+        <member name="T:Primrose.FileFormat.INI.INISubSectionRegistryAttribute">
+            <summary>Reads a section whose keys redirect to other sections of an INI file</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionRegistryAttribute.Section">
+            <summary>The section name of the INI file where the keys are based on</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionRegistryAttribute.SubsectionPrefix">
+            <summary>The subsection prefix to be used when writing members</summary>
+        </member>
+        <member name="F:Primrose.FileFormat.INI.INISubSectionRegistryAttribute.Required">
+            <summary>Defines whether the INI file must contain this section/key combination</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INISubSectionRegistryAttribute.#ctor(System.String,System.String,System.Boolean)">
+            <summary>Defines a value that redirects to other sections of an INI file</summary>
+            <param name="section">The section name from which the keys are retrieved. If null, the field name is used</param>
+            <param name="subsectionPrefix">The subsection prefix to be used when writing members. If null, the section name is used</param>
+            <param name="required">Defines whether the INI file must contain this section/key combination</param>
+        </member>
         <member name="T:Primrose.FileFormat.INI.ValueSource">
             <summary>Defines where a desired value is stored in a [key=value] format</summary>
         </member>
@@ -392,6 +410,9 @@
             <param name="section">The section name</param>
             <returns>The INISection object representing the section in the file</returns>
         </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.ReadFromStream(System.IO.StreamReader,System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Reads and parses the INI file from a data stream</summary>
+        </member>
         <member name="M:Primrose.FileFormat.INI.INIFile.ReadFromStream(System.IO.Stream,System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Reads and parses the INI file from a data stream</summary>
         </member>
@@ -406,6 +427,9 @@
         </member>
         <member name="M:Primrose.FileFormat.INI.INIFile.WriteToFile(System.String)">
             <summary>Writes the INI data into a file</summary>
+        </member>
+        <member name="M:Primrose.FileFormat.INI.INIFile.WriteToStream(System.IO.StreamWriter)">
+            <summary>Writes the INI data into a stream</summary>
         </member>
         <member name="M:Primrose.FileFormat.INI.INIFile.WriteToStream(System.IO.Stream)">
             <summary>Writes the INI data into a stream</summary>

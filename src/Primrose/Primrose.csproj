@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Build.cs" />
     <Compile Include="FileFormat\Common\IFile.cs" />
+    <Compile Include="FileFormat\INI\Attributes\INISubSectionRegistryAttribute.cs" />
     <Compile Include="FileFormat\INI\Enums\ValueSource.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Primitives\Cache\Cache.cs" />
