@@ -85,6 +85,14 @@ namespace Primrose.FileFormat.INI
     }
 
     /// <summary>Reads and parses the INI file from a data stream</summary>
+    public void ReadFromStream(StreamReader reader, string baseSection = null, IResolver resolver = null)
+    {
+      Read(reader);
+      INIFile t = this;
+      LoadByAttribute(ref t, baseSection, resolver);
+    }
+
+    /// <summary>Reads and parses the INI file from a data stream</summary>
     public void ReadFromStream(Stream stream, string baseSection = null, IResolver resolver = null)
     {
       using (StreamReader sr = new StreamReader(stream))
@@ -171,6 +179,14 @@ namespace Primrose.FileFormat.INI
 
       using (StreamWriter sw = new StreamWriter(filepath, false))
         Write(sw);
+    }
+
+    /// <summary>Writes the INI data into a stream</summary>
+    public void WriteToStream(StreamWriter writer)
+    {
+      INIFile t = this;
+      UpdateByAttribute(ref t);
+      Write(writer);
     }
 
     /// <summary>Writes the INI data into a stream</summary>

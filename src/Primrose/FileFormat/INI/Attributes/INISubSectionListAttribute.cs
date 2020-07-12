@@ -79,7 +79,7 @@ namespace Primrose.FileFormat.INI
         throw new InvalidOperationException(Resource.Strings.Error_INISubSectionListInvalidType.F(t.Name));
 
       MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-      MethodInfo gmRead = mRead.MakeGenericMethod(t.GetGenericArguments());
+      MethodInfo gmRead = mRead.MakeGenericMethod(t.GetElementType());
       object val = gmRead.Invoke(this, new object[] { f, value, fieldName, defaultSection });
     }
 
@@ -96,9 +96,8 @@ namespace Primrose.FileFormat.INI
         T o = value[i];
         keys[i] = fieldName + i.ToString();
         f.UpdateByAttribute(ref o, keys[i]);
-        i++;
       }
-      f.SetValue(s, k, keys);
+      f.SetValue(s, k, Parser.Write(keys));
     }
   }
 }

@@ -437,7 +437,14 @@ namespace Primrose.Primitives.Parsers
       /// <param name="list">The value to be converted</param>
       public static string ArrayToStr<T>(T list)
       {
-        return string.Join(ListDelimiter[0].ToString(), list);
+        Array array = (Array)(object)list;
+        string[] str = new string[array.Length];
+        for (int i = 0; i < array.Length; i++)
+        {
+          str[i] = _toStr.Get(typeof(T).GetElementType()).Invoke(array.GetValue(i));
+        }
+
+        return string.Join(ListDelimiter[0].ToString(), str);
       }
 
       /// <summary>Converts an enumerated value to a string</summary>
@@ -451,7 +458,14 @@ namespace Primrose.Primitives.Parsers
       /// <param name="list">The value to be converted</param>
       public static string EnumArrayToStr<T>(T list)
       {
-        return string.Join(ListDelimiter[0].ToString(), list);
+        Array array = (Array)(object)list;
+        string[] str = new string[array.Length];
+        for (int i = 0; i < array.Length; i++)
+        {
+          str[i] = array.GetValue(i).ToString().Replace(", ", "|");
+        }
+
+        return string.Join(ListDelimiter[0].ToString(), str);
       }
 
       /// <summary>Converts a vectorized value to a string</summary>

@@ -201,7 +201,7 @@ namespace Primrose.Primitives.Parsers
       else if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
       {
         Type et = Nullable.GetUnderlyingType(typeof(T));
-        if (_fromStr.Contains(et))
+        if (_toStr.Contains(et))
         {
           return _toStr.Get(et).Invoke(value);
         }
@@ -210,7 +210,7 @@ namespace Primrose.Primitives.Parsers
           return Rules.EnumToStr(value);
         }
       }
-      else if (t.IsArray && _fromStr.Contains(t.GetElementType()))
+      else if (t.IsArray && _toStr.Contains(t.GetElementType()))
       {
         return Rules.ArrayToStr(value);
       }
