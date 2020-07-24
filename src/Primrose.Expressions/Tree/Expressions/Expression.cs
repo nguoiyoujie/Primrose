@@ -4,7 +4,7 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class Expression : CExpression
   {
-    private CExpression _expr;
+    private readonly CExpression _expr;
 
     internal Expression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

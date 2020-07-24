@@ -6,8 +6,8 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class AddExpression : CExpression
   {
-    private CExpression _first;
-    private Dictionary<CExpression, TokenEnum> _set = new Dictionary<CExpression, TokenEnum>();
+    private readonly CExpression _first;
+    private readonly Dictionary<CExpression, TokenEnum> _set = new Dictionary<CExpression, TokenEnum>();
 
     internal AddExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

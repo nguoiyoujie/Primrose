@@ -1,4 +1,5 @@
-﻿using Primrose.Primitives.ValueTypes;
+﻿using Primrose.Expressions.Editor.Util;
+using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Primrose.Expressions.Editor
   public abstract class AHighlighter : IHighlighter
   {
     protected List<Pair<Regex, Color>> Regexes = new List<Pair<Regex, Color>>();
-    private ConcurrentQueue<Quad<int, int, int, Color>> Result = new ConcurrentQueue<Quad<int, int, int, Color>>();
+    private readonly ConcurrentQueue<Quad<int, int, int, Color>> Result = new ConcurrentQueue<Quad<int, int, int, Color>>();
 
     protected AHighlighter() { }
 
@@ -28,6 +29,7 @@ namespace Primrose.Expressions.Editor
       box._Paint = false;
       box.Enabled = false;
       box.SuspendLayout();
+      box.SuspendDrawing();
 
       int p0 = box.SelectionStart;
       int p1 = box.SelectionLength;
@@ -41,19 +43,19 @@ namespace Primrose.Expressions.Editor
 
       Parallel.ForEach(h, Calc);
 
-      Quad<int, int, int, Color> r;
-      while (Result.TryDequeue(out r))
+      while (Result.TryDequeue(out Quad<int, int, int, Color> r))
       {
         box.Select(box.GetFirstCharIndexFromLine(r.t) + r.u, r.v);
         if (box.SelectionColor == Color.Black)
           box.SelectionColor = r.w;
       }
-      
+
       box.SelectionStart = p0;
       box.SelectionLength = p1;
 
       box._Paint = true;
       box.ResumeLayout();
+      box.ResumeDrawing();
       box._ignore = false;
       box.Enabled = true;
       box.ClearUndo();

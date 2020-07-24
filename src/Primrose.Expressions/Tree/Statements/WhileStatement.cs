@@ -6,8 +6,8 @@ namespace Primrose.Expressions.Tree.Statements
 {
   internal class WhileStatement : CStatement
   {
-    private CExpression _condition;
-    private List<CStatement> _actions = new List<CStatement>();
+    private readonly CExpression _condition;
+    private readonly List<CStatement> _actions = new List<CStatement>();
 
     internal WhileStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

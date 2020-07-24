@@ -108,6 +108,7 @@
     <Compile Include="Controls\UserControls\ucMultipleItemBox.Designer.cs">
       <DependentUpon>ucMultipleItemBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util\DrawingControlExt.cs" />
     <EmbeddedResource Include="Controls\Forms\SelectItemForm.resx">
       <DependentUpon>SelectItemForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -7,8 +7,8 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class IndexedExpression : CExpression
   {
-    private CExpression _expression;
-    private CExpression _index;
+    private readonly CExpression _expression;
+    private readonly CExpression _index;
 
     internal IndexedExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

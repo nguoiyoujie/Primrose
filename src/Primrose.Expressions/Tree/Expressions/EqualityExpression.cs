@@ -6,9 +6,9 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class EqualityExpression : CExpression
   {
-    private bool isUnequal = false;
-    private CExpression _first;
-    private CExpression _second;
+    private readonly bool isUnequal = false;
+    private readonly CExpression _first;
+    private readonly CExpression _second;
 
     internal EqualityExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

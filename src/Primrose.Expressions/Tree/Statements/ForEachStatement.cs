@@ -6,10 +6,10 @@ namespace Primrose.Expressions.Tree.Statements
 {
   internal class ForEachStatement : CStatement
   {
-    private ContextScope _scope;
-    private CExpression _enumerable;
-    private Variable _var;
-    private List<CStatement> _actions = new List<CStatement>();
+    private readonly ContextScope _scope;
+    private readonly CExpression _enumerable;
+    private readonly Variable _var;
+    private readonly List<CStatement> _actions = new List<CStatement>();
 
     internal ForEachStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

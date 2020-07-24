@@ -17,9 +17,6 @@ namespace Primrose.Expressions
   /// <summary>Defines a context for evaluating scripts</summary>
   public class ContextBase : IContext
   {
-    /// <summary>The collection of functions contained in this context</summary>
-    public readonly Registry<FunctionDelegate> Functions = new Registry<FunctionDelegate>();
-
     /// <summary>The scripts contained in this context</summary>
     public Script.Registry Scripts { get; } = new Script.Registry();
 
@@ -58,19 +55,18 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public Val RunFunction(ITracker caller, string name, Val[] param)
     {
-      FunctionDelegate fd = Functions.Get(name);
-      if (fd == null)
-      {
-        IValFunc vfs = ValFuncs.Get(new Pair<string, int>(name, param.Length));
-        if (vfs == null)
-          if (ValFuncRef.Contains(name))
+      IValFunc vfs = ValFuncs.Get(new Pair<string, int>(name, param.Length));
+      if (vfs == null)
+        if (ValFuncRef.Contains(name))
+        {
+          vfs = ValFuncs.Get(new Pair<string, int>(name, -1)); // Val[]
+          if (vfs == null)
             throw new EvalException(caller, Resource.Strings.Error_EvalException_IncorrectParameters.F(name));
-          else
-            throw new EvalException(caller, Resource.Strings.Error_EvalException_FunctionNotFound.F(name));
+        }
+        else
+          throw new EvalException(caller, Resource.Strings.Error_EvalException_FunctionNotFound.F(name));
 
-        return vfs.Execute(caller, name, this, param);
-      }
-      return fd.Invoke(this, param);
+      return vfs.Execute(caller, name, this, param);
     }
 
     /// <summary>Retrieves a function from the function list</summary>
@@ -89,6 +85,11 @@ namespace Primrose.Expressions
     {
       Scripts.Clear();
     }
+
+    /// <summary>Adds a function that accepts a dynamic number of parameters to the context</summary>
+    /// <param name="name">The function name</param>
+    /// <param name="fn">The function delegate</param>
+    protected void AddDynamicFunc(string name, Func<IContext, Val[], Val> fn) { ValFuncs.Add(new Pair<string, int>(name, -1), new ValFunc_Dynamic(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a function to the context</summary>
     /// <param name="name">The function name</param>
@@ -171,11 +172,131 @@ namespace Primrose.Expressions
     /// <param name="fn">The function delegate</param>
     protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 8), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
+    /// <summary>Adds a parameterized function to the context</summary>
+    /// <typeparam name="T1">The type of the first argument</typeparam>
+    /// <typeparam name="T2">The type of the second argument</typeparam>
+    /// <typeparam name="T3">The type of the third argument</typeparam>
+    /// <typeparam name="T4">The type of the fourth argument</typeparam>
+    /// <typeparam name="T5">The type of the fifth argument</typeparam>
+    /// <typeparam name="T6">The type of the sixth argument</typeparam>
+    /// <typeparam name="T7">The type of the seventh argument</typeparam>
+    /// <typeparam name="T8">The type of the eighth argument</typeparam>
+    /// <typeparam name="T9">The type of the ninth argument</typeparam>
+    /// <param name="name">The function name</param>
+    /// <param name="fn">The function delegate</param>
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 9), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+
+    /// <summary>Adds a parameterized function to the context</summary>
+    /// <typeparam name="T1">The type of the first argument</typeparam>
+    /// <typeparam name="T2">The type of the second argument</typeparam>
+    /// <typeparam name="T3">The type of the third argument</typeparam>
+    /// <typeparam name="T4">The type of the fourth argument</typeparam>
+    /// <typeparam name="T5">The type of the fifth argument</typeparam>
+    /// <typeparam name="T6">The type of the sixth argument</typeparam>
+    /// <typeparam name="T7">The type of the seventh argument</typeparam>
+    /// <typeparam name="T8">The type of the eighth argument</typeparam>
+    /// <typeparam name="T9">The type of the ninth argument</typeparam>
+    /// <typeparam name="T10">The type of the tenth argument</typeparam>
+    /// /// <param name="name">The function name</param>
+    /// <param name="fn">The function delegate</param>
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 10), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+
+    /// <summary>Adds a parameterized function to the context</summary>
+    /// <typeparam name="T1">The type of the first argument</typeparam>
+    /// <typeparam name="T2">The type of the second argument</typeparam>
+    /// <typeparam name="T3">The type of the third argument</typeparam>
+    /// <typeparam name="T4">The type of the fourth argument</typeparam>
+    /// <typeparam name="T5">The type of the fifth argument</typeparam>
+    /// <typeparam name="T6">The type of the sixth argument</typeparam>
+    /// <typeparam name="T7">The type of the seventh argument</typeparam>
+    /// <typeparam name="T8">The type of the eighth argument</typeparam>
+    /// <typeparam name="T9">The type of the ninth argument</typeparam>
+    /// <typeparam name="T10">The type of the tenth argument</typeparam>
+    /// <typeparam name="T11">The type of the eleventh argument</typeparam>
+    /// /// <param name="name">The function name</param>
+    /// <param name="fn">The function delegate</param>
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 11), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+
+    /// <summary>Adds a parameterized function to the context</summary>
+    /// <typeparam name="T1">The type of the first argument</typeparam>
+    /// <typeparam name="T2">The type of the second argument</typeparam>
+    /// <typeparam name="T3">The type of the third argument</typeparam>
+    /// <typeparam name="T4">The type of the fourth argument</typeparam>
+    /// <typeparam name="T5">The type of the fifth argument</typeparam>
+    /// <typeparam name="T6">The type of the sixth argument</typeparam>
+    /// <typeparam name="T7">The type of the seventh argument</typeparam>
+    /// <typeparam name="T8">The type of the eighth argument</typeparam>
+    /// <typeparam name="T9">The type of the ninth argument</typeparam>
+    /// <typeparam name="T10">The type of the tenth argument</typeparam>
+    /// <typeparam name="T11">The type of the eleventh argument</typeparam>
+    /// <typeparam name="T12">The type of the twelfth argument</typeparam>
+    /// <param name="name">The function name</param>
+    /// <param name="fn">The function delegate</param>
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 12), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+
+    /// <summary>Adds a parameterized function to the context</summary>
+    /// <typeparam name="T1">The type of the first argument</typeparam>
+    /// <typeparam name="T2">The type of the second argument</typeparam>
+    /// <typeparam name="T3">The type of the third argument</typeparam>
+    /// <typeparam name="T4">The type of the fourth argument</typeparam>
+    /// <typeparam name="T5">The type of the fifth argument</typeparam>
+    /// <typeparam name="T6">The type of the sixth argument</typeparam>
+    /// <typeparam name="T7">The type of the seventh argument</typeparam>
+    /// <typeparam name="T8">The type of the eighth argument</typeparam>
+    /// <typeparam name="T9">The type of the ninth argument</typeparam>
+    /// <typeparam name="T10">The type of the tenth argument</typeparam>
+    /// <typeparam name="T11">The type of the eleventh argument</typeparam>
+    /// <typeparam name="T12">The type of the twelfth argument</typeparam>
+    /// <typeparam name="T13">The type of the thirteenth argument</typeparam>
+    /// <param name="name">The function name</param>
+    /// <param name="fn">The function delegate</param>
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 13), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+
+    /// <summary>Adds a parameterized function to the context</summary>
+    /// <typeparam name="T1">The type of the first argument</typeparam>
+    /// <typeparam name="T2">The type of the second argument</typeparam>
+    /// <typeparam name="T3">The type of the third argument</typeparam>
+    /// <typeparam name="T4">The type of the fourth argument</typeparam>
+    /// <typeparam name="T5">The type of the fifth argument</typeparam>
+    /// <typeparam name="T6">The type of the sixth argument</typeparam>
+    /// <typeparam name="T7">The type of the seventh argument</typeparam>
+    /// <typeparam name="T8">The type of the eighth argument</typeparam>
+    /// <typeparam name="T9">The type of the ninth argument</typeparam>
+    /// <typeparam name="T10">The type of the tenth argument</typeparam>
+    /// <typeparam name="T11">The type of the eleventh argument</typeparam>
+    /// <typeparam name="T12">The type of the twelfth argument</typeparam>
+    /// <typeparam name="T13">The type of the thirteenth argument</typeparam>
+    /// <typeparam name="T14">The type of the fourteenth argument</typeparam>
+    /// <param name="name">The function name</param>
+    /// <param name="fn">The function delegate</param>
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 14), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+
+    /// <summary>Adds a parameterized function to the context</summary>
+    /// <typeparam name="T1">The type of the first argument</typeparam>
+    /// <typeparam name="T2">The type of the second argument</typeparam>
+    /// <typeparam name="T3">The type of the third argument</typeparam>
+    /// <typeparam name="T4">The type of the fourth argument</typeparam>
+    /// <typeparam name="T5">The type of the fifth argument</typeparam>
+    /// <typeparam name="T6">The type of the sixth argument</typeparam>
+    /// <typeparam name="T7">The type of the seventh argument</typeparam>
+    /// <typeparam name="T8">The type of the eighth argument</typeparam>
+    /// <typeparam name="T9">The type of the ninth argument</typeparam>
+    /// <typeparam name="T10">The type of the tenth argument</typeparam>
+    /// <typeparam name="T11">The type of the eleventh argument</typeparam>
+    /// <typeparam name="T12">The type of the twelfth argument</typeparam>
+    /// <typeparam name="T13">The type of the thirteenth argument</typeparam>
+    /// <typeparam name="T14">The type of the fourteenth argument</typeparam>
+    /// <typeparam name="T15">The type of the fifteenth argument</typeparam>
+    /// <param name="name">The function name</param>
+    /// <param name="fn">The function delegate</param>
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 15), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+
+
+
     /// <summary>Clears all function definitions in the context</summary>
     protected virtual void ClearFunctions()
     {
       ValFuncs.Clear();
-      Functions.Clear();
       ValFuncRef.Clear();
 
       // derived classes: add definitions here

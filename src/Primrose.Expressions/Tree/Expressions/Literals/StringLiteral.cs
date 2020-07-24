@@ -2,7 +2,7 @@
 {
   internal class StringLiteral : CLiteral
   {
-    private string _value;
+    private readonly string _value;
 
     internal StringLiteral(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

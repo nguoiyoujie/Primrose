@@ -5,8 +5,8 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class DeclVariable : Variable
   {
-    private TokenEnum _type;
-    private static Registry<TokenEnum, ValType> token_to_valtype = new Registry<TokenEnum, ValType>();
+    private readonly TokenEnum _type;
+    private static readonly Registry<TokenEnum, ValType> token_to_valtype = new Registry<TokenEnum, ValType>();
 
     static DeclVariable()
     {

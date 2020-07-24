@@ -7,8 +7,8 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class LogicalAndExpression : CExpression
   {
-    private CExpression _first;
-    private List<CExpression> _set = new List<CExpression>();
+    private readonly CExpression _first;
+    private readonly List<CExpression> _set = new List<CExpression>();
 
     internal LogicalAndExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

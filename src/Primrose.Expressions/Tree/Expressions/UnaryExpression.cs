@@ -5,8 +5,8 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class UnaryExpression : CExpression
   {
-    private CExpression _primary;
-    private TokenEnum _type;
+    private readonly CExpression _primary;
+    private readonly TokenEnum _type;
 
     internal UnaryExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

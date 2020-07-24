@@ -10,7 +10,7 @@ namespace Primrose.Expressions
   /// </summary>
   public class ContextScope
   {
-    private Dictionary<string, Val> m_variables = new Dictionary<string, Val>();
+    private readonly Dictionary<string, Val> m_variables = new Dictionary<string, Val>();
 
     /// <summary>Returns the number of sublevels this scope has derived from the global scope. Evaluates to 0 if this is the global scope</summary>
     public int Level { get; private set; }

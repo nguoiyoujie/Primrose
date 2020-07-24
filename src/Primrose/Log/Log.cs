@@ -1,9 +1,7 @@
 ﻿using Primrose.Primitives.Extensions;
+using Primrose.Primitives.Factories;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Timers;
 
 namespace Primrose
 {
@@ -11,117 +9,109 @@ namespace Primrose
   public static class Log
   {
     /// <summary>The default log extension appended to log files, unless explicitly defined</summary>
-    public const string LOG_EXT = "log";
-    private static readonly Timer _logTimer = new Timer();
-    private static readonly Dictionary<string, TextWriter> Loggers = new Dictionary<string, TextWriter>();
-    private static readonly ConcurrentQueue<LogItem> Queue = new ConcurrentQueue<LogItem>();
+    public const string LOG_EXT = ".log";
 
-    static Log()
-    {
-      _logTimer.Interval = 100;
-      _logTimer.AutoReset = false;
-      _logTimer.Elapsed += (o,e) => DoWrite();
-    }
+    /// <summary>The log directory path specified for created log channels.</summary>
+    public static string DirectoryPath = "./";
 
-    private static IEnumerable<string> GetFilename(string dir, string name, string ext)
-    {
-      for (int i = 0; ; i++)
-        yield return Path.Combine(dir, i > 0 ? "{0}_{1}{2}".F(name, i, ext) : "{0}{1}".F(name, ext));
-    }
+    private static readonly Registry<string, LogChannel> Channels = new Registry<string, LogChannel>();
 
-    /// <summary>Creates a log channel associated with a log file. If the channel already exists, update its definition</summary>
+    /// <summary>Associates a log channel with a log file. If the channel does not yet exist, create it</summary>
     /// <param name="channel">The name used to identify the logging channel</param>
     /// <param name="path">The path of the log file</param>
-    public static void Define(string channel, string path) { CreateOrOverwriteInner(channel, path); }
+    public static void Define(string channel, string path) 
+    {
+      LogChannel ch = GetOrCreateDefault(channel);
+      ch.SetWriter(Path.Combine(DirectoryPath, path)); 
+    }
+
+    /// <summary>Associates a log channel with a TextWriter. If the channel does not yet exist, create it</summary>
+    /// <param name="channel">The name used to identify the logging channel</param>
+    /// <param name="writer">The TextWriter to associate with the log channel</param>
+    public static void Define(string channel, TextWriter writer)
+    {
+      LogChannel ch = GetOrCreateDefault(channel);
+      ch.SetWriter(writer);
+    }
+
+    /// <summary>Set the logging levels for a log channel. If the channel does not yet exist, create it</summary>
+    /// <param name="channel">The name used to identify the logging channel</param>
+    /// <param name="logLevel">The logging levels that will be printed into the log channel</param>
+    public static void SetLogLevel(string channel, LogLevel logLevel)
+    {
+      LogChannel ch = GetOrCreateDefault(channel);
+      ch.Levels = logLevel;
+    }
+
+    /// <summary>Adds the logging levels for a log channel. If the channel does not yet exist, create it</summary>
+    /// <param name="channel">The name used to identify the logging channel</param>
+    /// <param name="logLevel">The logging levels that will be printed into the log channel</param>
+    public static void AddLogLevel(string channel, LogLevel logLevel)
+    {
+      LogChannel ch = GetOrCreateDefault(channel);
+      ch.Levels |= logLevel;
+    }
+
+    /// <summary>Removes the logging levels for a log channel. If the channel does not yet exist, create it</summary>
+    /// <param name="channel">The name used to identify the logging channel</param>
+    /// <param name="logLevel">The logging levels that will be printed into the log channel</param>
+    public static void RemoveLogLevel(string channel, LogLevel logLevel)
+    {
+      LogChannel ch = GetOrCreateDefault(channel);
+      ch.Levels &= ~logLevel;
+    }
+
+
+    #region Writer Creation and Access Internals
 
     /// <summary>Gets or creates a logging handle</summary>
     /// <param name="channel">The name used to identify the logging channel</param>
     /// <returns></returns>
-    private static TextWriter GetOrCreateInner(string channel) { return GetOrCreateInner(channel, "{0}.{1}".F(channel, LOG_EXT)); }
-
-    /// <summary>Gets or creates a logging handle</summary>
-    /// <param name="channel">The name used to identify the logging channel</param>
-    /// <param name="path">The path of the log file</param>
-    /// <returns></returns>
-    private static TextWriter GetOrCreateInner(string channel, string path)
+    private static LogChannel GetOrCreateDefault(string channel) 
     {
-      if (Loggers.TryGetValue(channel, out TextWriter info))
-        return info;
-
-      return CreateInner(channel, path);
-    }
-
-    private static TextWriter CreateOrOverwriteInner(string channel, string path)
-    {
-      TextWriter info;
-      if (Loggers.TryGetValue(channel, out TextWriter oldinfo))
+      LogChannel ch = Channels[channel];
+      if (ch == null)
       {
-        Loggers.Remove(channel);
-      }
-      info = CreateInner(channel, path);
-      oldinfo.Dispose();
-      return info;
-    }
-
-    private static TextWriter CreateInner(string channel, string path)
-    {
-      path = Path.GetFullPath(path);
-      string dir = Path.GetDirectoryName(path);
-      string name = Path.GetFileNameWithoutExtension(path);
-      string ext = Path.GetExtension(path);
-
-      foreach (string filename in GetFilename(dir, name, ext))
-      {
-        try
+        string chname = channel;
+        foreach (char c in Path.GetInvalidFileNameChars())
         {
-          Directory.CreateDirectory(dir);
-
-          StreamWriter writer = File.CreateText(filename);
-          writer.AutoFlush = true;
-          TextWriter info = TextWriter.Synchronized(writer);
-          Loggers.Add(channel, info);
-          return info;
+          if (chname.Contains(c.ToString()))
+            chname = chname.Replace(c.ToString(), "");
         }
-        catch (IOException)
-        {
-          continue;
-        } // if error, continue and attempt generating the next filename
+
+        ch = new LogChannel(Path.Combine(DirectoryPath, "{0}{1}".F(chname, LOG_EXT)));
+        Channels.Put(channel, ch);
       }
-      return null;
+
+      return ch;   
     }
 
-    private static TextWriter GetWriter(string channel)
-    {
-      TextWriter info;
-      lock (Loggers)
-        if (!Loggers.TryGetValue(channel, out info))
-          info = GetOrCreateInner(channel);
+    #endregion
 
-      return info;
-    }
+    #region Logging
 
-    /// <summary>Writes a formatted message into a log channel</summary>
+    /// <summary>Writes a formatted message into a log channel at the DEBUG level</summary>
     /// <param name="channel">The log channel to write to</param>
     /// <param name="message">The log message</param>
-    public static void Write(string channel, string message) { Enqueue(new LogItem(channel, DateTime.Now, message)); }
+    public static void Debug(string channel, string message) { GetOrCreateDefault(channel).Debug(message); }
 
-    /// <summary>Writes a formatted message into a log channel</summary>
+    /// <summary>Writes a formatted message into a log channel at the DEBUG level</summary>
     /// <typeparam name="T">The type of the message argument</typeparam>
     /// <param name="channel">The log channel to write to</param>
     /// <param name="format">The log message format</param>
     /// <param name="arg">The message argument</param>
-    public static void Write<T>(string channel, string format, T arg) { Enqueue(new LogItem(channel, DateTime.Now, format.F(arg))); }
+    public static void Debug<T>(string channel, string format, T arg) { GetOrCreateDefault(channel).Debug(format.F(arg)); }
 
-    /// <summary>Writes a formatted message into a log channel</summary>
+    /// <summary>Writes a formatted message into a log channel at the DEBUG level</summary>
     /// <typeparam name="T1">The type of the first message argument</typeparam>
     /// <typeparam name="T2">The type of the second message argument</typeparam>
     /// <param name="channel">The log channel to write to</param>
     /// <param name="format">The log message format</param>
     /// <param name="a1">The first message argument</param>
     /// <param name="a2">The second message argument</param>
-    public static void Write<T1, T2>(string channel, string format, T1 a1, T2 a2) { Enqueue(new LogItem(channel, DateTime.Now, format.F(a1, a2))); }
+    public static void Debug<T1, T2>(string channel, string format, T1 a1, T2 a2) { GetOrCreateDefault(channel).Debug(format.F(a1, a2)); }
 
-    /// <summary>Writes a formatted message into a log channel</summary>
+    /// <summary>Writes a formatted message into a log channel at the DEBUG level</summary>
     /// <typeparam name="T1">The type of the first message argument</typeparam>
     /// <typeparam name="T2">The type of the second message argument</typeparam>
     /// <typeparam name="T3">The type of the third message argument</typeparam>
@@ -130,73 +120,214 @@ namespace Primrose
     /// <param name="a1">The first message argument</param>
     /// <param name="a2">The second message argument</param>
     /// <param name="a3">The third message argument</param>
-    public static void Write<T1, T2, T3>(string channel, string format, T1 a1, T2 a2, T3 a3) { Enqueue(new LogItem(channel, DateTime.Now, format.F(a1, a2, a3))); }
+    public static void Debug<T1, T2, T3>(string channel, string format, T1 a1, T2 a2, T3 a3) { GetOrCreateDefault(channel).Debug(format.F(a1, a2, a3)); }
 
-    /// <summary>Writes a formatted message into a log channel</summary>
+    /// <summary>Writes a formatted message into a log channel at the DEBUG level</summary>
     /// <param name="channel">The log channel to write to</param>
     /// <param name="format">The log message format</param>
     /// <param name="args">The parameterized message arguments</param>
-    public static void Write(string channel, string format, params object[] args) { Enqueue(new LogItem(channel, DateTime.Now, format.F(args))); }
+    public static void Debug(string channel, string format, params object[] args) { GetOrCreateDefault(channel).Debug(format.F(args)); }
 
-    private static void Enqueue(LogItem item)
-    {
-      Queue.Enqueue(item);
-      if (!_logTimer.Enabled)
-      {
-        _logTimer.Start();
-      }
-    }
+    /// <summary>Writes a formatted message into a log channel at the INFO level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="message">The log message</param>
+    public static void Info(string channel, string message) { GetOrCreateDefault(channel).Info(message); }
 
-    private static void DoWrite()
-    {
-      _logTimer.Stop();
-      while (Queue.TryDequeue(out LogItem item))
-      {
-        TextWriter tw = GetWriter(item.Channel);
-        if (tw != null)
-        {
-          DoWrite(tw, item.Time, item.Message);
-        }
-      }
+    /// <summary>Writes a formatted message into a log channel at the INFO level</summary>
+    /// <typeparam name="T">The type of the message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="arg">The message argument</param>
+    public static void Info<T>(string channel, string format, T arg) { GetOrCreateDefault(channel).Info(format.F(arg)); }
 
-      if (Queue.Count > 0)
-      {
-        _logTimer.Start();
-      }
-    }
+    /// <summary>Writes a formatted message into a log channel at the INFO level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    public static void Info<T1, T2>(string channel, string format, T1 a1, T2 a2) { GetOrCreateDefault(channel).Info(format.F(a1, a2)); }
 
-    private static void DoWrite(TextWriter tw, DateTime time, string message)
-    {
-      tw.Write(time.ToString("s"));
-      tw.Write("\t");
-      //tw.Write("{0,-30}".F(code));
-      //tw.Write("\t");
-      tw.Write(message);
-      tw.WriteLine();
-    }
+    /// <summary>Writes a formatted message into a log channel at the INFO level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <typeparam name="T3">The type of the third message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    /// <param name="a3">The third message argument</param>
+    public static void Info<T1, T2, T3>(string channel, string format, T1 a1, T2 a2, T3 a3) { GetOrCreateDefault(channel).Info(format.F(a1, a2, a3)); }
 
-    /// <summary>Writes an error message into the channel</summary>
-    /// <param name="channel"></param>
-    /// <param name="ex"></param>
-    public static void WriteErr(string channel, Exception ex)
-    {
-      if (ex == null)
-        return;
+    /// <summary>Writes a formatted message into a log channel at the INFO level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="args">The parameterized message arguments</param>
+    public static void Info(string channel, string format, params object[] args) { GetOrCreateDefault(channel).Info(format.F(args)); }
 
-      TextWriter tw = GetWriter(channel);
+    /// <summary>Writes a formatted message into a log channel at the TRACE level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="message">The log message</param>
+    public static void Trace(string channel, string message) { GetOrCreateDefault(channel).Trace(message); }
 
-      if (tw == null)
-        return;
+    /// <summary>Writes a formatted message into a log channel at the TRACE level</summary>
+    /// <typeparam name="T">The type of the message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="arg">The message argument</param>
+    public static void Trace<T>(string channel, string format, T arg) { GetOrCreateDefault(channel).Trace(format.F(arg)); }
 
-      tw.Write("Fatal Error occured at ");
-      tw.WriteLine(DateTime.Now.ToString("s"));
-      tw.WriteLine("----------------------------------------------------------------");
-      tw.Write("Message: ");
-      tw.WriteLine(ex.Message);
-      tw.WriteLine();
-      tw.WriteLine(ex.StackTrace);
-      tw.WriteLine();
-      tw.WriteLine();
-    }
+    /// <summary>Writes a formatted message into a log channel at the TRACE level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    public static void Trace<T1, T2>(string channel, string format, T1 a1, T2 a2) { GetOrCreateDefault(channel).Trace(format.F(a1, a2)); }
+
+    /// <summary>Writes a formatted message into a log channel at the TRACE level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <typeparam name="T3">The type of the third message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    /// <param name="a3">The third message argument</param>
+    public static void Trace<T1, T2, T3>(string channel, string format, T1 a1, T2 a2, T3 a3) { GetOrCreateDefault(channel).Trace(format.F(a1, a2, a3)); }
+
+    /// <summary>Writes a formatted message into a log channel at the TRACE level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="args">The parameterized message arguments</param>
+    public static void Trace(string channel, string format, params object[] args) { GetOrCreateDefault(channel).Trace(format.F(args)); }
+
+    /// <summary>Writes a formatted message into a log channel at the WARNING level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="message">The log message</param>
+    public static void Warn(string channel, string message) { GetOrCreateDefault(channel).Warn(message); }
+
+    /// <summary>Writes a formatted message into a log channel at the WARNING level</summary>
+    /// <typeparam name="T">The type of the message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="arg">The message argument</param>
+    public static void Warn<T>(string channel, string format, T arg) { GetOrCreateDefault(channel).Warn(format.F(arg)); }
+
+    /// <summary>Writes a formatted message into a log channel at the WARNING level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    public static void Warn<T1, T2>(string channel, string format, T1 a1, T2 a2) { GetOrCreateDefault(channel).Warn(format.F(a1, a2)); }
+
+    /// <summary>Writes a formatted message into a log channel at the WARNING level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <typeparam name="T3">The type of the third message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    /// <param name="a3">The third message argument</param>
+    public static void Warn<T1, T2, T3>(string channel, string format, T1 a1, T2 a2, T3 a3) { GetOrCreateDefault(channel).Warn(format.F(a1, a2, a3)); }
+
+    /// <summary>Writes a formatted message into a log channel at the WARNING level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="args">The parameterized message arguments</param>
+    public static void Warn(string channel, string format, params object[] args) { GetOrCreateDefault(channel).Warn(format.F(args)); }
+
+    /// <summary>Writes a formatted message into a log channel at the ERROR level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="message">The log message</param>
+    public static void Error(string channel, string message) { GetOrCreateDefault(channel).Error(message); }
+
+    /// <summary>Writes a formatted message into a log channel at the ERROR level</summary>
+    /// <typeparam name="T">The type of the message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="arg">The message argument</param>
+    public static void Error<T>(string channel, string format, T arg) { GetOrCreateDefault(channel).Error(format.F(arg)); }
+
+    /// <summary>Writes a formatted message into a log channel at the ERROR level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    public static void Error<T1, T2>(string channel, string format, T1 a1, T2 a2) { GetOrCreateDefault(channel).Error(format.F(a1, a2)); }
+
+    /// <summary>Writes a formatted message into a log channel at the ERROR level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <typeparam name="T3">The type of the third message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    /// <param name="a3">The third message argument</param>
+    public static void Error<T1, T2, T3>(string channel, string format, T1 a1, T2 a2, T3 a3) { GetOrCreateDefault(channel).Error(format.F(a1, a2, a3)); }
+
+    /// <summary>Writes a formatted message into a log channel at the ERROR level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="args">The parameterized message arguments</param>
+    public static void Error(string channel, string format, params object[] args) { GetOrCreateDefault(channel).Error(format.F(args)); }
+
+    /// <summary>Writes a formatted message into a log channel at the ERROR level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="ex">The exception to log</param>
+    public static void Error(string channel, Exception ex) { GetOrCreateDefault(channel).Error(ex); }
+
+    /// <summary>Writes a formatted message into a log channel at the FATAL level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="message">The log message</param>
+    public static void Fatal(string channel, string message) { GetOrCreateDefault(channel).Fatal(message); }
+
+    /// <summary>Writes a formatted message into a log channel at the FATAL level</summary>
+    /// <typeparam name="T">The type of the message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="arg">The message argument</param>
+    public static void Fatal<T>(string channel, string format, T arg) { GetOrCreateDefault(channel).Fatal(format.F(arg)); }
+
+    /// <summary>Writes a formatted message into a log channel at the FATAL level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    public static void Fatal<T1, T2>(string channel, string format, T1 a1, T2 a2) { GetOrCreateDefault(channel).Fatal(format.F(a1, a2)); }
+
+    /// <summary>Writes a formatted message into a log channel at the FATAL level</summary>
+    /// <typeparam name="T1">The type of the first message argument</typeparam>
+    /// <typeparam name="T2">The type of the second message argument</typeparam>
+    /// <typeparam name="T3">The type of the third message argument</typeparam>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="a1">The first message argument</param>
+    /// <param name="a2">The second message argument</param>
+    /// <param name="a3">The third message argument</param>
+    public static void Fatal<T1, T2, T3>(string channel, string format, T1 a1, T2 a2, T3 a3) { GetOrCreateDefault(channel).Fatal(format.F(a1, a2, a3)); }
+
+    /// <summary>Writes a formatted message into a log channel at the FATAL level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="format">The log message format</param>
+    /// <param name="args">The parameterized message arguments</param>
+    public static void Fatal(string channel, string format, params object[] args) { GetOrCreateDefault(channel).Fatal(format.F(args)); }
+
+    /// <summary>Writes a formatted message into a log channel at the FATAL level</summary>
+    /// <param name="channel">The log channel to write to</param>
+    /// <param name="ex">The exception to log</param>
+    public static void Fatal(string channel, Exception ex) { GetOrCreateDefault(channel).Fatal(ex); }
+
+    #endregion
   }
 }

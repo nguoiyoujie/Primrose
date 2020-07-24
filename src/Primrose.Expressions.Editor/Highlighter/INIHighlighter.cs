@@ -7,7 +7,7 @@ namespace Primrose.Expressions.Editor
   public class INIHighlighter : AHighlighter
   {
     public static INIHighlighter Instance = new INIHighlighter();
-    RegexOptions ropt = RegexOptions.CultureInvariant | RegexOptions.Compiled;
+    readonly RegexOptions ropt = RegexOptions.CultureInvariant | RegexOptions.Compiled;
 
     private INIHighlighter()
     {

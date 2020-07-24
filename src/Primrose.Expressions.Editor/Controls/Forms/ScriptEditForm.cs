@@ -13,7 +13,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
   {
     private IContext Context;
 
-    private Registry<IHighlighter, ToolStripMenuItem> HighlightAssoc = new Registry<IHighlighter, ToolStripMenuItem>();
+    private readonly Registry<IHighlighter, ToolStripMenuItem> HighlightAssoc = new Registry<IHighlighter, ToolStripMenuItem>();
 
     public ScriptEditForm()
     {
@@ -40,11 +40,10 @@ namespace Primrose.Expressions.Editor.Controls.Forms
 
     private void UpdateTitle()
     {
-      bool chg = false;
       tpEditor tp = GetCurrentEditor();
       if (tp != null)
       {
-        chg = tp.IsChanged;
+        bool chg = tp.IsChanged;
         if (tp.CurrPath != null)
           Text = "{0} [{1}]".F(Globals.Title, tp.CurrPath + (chg ? "*" : ""));
         else
@@ -129,8 +128,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
     {
       foreach (TabPage p in tcEditor.TabPages)
       {
-        tpEditor tp = p as tpEditor;
-        if (tp != null)
+        if (p is tpEditor tp)
           if (!tp.FileClose())
             e.Cancel = true;
       }
@@ -210,8 +208,18 @@ namespace Primrose.Expressions.Editor.Controls.Forms
         MethodInfo attachMethod = loader?.GetMethod("Attach", BindingFlags.Static | BindingFlags.Public);
         attachMethod?.Invoke(null, new object[] { });
 
-        Type[] types = asm.GetTypes();
-          foreach (Type t in types)
+        Type[] types = null;
+        try
+        {
+          types = asm.GetTypes();
+        }
+        catch (ReflectionTypeLoadException rex)
+        {
+          types = rex.Types;
+        }
+
+        foreach (Type t in types)
+          if (t != null)
             foreach (Type i in t.GetInterfaces())
               if (i == typeof(IContext))
                 eligible_types.Add(t);
@@ -250,7 +258,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
       {
         string path_dll = ofd_dll.FileName;
 
-        Assembly asm = null;
+        Assembly asm;
         try
         {
           asm = Assembly.LoadFile(path_dll);

@@ -6,11 +6,11 @@ namespace Primrose.Expressions.Tree.Statements
 {
   internal class ForStatement : CStatement
   {
-    private ContextScope _scope;
-    private CStatement _begin;
-    private CExpression _condition;
-    private CStatement _next;
-    private List<CStatement> _actions = new List<CStatement>();
+    private readonly ContextScope _scope;
+    private readonly CStatement _begin;
+    private readonly CExpression _condition;
+    private readonly CStatement _next;
+    private readonly List<CStatement> _actions = new List<CStatement>();
 
     internal ForStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

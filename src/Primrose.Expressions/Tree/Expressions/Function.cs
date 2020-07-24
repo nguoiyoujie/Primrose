@@ -5,8 +5,8 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class Function : CExpression
   {
-    private string _funcName;
-    private List<CExpression> _param = new List<CExpression>();
+    private readonly string _funcName;
+    private readonly List<CExpression> _param = new List<CExpression>();
 
     internal Function(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

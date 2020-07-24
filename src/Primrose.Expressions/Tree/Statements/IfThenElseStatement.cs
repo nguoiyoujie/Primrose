@@ -6,12 +6,12 @@ namespace Primrose.Expressions.Tree.Statements
 {
   internal class IfThenElseStatement : CStatement
   {
-    private ContextScope _scopeT;
-    private ContextScope _scopeF;
+    private readonly ContextScope _scopeT;
+    private readonly ContextScope _scopeF;
 
-    private CExpression _condition;
-    private List<CStatement> _actionIfTrue = new List<CStatement>();
-    private List<CStatement> _actionIfFalse = new List<CStatement>();
+    private readonly CExpression _condition;
+    private readonly List<CStatement> _actionIfTrue = new List<CStatement>();
+    private readonly List<CStatement> _actionIfFalse = new List<CStatement>();
 
     internal IfThenElseStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

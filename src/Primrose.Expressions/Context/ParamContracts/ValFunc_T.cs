@@ -4,7 +4,7 @@ namespace Primrose.Expressions
 {
   internal class ValFunc<T> : IValFunc
   {
-    Func<IContext, T, Val> F;
+    private readonly Func<IContext, T, Val> F;
 
     public ValFunc(Func<IContext, T, Val> fn) { F = fn; }
 

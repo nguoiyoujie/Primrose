@@ -4,7 +4,7 @@ namespace Primrose.Expressions.Tree.Statements
 {
   internal class SingleStatement : CStatement
   {
-    private CStatement _statement;
+    private readonly CStatement _statement;
 
     internal SingleStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

@@ -68,6 +68,8 @@
     <Compile Include="FileFormat\INI\Attributes\INISubSectionRegistryAttribute.cs" />
     <Compile Include="FileFormat\INI\Enums\ValueSource.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Log\LogChannel.cs" />
+    <Compile Include="Log\LogLevel.cs" />
     <Compile Include="Primitives\Cache\Cache.cs" />
     <Compile Include="Primitives\Cache\EnumNames.cs" />
     <Compile Include="Primitives\Collections\CircularQueue.cs" />

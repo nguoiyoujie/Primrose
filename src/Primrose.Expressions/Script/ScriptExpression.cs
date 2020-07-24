@@ -7,7 +7,7 @@ namespace Primrose.Expressions
   /// </summary>
   public partial class ScriptExpression
   {
-    private Expression m_expression;
+    private readonly Expression m_expression;
     internal ContextScope Scope;
 
     /// <summary>Creates a script containing an expression</summary>

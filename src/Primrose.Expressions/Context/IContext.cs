@@ -18,13 +18,14 @@ namespace Primrose.Expressions
     /// <returns></returns>
     Val RunFunction(ITracker caller, string fnname, Val[] param);
 
-    /// <summary>The list of function names contained in this context</summary>
-    List<string> ValFuncRef { get; }
-
     /// <summary>Retrieves a function from the function list</summary>
     object GetFunction(string name, int argnum);
 
+    /// <summary>The list of function names contained in this context</summary>
+    List<string> ValFuncRef { get; }
+
     /// <summary>The scripts contained in this context</summary>
     Script.Registry Scripts { get; }
+
   }
 }

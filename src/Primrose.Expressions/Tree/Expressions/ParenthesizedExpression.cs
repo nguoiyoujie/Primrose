@@ -4,8 +4,8 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class ParenthesizedExpression : CExpression
   {
-    private ContextScope _scope;
-    private CExpression _expression;
+    private readonly ContextScope _scope;
+    private readonly CExpression _expression;
 
     internal ParenthesizedExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

@@ -4,7 +4,7 @@ namespace Primrose.Expressions.Tree.Expressions.Literals
 {
   internal class SingleLiteral : CLiteral
   {
-    private float _value;
+    private readonly float _value;
 
     internal SingleLiteral(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

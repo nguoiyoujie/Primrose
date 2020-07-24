@@ -5,10 +5,10 @@ namespace Primrose.Expressions.Tree.Statements
 {
   internal class AssignmentStatement: CStatement
   {
-    private ContextScope _scope;
-    private Variable _variable;
-    private TokenEnum _assigntype;
-    private CExpression _value;
+    private readonly ContextScope _scope;
+    private readonly Variable _variable;
+    private readonly TokenEnum _assigntype;
+    private readonly CExpression _value;
 
     internal AssignmentStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

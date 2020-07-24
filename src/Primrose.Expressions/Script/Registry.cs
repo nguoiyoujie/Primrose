@@ -11,7 +11,7 @@ namespace Primrose.Expressions
     {
       /// <summary>The global script</summary>
       public Script Global = new Script();
-      private Registry<Script> m_registry = new Registry<Script>();
+      private readonly Registry<Script> m_registry = new Registry<Script>();
 
       /// <summary>
       /// Adds a script to the registry

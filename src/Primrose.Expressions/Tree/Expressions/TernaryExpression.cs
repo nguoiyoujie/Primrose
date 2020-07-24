@@ -5,9 +5,9 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class TernaryExpression : CExpression
   {
-    private CExpression _question;
-    private CExpression _true;
-    private CExpression _false;
+    private readonly CExpression _question;
+    private readonly CExpression _true;
+    private readonly CExpression _false;
 
     internal TernaryExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

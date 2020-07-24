@@ -5,9 +5,9 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class RelationalExpression : CExpression
   {
-    private CExpression _first;
-    private TokenEnum _type = TokenEnum.NOTHING;
-    private CExpression _second;
+    private readonly CExpression _first;
+    private readonly TokenEnum _type = TokenEnum.NOTHING;
+    private readonly CExpression _second;
 
     internal RelationalExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

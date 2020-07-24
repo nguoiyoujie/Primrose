@@ -21,7 +21,7 @@ namespace Primrose.Expressions.Editor
       }
     }
 
-    RegexOptions ropt = RegexOptions.CultureInvariant | RegexOptions.Compiled;
+    readonly RegexOptions ropt = RegexOptions.CultureInvariant | RegexOptions.Compiled;
 
     private ScriptHighlighter()
     {
@@ -44,13 +44,11 @@ namespace Primrose.Expressions.Editor
     {
       ResetRegex();
 
-      if (c != null)
+      if (c != null && c.ValFuncRef.Count > 0)
       {
-        string reg = null;
-        foreach (string s in c.ValFuncRef)
-          reg = string.Concat("(", string.Join("|", c.ValFuncRef), @")(?=\s*\()");
+        string reg = string.Concat("(", string.Join("|", c.ValFuncRef), @")(?=\s*\()");
         if (reg != null)
-          Regexes.Add(new Pair<Regex, Color>(new Regex(reg, ropt), Color.MidnightBlue));
+          Regexes.Add(new Pair<Regex, Color>(new Regex(reg, ropt), Color.CadetBlue));
       }
     }
   }

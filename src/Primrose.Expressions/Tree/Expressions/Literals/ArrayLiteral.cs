@@ -7,12 +7,12 @@ namespace Primrose.Expressions.Tree.Expressions.Literals
   internal class ArrayLiteral : CLiteral
   {
     // {x,y,z}
-    private List<CExpression> _param = new List<CExpression>();
-    Val[] vL;
-    bool[] bL;
-    float[] fL;
-    int[] iL;
-    string[] sL;
+    private readonly List<CExpression> _param = new List<CExpression>();
+    private readonly Val[] vL;
+    private readonly bool[] bL;
+    private readonly float[] fL;
+    private readonly int[] iL;
+    private readonly string[] sL;
 
     internal ArrayLiteral(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

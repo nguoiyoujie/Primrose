@@ -58,6 +58,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\ParamContracts\ValFunc_Dynamic.cs" />
+    <Compile Include="Context\ParamContracts\ValFunc_T11.cs" />
+    <Compile Include="Context\ParamContracts\ValFunc_T10.cs" />
+    <Compile Include="Context\ParamContracts\ValFunc_T13.cs" />
+    <Compile Include="Context\ParamContracts\ValFunc_T14.cs" />
+    <Compile Include="Context\ParamContracts\ValFunc_T15.cs" />
+    <Compile Include="Context\ParamContracts\ValFunc_T12.cs" />
+    <Compile Include="Context\ParamContracts\ValFunc_T9.cs" />
     <Compile Include="Exceptions\InvalidValCastException.cs" />
     <Compile Include="Operators\BOp.cs" />
     <Compile Include="Build.cs" />

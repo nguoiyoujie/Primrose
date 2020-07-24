@@ -6,8 +6,8 @@ namespace Primrose.Expressions.Tree.Expressions
 {
   internal class MultiplyExpression : CExpression
   {
-    private CExpression _first;
-    private Dictionary<CExpression, TokenEnum> _set = new Dictionary<CExpression, TokenEnum>();
+    private readonly CExpression _first;
+    private readonly Dictionary<CExpression, TokenEnum> _set = new Dictionary<CExpression, TokenEnum>();
 
     internal MultiplyExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

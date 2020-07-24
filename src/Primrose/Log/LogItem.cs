@@ -2,17 +2,19 @@
 
 namespace Primrose
 {
-  internal struct LogItem
+  internal readonly struct LogItem
   {
-    public string Channel;
-    public DateTime Time;
-    public string Message;
+    public readonly LogLevel Level;
+    public readonly DateTime Time;
+    public readonly string Message;
+    public readonly Exception Exception;
 
-    public LogItem(string channel, DateTime time, string message)
+    public LogItem(LogLevel level, string message, Exception ex)
     {
-      Channel = channel;
-      Time = time;
+      Level = level;
+      Time = DateTime.Now;
       Message = message;
+      Exception = ex;
     }
   }
 }
