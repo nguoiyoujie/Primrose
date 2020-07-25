@@ -70,6 +70,7 @@
     <Compile Include="Controls\Forms\AddItemForm.Designer.cs">
       <DependentUpon>AddItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Objects\TextBoxWriter.cs" />
     <Compile Include="FlickerFreeRichEditTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -124,7 +124,6 @@ namespace Primrose.Expressions.UnitTests
       {
         bool b1 = i % 2 == 1;
         bool b2 = i % 4 >= 2;
-        bool b3 = i >= 4;
 
         int i1 = r.Next(-10000, 10000);
         int i2 = r.Next(-10000, 10000);

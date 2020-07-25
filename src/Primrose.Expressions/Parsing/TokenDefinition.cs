@@ -7,11 +7,13 @@ namespace Primrose.Expressions
   {
     internal readonly IMatcher Matcher;
     public readonly TokenEnum Token;
+    public readonly LintType Lint;
 
-    public TokenDefinition(string regex, TokenEnum token, RegexOptions options)
+    public TokenDefinition(string regex, TokenEnum token, LintType lint)
     {
-      Matcher = new RegexMatcher(regex, options);
+      Matcher = new RegexMatcher(regex, RegexOptions.CultureInvariant);
       Token = token;
+      Lint = lint;
     }
   }
 }

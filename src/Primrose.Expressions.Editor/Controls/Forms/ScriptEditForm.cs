@@ -233,12 +233,20 @@ namespace Primrose.Expressions.Editor.Controls.Forms
           }
           catch (Exception ex)
           {
-            MessageBox.Show("Error loading reference assembly '{0}'!\n\n{1}".F(refasmname.FullName, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return;
+            continue;
+
+            // silently ignore, since we are only interested in the type names and not actually performing loading
+            //MessageBox.Show("Error loading reference assembly '{0}'!\n\n{1}".F(refasmname.FullName, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //return;
           }
           GetEligibleTypesFromAssembly(refasm, eligible_types, processed);
         }
       }
+      catch
+      { }
+
+      // silently ignore, since we are only interested in the type names and not actually performing loading
+      /*
       catch (ReflectionTypeLoadException rex)
       {
         string load_ex = rex.LoaderExceptions.Length > 0 ? rex.LoaderExceptions[0].ToString() : "";
@@ -250,6 +258,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
         MessageBox.Show("Error loading types from assembly '{0}':\n\n{1}".F(asm.FullName, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         return;
       }
+      */
     }
 
     private void setContextDllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -303,6 +312,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
 
               lboxSig.Items.Clear();
               ScriptHighlighter.Instance.Context = Context;
+              GetCurrentEditor()?.Higlight(ScriptHighlighter.Instance);
             }
         }
         sif.Dispose();

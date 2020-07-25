@@ -15,7 +15,7 @@ namespace Primrose.Expressions
     {
       int dummy = 0;
       Scope = new ContextScope();
-      Parser.Parse(Scope, text, out m_expression, "", ref dummy);
+      Parser.Parse(Scope, text, out m_expression, "", ref dummy, out _);
     }
 
     /// <summary>Evaluates the script</summary>

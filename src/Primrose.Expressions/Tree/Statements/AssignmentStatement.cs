@@ -56,7 +56,6 @@ namespace Primrose.Expressions.Tree.Statements
              || _assigntype == TokenEnum.PIPEASSIGN
               )
             {
-              TokenEnum _type = lexer.TokenType;
               lexer.Next(); //ASSIGN
               _value = new Expression(scope, lexer).Get();
             }

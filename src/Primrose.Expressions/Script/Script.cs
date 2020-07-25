@@ -16,6 +16,7 @@ namespace Primrose.Expressions
 
     /// <summary>The name of the script</summary>
     public readonly string Name;
+
     internal Script() { Scope = new ContextScope(); }
 
     /// <summary>Creates a script</summary>
@@ -34,13 +35,22 @@ namespace Primrose.Expressions
       get { return m_statements; }
     }
 
-    /// <summary>Adds one or more statements to the script.</summary>
+    /// <summary>Adds one or more statements to the script</summary>
     /// <param name="text">The string text to be parsed</param>
     /// <param name="linenumber">The current line number</param>
     public void AddStatements(string text, ref int linenumber)
     {
-      RootStatement statement;
-      Parser.Parse(Scope, text, out statement, Name, ref linenumber);
+      Parser.Parse(Scope, text, out RootStatement statement, Name, ref linenumber, out _);
+      m_statements.Add(statement);
+    }
+
+    /// <summary>Adds one or more statements to the script, and produces a set of linting hints for a linter</summary>
+    /// <param name="text">The string text to be parsed</param>
+    /// <param name="linenumber">The current line number</param>
+    /// <param name="linter">The set of linting hints describing the statements added</param>
+    public void AddStatements(string text, ref int linenumber, out List<LintElement> linter)
+    {
+      Parser.Parse(Scope, text, out RootStatement statement, Name, ref linenumber, out linter);
       m_statements.Add(statement);
     }
 

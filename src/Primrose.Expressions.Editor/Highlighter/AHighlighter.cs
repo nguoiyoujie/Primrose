@@ -23,7 +23,7 @@ namespace Primrose.Expressions.Editor
 
     protected AHighlighter() { }
 
-    public void Highlight(FlickerFreeRichEditTextBox box)
+    public virtual void Highlight(FlickerFreeRichEditTextBox box)
     {
       box._ignore = true;
       box._Paint = false;

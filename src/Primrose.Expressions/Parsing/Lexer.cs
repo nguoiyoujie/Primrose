@@ -1,5 +1,7 @@
 ﻿using Primrose.Primitives.Extensions;
+using Primrose.Primitives.ValueTypes;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Primrose.Expressions
@@ -17,6 +19,8 @@ namespace Primrose.Expressions
 
     public int LineNumber { get; private set; }
     public int Position { get; private set; }
+    public LintType Lint { get; private set; }
+    public List<LintElement> Linter { get; private set; }
 
     private string lineRemaining;
     public bool EndOfStream { get { return lineRemaining == null; } }
@@ -27,6 +31,8 @@ namespace Primrose.Expressions
       m_reader = reader;
       m_tokenDefinitions = tokenDefinitions;
       LineNumber = linenumber;
+      Lint = LintType.NONE;
+      Linter = new List<LintElement>();
       nextLine();
       Next();
     }
@@ -37,6 +43,12 @@ namespace Primrose.Expressions
       {
         lineRemaining = m_reader.ReadLine();
         LineText = lineRemaining;
+        if (LineNumber > 0)
+        {
+          Linter.Add(new LintElement(LineNumber, Position, LintType.NONE));
+          Lint = LintType.NONE;
+        }
+
         ++LineNumber;
         Position = 0;
         TokenPosition = 0;
@@ -45,20 +57,18 @@ namespace Primrose.Expressions
 
     public TokenEnum Peek()
     {
-      TokenEnum token = TokenEnum.NOTHING;
-      string content = "";
-      int position = Position;
-      int matched = LookAhead(out token, out content, out position);
+      LookAhead(out TokenEnum token, out string _, out int _, out _);
       return token;
     }
 
-    private int LookAhead(out TokenEnum token, out string content, out int position)
+    private int LookAhead(out TokenEnum token, out string content, out int position, out LintType lint)
     {
       if (lineRemaining == null)
       {
         token = 0;
         content = "";
         position = Position;
+        lint = LintType.NONE;
         return 0;
       }
       foreach (var def in m_tokenDefinitions)
@@ -68,20 +78,22 @@ namespace Primrose.Expressions
         {
           position = Position + matched;
           token = def.Token;
+          lint = def.Lint;
           content = lineRemaining.Substring(0, matched);
 
           // whitespace elimination
           if (content.Trim().Length == 0)
           {
             DoNext(matched, token, content, position);
-            return LookAhead(out token, out content, out position);
+            return LookAhead(out token, out content, out position, out lint);
           }
 
           // comment elimination
           if (token == TokenEnum.COMMENT)
           {
+            Linter.Add(new LintElement(LineNumber, Position, LintType.COMMENT));
             nextLine();
-            return LookAhead(out token, out content, out position);
+            return LookAhead(out token, out content, out position, out lint);
           }
 
           return matched;
@@ -92,10 +104,9 @@ namespace Primrose.Expressions
 
     public bool Next()
     {
-      TokenEnum token = TokenEnum.NOTHING;
-      string content = "";
-      int position = Position;
-      int matched = LookAhead(out token, out content, out position);
+      int matched = LookAhead(out TokenEnum token, out string content, out int position, out LintType lint);
+      if (Lint != lint) { Linter.Add(new LintElement(LineNumber, Position, lint)); Lint = lint; }
+
       return DoNext(matched, token, content, position);
     }
 

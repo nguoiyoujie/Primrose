@@ -21,9 +21,11 @@ namespace Primrose.Expressions.UnitTests
         Console.WriteLine("loading script file: ".C(Path.GetFileName(sfile)));
 
         c.Reset();
-        ScriptFile f = new ScriptFile(sfile, c);
-        f.ScriptReadBegin = ReadScript;
-        f.ReadFile();
+        ScriptFile f = new ScriptFile(c)
+        {
+          ScriptReadBegin = ReadScript
+        };
+        f.ReadFromFile(sfile);
         Console.WriteLine();
 
         c.Scripts.Global.Run(c);

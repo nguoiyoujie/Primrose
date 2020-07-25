@@ -23,8 +23,8 @@ namespace Primrose.Expressions.Editor
     // pLineNum
     private float _z;
     private Font _f;
-    private Brush _b = Brushes.DarkOliveGreen;
-    private List<int> _n = new List<int>();
+    private readonly Brush _b = Brushes.DarkOliveGreen;
+    private readonly List<int> _n = new List<int>();
 
     public Action Editor_SelectionChanged;
 
@@ -235,12 +235,8 @@ namespace Primrose.Expressions.Editor
 
     public void DoCheck(IContext context)
     {
-      // dump to file
-      string path = @"./temp/check.txt";
-      Directory.CreateDirectory(Path.GetDirectoryName(path));
-      File.WriteAllText(path, rtb.Text);
-
-      ScriptChecker checker = new ScriptChecker(path, Output);
+      ScriptChecker checker = new ScriptChecker(rtb.Text, Output);
+      
       rtb_output.Clear();
       rtb_output.SelectionColor = Color.DodgerBlue;
       rtb_output.AppendText("Checking contents..." + Environment.NewLine);
