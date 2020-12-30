@@ -20,9 +20,8 @@ namespace Primrose.Primitives.StateMachines
     /// <param name="state">The initial state</param>
     protected void Initialize(O owner, T state)
     {
-      InStateMachine _in;
-      if (_transitions.TryGetValue(state, out _in))
-        _in.Initialize(owner, state, state);
+      if (_transitions.TryGetValue(state, out InStateMachine _in))
+        _in.Initialize(owner, state);
     }
 
     /// <summary></summary>
@@ -30,10 +29,9 @@ namespace Primrose.Primitives.StateMachines
     /// <returns>The finite state machine, now programmed with a state, awaiting further instructions</returns>
     protected InStateMachine In(T state)
     {
-      InStateMachine ret;
-      if (!_transitions.TryGetValue(state, out ret))
+      if (!_transitions.TryGetValue(state, out InStateMachine ret))
       {
-        ret = new InStateMachine(this, state);
+        ret = new InStateMachine(this);
         _transitions.Add(state, ret);
       }
       return ret;
@@ -45,22 +43,20 @@ namespace Primrose.Primitives.StateMachines
     protected class InStateMachine
     {
       private readonly StateMachine<O, T, U> SM;
-      private readonly T State;
       private Action<O, T> Entry;
       private Action<O, T> Exit;
       private readonly Dictionary<U, OutStateMachine> _transitions = new Dictionary<U, OutStateMachine>();
 
-      internal InStateMachine(StateMachine<O, T, U> statemachine, T state) { State = state; SM = statemachine; }
+      internal InStateMachine(StateMachine<O, T, U> statemachine) { SM = statemachine; }
 
       /// <summary>Adds the state change command in the programming condition</summary>
       /// <param name="command">The new command acting on this state</param>
       /// <returns>The finite state machine, now programmed with the new state change command, awaiting further instructions</returns>
       public OutStateMachine On(U command)
       {
-        OutStateMachine ret;
-        if (!_transitions.TryGetValue(command, out ret))
+        if (!_transitions.TryGetValue(command, out OutStateMachine ret))
         {
-          ret = new OutStateMachine(SM, this, command);
+          ret = new OutStateMachine(this);
           _transitions.Add(command, ret);
         }
         return ret;
@@ -76,15 +72,14 @@ namespace Primrose.Primitives.StateMachines
       /// <returns>The same state machine, awaiting further instructions</returns>
       public InStateMachine ExecuteOnExit(Action<O, T> action) { Exit = action; return this; }
 
-      internal void Initialize(O owner, T prevstate, T state)
+      internal void Initialize(O owner, T state)
       {
         Entry?.Invoke(owner, state);
       }
 
       internal void Fire(O owner, U command, ref T state)
       {
-        OutStateMachine _on;
-        if (_transitions.TryGetValue(command, out _on))
+        if (_transitions.TryGetValue(command, out OutStateMachine _on))
         {
           Exit?.Invoke(owner, state);
           _on.Fire(owner, ref state); // state is changed here
@@ -93,6 +88,11 @@ namespace Primrose.Primitives.StateMachines
         else
           throw new InvalidStateCommandException<T, U>(command, state);
       }
+
+      internal bool IsValid(U command)
+      {
+        return _transitions.TryGetValue(command, out _);
+      }
     }
 
     /// <summary>
@@ -100,13 +100,11 @@ namespace Primrose.Primitives.StateMachines
     /// </summary>
     protected class OutStateMachine
     {
-      private readonly StateMachine<O, T, U> SM;
       private readonly InStateMachine IN;
-      private readonly U Command;
       private T NewState;
       private Action<O, T> Transit;
 
-      internal OutStateMachine(StateMachine<O, T, U> statemachine, InStateMachine instate, U command) { Command = command; IN = instate; SM = statemachine; }
+      internal OutStateMachine(InStateMachine instate) { IN = instate; }
 
       /// <summary>Switches the state change command</summary>
       /// <param name="command">The new command acting on the initial state</param>
@@ -141,11 +139,20 @@ namespace Primrose.Primitives.StateMachines
     /// <param name="state">The state</param>
     public void Fire(O owner, U command, ref T state)
     {
-      InStateMachine _in;
-      if (_transitions.TryGetValue(state, out _in))
+      if (_transitions.TryGetValue(state, out InStateMachine _in))
         _in.Fire(owner, command, ref state);
       else
         throw new InvalidStateCommandException<T, U>(command, state);
+    }
+
+    /// <summary>
+    /// Determines if a command is valid at this state
+    /// </summary>
+    /// <param name="command">The command</param>
+    /// <param name="state">The state</param>
+    public bool IsValid(U command, T state)
+    {
+        return _transitions.TryGetValue(state, out InStateMachine _in) && _in.IsValid(command);
     }
   }
 }

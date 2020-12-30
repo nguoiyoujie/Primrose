@@ -164,8 +164,7 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val Do(UOp op, Val v)
     {
-      Func<Val, Val> fn;
-      if (!unaryops.TryGetValue(new Pair<UOp, ValType>(op, v.Type), out fn))
+      if (!unaryops.TryGetValue(new Pair<UOp, ValType>(op, v.Type), out Func<Val, Val> fn))
         throw new ArgumentException(Resource.Strings.Error_IncompatibleUOp.F(op, v.Type));
 
       return fn.Invoke(v);
@@ -180,11 +179,10 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val Do(BOp op, Val v1, Val v2)
     {
-      Func<Val, Val, Val> fn;
       if (CoerceTypes.Contains(new Pair<ValType, ValType>(v1.Type, v2.Type)))
         v2 = Coerce(v1.Type, v2);
 
-      if (!binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(op, v1.Type, v2.Type), out fn))
+      if (!binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(op, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
         throw new ArgumentException(Resource.Strings.Error_IncompatibleBOp.F(op, v1.Type, v2.Type));
 
       return fn.Invoke(v1, v2);
@@ -198,11 +196,10 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val IsEqual(Val v1, Val v2)
     {
-      Func<Val, Val, Val> fn;
       if (CoerceTypes.Contains(new Pair<ValType, ValType>(v1.Type, v2.Type)))
         v2 = Coerce(v1.Type, v2);
 
-      if (binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, v1.Type, v2.Type), out fn))
+      if (binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
         return fn.Invoke(v1, v2);
 
       if (v1.Type == v2.Type)
@@ -219,11 +216,10 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val IsNotEqual(Val v1, Val v2)
     {
-      Func<Val, Val, Val> fn;
       if (CoerceTypes.Contains(new Pair<ValType, ValType>(v1.Type, v2.Type)))
         v2 = Coerce(v1.Type, v2);
 
-      if (binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, v1.Type, v2.Type), out fn))
+      if (binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
         return fn.Invoke(v1, v2);
 
       if (v1.Type == v2.Type)

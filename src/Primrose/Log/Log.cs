@@ -86,6 +86,20 @@ namespace Primrose
       return ch;   
     }
 
+    /// <summary>Closes a logging handle</summary>
+    /// <param name="channel">The name used to identify the logging channel</param>
+    /// <returns></returns>
+    public static void Close(string channel)
+    {
+      LogChannel ch = Channels[channel];
+      if (ch != null)
+      {
+        ch.Close();
+      }
+      Channels.Remove(channel);
+    }
+
+
     #endregion
 
     #region Logging
@@ -327,6 +341,23 @@ namespace Primrose
     /// <param name="channel">The log channel to write to</param>
     /// <param name="ex">The exception to log</param>
     public static void Fatal(string channel, Exception ex) { GetOrCreateDefault(channel).Fatal(ex); }
+
+    /// <summary>Registers a callback function to a log channel</summary>
+    /// <param name="channel">The log channel to handle the callback</param>
+    /// <param name="callback">The callback function to register</param>
+    /// <param name="level">The logging levels were the callback will be triggered</param>
+    public static void RegisterCallback(string channel, Action<string> callback, LogLevel level = LogLevel.ALL) { GetOrCreateDefault(channel).CallbackList.Put(callback, level); }
+
+    /// <summary>Removes a callback function from a log channel registry list</summary>
+    /// <param name="channel">The log channel to handle the callback</param>
+    /// <param name="callback">The callback function to register</param>
+    public static void RemoveCallback(string channel, Action<string> callback) { GetOrCreateDefault(channel).CallbackList.Remove(callback); }
+
+    /// <summary>Sets the time format for a log channel</summary>
+    /// <param name="channel">The log channel to handle the callback</param>
+    /// <param name="format">The new time format to use</param>
+    public static void SetTimeFormat(string channel, string format) { GetOrCreateDefault(channel).TimeFormat = format; }
+
 
     #endregion
   }

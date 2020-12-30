@@ -1,4 +1,5 @@
 ﻿using Primrose.Primitives.Extensions;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,7 @@ namespace Primrose.Primitives.Factories
   /// </summary>
   /// <typeparam name="K">The type of the key</typeparam>
   /// <typeparam name="T">The type of the registered object</typeparam>
-  public class Registry<K, T> : IRegistry<K, T>
+  public class Registry<K, T> : IRegistry<K, T>, IEnumerable<KeyValuePair<K, T>>
   {
     private readonly object locker = new object();
 
@@ -20,11 +21,18 @@ namespace Primrose.Primitives.Factories
     /// <param name="capacity">The initial capacity of the registry</param>
     public Registry(int capacity) { list = new Dictionary<K, T>(capacity); }
 
+    /// <summary>Creates an object registry that contains elements copied from another registry</summary>
+    /// <param name="other">The other registry whose elements are copied to this registry</param>
+    public Registry(IRegistry<K, T> other) { list = new Dictionary<K, T>(other.GetUnderlyingDictionary()); }
+
     /// <summary>The container data source</summary>
     protected Dictionary<K, T> list;
 
     /// <summary>The default value returned</summary>
     public T Default = default;
+
+    /// <summary>Retrieves the underlying dictionary</summary>
+    public IDictionary<K, T> GetUnderlyingDictionary() { return list; }
 
     /// <summary>Determines whether the registry contains a key</summary>
     /// <param name="key">The identifier key to check</param>
@@ -38,7 +46,13 @@ namespace Primrose.Primitives.Factories
     /// <summary>Retrieves the value associated with a key</summary>
     /// <param name="key">The identifier key to check</param>
     /// <returns>The value associated with the key. If the registry does not contain this key or the key is null, returns Default</returns>
-    public T Get(K key) { lock (locker) { T t; if (key == null || !list.TryGetValue(key, out t)) return Default; return t; } }
+    public T Get(K key) { lock (locker) { if (key == null || !list.TryGetValue(key, out T t)) return Default; return t; } }
+
+    /// <summary>Retrieves the value associated with a key or a default value if the key is not present</summary>
+    /// <param name="key">The identifier key to check</param>
+    /// <param name="defaultValue">The default value</param>
+    /// <returns>The value associated with the key. If the registry does not contain this key or the key is null, returns defaultValue</returns>
+    public T GetD(K key, T defaultValue) { lock (locker) { if (key == null || !list.TryGetValue(key, out T t)) return defaultValue; return t; } }
 
     /// <summary>Strictly retrieves the value associated with a key</summary>
     /// <param name="key">The identifier key to check</param>
@@ -50,9 +64,17 @@ namespace Primrose.Primitives.Factories
     /// <returns></returns>
     public K[] GetKeys() { lock (locker) return list.Keys.ToArray(); }
 
+    /// <summary>Enumerates through the keys in the registry</summary>
+    /// <returns></returns>
+    public Dictionary<K,T>.KeyCollection EnumerateKeys() { return list.Keys; }
+
     /// <summary>Retrives an array of all the values in the registry</summary>
     /// <returns></returns>
     public T[] GetValues() { lock (locker) return list.Values.ToArray(); }
+
+    /// <summary>Enumerates through the values in the registry</summary>
+    /// <returns></returns>
+    public Dictionary<K, T>.ValueCollection EnumerateValues() { return list.Values; }
 
     /// <summary>Adds an object into the registry</summary>
     /// <param name="key">The identifier key to add</param>
@@ -70,6 +92,18 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Purges all data from the registry</summary>
     public virtual void Clear() { lock (locker) list.Clear(); }
+
+    /// <summary>Retrieves the enumerator for the registry</summary>
+    public IEnumerator<KeyValuePair<K, T>> GetEnumerator()
+    {
+      return list.GetEnumerator();
+    }
+
+    /// <summary>Retrieves the enumerator for the registry</summary>
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return list.GetEnumerator();
+    }
 
     /// <summary>The number of elements in this registry</summary>
     public int Count { get { lock (locker) return list.Count; } }

@@ -39,6 +39,7 @@ namespace Primrose.Primitives.Parsers
       _fromStr.Add(typeof(int2), (s, r) => Rules.ToInt2(s, r));
       _fromStr.Add(typeof(int3), (s, r) => Rules.ToInt3(s, r));
       _fromStr.Add(typeof(int4), (s, r) => Rules.ToInt4(s, r));
+      _fromStr.Add(typeof(intRect), (s, r) => Rules.ToIntRect(s, r));
       _fromStr.Add(typeof(uint), (s, r) => Rules.ToUInt(s, r));
       _fromStr.Add(typeof(uint2), (s, r) => Rules.ToUInt2(s, r));
       _fromStr.Add(typeof(uint3), (s, r) => Rules.ToUInt3(s, r));
@@ -74,6 +75,7 @@ namespace Primrose.Primitives.Parsers
       _toStr.Add(typeof(int2), (o) => Rules.VecNToStr((int2)o));
       _toStr.Add(typeof(int3), (o) => Rules.VecNToStr((int3)o));
       _toStr.Add(typeof(int4), (o) => Rules.VecNToStr((int4)o));
+      _toStr.Add(typeof(intRect), (o) => Rules.VecNToStr((intRect)o));
       _toStr.Add(typeof(uint), Rules.ToStrGeneric);
       _toStr.Add(typeof(uint2), (o) => Rules.VecNToStr((uint2)o));
       _toStr.Add(typeof(uint3), (o) => Rules.VecNToStr((uint3)o));
@@ -104,6 +106,7 @@ namespace Primrose.Primitives.Parsers
       _tokens.Add(typeof(int2), 2);
       _tokens.Add(typeof(int3), 3);
       _tokens.Add(typeof(int4), 4);
+      _tokens.Add(typeof(intRect), 4);
       _tokens.Add(typeof(uint2), 2);
       _tokens.Add(typeof(uint3), 3);
       _tokens.Add(typeof(uint4), 4);

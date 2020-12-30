@@ -19,7 +19,6 @@ namespace Primrose.Expressions.Tree.Expressions
       while (lexer.TokenType == TokenEnum.PIPEPIPE // ||
         )
       {
-        TokenEnum _type = lexer.TokenType;
         lexer.Next(); //PIPEPIPE
         _set.Add(GetNext(scope, lexer));
       }

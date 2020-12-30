@@ -43,6 +43,7 @@ namespace Primrose.FileFormat.INI
           if (line != null)
           {
             // Format: [HEADER] : inheritHeader, inheritHeader, inheritHeader, ...      ; or #COMMENT
+            // Permitted to have non-comment characters inside HEADER
             int compos = -1;
             foreach (string cdelim in src.Attributes.CommentDelimiters)
             {
@@ -52,6 +53,16 @@ namespace Primrose.FileFormat.INI
 
             if (compos > -1)
               line = line.Substring(0, compos);
+
+            int startpos = line.IndexOf('[');
+            int endpos = line.IndexOf(']');
+            if (startpos > -1 && endpos > -1 && startpos < endpos)
+            {
+              Header = line.Substring(startpos + 1, endpos - startpos - 1);
+              line = line.Substring(0, endpos);
+            }
+            else
+              Header = "";
 
             int inhpos = line.IndexOf(src.Attributes.SectionInheritanceDelimiter);
             if (inhpos > -1)
@@ -68,15 +79,6 @@ namespace Primrose.FileFormat.INI
                 line = line.Substring(0, inhpos);
               }
             }
-
-            int startpos = line.IndexOf('[');
-            int endpos = line.IndexOf(']');
-            if (startpos > -1 && endpos > -1 && startpos < endpos)
-            {
-              Header = line.Substring(startpos + 1, endpos - startpos - 1);
-            }
-            else
-              Header = "";
           }
         }
 

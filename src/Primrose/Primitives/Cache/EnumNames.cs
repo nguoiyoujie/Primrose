@@ -32,7 +32,7 @@ namespace Primrose.Primitives
     /// </summary>
     /// <param name="key">The enum value</param>
     /// <returns>The cached ToString() result</returns>
-    public static string Get(T key) { string s = null; _dict.TryGetValue(key, out s); return s; }
+    public static string Get(T key) { _dict.TryGetValue(key, out string s); return s; }
   }
 
   /// <summary>

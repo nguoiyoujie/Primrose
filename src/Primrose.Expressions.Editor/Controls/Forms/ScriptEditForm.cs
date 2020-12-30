@@ -233,11 +233,11 @@ namespace Primrose.Expressions.Editor.Controls.Forms
           }
           catch (Exception ex)
           {
-            continue;
-
             // silently ignore, since we are only interested in the type names and not actually performing loading
-            //MessageBox.Show("Error loading reference assembly '{0}'!\n\n{1}".F(refasmname.FullName, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Error loading reference assembly '{0}'!\n\n{1}".F(refasmname.FullName, ex.Message), Globals.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             //return;
+
+            continue;
           }
           GetEligibleTypesFromAssembly(refasm, eligible_types, processed);
         }

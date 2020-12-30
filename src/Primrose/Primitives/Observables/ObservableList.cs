@@ -67,7 +67,7 @@ namespace Primrose.Primitives.Observables
       {
         TList old = _list;
         _list = value;
-        if ((_list == null && old != null) || !(_list != null && _list.Equals(old)))
+        if ((_list == null && old != null) || !(_list != null && EqualityComparer<TList>.Default.Equals(_list, old)))
           _listChanged.Invoke(value, old);
       }
     }

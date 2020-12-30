@@ -5,8 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A int2 pair value</summary>
-  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
-  public struct int2
+  public struct int2 : IEquatable<int2>
   {
     /// <summary>The x or [0] value</summary>
     public int x;
@@ -147,6 +146,13 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Performs a multiplication operation between a int2 value and a int multiplier</summary>
     /// <param name="a"></param><param name="m"></param><returns></returns>
+    public static int2 operator *(int m, int2 a)
+    {
+      return a * m;
+    }
+
+    /// <summary>Performs a multiplication operation between a int2 value and a int multiplier</summary>
+    /// <param name="a"></param><param name="m"></param><returns></returns>
     public static int2 operator *(int2 a, int m)
     {
       return new int2(a.x * m, a.y * m);
@@ -173,6 +179,13 @@ namespace Primrose.Primitives.ValueTypes
       return obj is int2 fobj && x == fobj.x && y == fobj.y;
     }
 
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="other">The object to compare for equality</param>
+    public bool Equals(int2 other)
+    {
+      return x == other.x && y == other.y;
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -185,13 +198,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Determines if two int2 values are equal</summary>
     public static bool operator ==(int2 a, int2 b)
     {
-      return a.Equals(b);
+      return a.x == b.x && a.y == b.y;
     }
 
     /// <summary>Determines if two int2 values are not equal</summary>
     public static bool operator !=(int2 a, int2 b)
     {
-      return !a.Equals(b);
+      return a.x != b.x || a.y != b.y;
     }
 
     /// <summary>Returns a int2 value with all elements set to their default value</summary>

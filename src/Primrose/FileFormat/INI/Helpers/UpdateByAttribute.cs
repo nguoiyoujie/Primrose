@@ -147,6 +147,11 @@ namespace Primrose.FileFormat.INI
       foreach (FieldInfo fi in tt.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
       {
         Type t = fi.FieldType;
+        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIHeaderAttribute), true))
+        {
+          defaultSection = fi.GetValue(obj)?.ToString() ?? defaultSection;
+        }
+
         foreach (Attribute a in fi.GetCustomAttributes(typeof(INIEmbedObjectAttribute), true))
         {
           object fObj = fi.GetValue(obj) ?? Activator.CreateInstance(t);

@@ -4,9 +4,9 @@ namespace Primrose.Expressions
 {
   internal class ValFunc_Dynamic : IValFunc
   {
-    private readonly Func<IContext, Val[], Val> F;
+    private readonly FunctionDelegateParam F;
 
-    public ValFunc_Dynamic(Func<IContext, Val[], Val> fn) { F = fn; }
+    public ValFunc_Dynamic(FunctionDelegateParam fn) { F = fn; }
 
     public object Func { get { return F; } }
 

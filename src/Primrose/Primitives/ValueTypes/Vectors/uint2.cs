@@ -5,8 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A uint2 pair value</summary>
-  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
-  public struct uint2
+  public struct uint2 : IEquatable<uint2>
   {
     /// <summary>The x or [0] value</summary>
     public uint x;
@@ -165,6 +164,13 @@ namespace Primrose.Primitives.ValueTypes
     {
       return obj is uint2 fobj && x == fobj.x && y == fobj.y;
     }
+    
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="other">The object to compare for equality</param>
+    public bool Equals(uint2 other)
+    {
+      return x == other.x && y == other.y;
+    }
 
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
@@ -178,13 +184,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Determines if two uint2 values are equal</summary>
     public static bool operator ==(uint2 a, uint2 b)
     {
-      return a.Equals(b);
+      return a.x == b.x && a.y == b.y;
     }
 
     /// <summary>Determines if two uint2 values are not equal</summary>
     public static bool operator !=(uint2 a, uint2 b)
     {
-      return !a.Equals(b);
+      return a.x != b.x || a.y != b.y;
     }
 
     /// <summary>Returns a uint2 value with all elements set to their default value</summary>

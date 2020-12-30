@@ -1,4 +1,6 @@
-﻿namespace Primrose.Primitives.Observables
+﻿using System.Collections.Generic;
+
+namespace Primrose.Primitives.Observables
 {
   /// <summary>
   /// A delegate representing a change in value
@@ -14,7 +16,7 @@
 
     internal void Invoke(T newV, T oldV)
     {
-      if ((newV == null && oldV != null) || !(newV != null && newV.Equals(oldV)))
+      if ((newV == null && oldV != null) || !(newV != null && EqualityComparer<T>.Default.Equals(newV, oldV)))
         Ev?.Invoke(newV, oldV);
     }
   }

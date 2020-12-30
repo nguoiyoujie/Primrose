@@ -30,19 +30,26 @@ namespace Primrose.Primitives.Pipelines
     public int Run()
     {
       int x = 0;
-      T pobj = default;
-      while (++x < MaxExecutionsPerRun && pipe.TryDequeue(out pobj))
+      if (pipe.Count == 0) { return x; }
+      OnStartCycle();
+      while (++x < MaxExecutionsPerRun && pipe.TryDequeue(out T pobj))
       {
         pobj.Execute();
       }
+      OnEndCycle();
       return x;
     }
+
+    /// <summary>The method executed just before the start of each execution cycle</summary>
+    protected virtual void OnStartCycle() { }
+
+    /// <summary>The method executed just after the end of each execution cycle</summary>
+    protected virtual void OnEndCycle() { }
 
     /// <summary>Clears the queue without execution</summary>
     public void Clear()
     {
-      T pobj = default;
-      while (pipe.TryDequeue(out pobj)) { }
+      while (pipe.TryDequeue(out _)) { }
     }
   }
 

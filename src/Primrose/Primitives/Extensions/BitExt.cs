@@ -5,6 +5,29 @@
   /// </summary>
   public static class BitExts
   {
+    /// <summary>Determines if a value as a bit set at a given bit position</summary>
+    /// <param name="value"></param>
+    /// <param name="bit_position"></param>
+    public static bool IsBitSet(this int value, int bit_position)
+    {
+      return (value & (1 << bit_position)) != 0;
+    }
+
+    /// <summary>Sets or resets a given bit position</summary>
+    /// <param name="value"></param>
+    /// <param name="bit_position"></param>
+    /// <param name="bit_value"></param>
+    public static int SetBit(this ref int value, int bit_position, bool bit_value)
+    {
+      int cmp = 1 << bit_position;
+      if (bit_value)
+        value |= cmp;
+      else
+        value &= ~cmp;
+
+      return value;
+    }
+
     /// <summary>Retrieves the most significant bit of a value</summary>
     /// <param name="value"></param>
     /// <returns></returns>

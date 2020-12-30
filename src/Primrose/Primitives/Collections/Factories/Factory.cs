@@ -14,8 +14,10 @@
     /// <returns></returns>
     public T Create(K id)
     {
-      T ret = new T();
-      ret.ID = id;
+      T ret = new T
+      {
+        ID = id
+      };
       Add(id, ret);
       return ret;
     }

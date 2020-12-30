@@ -1,5 +1,7 @@
 ﻿
 
+using System.Collections.Generic;
+
 namespace Primrose.Primitives.Observables
 {
   /// <summary>
@@ -28,7 +30,7 @@ namespace Primrose.Primitives.Observables
       {
         T old = _val;
         _val = value;
-        if ((_val == null && old != null) || !(_val != null && _val.Equals(old)))
+        if ((_val == null && old != null) || !(_val != null && EqualityComparer<T>.Default.Equals(_val, old)))
           _valueChanged.Invoke(value, old);
       }
     }

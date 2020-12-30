@@ -7,7 +7,7 @@ namespace Primrose.Expressions.Tree.Expressions
     private readonly ContextScope _scope;
     public string varName { get; protected set; }
 
-    internal Variable(ContextScope scope, Lexer lexer, int skip) : base(scope, lexer) { }
+    internal Variable(ContextScope scope, Lexer lexer, int level) : base(scope, lexer) { }
 
     internal Variable(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

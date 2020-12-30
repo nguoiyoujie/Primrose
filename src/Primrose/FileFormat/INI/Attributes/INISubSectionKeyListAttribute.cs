@@ -123,7 +123,6 @@ namespace Primrose.FileFormat.INI
         return;
 
       string s = INIAttributeExt.GetSection(Section, defaultSection ?? fieldName);
-      string k = SubsectionPrefix ?? fieldName;
       string[] keys = new string[value.Length];
       for (int i = 0; i < value.Length; i++)
       {
@@ -131,7 +130,11 @@ namespace Primrose.FileFormat.INI
         keys[i] = fieldName + i.ToString();
         f.UpdateByAttribute(ref o, keys[i]);
       }
-      f.SetValue(s, k, Parser.Write(keys));
+
+      INIKeyListAttribute kattr = new INIKeyListAttribute(s, ValueSource, Required);
+      kattr.Write(typeof(string[]), f, keys, s);
+
+      //f.SetValue(s, k, Parser.Write(keys));
     }
   }
 }

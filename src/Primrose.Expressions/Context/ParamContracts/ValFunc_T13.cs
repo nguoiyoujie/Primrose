@@ -4,8 +4,8 @@ namespace Primrose.Expressions
 {
   internal class ValFunc< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> : IValFunc
   {
-    private readonly Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, Val> F;
-    public ValFunc(Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, Val> fn) { F = fn; }
+    private readonly FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> F;
+    public ValFunc(FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> fn) { F = fn; }
 
     public object Func { get { return F; } }
 

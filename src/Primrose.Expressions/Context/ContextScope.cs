@@ -47,8 +47,7 @@ namespace Primrose.Expressions
     /// <exception cref="InvalidOperationException">Attempted to get the value from an undeclared variable</exception>
     public Val GetVar(ITracker eval, string name)
     {
-      Val ret;
-      if (!m_variables.TryGetValue(name, out ret))
+      if (!m_variables.TryGetValue(name, out Val ret))
         if (Parent != null)
           return Parent.GetVar(eval, name);
         else
@@ -87,83 +86,6 @@ namespace Primrose.Expressions
       {
         throw new InvalidOperationException(Resource.Strings.Error_EvalException_InvalidVariableAssignment.F(t, name, ex.Message));
       }
-
-      /*
-      if (t == val.Type)
-        m_variables[name] = val;
-
-      // float can accept int
-      else if (t == ValType.FLOAT && val.Type == ValType.INT)
-        m_variables[name] = new Val((float)val);
-
-      // int can accept float
-      else if (t == ValType.INT && val.Type == ValType.FLOAT)
-        m_variables[name] = new Val((int)val);
-
-      // float2/3/4 can accept float_array/int_array of same or smaller length
-      else if (t == ValType.FLOAT2 && val.Type == ValType.FLOAT_ARRAY)
-      {
-        float[] fv = (float[])val;
-        int len = fv.Length;
-        if (len == 2)
-          m_variables[name] = new Val(float2.FromArray(fv));
-        else
-          throw new InvalidOperationException("Attempted assignment of an array of length {0} to variable '{1} {2}'".F(len, t, name));
-      }
-
-      else if (t == ValType.FLOAT3 && val.Type == ValType.FLOAT_ARRAY)
-      {
-        float[] fv = (float[])val;
-        int len = fv.Length;
-        if (len == 3)
-          m_variables[name] = new Val(float3.FromArray(fv));
-        else
-          throw new InvalidOperationException("Attempted assignment of an array of length {0} to variable '{1} {2}'".F(len, t, name));
-      }
-
-      else if (t == ValType.FLOAT4 && val.Type == ValType.FLOAT_ARRAY)
-      {
-        float[] fv = (float[])val;
-        int len = fv.Length;
-        if (len == 4)
-          m_variables[name] = new Val(float4.FromArray(fv));
-        else
-          throw new InvalidOperationException("Attempted assignment of an array of length {0} to variable '{1} {2}'".F(len, t, name));
-      }
-
-      else if (t == ValType.FLOAT2 && val.Type == ValType.INT_ARRAY)
-      {
-        int[] fv = (int[])val;
-        int len = fv.Length;
-        if (len == 2)
-          m_variables[name] = new Val(float2.FromArray(fv));
-        else
-          throw new InvalidOperationException("Attempted assignment of an array of length {0} to variable '{1} {2}'".F(len, t, name));
-      }
-
-      else if (t == ValType.FLOAT3 && val.Type == ValType.INT_ARRAY)
-      {
-        int[] fv = (int[])val;
-        int len = fv.Length;
-        if (len == 3)
-          m_variables[name] = new Val(float3.FromArray(fv));
-        else
-          throw new InvalidOperationException("Attempted assignment of an array of length {0} to variable '{1} {2}'".F(len, t, name));
-      }
-
-      else if (t == ValType.FLOAT4 && val.Type == ValType.INT_ARRAY)
-      {
-        int[] fv = (int[])val;
-        int len = fv.Length;
-        if (len == 4)
-          m_variables[name] = new Val(float4.FromArray(fv));
-        else
-          throw new InvalidOperationException("Attempted assignment of an array of length {0} to variable '{1} {2}'".F(len, t, name));
-      }
-
-      else
-        throw new InvalidOperationException("Attempted assignment of value of type '{0}' to variable '{1} {2}'".F(val.Type, name, t));
-      */
     }
   }
 }

@@ -19,7 +19,7 @@ namespace Primrose.UnitTests.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -90,10 +90,24 @@ namespace Primrose.UnitTests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [TestSubsectionList]
+        ///   Looks up a localized string similar to INNER=InnerA,InnerB,InnerC,InnerD ; for null section
+        ///
+        ///[TestSubsectionList]
         ///INNER=InnerA,InnerB,InnerC,InnerD
         ///
         ///[TestSubsectionKeyList]
+        ///InnerA
+        ///InnerB
+        ///InnerC
+        ///InnerD
+        ///
+        ///[TestSubSectionRegistryStruct]
+        ///1=InnerA
+        ///2=InnerB
+        ///3=InnerC
+        ///4=InnerD
+        ///
+        ///[INNER]
         ///InnerA
         ///InnerB
         ///InnerC

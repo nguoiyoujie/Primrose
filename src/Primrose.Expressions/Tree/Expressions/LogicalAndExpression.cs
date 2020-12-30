@@ -19,7 +19,6 @@ namespace Primrose.Expressions.Tree.Expressions
       while (lexer.TokenType == TokenEnum.AMPAMP // &&
         )
       {
-        TokenEnum _type = lexer.TokenType;
         lexer.Next(); //AMPAMP
         _set.Add(GetNext(scope, lexer));
       }

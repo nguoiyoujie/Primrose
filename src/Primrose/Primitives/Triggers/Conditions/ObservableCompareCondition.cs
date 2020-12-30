@@ -31,9 +31,9 @@ namespace Primrose.Primitives.Triggers
         switch (Type)
         {
           case MatchType.EQUALS:
-            return (val == null && referenceValue == null) || val.Equals(referenceValue);
+            return (val == null && referenceValue == null) || EqualityComparer<T>.Default.Equals(val, referenceValue);
           case MatchType.NOT_EQUALS:
-            return (val == null && referenceValue != null) || !val.Equals(referenceValue);
+            return (val == null && referenceValue != null) || !EqualityComparer<T>.Default.Equals(val, referenceValue);
           case MatchType.SAME_TYPE:
             return val.GetType() == referenceValue.GetType();
         }

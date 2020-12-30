@@ -1,5 +1,7 @@
 ﻿using Primrose.Primitives.Extensions;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Primrose.Primitives.Factories
 {
@@ -29,6 +31,9 @@ namespace Primrose.Primitives.Factories
     /// <param name="key">The identifier key to check</param>
     /// <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
     T Get(K key);
+
+    /// <summary>Retrieves the underlying dictionary</summary>
+    IDictionary<K, T> GetUnderlyingDictionary();
 
     /// <summary>Adds an object into the registry</summary>
     /// <param name="key">The identifier key to add</param>

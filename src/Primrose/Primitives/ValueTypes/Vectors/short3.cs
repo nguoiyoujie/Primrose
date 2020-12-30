@@ -5,8 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A short3 triple value</summary>
-  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
-  public struct short3
+  public struct short3 : IEquatable<short3>
   {
     /// <summary>The x or [0] value</summary>
     public short x;
@@ -125,6 +124,13 @@ namespace Primrose.Primitives.ValueTypes
       return obj is short3 fobj && x == fobj.x && y == fobj.y && z == fobj.z;
     }
 
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="other">The object to compare for equality</param>
+    public bool Equals(short3 other)
+    {
+      return x == other.x && y == other.y && z == other.z;
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -138,13 +144,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Determines if two short3 values are equal</summary>
     public static bool operator ==(short3 a, short3 b)
     {
-      return a.Equals(b);
+      return a.x == b.x && a.y == b.y && a.z == b.z;
     }
 
     /// <summary>Determines if two short3 values are not equal</summary>
     public static bool operator !=(short3 a, short3 b)
     {
-      return !a.Equals(b);
+      return a.x != b.x || a.y != b.y || a.z != b.z;
     }
 
     /// <summary>Returns a short3 value with all elements set to their default value</summary>

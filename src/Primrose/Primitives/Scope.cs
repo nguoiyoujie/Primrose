@@ -54,8 +54,7 @@ namespace Primrose.Primitives
 
       internal static int Check(T item)
       {
-        int ret;
-        _counter.TryGetValue(item, out ret);
+        _counter.TryGetValue(item, out int ret);
         return ret;
       }
 
@@ -63,8 +62,7 @@ namespace Primrose.Primitives
       {
         Value = item;
 
-        int i;
-        _counter.TryGetValue(item, out i);
+        _counter.TryGetValue(item, out int i);
         i++;
         _counter[item] = i;
       }
@@ -73,8 +71,7 @@ namespace Primrose.Primitives
       {
         if (Value != null)
         {
-          int i;
-          _counter.TryGetValue(Value, out i);
+          _counter.TryGetValue(Value, out int i);
           i--;
           _counter[Value] = i;
           Value = null;

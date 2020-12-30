@@ -31,6 +31,30 @@ namespace Primrose.Primitives.Extensions
       return start;
     }
 
+    /// <summary>
+    /// Performs a binary search 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="U"></typeparam>
+    /// <param name="list"></param>
+    /// <param name="target"></param>
+    /// <param name="comparer"></param>
+    /// <returns></returns>
+    public static int BinarySearch<T, U>(this List<T> list, U target, Func<T, U, int> comparer)
+    {
+      int start = 0;
+      int end = list.Count;
+      while (start != end)
+      {
+        int mid = (start + end) / 2;
+        if (comparer(list[mid], target) < 0)
+          start = mid + 1;
+        else
+          end = mid;
+      }
+      return start;
+    }
+
     /// <summary>Retrives a random object from a list of objects</summary>
     /// <typeparam name="T">The member type</typeparam>
     /// <param name="list">The array</param>

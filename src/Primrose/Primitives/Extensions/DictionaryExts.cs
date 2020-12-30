@@ -16,7 +16,7 @@ namespace Primrose.Primitives.Extensions
     /// <param name="d"></param>
     /// <param name="k"></param>
     /// <param name="v"></param>
-    public static void Put<K, V>(this Dictionary<K, V> d, K k, V v)
+    public static void Put<K, V>(this IDictionary<K, V> d, K k, V v)
     {
       if (d.ContainsKey(k))
         d[k] = v;
@@ -32,10 +32,9 @@ namespace Primrose.Primitives.Extensions
     /// <param name="d"></param>
     /// <param name="k"></param>
     /// <returns></returns>
-    public static V GetOrDefault<K, V>(this Dictionary<K, V> d, K k)
+    public static V GetOrDefault<K, V>(this IDictionary<K, V> d, K k)
     {
-      V ret;
-      if (!d.TryGetValue(k, out ret))
+      if (!d.TryGetValue(k, out V ret))
         return default;
       return ret;
     }
@@ -48,11 +47,10 @@ namespace Primrose.Primitives.Extensions
     /// <param name="d"></param>
     /// <param name="k"></param>
     /// <returns></returns>
-    public static V GetOrAdd<K, V>(this Dictionary<K, V> d, K k)
+    public static V GetOrAdd<K, V>(this IDictionary<K, V> d, K k)
       where V : new()
     {
-      V ret;
-      if (!d.TryGetValue(k, out ret))
+      if (!d.TryGetValue(k, out V ret))
         d.Add(k, ret = new V());
       return ret;
     }
@@ -66,10 +64,9 @@ namespace Primrose.Primitives.Extensions
     /// <param name="k"></param>
     /// <param name="createFn">The function used to create the new instance of <typeparamref name="V"/></param>
     /// <returns></returns>
-    public static V GetOrAdd<K, V>(this Dictionary<K, V> d, K k, Func<K, V> createFn)
+    public static V GetOrAdd<K, V>(this IDictionary<K, V> d, K k, Func<K, V> createFn)
     {
-      V ret;
-      if (!d.TryGetValue(k, out ret))
+      if (!d.TryGetValue(k, out V ret))
         d.Add(k, ret = createFn(k));
       return ret;
     }

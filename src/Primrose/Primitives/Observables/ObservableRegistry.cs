@@ -1,4 +1,5 @@
 ﻿using Primrose.Primitives.Factories;
+using System.Collections.Generic;
 
 namespace Primrose.Primitives.Observables
 {
@@ -54,6 +55,9 @@ namespace Primrose.Primitives.Observables
         _regChanged.Invoke(value, old);
       }
     }
+
+    /// <summary>Retrieves the underlying dictionary</summary>
+    public IDictionary<K, V> GetUnderlyingDictionary() { return _reg.GetUnderlyingDictionary(); }
 
     /// <summary>Gets or sets an element in the list, accessed by an index</summary>
     public V this[K id] { get { return Get(id); } set { Put(id, value); } }

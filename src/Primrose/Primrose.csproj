@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Primrose</RootNamespace>
     <AssemblyName>Primrose</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -58,12 +58,37 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\build\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Build.cs" />
+    <Compile Include="Diagnostics\PerformanceMonitor.cs" />
     <Compile Include="FileFormat\Common\IFile.cs" />
     <Compile Include="FileFormat\INI\Attributes\INISubSectionRegistryAttribute.cs" />
     <Compile Include="FileFormat\INI\Enums\ValueSource.cs" />
@@ -73,6 +98,8 @@
     <Compile Include="Primitives\Cache\Cache.cs" />
     <Compile Include="Primitives\Cache\EnumNames.cs" />
     <Compile Include="Primitives\Collections\CircularQueue.cs" />
+    <Compile Include="Primitives\Collections\Factories\SortedRegistry_KT.cs" />
+    <Compile Include="Primitives\Collections\Factories\WeakReferenceRegistry_KT.cs" />
     <Compile Include="Primitives\Collections\ThreadSafeDictionary.cs" />
     <Compile Include="Primitives\Collections\ThreadSafeList.cs" />
     <Compile Include="Primitives\Exceptions\ExceededCapacityException.cs" />
@@ -151,6 +178,7 @@
     <Compile Include="Primitives\Triggers\Conditions\ACondition.cs" />
     <Compile Include="Primitives\Triggers\Events.cs" />
     <Compile Include="Primitives\Triggers\Trigger.cs" />
+    <Compile Include="Primitives\ValueTypes\Vectors\intRect.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\sbyte2.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\sbyte3.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\sbyte4.cs" />

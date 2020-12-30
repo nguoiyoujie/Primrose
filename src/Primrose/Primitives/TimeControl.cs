@@ -13,13 +13,17 @@ namespace Primrose.Primitives
     private int _FPScounter;
     private float _addTime;
     private float _FPScountTime;
-    private readonly object waitlock = new object();
     private readonly Stopwatch stopwatch = Stopwatch.StartNew();
 
     /// <summary>
     /// Initializes a time control
     /// </summary>
     public TimeControl() { TargetFPS = 60; }
+
+    /// <summary>
+    /// Initializes a time control
+    /// </summary>
+    public TimeControl(uint targetFPS) { TargetFPS = targetFPS; }
 
     /// <summary>Defines the minimum desirable FPS for throttling purposes</summary>
     public uint MinimumFPS { get; set; } = 15;

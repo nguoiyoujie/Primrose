@@ -5,8 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A int3 triple value</summary>
-  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
-  public struct int3
+  public struct int3 : IEquatable<int3>
   {
     /// <summary>The x or [0] value</summary>
     public int x;
@@ -153,6 +152,13 @@ namespace Primrose.Primitives.ValueTypes
       return new int3(a.x / b.x, a.y / b.y, a.z / b.z);
     }
 
+    /// <summary>Performs a multiplication operation between a int2 value and a int multiplier</summary>
+    /// <param name="a"></param><param name="m"></param><returns></returns>
+    public static int3 operator *(int m, int3 a)
+    {
+      return a * m;
+    }
+
     /// <summary>Performs a multiplication operation between a int3 value and a int multiplier</summary>
     /// <param name="a"></param><param name="m"></param><returns></returns>
     public static int3 operator *(int3 a, int m)
@@ -181,6 +187,13 @@ namespace Primrose.Primitives.ValueTypes
       return obj is int3 fobj && x == fobj.x && y == fobj.y && z == fobj.z;
     }
 
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="other">The object to compare for equality</param>
+    public bool Equals(int3 other)
+    {
+      return x == other.x && y == other.y && z == other.z;
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -194,13 +207,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Determines if two int3 values are equal</summary>
     public static bool operator ==(int3 a, int3 b)
     {
-      return a.Equals(b);
+      return a.x == b.x && a.y == b.y && a.z == b.z;
     }
 
     /// <summary>Determines if two int3 values are not equal</summary>
     public static bool operator !=(int3 a, int3 b)
     {
-      return !a.Equals(b);
+      return a.x != b.x || a.y != b.y || a.z != b.z;
     }
 
     /// <summary>Returns a int3 value with all elements set to their default value</summary>

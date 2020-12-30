@@ -5,7 +5,6 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A byte2 pair value</summary>
-  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
   public struct byte2
   {
     /// <summary>The x or [0] value</summary>
@@ -116,6 +115,13 @@ namespace Primrose.Primitives.ValueTypes
       return obj is byte2 fobj && x == fobj.x && y == fobj.y;
     }
 
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="other">The object to compare for equality</param>
+    public bool Equals(byte2 other)
+    {
+      return x == other.x && y == other.y;
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -128,13 +134,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Determines if two byte2 values are equal</summary>
     public static bool operator ==(byte2 a, byte2 b)
     {
-      return a.Equals(b);
+      return a.x == b.x && a.y == b.y;
     }
 
     /// <summary>Determines if two byte2 values are not equal</summary>
     public static bool operator !=(byte2 a, byte2 b)
     {
-      return !a.Equals(b);
+      return a.x != b.x || a.y != b.y;
     }
 
     /// <summary>Returns a byte2 value with all elements set to their default value</summary>

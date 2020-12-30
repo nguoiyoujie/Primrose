@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Primrose.Primitives.Extensions
 {
@@ -33,6 +35,43 @@ namespace Primrose.Primitives.Extensions
         if (value?.Equals(t) ?? t == null)
           return true;
       return false;
+    }
+
+    /// <summary>Determines if two arrays contains the same elements, not necessarily in order</summary>
+    /// <typeparam name="T">The member type</typeparam>
+    /// <param name="array">The array</param>
+    /// <param name="other">The second array to compare</param>
+    /// <returns>True if the two arrays contains the same elements, false otherwise</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+    public static bool ContainsSameElements<T>(this T[] array, T[] other)
+    {
+      if (array == null) { throw new ArgumentNullException(nameof(array)); }
+      if (other == null || other.Length != array.Length) { return false; }
+
+      var cnt = new Dictionary<T, int>();
+      foreach (T s in array)
+      {
+        if (cnt.ContainsKey(s))
+        {
+          cnt[s]++;
+        }
+        else
+        {
+          cnt.Add(s, 1);
+        }
+      }
+      foreach (T s in other)
+      {
+        if (cnt.ContainsKey(s))
+        {
+          cnt[s]--;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      return cnt.Values.All(c => c == 0);
     }
 
     /// <summary>Performs an element-wise conversion of an array to an array of another type</summary>

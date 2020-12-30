@@ -5,8 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A ushort4 quad value</summary>
-  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
-  public struct ushort4
+  public struct ushort4 : IEquatable<ushort4>
   {
     /// <summary>The x or [0] value</summary>
     public ushort x;
@@ -134,6 +133,13 @@ namespace Primrose.Primitives.ValueTypes
       return obj is ushort4 fobj && x == fobj.x && y == fobj.y && z == fobj.z && w == fobj.w;
     }
 
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="other">The object to compare for equality</param>
+    public bool Equals(ushort4 other)
+    {
+      return x == other.x && y == other.y && z == other.z && w == other.w;
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -148,13 +154,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Determines if two ushort4 values are equal</summary>
     public static bool operator ==(ushort4 a, ushort4 b)
     {
-      return a.Equals(b);
+      return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
     }
 
     /// <summary>Determines if two ushort4 values are not equal</summary>
     public static bool operator !=(ushort4 a, ushort4 b)
     {
-      return !a.Equals(b);
+      return a.x != b.x || a.y != b.y || a.z != b.z || a.w != b.w;
     }
 
     /// <summary>Returns a ushort4 value with all elements set to their default value</summary>

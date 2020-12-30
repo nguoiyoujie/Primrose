@@ -100,8 +100,25 @@ namespace Primrose.FileFormat.INI
         throw new InvalidOperationException(Resource.Strings.Error_INIKeyListInvalidType.F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
+      int count = 0;
       foreach (string v in value)
-        f.SetEmptyKey(s, v);
+        SetValue(ValueSource, f, count++, s, v);
+    }
+
+    private void SetValue(ValueSource vSrc, INIFile f, int count, string s, string v)
+    {
+      switch (vSrc)
+      {
+        default:
+        case ValueSource.VALUE_OR_KEY:
+        case ValueSource.KEY_ONLY:
+          f.SetEmptyKey(s, v);
+          break;
+
+        case ValueSource.VALUE_ONLY:
+          f.SetString(s, count.ToString(), v);
+          break;
+      }
     }
   }
 }

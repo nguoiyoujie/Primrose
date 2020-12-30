@@ -102,5 +102,32 @@ namespace Primrose.Primitives.Extensions
         ? value2
         : value1;
     }
+
+    /// <summary>
+    /// Determines if a value is between two values
+    /// </summary>
+    /// <param name="value">The value to check</param>
+    /// <param name="min">The inclusive lower bound</param>
+    /// <param name="max">The inclusive upper bound</param>
+    /// <returns>True if the value is within the bounds of the two values, False otherwise</returns>
+    public static bool Within<T>(this T value, T min, T max) where T : struct, IComparable<T>
+    {
+      return (value.CompareTo(min) >= 0 && value.CompareTo(max) <= 0);
+    }
+
+    /// <summary>
+    /// Determines if a value is between two values, as determined by a comparer
+    /// </summary>
+    /// <param name="value">The value to check</param>
+    /// <param name="min">The inclusive lower bound</param>
+    /// <param name="max">The inclusive upper bound</param>
+    /// <param name="comparer">The comparer object used to compare the values</param>
+    /// <returns>True if the value is within the bounds of the two values, False otherwise</returns>
+    public static bool Within<T>(this T value, T min, T max, IComparer<T> comparer) where T : struct, IComparable<T>
+    {
+      if (comparer == null) { throw new ArgumentNullException(nameof(comparer)); }
+
+      return (comparer.Compare(value, min) >= 0 && comparer.Compare(value, max) <= 0);
+    }
   }
 }

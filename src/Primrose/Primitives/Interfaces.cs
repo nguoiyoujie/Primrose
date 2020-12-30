@@ -6,6 +6,15 @@
   public interface IIdentity
   {
     /// <summary>The instance ID</summary>
-    short ID { get; }
+    int ID { get; }
+  }
+
+  /// <summary>
+  /// Implements an ID object
+  /// </summary>
+  public interface IIdentity<T>
+  {
+    /// <summary>The instance ID</summary>
+    T ID { get; }
   }
 }

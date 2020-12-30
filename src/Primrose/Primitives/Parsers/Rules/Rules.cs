@@ -232,6 +232,16 @@ namespace Primrose.Primitives.Parsers
         throw new RuleConversionException(typeof(int4), value);
       }
 
+      /// <summary>Parses a string to an intRect value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static intRect ToIntRect(string value, IResolver resolver)
+      {
+        if (value != null && intRect.TryParse(value, out intRect ret, resolver, default))
+          return ret;
+        throw new RuleConversionException(typeof(intRect), value);
+      }
+
       /// <summary>Parses a string to an uint value</summary>
       /// <param name="value">The string to be parsed</param>
       /// <param name="resolver">A string resolver function</param>

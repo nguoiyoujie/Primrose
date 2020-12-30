@@ -56,9 +56,9 @@ namespace Primrose.Expressions
 
       while (!reader.EndOfStream)
       {
-        string line = reader.ReadLine(); //.Trim();
+        string line = reader.ReadLine();
 
-        if (line.EndsWith(":"))
+        if (line.Trim().EndsWith(":"))
         {
           if (script != null)
           {

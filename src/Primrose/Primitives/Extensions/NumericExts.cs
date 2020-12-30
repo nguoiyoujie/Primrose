@@ -20,6 +20,19 @@
     }
 
     /// <summary>
+    /// Returns a value linearly interpolated towards a target
+    /// </summary>
+    /// <param name="value">The starting value</param>
+    /// <param name="target">The target value</param>
+    /// <param name="frac">The fraction to be interpolated towards the target point</param>
+    /// <returns></returns>
+    public static float Lerp(this float value, float target, float frac)
+    {
+      return value + (target - value) * frac;
+    }
+
+
+    /// <summary>
     /// Returns the result of (value % (max - min)), scaled so that lies between min and max
     /// </summary>
     /// <param name="value">The input value</param>

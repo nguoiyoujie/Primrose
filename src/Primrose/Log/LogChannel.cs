@@ -1,4 +1,5 @@
 ﻿using Primrose.Primitives.Extensions;
+using Primrose.Primitives.Factories;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,7 +12,9 @@ namespace Primrose
   internal class LogChannel
   {
     public TextWriter Writer { get; private set; }
+    public string TimeFormat = "s";
     public LogLevel Levels = LogLevel.ALL;
+    public readonly Registry<Action<string>, LogLevel> CallbackList = new Registry<Action<string>, LogLevel>();
     private readonly Timer _logTimer = new Timer();
     private readonly ConcurrentQueue<LogItem> _queue = new ConcurrentQueue<LogItem>();
 
@@ -31,6 +34,12 @@ namespace Primrose
       _logTimer.Interval = 100;
       _logTimer.AutoReset = false;
       _logTimer.Elapsed += (o, e) => DoWrite();
+    }
+
+    public void Close()
+    {
+      CallbackList.Clear();
+      SetWriter(TextWriter.Null);
     }
 
     public void SetWriter(TextWriter writer)
@@ -91,19 +100,60 @@ namespace Primrose
 
     public void Fatal(Exception ex) { CheckAndEnqueue(LogLevel.FATAL, ex); }
 
+    public void DoCallback(LogItem item)
+    {
+      string stime = item.Time.ToString(TimeFormat);
+      string slevel = "{0,-8}".F(item.Level);
+      string message = "";
+
+      if (item.Message != null)
+      {
+        message = stime + "\t" + slevel + "\t" + item.Message;
+      }
+
+      if (item.Exception != null)
+      {
+        string sblank = new string(' ', stime.Length) + "\t" + new string(' ', slevel.Length) + "\t";
+
+        message = stime + "\t" + slevel + "\t" + "An exception has been encountered.";
+        message += "\n" + sblank + "Message: " + item.Exception.Message;
+        message += "\n" + sblank + "StackTrace: ";
+
+        sblank += "           ";
+        StackTrace st = new StackTrace(item.Exception, true);
+        for (int i = 0; i < st.FrameCount; i++)
+        {
+          StackFrame sf = st.GetFrame(i);
+          message += "\n" + sblank + "{0} ({1}, line {2})".F(sf.GetMethod(), Path.GetFileName(sf.GetFileName()), sf.GetFileLineNumber());
+        }
+      }
+      
+      foreach (Action<string> action in CallbackList.EnumerateKeys())
+      {
+        if ((CallbackList[action] | item.Level) != 0)
+        {
+          action.Invoke(message);
+        }
+      }
+    }
+
     private void CheckAndEnqueue(LogLevel level, string message)
     {
-      if ((Levels | level) != 0)
+      if ((Levels & level) != 0)
       {
-        Enqueue(new LogItem(level, message, null)); 
+        LogItem item = new LogItem(level, message, null);
+        Enqueue(item);
+        DoCallback(item);
       }
     }
 
     private void CheckAndEnqueue(LogLevel level, Exception ex)
     {
-      if ((Levels | level) != 0)
+      if ((Levels & level) != 0)
       {
-        Enqueue(new LogItem(level, null, ex));
+        LogItem item = new LogItem(level, null, ex);
+        Enqueue(item);
+        DoCallback(item);
       }
     }
 
@@ -134,7 +184,7 @@ namespace Primrose
     {
       if (Writer != null)
       {
-        string stime = item.Time.ToString("s");
+        string stime = item.Time.ToString(TimeFormat);
         string slevel = "{0,-8}".F(item.Level);
 
 
@@ -164,7 +214,7 @@ namespace Primrose
           Writer.Write(sblank);
           Writer.WriteLine("StackTrace: ");
           sblank += "           ";
-          StackTrace st = new StackTrace(item.Exception);
+          StackTrace st = new StackTrace(item.Exception, true);
           for (int i = 0; i < st.FrameCount; i++)
           {
             StackFrame sf = st.GetFrame(i);

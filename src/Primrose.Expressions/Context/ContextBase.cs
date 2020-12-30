@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace Primrose.Expressions
 {
+  /*
   /// <summary>
   /// Defines a delegate representing a function expression
   /// </summary>
@@ -13,6 +14,8 @@ namespace Primrose.Expressions
   /// <param name="param">The input parameters to the function</param>
   /// <returns>The result of the function</returns>
   public delegate Val FunctionDelegate(ContextBase context, Val[] param);
+  */
+
 
   /// <summary>Defines a context for evaluating scripts</summary>
   public class ContextBase : IContext
@@ -89,25 +92,25 @@ namespace Primrose.Expressions
     /// <summary>Adds a function that accepts a dynamic number of parameters to the context</summary>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddDynamicFunc(string name, Func<IContext, Val[], Val> fn) { ValFuncs.Add(new Pair<string, int>(name, -1), new ValFunc_Dynamic(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddDynamicFunc(string name, FunctionDelegateParam fn) { ValFuncs.Add(new Pair<string, int>(name, -1), new ValFunc_Dynamic(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a function to the context</summary>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc(string name, Func<IContext, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 0), new ValFunc(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc(string name, FunctionDelegate fn) { ValFuncs.Add(new Pair<string, int>(name, 0), new ValFunc(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1>(string name, Func<IContext, T1, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 1), new ValFunc<T1>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1>(string name, FunctionDelegate<T1> fn) { ValFuncs.Add(new Pair<string, int>(name, 1), new ValFunc<T1>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
     /// <typeparam name="T2">The type of the second argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2>(string name, Func<IContext, T1, T2, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 2), new ValFunc<T1, T2>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2>(string name, FunctionDelegate<T1, T2> fn) { ValFuncs.Add(new Pair<string, int>(name, 2), new ValFunc<T1, T2>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -115,7 +118,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T3">The type of the third argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3>(string name, Func<IContext, T1, T2, T3, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 3), new ValFunc<T1, T2, T3>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3>(string name, FunctionDelegate<T1, T2, T3> fn) { ValFuncs.Add(new Pair<string, int>(name, 3), new ValFunc<T1, T2, T3>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -124,7 +127,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T4">The type of the fourth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4>(string name, Func<IContext, T1, T2, T3, T4, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 4), new ValFunc<T1, T2, T3, T4>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4>(string name, FunctionDelegate<T1, T2, T3, T4> fn) { ValFuncs.Add(new Pair<string, int>(name, 4), new ValFunc<T1, T2, T3, T4>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -134,7 +137,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T5">The type of the fifth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5>(string name, Func<IContext, T1, T2, T3, T4, T5, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 5), new ValFunc<T1, T2, T3, T4, T5>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5>(string name, FunctionDelegate<T1, T2, T3, T4, T5> fn) { ValFuncs.Add(new Pair<string, int>(name, 5), new ValFunc<T1, T2, T3, T4, T5>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -145,7 +148,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T6">The type of the sixth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 6), new ValFunc<T1, T2, T3, T4, T5, T6>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6> fn) { ValFuncs.Add(new Pair<string, int>(name, 6), new ValFunc<T1, T2, T3, T4, T5, T6>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -157,7 +160,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T7">The type of the seventh argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 7), new ValFunc<T1, T2, T3, T4, T5, T6, T7>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7> fn) { ValFuncs.Add(new Pair<string, int>(name, 7), new ValFunc<T1, T2, T3, T4, T5, T6, T7>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -170,7 +173,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T8">The type of the eighth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 8), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8> fn) { ValFuncs.Add(new Pair<string, int>(name, 8), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -184,7 +187,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T9">The type of the ninth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 9), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9> fn) { ValFuncs.Add(new Pair<string, int>(name, 9), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -199,7 +202,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T10">The type of the tenth argument</typeparam>
     /// /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 10), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> fn) { ValFuncs.Add(new Pair<string, int>(name, 10), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -215,7 +218,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T11">The type of the eleventh argument</typeparam>
     /// /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 11), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> fn) { ValFuncs.Add(new Pair<string, int>(name, 11), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -232,7 +235,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T12">The type of the twelfth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 12), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> fn) { ValFuncs.Add(new Pair<string, int>(name, 12), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -250,7 +253,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T13">The type of the thirteenth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 13), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> fn) { ValFuncs.Add(new Pair<string, int>(name, 13), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -269,7 +272,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T14">The type of the fourteenth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 14), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> fn) { ValFuncs.Add(new Pair<string, int>(name, 14), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
     /// <summary>Adds a parameterized function to the context</summary>
     /// <typeparam name="T1">The type of the first argument</typeparam>
@@ -289,7 +292,7 @@ namespace Primrose.Expressions
     /// <typeparam name="T15">The type of the fifteenth argument</typeparam>
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
-    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(string name, Func<IContext, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, Val> fn) { ValFuncs.Add(new Pair<string, int>(name, 15), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+    protected void AddFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(string name, FunctionDelegate<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> fn) { ValFuncs.Add(new Pair<string, int>(name, 15), new ValFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
 
 
 

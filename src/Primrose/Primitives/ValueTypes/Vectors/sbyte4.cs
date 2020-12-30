@@ -5,7 +5,6 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A sbyte4 quad value</summary>
-  [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Primitive vector struct")]
   public struct sbyte4
   {
     /// <summary>The x or [0] value</summary>
