@@ -204,5 +204,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Returns a uint3 value with all elements set to their default value</summary>
     public static uint3 Empty { get { return new uint3(); } }
+
+    /// <summary>Creates a uint[] array from this value</summary>
+    public static explicit operator uint[](uint3 a) { return a.ToArray(); }
+
+    /// <summary>Creates a uint3 value from this array</summary>
+    public static explicit operator uint3(uint[] a) { return FromArray(a); }
   }
 }

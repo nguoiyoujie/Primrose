@@ -165,5 +165,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Returns a byte4 value with all elements set to their default value</summary>
     public static byte4 Empty { get { return new byte4(); } }
+
+    /// <summary>Creates a byte[] array from this value</summary>
+    public static explicit operator byte[](byte4 a) { return a.ToArray(); }
+
+    /// <summary>Creates a byte4 value from this array</summary>
+    public static explicit operator byte4(byte[] a) { return FromArray(a); }
   }
 }

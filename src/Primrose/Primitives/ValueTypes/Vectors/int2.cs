@@ -209,5 +209,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Returns a int2 value with all elements set to their default value</summary>
     public static int2 Empty { get { return new int2(); } }
+
+    /// <summary>Creates a int[] array from this value</summary>
+    public static explicit operator int[](int2 a) { return a.ToArray(); }
+
+    /// <summary>Creates a int2 value from this array</summary>
+    public static explicit operator int2(int[] a) { return FromArray(a); }
   }
 }

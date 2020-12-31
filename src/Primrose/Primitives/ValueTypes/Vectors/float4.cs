@@ -244,5 +244,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Returns a float4 value with all elements set to their default value</summary>
     public static float4 Empty { get { return new float4(); } }
+
+    /// <summary>Creates a float[] array from this value</summary>
+    public static explicit operator float[](float4 a) { return a.ToArray(); }
+
+    /// <summary>Creates a float4 value from this array</summary>
+    public static explicit operator float4(float[] a) { return FromArray(a); }
+
+    /// <summary>Creates a float4 value from this array</summary>
+    public static explicit operator float4(int[] a) { return FromArray(a); }
+
+    /// <summary>Converts a int4 value to a float4 value</summary>
+    public static implicit operator float4(int4 a) { return new float4(a.x, a.y, a.z, a.w); }
   }
 }

@@ -159,5 +159,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Returns a sbyte4 value with all elements set to their default value</summary>
     public static sbyte4 Empty { get { return new sbyte4(); } }
+
+    /// <summary>Creates a sbyte[] array from this value</summary>
+    public static explicit operator sbyte[](sbyte4 a) { return a.ToArray(); }
+
+    /// <summary>Creates a sbyte4 value from this array</summary>
+    public static explicit operator sbyte4(sbyte[] a) { return FromArray(a); }
   }
 }

@@ -234,5 +234,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Returns a float3 value with all elements set to their default value</summary>
     public static float3 Empty { get { return new float3(); } }
+
+    /// <summary>Creates a float[] array from this value</summary>
+    public static explicit operator float[](float3 a) { return a.ToArray(); }
+
+    /// <summary>Creates a float3 value from this array</summary>
+    public static explicit operator float3(float[] a) { return FromArray(a); }
+
+    /// <summary>Creates a float3 value from this array</summary>
+    public static explicit operator float3(int[] a) { return FromArray(a); }
+
+    /// <summary>Converts a int3 value to a float3 value</summary>
+    public static implicit operator float3(int3 a) { return new float3(a.x, a.y, a.z); }
   }
 }

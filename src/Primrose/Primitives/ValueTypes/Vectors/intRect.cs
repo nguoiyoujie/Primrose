@@ -240,5 +240,11 @@ namespace Primrose.Primitives.ValueTypes
                   , (y + h - other.y).Clamp(0, other.y + other.h - y)
                   );
     }
+
+    /// <summary>Creates a int[] array from this value</summary>
+    public static explicit operator int[](intRect a) { return a.ToArray(); }
+
+    /// <summary>Creates a intRect value from this array</summary>
+    public static explicit operator intRect(int[] a) { return FromArray(a); }
   }
 }

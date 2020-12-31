@@ -159,11 +159,17 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Determines if two short4 values are not equal</summary>
     public static bool operator !=(short4 a, short4 b)
-    { 
+    {
       return a.x != b.x || a.y != b.y || a.z != b.z || a.w != b.w;
     }
 
-  /// <summary>Returns a short4 value with all elements set to their default value</summary>
-  public static short4 Empty { get { return new short4(); } }
+    /// <summary>Returns a short4 value with all elements set to their default value</summary>
+    public static short4 Empty { get { return new short4(); } }
+
+    /// <summary>Creates a short[] array from this value</summary>
+    public static explicit operator short[](short4 a) { return a.ToArray(); }
+
+    /// <summary>Creates a short4 value from this array</summary>
+    public static explicit operator short4(short[] a) { return FromArray(a); }
   }
 }

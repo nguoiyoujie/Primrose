@@ -145,5 +145,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Returns a ushort2 value with all elements set to their default value</summary>
     public static ushort2 Empty { get { return new ushort2(); } }
+
+    /// <summary>Creates a ushort[] array from this value</summary>
+    public static explicit operator ushort[](ushort2 a) { return a.ToArray(); }
+
+    /// <summary>Creates a ushort2 value from this array</summary>
+    public static explicit operator ushort2(ushort[] a) { return FromArray(a); }
   }
 }

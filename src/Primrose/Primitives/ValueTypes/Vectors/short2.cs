@@ -145,5 +145,11 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Returns a short2 value with all elements set to their default value</summary>
     public static short2 Empty { get { return new short2(); } }
+
+    /// <summary>Creates a short[] array from this value</summary>
+    public static explicit operator short[](short2 a) { return a.ToArray(); }
+
+    /// <summary>Creates a short2 value from this array</summary>
+    public static explicit operator short2(short[] a) { return FromArray(a); }
   }
 }
