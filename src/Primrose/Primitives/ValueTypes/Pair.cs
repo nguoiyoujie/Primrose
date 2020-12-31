@@ -44,8 +44,8 @@ namespace Primrose.Primitives.ValueTypes
     public override int GetHashCode()
     {
       int hashCode = 1502939027;
-      hashCode = hashCode * -1521134295 + t.GetHashCode();
-      hashCode = hashCode * -1521134295 + u.GetHashCode();
+      hashCode = hashCode * -1521134295 + t?.GetHashCode() ?? 0;
+      hashCode = hashCode * -1521134295 + u?.GetHashCode() ?? 0;
       return hashCode;
     }
 
