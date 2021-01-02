@@ -37,7 +37,7 @@ namespace Primrose.Expressions.Tree.Expressions
         return _first.Evaluate(context);
 
       Val result = _first.Evaluate(context);
-      if (result.Type != ValType.BOOL) throw new EvalException(this, Resource.Strings.Error_EvalException_NonBooleanConditional.F(result.Value));
+      if (result.Type != typeof(bool)) throw new EvalException(this, Resource.Strings.Error_EvalException_NonBooleanConditional.F(result.Value));
       if (!(bool)result)
       {
         foreach (CExpression _expr in _set)

@@ -1,4 +1,6 @@
 ﻿using Primrose.Primitives.Extensions;
+using Primrose.Primitives.ValueTypes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,88 +9,173 @@ namespace Primrose.Expressions.Tree.Expressions.Literals
   internal class ArrayLiteral : CLiteral
   {
     // {x,y,z}
-    private readonly List<CExpression> _param = new List<CExpression>();
-    private readonly Val[] vL;
-    private readonly bool[] bL;
-    private readonly float[] fL;
-    private readonly int[] iL;
-    private readonly string[] sL;
+    // {{x1,x2},{y1,y2}}
+    // interpreted as an typed array initializer
+    // elements must be of the same type or can be implicitly cast to the same type. Otherwise, the new object expression (e.g. new float[]{1,2,3}) should be used.
+
+    private readonly Array _param; // nested CExpression
+    private int[] _dimensions;
+    private int _elementCount;
+    private Array _eval;
+    public int[] Dimensions { get => _dimensions; }
 
     internal ArrayLiteral(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {
       if (lexer.TokenType != TokenEnum.BRACEOPEN)
         throw new ParseException(lexer, TokenEnum.BRACEOPEN);
+
+      int maxrank = 1;
+      object[] olist = GetExpression(scope, lexer, 1, ref maxrank);
+      _dimensions = new int[maxrank];
+      _elementCount = 1;
+
+      object[] p = olist;
+      for (int i = 0; i < maxrank; i++)
+      {
+        _dimensions[i] = p.Length;
+        _elementCount *= _dimensions[i];
+        if (i < maxrank - 1)
+        {
+          if (p.Length > 0)
+            p = (object[])p[0];
+          else break;
+        }
+      }
+
+      // check dimensions
+      if (!Check(_dimensions, olist, 0))
+      {
+      }
+
+      _param = Array.CreateInstance(typeof(CExpression), _dimensions);
+      for (int i = 0; i < _elementCount; i++)
+      {
+        int[] index = GetIndex(_dimensions, i);
+        _param.SetValue(Get(index, olist, 0), index);
+      }
+
+      // allocate once
+      _eval = Array.CreateInstance(typeof(Val), _dimensions);
+    }
+
+    private static bool Check(int[] dimensions, object[] array, int rank)
+    {
+      if (array.Length != dimensions[rank])
+        return false;
+
+      if (rank == dimensions.Length - 1)
+        return true;
+
+      bool ret = true;
+      for (int i = 0; i < dimensions[rank]; i++)
+      {
+        ret &= Check(dimensions, (object[])array[i], rank + 1);
+      }
+      return ret;
+    }
+
+    public static int[] GetIndex(int[] dimensions, int index)
+    {
+      int[] innerindex = new int[dimensions.Length];
+      int n = index;
+      for (int i = dimensions.Length - 1; i >= 0; i--)
+      {
+        innerindex[i] = n % dimensions[i];
+        n /= dimensions[i];
+      }
+      return innerindex;
+    }
+
+    private static object Get(int[] index, object[] array, int rank)
+    {
+      if (rank == index.Length - 1)
+        return array[index[rank]];
+      else
+        return Get(index, (object[])array[index[rank]], rank + 1);
+    }
+
+    private static object[] GetExpression(ContextScope scope, Lexer lexer, int rank, ref int out_rank)
+    {
+      out_rank = out_rank.Max(rank);
+      List<object> list = new List<object>();
+      if (lexer.TokenType != TokenEnum.BRACEOPEN)
+        return list.ToArray();
+
       lexer.Next(); //BRACEOPEN
 
-      while (lexer.TokenType != TokenEnum.BRACECLOSE)
+      if (lexer.TokenType != TokenEnum.BRACECLOSE)
       {
-        _param.Add(new Expression(scope, lexer).Get());
+        if (lexer.TokenType != TokenEnum.BRACEOPEN)
+          list.Add(new Expression(scope, lexer).Get());
+        else
+          list.Add(GetExpression(scope, lexer, rank + 1, ref out_rank));
 
         while (lexer.TokenType == TokenEnum.COMMA)
         {
           lexer.Next(); //COMMA
-          _param.Add(new Expression(scope, lexer).Get());
+          if (lexer.TokenType != TokenEnum.BRACEOPEN)
+            list.Add(new Expression(scope, lexer).Get());
+          else
+            list.Add(GetExpression(scope, lexer, rank + 1, ref out_rank));
         }
+        lexer.Next(); //BRACECLOSE
       }
-
-      vL = new Val[_param.Count];
-      bL = new bool[_param.Count];
-      fL = new float[_param.Count];
-      iL = new int[_param.Count];
-      sL = new string[_param.Count];
-      lexer.Next(); //BRACECLOSE
+      return list.ToArray();
     }
 
     public override Val Evaluate(IContext context)
     {
-      ValType t = ValType.NULL;
-      for (int i = 0; i < _param.Count; i++)
+      Type t = null;
+      for (int i = 0; i < _elementCount; i++)
       {
-        vL[i] = _param[i].Evaluate(context);
-        if (t == ValType.NULL)
-          t = vL[i].Type;
-        else if (t != vL[i].Type)
+        int[] index = GetIndex(_dimensions, i);
+        Val v = ((CExpression)_param.GetValue(index)).Evaluate(context);
+        _eval.SetValue(v, index);
+        Type vt = v.Type;
+        if (t == null)
+          t = vt;
+        else if (t != vt)
         {
-          if (t == ValType.INT && vL[i].Type == ValType.FLOAT)
-            t = ValType.FLOAT;
-          else if (t == ValType.FLOAT && vL[i].Type == ValType.INT)
-            continue;
-          else
-            throw new EvalException(this, Resource.Strings.Error_EvalException_IncompatibleArrayElement.F(t, vL[i].Type));
+          if (ImplicitConversionTable.HasImplicitConversion(vt, t)) { }
+          else if (ImplicitConversionTable.HasImplicitConversion(t, vt)) { t = vt; }
+          else throw new EvalException(this, Resource.Strings.Error_EvalException_IncompatibleArrayElement.F(t.Name, vt.Name));
         }
       }
 
-      switch (t)
+      Array a = Array.CreateInstance(t, _dimensions);
+      for (int i = 0; i < _elementCount; i++)
       {
-        case ValType.BOOL:
-          for (int i = 0; i < bL.Length; i++)
-            bL[i] = (bool)vL[i];
-          return new Val(bL);
-
-        case ValType.INT:
-          for (int i = 0; i < iL.Length; i++)
-            iL[i] = (int)vL[i];
-          return new Val(iL);
-
-        case ValType.FLOAT:
-          for (int i = 0; i < fL.Length; i++)
-            fL[i] = (float)vL[i];
-          return new Val(fL);
-
-        case ValType.STRING:
-          for (int i = 0; i < sL.Length; i++)
-            sL[i] = (string)vL[i];
-          return new Val(sL);
-
-        default:
-          throw new EvalException(this, Resource.Strings.Error_EvalException_UnsupportedArrayElement.F(t));
+        int[] index = GetIndex(_dimensions, i);
+        a.SetValue(((Val)_eval.GetValue(index)).Value, index);
       }
-
+      return new Val(a);
     }
 
-    public override string ToString()
+    public override void Write(StringBuilder sb)
     {
-     return "{{{0}}}".F(string.Join(",", _param));
+      int index = 0;
+      WriteExpression(sb, _dimensions, 0, ref index);
+    }
+
+    private void WriteExpression(StringBuilder sb, int[] dimensions, int rank, ref int index)
+    {
+      TokenEnum.BRACEOPEN.Write(sb);
+      if (dimensions[rank] != 0) 
+      {
+        if (rank == dimensions.Length - 1)
+          ((CExpression)_param.GetValue(GetIndex(dimensions, index++))).Write(sb);
+        else
+          WriteExpression(sb, dimensions, rank + 1, ref index);
+      }
+      for (int j = 1; j < dimensions[rank]; j++)
+      {
+        TokenEnum.COMMA.Write(sb);
+        if (rank == dimensions.Length - 1)
+          ((CExpression)_param.GetValue(GetIndex(dimensions, index++))).Write(sb);
+        else
+          WriteExpression(sb, dimensions, rank + 1, ref index);
+      }
+      TokenEnum.BRACECLOSE.Write(sb);
     }
   }
 }

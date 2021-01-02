@@ -22,6 +22,10 @@ namespace Primrose.Expressions.Tree.Expressions
           _child = new Variable(scope, lexer).Get();
           break;
 
+        case TokenEnum.NEW:
+          _child = new NewObjectExpression(scope, lexer).Get();
+          break;
+
         //Literals
         case TokenEnum.NULLLITERAL:
           _child = new NullLiteral(scope, lexer).Get();

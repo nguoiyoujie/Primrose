@@ -23,18 +23,7 @@ namespace Primrose.Expressions
       Definitions.Default = Resource.Strings.Unknown;
       Definitions.Add(TokenEnum.WHITESPACE, " ");
 
-      Definitions.Add(TokenEnum.DECL_BOOL, "bool");
-      Definitions.Add(TokenEnum.DECL_FLOAT, "float");
-      Definitions.Add(TokenEnum.DECL_INT, "int");
-      Definitions.Add(TokenEnum.DECL_STRING, "string");
-      Definitions.Add(TokenEnum.DECL_FLOAT2, "float2");
-      Definitions.Add(TokenEnum.DECL_FLOAT3, "float3");
-      Definitions.Add(TokenEnum.DECL_FLOAT4, "float4");
-      Definitions.Add(TokenEnum.DECL_BOOL_ARRAY, "bool[]");
-      Definitions.Add(TokenEnum.DECL_FLOAT_ARRAY, "float[]");
-      Definitions.Add(TokenEnum.DECL_STRING_ARRAY, "string[]");
-      Definitions.Add(TokenEnum.DECL_INT_ARRAY, "int[]");
-
+      Definitions.Add(TokenEnum.NEW, "new");
       Definitions.Add(TokenEnum.IF, "if");
       Definitions.Add(TokenEnum.THEN, "then");
       Definitions.Add(TokenEnum.ELSE, "else");
@@ -94,7 +83,7 @@ namespace Primrose.Expressions
       Definitions.Add(TokenEnum.COLON, ":");
     }
 
-    public static string Write(TokenEnum token, Padding padding = Padding.NONE)
+    public static string Write(this TokenEnum token, Padding padding = Padding.NONE)
     {
       switch (padding)
       {

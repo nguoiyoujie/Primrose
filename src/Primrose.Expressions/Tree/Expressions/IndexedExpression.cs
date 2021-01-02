@@ -1,6 +1,6 @@
 ﻿using Primrose.Primitives.Extensions;
-using Primrose.Primitives.ValueTypes;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
@@ -8,109 +8,131 @@ namespace Primrose.Expressions.Tree.Expressions
   internal class IndexedExpression : CExpression
   {
     private readonly CExpression _expression;
-    private readonly CExpression _index;
+    private readonly CExpression[][] _indices_expr;
+    public readonly int[][] _indices;
 
     internal IndexedExpression(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {
-      // EXPR[EXPR]
+      // EXPR[EXPR,...][EXPR,...]...
       // ^
 
+      // Multi-dimensional array example:
+      //      float[,][,] f = new float[1, 1][,];
+      //      f[0, 0][1, 2] = 1;
+
       _expression = GetNext(scope, lexer);
+
+      if (lexer.TokenType != TokenEnum.SQBRACKETOPEN)
+        return;
 
       // indexer
       if (lexer.TokenType == TokenEnum.SQBRACKETOPEN)
       {
-        lexer.Next(); // SQBRACKETOPEN
-        _index = new Expression(scope, lexer).Get();
+        List<CExpression[]> indexlist = new List<CExpression[]>();
+        while (lexer.TokenType == TokenEnum.SQBRACKETOPEN)
+        {
+          lexer.Next(); // SQBRACKETOPEN
+          List<CExpression> innerlist = new List<CExpression>();
+          innerlist.Add(new Expression(scope, lexer).Get());
 
-        if (lexer.TokenType != TokenEnum.SQBRACKETCLOSE)
-          throw new ParseException(lexer, TokenEnum.SQBRACKETCLOSE);
-        lexer.Next(); // SQBRACKETCLOSE
+          while (lexer.TokenType == TokenEnum.COMMA)
+          {
+            lexer.Next(); // COMMA
+            innerlist.Add(new Expression(scope, lexer).Get());
+          }
+
+          indexlist.Add(innerlist.ToArray());
+
+          if (lexer.TokenType != TokenEnum.SQBRACKETCLOSE)
+            throw new ParseException(lexer, TokenEnum.SQBRACKETCLOSE);
+          lexer.Next(); // SQBRACKETCLOSE
+        }
+        _indices_expr = indexlist.ToArray();
+
+        _indices = new int[_indices_expr.Length][];
+        for (int i = 0; i < _indices_expr.Length; i++)
+        {
+          _indices[i] = new int[_indices_expr[i].Length];
+        }
       }
     }
 
     public override CExpression Get()
     {
-      return (_index == null) ? _expression : this;
+      return (_indices_expr == null) ? _expression : this;
     }
 
     public override Val Evaluate(IContext context)
     {
       Val c = _expression.Evaluate(context);
-      if (_index == null)
+      if (_indices_expr == null)
         return c;
 
-      Val i = _index.Evaluate(context);
-      if (!(i.Type == ValType.INT || (i.Type == ValType.FLOAT && (float)i == (int)i)))
-        throw new EvalException(this, Resource.Strings.Error_EvalException_InvalidArrayIndex);
+      for (int i = 0; i < _indices_expr.Length; i++)
+      {
+        for (int i2 = 0; i2 < _indices_expr[i].Length; i2++)
+        {
+          Val v = _indices_expr[i][i2].Evaluate(context);
+          try
+          {
+            _indices[i][i2] = v.Cast<int>();
+          }
+          catch
+          {
+            throw new EvalException(this, Resource.Strings.Error_EvalException_InvalidArrayIndex);
+          }
+        }
+      }
 
-      int x = (int)i;
+      Array a;
       try
       {
-        switch (c.Type)
-        {
-          case ValType.BOOL_ARRAY:
-            return new Val(((bool[])c)[x]);
-          case ValType.INT_ARRAY:
-            return new Val(((int[])c)[x]);
-          case ValType.FLOAT2:
-            return new Val(((float2)c)[x]);
-          case ValType.FLOAT3:
-            return new Val(((float3)c)[x]);
-          case ValType.FLOAT4:
-            return new Val(((float4)c)[x]);
-          case ValType.FLOAT_ARRAY:
-            return new Val(((float[])c)[x]);
-          case ValType.STRING:
-            return new Val(((string)c)[x]);
-          case ValType.STRING_ARRAY:
-            return new Val(((string[])c)[x]);
+        a = c.Cast<Array>();
+      }
+      catch
+      {
+        throw new EvalException(this, Resource.Strings.Error_EvalException_IndexOnNonArray.F(c));
+      }
 
-          default:
-            throw new EvalException(this, Resource.Strings.Error_EvalException_IndexOnNonArray.F(c));
+      try
+      {
+        object o = a;
+        foreach (int[] i2 in _indices)
+        {
+          a = (Array)o;
+          o = a.GetValue(i2);
         }
+
+        return new Val(o);
       }
       catch (IndexOutOfRangeException)
       {
-        int len = 0;
-        switch (c.Type)
-        {
-          case ValType.BOOL_ARRAY:
-            len = ((bool[])c).Length;
-            break;
-          case ValType.INT_ARRAY:
-            len = ((int[])c).Length;
-            break;
-          case ValType.FLOAT2:
-            len = 2;
-            break;
-          case ValType.FLOAT3:
-            len = 3;
-            break;
-          case ValType.FLOAT4:
-            len = 4;
-            break;
-          case ValType.FLOAT_ARRAY:
-            len = ((float[])c).Length;
-            break;
-          case ValType.STRING:
-            len = ((string)c).Length;
-            break;
-        }
-        throw new EvalException(this, Resource.Strings.Error_EvalException_IndexOutOfRange.F(x, len));
+        int len = a?.Length ?? 0;
+        throw new EvalException(this, Resource.Strings.Error_EvalException_IndexOutOfRange.F(_indices.Length, len));
       }
-      catch (Exception ex)
+      catch
       {
-        throw new EvalException(this, ex.Message);
+        throw new EvalException(this, Resource.Strings.Error_EvalException_IndexOnNonArray.F(c));
       }
     }
 
     public override void Write(StringBuilder sb)
     {
       _expression.Write(sb);
-      TokenEnum.SQBRACKETOPEN.Write(sb);
-      _index.Write(sb);
-      TokenEnum.SQBRACKETCLOSE.Write(sb);
+      if (_indices_expr != null)
+      {
+        foreach (CExpression[] expr in _indices_expr)
+        {
+          TokenEnum.SQBRACKETOPEN.Write(sb);
+          expr[0]?.Write(sb);
+          for (int i = 1; i < expr.Length; i++)
+          {
+            sb.Append(",");
+            expr[i]?.Write(sb);
+          }
+          TokenEnum.SQBRACKETCLOSE.Write(sb);
+        }
+      }
     }
   }
 }

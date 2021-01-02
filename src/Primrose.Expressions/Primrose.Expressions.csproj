@@ -117,6 +117,7 @@
     <Compile Include="Exceptions\ParseException.cs" />
     <Compile Include="FileFormat\ScriptFile.cs" />
     <Compile Include="Operators\Ops.cs" />
+    <Compile Include="Operators\ImplicitConversionTable.cs" />
     <Compile Include="Parsing\Interfaces.cs" />
     <Compile Include="Parsing\Lexer.cs" />
     <Compile Include="Parsing\LintElement.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Tree\Expressions\Function.cs" />
     <Compile Include="Tree\Expressions\IndexedExpression.cs" />
     <Compile Include="Tree\Expressions\Interfaces.cs" />
+    <Compile Include="Tree\Expressions\NewObjectExpression.cs" />
     <Compile Include="Tree\Expressions\Literals\ArrayLiteral.cs" />
     <Compile Include="Tree\Expressions\Literals\NullLiteral.cs" />
     <Compile Include="Tree\Expressions\Literals\BoolLiteral.cs" />
@@ -171,8 +173,8 @@
     <Compile Include="Tree\Statements\WhileStatement.cs" />
     <Compile Include="Tree\ExpressionOrder.cs" />
     <Compile Include="Operators\UOp.cs" />
+    <Compile Include="Operators\UnaryOp.cs" />
     <Compile Include="Val\Val.cs" />
-    <Compile Include="Val\ValType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Primrose\Primrose.csproj">

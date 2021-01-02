@@ -63,6 +63,11 @@
             Represents an exception when performing an invalid cast with a ValType
             </summary>
         </member>
+        <member name="M:Primrose.Expressions.InvalidValCastException.#ctor(System.Type,System.Type)">
+            <summary>
+            Represents an exception when performing an invalid cast with a ValType
+            </summary>
+        </member>
         <member name="T:Primrose.Expressions.BOp">
             <summary>
             An enumeration of binary operators
@@ -935,6 +940,20 @@
         <member name="F:Primrose.Expressions.UOp.NEGATION">
             <summary>The numerical negation operator (-a)</summary>
         </member>
+        <member name="T:Primrose.Expressions.CastTo`1">
+            <summary>
+            Class to cast between types, avoiding boxing if possible
+            </summary>
+            <typeparam name="T">Target type</typeparam>
+        </member>
+        <member name="M:Primrose.Expressions.CastTo`1.From``1(``0)">
+            <summary>
+            Casts <see cref="!:S"/> to <see cref="!:T"/>.
+            This does not cause boxing for value types.
+            Useful in generic methods.
+            </summary>
+            <typeparam name="S">Source type to cast from. Usually a generic type.</typeparam>
+        </member>
         <member name="T:Primrose.Expressions.ValObj">
             <summary>
             A value holder for reference types.
@@ -944,6 +963,11 @@
             it should be constrained to supported types. If the expression tree is to support generics, then
             swtiching to a single 'object' field
             </comment>
+        </member>
+        <member name="T:Primrose.Expressions.ValPrim">
+            <summary>
+            A value holder for 32-bit primitive types.
+            </summary>
         </member>
         <member name="T:Primrose.Expressions.Val">
             <summary>
@@ -955,26 +979,29 @@
             The type of the value
             </summary>
         </member>
+        <member name="M:Primrose.Expressions.Val.Cast``1">
+            <summary>Retrieves the value and casts it as a <typeparamref name="T"/></summary>
+        </member>
         <member name="M:Primrose.Expressions.Val.op_Explicit(Primrose.Expressions.Val)~System.Boolean">
-            <summary>Retrieves the boolean value</summary>
+            <summary>Retrieves the value as a bool</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.op_Explicit(Primrose.Expressions.Val)~System.Int32">
-            <summary>Retrieves the integer value</summary>
+            <summary>Retrieves the value as a 32-bit integer</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.op_Explicit(Primrose.Expressions.Val)~System.Single">
-            <summary>Retrieves the floating point value</summary>
+            <summary>Retrieves the value as a floating point</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.op_Explicit(Primrose.Expressions.Val)~System.String">
-            <summary>Retrieves the string value</summary>
+            <summary>Retrieves the value as a string</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.op_Explicit(Primrose.Expressions.Val)~Primrose.Primitives.ValueTypes.float2">
-            <summary>Retrieves a float2 value</summary>
+            <summary>Retrieves the value as float2</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.op_Explicit(Primrose.Expressions.Val)~Primrose.Primitives.ValueTypes.float3">
-            <summary>Retrieves a float3 value</summary>
+            <summary>Retrieves the value as float3</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.op_Explicit(Primrose.Expressions.Val)~Primrose.Primitives.ValueTypes.float4">
-            <summary>Retrieves a float4 value</summary>
+            <summary>Retrieves the value as float2</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.op_Explicit(Primrose.Expressions.Val)~System.Boolean[]">
             <summary>Retrieves a boolean array</summary>

@@ -6,7 +6,9 @@ namespace Primrose.Expressions.Tree.Statements
   internal class AssignmentStatement: CStatement
   {
     private readonly ContextScope _scope;
-    private readonly Variable _variable;
+    private readonly CExpression _varExpr;
+    private readonly string _varName;
+    //private readonly Variable _variable;
     private readonly TokenEnum _assigntype;
     private readonly CExpression _value;
 
@@ -27,6 +29,7 @@ namespace Primrose.Expressions.Tree.Statements
       _scope = scope;
       switch (lexer.TokenType)
       {
+        /*
         case TokenEnum.DECL_BOOL:
         case TokenEnum.DECL_INT:
         case TokenEnum.DECL_FLOAT:
@@ -38,12 +41,22 @@ namespace Primrose.Expressions.Tree.Statements
         case TokenEnum.DECL_INT_ARRAY:
         case TokenEnum.DECL_FLOAT_ARRAY:
         case TokenEnum.DECL_STRING_ARRAY:
+        */
         case TokenEnum.VARIABLE:
           {
-            if (lexer.TokenType == TokenEnum.VARIABLE)
-              _variable = new Variable(scope, lexer).Get() as Variable;
+            // TO-DO: Change variable to support assignment to index
+
+            if (Parser.TypeTokens[lexer.TokenContents] != null)
+            {
+              DeclVariable d = new DeclVariable(scope, lexer).Get() as DeclVariable;
+              _varExpr = d;
+              _varName = d.varName;
+            }
             else
-              _variable = new DeclVariable(scope, lexer).Get() as DeclVariable;
+            {
+              _varName = lexer.TokenContents;
+              _varExpr = new IndexedExpression(scope, lexer).Get();
+            }
 
             _assigntype = lexer.TokenType;
             if (_assigntype == TokenEnum.ASSIGN
@@ -78,7 +91,7 @@ namespace Primrose.Expressions.Tree.Statements
     {
       if (_assigntype != TokenEnum.NOTHING)
       {
-        Val v = _scope.GetVar(this, _variable.varName);
+        Val v = _scope.GetVar(this, _varName);
 
         switch (_assigntype)
         {
@@ -107,7 +120,14 @@ namespace Primrose.Expressions.Tree.Statements
             v = Ops.Do(BOp.LOGICAL_OR, v, _value?.Evaluate(context) ?? Val.NULL); ;
             break;
         }
-        _scope.SetVar(this, _variable.varName, v);
+
+        if (_varExpr is IndexedExpression indexexpr)
+        {
+          indexexpr.Evaluate(context);
+          _scope.SetVar(this, _varName, v, indexexpr._indices);
+        }
+        else
+          _scope.SetVar(this, _varName, v);
       }
       else
       {
@@ -119,7 +139,7 @@ namespace Primrose.Expressions.Tree.Statements
     {
       if (_assigntype != TokenEnum.NOTHING)
       {
-        _variable.Write(sb);
+        _varExpr.Write(sb);
         _assigntype.Write(sb, Writer.Padding.BOTH);
       }
       _value.Write(sb);

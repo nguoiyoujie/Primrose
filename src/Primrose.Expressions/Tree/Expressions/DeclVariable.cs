@@ -1,43 +1,67 @@
 ﻿using Primrose.Primitives.Factories;
+using Primrose.Primitives.ValueTypes;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
   internal class DeclVariable : Variable
   {
-    private readonly TokenEnum _type;
-    private static readonly Registry<TokenEnum, ValType> token_to_valtype = new Registry<TokenEnum, ValType>();
-
-    static DeclVariable()
-    {
-      token_to_valtype.Default = ValType.NULL;
-      token_to_valtype.Add(TokenEnum.DECL_BOOL, ValType.BOOL);
-      token_to_valtype.Add(TokenEnum.DECL_INT, ValType.INT);
-      token_to_valtype.Add(TokenEnum.DECL_FLOAT, ValType.FLOAT);
-      token_to_valtype.Add(TokenEnum.DECL_FLOAT2, ValType.FLOAT2);
-      token_to_valtype.Add(TokenEnum.DECL_FLOAT3, ValType.FLOAT3);
-      token_to_valtype.Add(TokenEnum.DECL_FLOAT4, ValType.FLOAT4);
-      token_to_valtype.Add(TokenEnum.DECL_STRING, ValType.STRING);
-      token_to_valtype.Add(TokenEnum.DECL_BOOL_ARRAY, ValType.BOOL_ARRAY);
-      token_to_valtype.Add(TokenEnum.DECL_INT_ARRAY, ValType.INT_ARRAY);
-      token_to_valtype.Add(TokenEnum.DECL_FLOAT_ARRAY, ValType.FLOAT_ARRAY);
-      token_to_valtype.Add(TokenEnum.DECL_STRING_ARRAY, ValType.STRING_ARRAY);
-    }
+    private readonly string _declClassName;
+    private readonly int[] _dimensions;
 
     internal DeclVariable(ContextScope scope, Lexer lexer) : base(scope, lexer, 0)
     {
-      _type = lexer.TokenType;
-      ValType varType = token_to_valtype[_type];
-      if (varType == ValType.NULL)
+      // <typename>[...][...]... <variable_name>
+
+      // Multi-dimensional array example:
+      //      float[,][,] f = new float[1, 1][,];
+      //      f[0, 0][1, 2] = 1;
+
+      _declClassName = lexer.TokenContents;
+      Type type = Parser.TypeTokens[_declClassName];
+      if (type == null)
         throw new ParseException(lexer);
 
       lexer.Next(); //DECL
+
+      if (lexer.TokenType == TokenEnum.SQBRACKETOPEN)
+      {
+        List<int> dimlist = new List<int>();
+        while (lexer.TokenType == TokenEnum.SQBRACKETOPEN)
+        {
+          lexer.Next(); // SQBRACKETOPEN
+          int count = 1;
+
+          while (lexer.TokenType == TokenEnum.COMMA)
+          {
+            lexer.Next(); // COMMA
+            count++;
+          }
+          dimlist.Add(count);
+
+          if (lexer.TokenType != TokenEnum.SQBRACKETCLOSE)
+            throw new ParseException(lexer, TokenEnum.SQBRACKETCLOSE);
+          lexer.Next(); // SQBRACKETCLOSE
+        }
+        _dimensions = dimlist.ToArray();
+
+        for (int i = _dimensions.Length - 1; i >= 0; i--)
+        {
+          int d = _dimensions[i];
+          if (d == 1)
+            type = type.MakeArrayType(); // vector array
+          else
+            type = type.MakeArrayType(d); // multidimensional array
+        }
+      }
 
       if (lexer.TokenType != TokenEnum.VARIABLE)
         throw new ParseException(lexer, TokenEnum.VARIABLE);
 
       varName = lexer.TokenContents;
-      scope.DeclVar(varName, varType, lexer);
+      scope.DeclVar(varName, type, lexer);
       
       lexer.Next(); //VARIABLE
     }
@@ -49,7 +73,20 @@ namespace Primrose.Expressions.Tree.Expressions
 
     public override void Write(StringBuilder sb)
     {
-      _type.Write(sb, Writer.Padding.SUFFIX);
+      sb.Append(_declClassName);
+      if (_dimensions != null)
+      {
+        for (int i = 0; i < _dimensions.Length; i++)
+        {
+          TokenEnum.SQBRACKETOPEN.Write(sb);
+          for (int j = 0; j < _dimensions[i] - 1; j++)
+          {
+            TokenEnum.COMMA.Write(sb);
+          }
+          TokenEnum.SQBRACKETCLOSE.Write(sb);
+        }
+      }
+      sb.Append(" ");
       sb.Append(varName);
     }
   }

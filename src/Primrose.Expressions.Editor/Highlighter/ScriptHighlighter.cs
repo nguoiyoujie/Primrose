@@ -36,43 +36,11 @@ namespace Primrose.Expressions.Editor
       LintColors.Put(LintType.TYPE, Color.DodgerBlue);
       LintColors.Put(LintType.FUNCTION, Color.CadetBlue);
       LintColors.Put(LintType.VARIABLE, Color.Indigo);
+      LintColors.Put(LintType.VARIABLE_OR_TYPE, Color.Indigo);
       LintColors.Put(LintType.STRINGLITERAL, Color.Brown);
       LintColors.Put(LintType.NUMERICLITERAL, Color.DarkOrange);
       LintColors.Put(LintType.SPECIALLITERAL, Color.DarkRed);
     }
-
-    /*
-    readonly RegexOptions ropt = RegexOptions.CultureInvariant | RegexOptions.Compiled;
-
-    private ScriptHighlighter()
-    {
-      ResetRegex();
-    }
-
-    private void ResetRegex()
-    {
-      Regexes.Clear();
-
-      Regexes.Add(new Pair<Regex, Color>(new Regex(@"//.*", ropt), Color.ForestGreen));
-      Regexes.Add(new Pair<Regex, Color>(new Regex(@"^.*\:(?=\s*)$", ropt), Color.Indigo));
-      //Regexes.Add(new Pair<Regex, Color>(new Regex(@"[a-zA-Z_][a-zA-Z0-9_\.]*", ropt), Color.));
-      Regexes.Add(new Pair<Regex, Color>(new Regex(@"\""(\""\""|[^\""])*\""", ropt), Color.Brown));
-      Regexes.Add(new Pair<Regex, Color>(new Regex(@"\b(bool|float|float2|float3|float4|int|string)\b", ropt), Color.DodgerBlue));
-      Regexes.Add(new Pair<Regex, Color>(new Regex(@"\b(true|false|null|if|then|else|while|foreach|in|for)\b", ropt), Color.Blue));
-    }
-
-    private void SetContext(IContext c)
-    {
-      ResetRegex();
-
-      if (c != null && c.ValFuncRef.Count > 0)
-      {
-        string reg = string.Concat("(", string.Join("|", c.ValFuncRef), @")(?=\s*\()");
-        if (reg != null)
-          Regexes.Add(new Pair<Regex, Color>(new Regex(reg, ropt), Color.CadetBlue));
-      }
-    }
-    */
 
     public string MakeRTF(string[] lines, SortedList<Pair<int, int>, LintType> lints)
     {

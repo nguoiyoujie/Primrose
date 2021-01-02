@@ -81,6 +81,15 @@ namespace Primrose.Expressions
           lint = def.Lint;
           content = lineRemaining.Substring(0, matched);
 
+          // special case for linting for type
+          if (lint == LintType.VARIABLE_OR_TYPE && token == TokenEnum.VARIABLE)
+          {
+            if (Parser.TypeTokens.Contains(content))
+              lint = LintType.TYPE;
+            else
+              lint = LintType.VARIABLE;
+          }
+
           // whitespace elimination
           if (content.Trim().Length == 0)
           {

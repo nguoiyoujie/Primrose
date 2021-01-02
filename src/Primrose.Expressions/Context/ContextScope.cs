@@ -32,7 +32,7 @@ namespace Primrose.Expressions
     /// <param name="type">The variable type</param>
     /// <param name="lexer">The lexer</param>
     /// <exception cref="InvalidOperationException">Duplicate declaration of a variable in the same scope</exception>
-    internal void DeclVar(string name, ValType type, Lexer lexer)
+    internal void DeclVar(string name, Type type, Lexer lexer)
     {
       if (m_variables.ContainsKey(name))
         throw new ParseException(lexer, Resource.Strings.Error_ParseException_DuplicateVariable.F(name));
@@ -55,7 +55,7 @@ namespace Primrose.Expressions
       return ret;
     }
 
-    /// <summary>Set the value of a variable</summary>
+    /// <summary>Sets the value of a variable</summary>
     /// <param name="eval">The expression object being evaluated</param>
     /// <param name="name">The variable name</param>
     /// <param name="val">The Val object containing the value of the variable</param>
@@ -75,12 +75,54 @@ namespace Primrose.Expressions
       }
     }
 
+    /// <summary>Sets the value of an indexed variable</summary>
+    /// <param name="eval">The expression object being evaluated</param>
+    /// <param name="name">The variable name</param>
+    /// <param name="val">The Val object containing the value of the variable</param>
+    /// <exception cref="InvalidOperationException">Attempted to set the value of an undeclared variable</exception>
+    public void SetVar(ITracker eval, string name, Val val, int[][] rank)
+    {
+      if (m_variables.ContainsKey(name))
+      {
+        WriteVar(name, val, rank);
+      }
+      else
+      {
+        if (Parent != null)
+          Parent.SetVar(eval, name, val, rank);
+        else
+          throw new EvalException(eval, Resource.Strings.Error_EvalException_Set_VariableNotFound.F(name));
+      }
+    }
+
     private void WriteVar(string name, Val val)
     {
-      ValType t = m_variables[name].Type;
+      Type t = m_variables[name].Type;
       try
       {
-        m_variables[name] = Ops.Coerce(t, val);
+        m_variables[name] = Ops.ImplicitCast(t, val);
+      }
+      catch (Exception ex)
+      {
+        throw new InvalidOperationException(Resource.Strings.Error_EvalException_InvalidVariableAssignment.F(t, name, ex.Message));
+      }
+    }
+
+    private void WriteVar(string name, Val val, int[][] rank)
+    {
+      Type t = m_variables[name].Type;
+      try
+      {
+        Array a = m_variables[name].Cast<Array>();
+        object o = a;
+        foreach (int[] i2 in rank)
+        {
+          a = (Array)o;
+          o = a.GetValue(i2);
+          t = t.GetElementType();
+        }
+
+        a.SetValue(Ops.ImplicitCast(t, val).Value, rank[rank.Length - 1]);
       }
       catch (Exception ex)
       {

@@ -178,6 +178,7 @@
     <Compile Include="Primitives\Triggers\Conditions\ACondition.cs" />
     <Compile Include="Primitives\Triggers\Events.cs" />
     <Compile Include="Primitives\Triggers\Trigger.cs" />
+    <Compile Include="Primitives\ValueTypes\Vectors\floatRect.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\intRect.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\sbyte2.cs" />
     <Compile Include="Primitives\ValueTypes\Vectors\sbyte3.cs" />

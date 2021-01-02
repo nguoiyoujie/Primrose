@@ -1,5 +1,8 @@
 ﻿using Primrose.Expressions.Tree.Expressions;
 using Primrose.Expressions.Tree.Statements;
+using Primrose.Primitives.Factories;
+using Primrose.Primitives.ValueTypes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -14,20 +17,8 @@ namespace Primrose.Expressions
         // white space collector
         new TokenDefinition(@"\s+", TokenEnum.WHITESPACE, LintType.NONE),
 
-        // type keywords
-        new TokenDefinition(@"bool\b(?!\[)", TokenEnum.DECL_BOOL, LintType.TYPE),
-        new TokenDefinition(@"float\b(?!\[)", TokenEnum.DECL_FLOAT, LintType.TYPE),
-        new TokenDefinition(@"int\b(?!\[)", TokenEnum.DECL_INT, LintType.TYPE),
-        new TokenDefinition(@"string\b(?!\[)", TokenEnum.DECL_STRING, LintType.TYPE),
-        new TokenDefinition(@"float2\b(?!\[)", TokenEnum.DECL_FLOAT2, LintType.TYPE),
-        new TokenDefinition(@"float3\b(?!\[)", TokenEnum.DECL_FLOAT3, LintType.TYPE),
-        new TokenDefinition(@"float4\b(?!\[)", TokenEnum.DECL_FLOAT4, LintType.TYPE),
-        new TokenDefinition(@"bool\[\]", TokenEnum.DECL_BOOL_ARRAY, LintType.TYPE),
-        new TokenDefinition(@"float\[\]", TokenEnum.DECL_FLOAT_ARRAY, LintType.TYPE),
-        new TokenDefinition(@"string\[\]", TokenEnum.DECL_STRING_ARRAY, LintType.TYPE),
-        new TokenDefinition(@"int\[\]", TokenEnum.DECL_INT_ARRAY, LintType.TYPE),
-
         // keywords
+        new TokenDefinition(@"new\b", TokenEnum.NEW, LintType.KEYWORD),
         new TokenDefinition(@"if\b", TokenEnum.IF, LintType.KEYWORD),
         new TokenDefinition(@"then\b", TokenEnum.THEN, LintType.KEYWORD),
         new TokenDefinition(@"else\b", TokenEnum.ELSE, LintType.KEYWORD),
@@ -40,7 +31,7 @@ namespace Primrose.Expressions
         new TokenDefinition(@"(((N|n)ull)|NULL)\b", TokenEnum.NULLLITERAL, LintType.SPECIALLITERAL),
         new TokenDefinition(@"((T|t)rue|(F|f)alse|TRUE|FALSE)\b", TokenEnum.BOOLEANLITERAL, LintType.SPECIALLITERAL),
         new TokenDefinition(@"[a-zA-Z_][a-zA-Z0-9_\.]*(?=\s*\()", TokenEnum.FUNCTION, LintType.FUNCTION),
-        new TokenDefinition(@"[a-zA-Z_][a-zA-Z0-9_\.]*(?!\s*\()", TokenEnum.VARIABLE, LintType.VARIABLE),
+        new TokenDefinition(@"[a-zA-Z_][a-zA-Z0-9_\.]*(?!\s*\()", TokenEnum.VARIABLE, LintType.VARIABLE_OR_TYPE),
         new TokenDefinition(@"""(?:[^""\\]|\\.)*""", TokenEnum.STRINGLITERAL, LintType.STRINGLITERAL),
         new TokenDefinition(@"0(x|X)[0-9a-fA-F]+\b", TokenEnum.HEXINTEGERLITERAL, LintType.NUMERICLITERAL),
         new TokenDefinition(@"[0-9]+(?![fFdDMmeE\.])\b", TokenEnum.DECIMALINTEGERLITERAL, LintType.NUMERICLITERAL),
@@ -92,6 +83,43 @@ namespace Primrose.Expressions
         new TokenDefinition(@">", TokenEnum.GREATERTHAN, LintType.NONE),
         new TokenDefinition(@":", TokenEnum.COLON, LintType.NONE)
       };
+
+    public static Registry<string, Type> TypeTokens = new Registry<string, Type>()
+    {
+      {"bool", typeof(bool)},
+      {"char", typeof(char)},
+      {"byte", typeof(byte)},
+      {"sbyte", typeof(sbyte)},
+      {"short", typeof(short)},
+      {"ushort", typeof(ushort)},
+      {"int", typeof(int)},
+      {"uint", typeof(uint)},
+      {"float", typeof(float)},
+      {"float2", typeof(float2)},
+      {"float3", typeof(float3)},
+      {"float4", typeof(float4)},
+      {"int2", typeof(int2)},
+      {"int3", typeof(int3)},
+      {"int4", typeof(int4)},
+      {"string", typeof(string)},
+    };
+
+    /*
+    public static Registry<TokenEnum, Type> TypeTokens = new Registry<TokenEnum, Type>()
+    {
+      {TokenEnum.DECL_BOOL, typeof(bool)},
+      {TokenEnum.DECL_INT, typeof(int)},
+      {TokenEnum.DECL_FLOAT, typeof(float)},
+      {TokenEnum.DECL_FLOAT2, typeof(float2)},
+      {TokenEnum.DECL_FLOAT3, typeof(float3)},
+      {TokenEnum.DECL_FLOAT4, typeof(float4)},
+      {TokenEnum.DECL_STRING, typeof(string)},
+      {TokenEnum.DECL_BOOL_ARRAY, typeof(bool[])},
+      {TokenEnum.DECL_INT_ARRAY, typeof(int[])},
+      {TokenEnum.DECL_FLOAT_ARRAY, typeof(float[])},
+      {TokenEnum.DECL_STRING_ARRAY, typeof(string[])}
+    };
+    */
 
     public static void Parse(ContextScope scope, string text, out RootStatement result, string srcname, ref int linenumber, out List<LintElement> linter)
     {

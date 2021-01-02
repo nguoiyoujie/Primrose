@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")] 
 [assembly: AssemblyCompany("")] 
 [assembly: AssemblyProduct("Primrose.Expressions")] 
-[assembly: AssemblyCopyright("Copyright ? 2019-2020. All rights reserved.")] 
+[assembly: AssemblyCopyright("Copyright ? 2019-2021. All rights reserved.")] 
 [assembly: AssemblyTrademark("")] 
 [assembly: AssemblyCulture("")] 
 
 [assembly: ComVisible(false)] 
 [assembly: AssemblyVersion("0.0.*")] 
-[assembly: AssemblyFileVersion("0.0.02030.1207")] 
+[assembly: AssemblyFileVersion("0.0.02102.0101")] 
 

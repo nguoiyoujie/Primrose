@@ -3,6 +3,9 @@ int g_i = 10;
 float g_f = 0.4;
 string g_s = "test";
 
+int[] g_a1 = new int[3];
+float[,][] g_a2 = new float[1,1][];
+string[,,,][,][] g_a3 = new string[1,2,3,4][,][];
 
 globals:
 	Assert.AreEqual(g_b, true);
@@ -24,6 +27,10 @@ math_bops:
 	Assert.AreEqual(2 * (4 + 5), 18);
 	Assert.AreEqual(3 - (6 - 2 / 2), -2);
 	Assert.AreEqual(((2 + 2) * (1.0 / 2)) - ((2 + 2) / (2 / 2)), -2);
+
+	float2 f1 = new float2(3, 14);
+	float2 f2 = new float2(4, -5);
+	Assert.AreEqual(f1 + f2, new float2(7, 9));
 
 
 math_tops:
@@ -95,6 +102,13 @@ for:
 	}
 	Assert.AreEqual(n, 10.5);
 
+	string s = "s";
+	for (int i = 4; i < 8; i += 1)
+	{
+		s += i;
+	}
+	Assert.AreEqual(s, "s4567");
+
 
 foreach:
 	float n = 0.4;
@@ -103,6 +117,45 @@ foreach:
 		n *= i;
 	}
 	Assert.AreEqual(n, 28);
+
+
+array:
+	float[] a = new float[]{1,2,3.5};
+	//a[0] = 1;
+	//a[1] = 2;
+	//a[2] = 3.5;
+	Assert.AreEqual(a[0], 1);
+	Assert.AreEqual(a[1], 2);
+	Assert.AreEqual(a[2], 3.5);
+
+	float[,][] b = new float[2,2][];
+	b[0,0] = new float[1];
+	b[0,1] = new float[2];
+	b[1,0] = new float[3];
+	b[1,1] = new float[4];
+	
+	b[0,0][0] = -1; 
+	b[0,1][1] = 1; 
+	b[1,0][2] = 2; 
+	b[1,1][0] = b[0,0][0]; 
+	b[1,1][1] = b[0,1][1]; 
+	b[1,1][2] = b[1,0][2]; 
+	b[1,1][3] = b[1,1][2]; 
+
+	Assert.AreEqual(b[1,1][0], -1);
+	Assert.AreEqual(b[1,1][1], 1);
+	Assert.AreEqual(b[1,1][2], 2);
+	Assert.AreEqual(b[1,1][3], 2);
+
+	int[,,] c = new int[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } };
+	int sum = 0;
+	foreach (int i in c)
+	{
+		sum += i;
+	}
+	Assert.AreEqual(sum, 78);
+
+
 
 
 

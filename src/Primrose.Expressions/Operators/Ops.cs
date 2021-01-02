@@ -1,5 +1,6 @@
 ﻿using Primrose.Primitives;
 using Primrose.Primitives.Extensions;
+using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
@@ -11,149 +12,136 @@ namespace Primrose.Expressions
   /// </summary>
   public static class Ops
   {
-    internal static List<Pair<ValType, ValType>> CoerceTypes
-      = new List<Pair<ValType, ValType>>
-      {
-        new Pair<ValType, ValType>(ValType.FLOAT2, ValType.FLOAT_ARRAY),
-        new Pair<ValType, ValType>(ValType.FLOAT3, ValType.FLOAT_ARRAY),
-        new Pair<ValType, ValType>(ValType.FLOAT4, ValType.FLOAT_ARRAY),
-        new Pair<ValType, ValType>(ValType.FLOAT2, ValType.INT_ARRAY),
-        new Pair<ValType, ValType>(ValType.FLOAT3, ValType.INT_ARRAY),
-        new Pair<ValType, ValType>(ValType.FLOAT4, ValType.INT_ARRAY),
-        new Pair<ValType, ValType>(ValType.FLOAT_ARRAY, ValType.INT_ARRAY),
-      };
-
-    internal static Dictionary<Pair<UOp, ValType>, Func<Val, Val>> unaryops
-      = new Dictionary<Pair<UOp, ValType>, Func<Val, Val>>
+    internal static Dictionary<Pair<UOp, Type>, Func<Val, Val>> unaryops
+      = new Dictionary<Pair<UOp, Type>, Func<Val, Val>>
       {
         // IDENTITY
-        { new Pair<UOp, ValType>(UOp.IDENTITY, ValType.BOOL), (a) => { return a; } },
-        { new Pair<UOp, ValType>(UOp.IDENTITY, ValType.INT), (a) => { return a; } },
-        { new Pair<UOp, ValType>(UOp.IDENTITY, ValType.FLOAT), (a) => { return a; } },
-        { new Pair<UOp, ValType>(UOp.IDENTITY, ValType.STRING), (a) => { return a; } },
+        { new Pair<UOp, Type>(UOp.IDENTITY, typeof(bool)), (a) => { return a; } },
+        { new Pair<UOp, Type>(UOp.IDENTITY, typeof(int)), (a) => { return a; } },
+        { new Pair<UOp, Type>(UOp.IDENTITY, typeof(float)), (a) => { return a; } },
+        { new Pair<UOp, Type>(UOp.IDENTITY, typeof(string)), (a) => { return a; } },
 
         // NEGATION
-        { new Pair<UOp, ValType>(UOp.LOGICAL_NOT, ValType.BOOL), (a) => { return new Val(!(bool)a); }},
+        { new Pair<UOp, Type>(UOp.LOGICAL_NOT, typeof(bool)), (a) => { return new Val(!(bool)a); }},
 
         // INVERSE
-        { new Pair<UOp, ValType>(UOp.NEGATION, ValType.INT), (a) => { return  new Val(-(int)a); }},
-        { new Pair<UOp, ValType>(UOp.NEGATION, ValType.FLOAT), (a) => { return  new Val(-(float)a); }},
+        { new Pair<UOp, Type>(UOp.NEGATION, typeof(int)), (a) => { return  new Val(-(int)a); }},
+        { new Pair<UOp, Type>(UOp.NEGATION, typeof(float)), (a) => { return  new Val(-(float)a); }},
       };
 
-    internal static Dictionary<Trip<BOp, ValType, ValType>, Func<Val, Val, Val>> binaryops
-      = new Dictionary<Trip<BOp, ValType, ValType>, Func<Val, Val, Val>>
+    internal static Dictionary<Trip<BOp, Type, Type>, Func<Val, Val, Val>> binaryops
+      = new Dictionary<Trip<BOp, Type, Type>, Func<Val, Val, Val>>
       {
         // ADD
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a + (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a + (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a + (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a + (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.INT, ValType.STRING), (a,b) => { return new Val((int)a + (string)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.STRING, ValType.INT), (a,b) => { return new Val((string)a + (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.STRING, ValType.STRING), (a,b) => { return new Val((string)a + (string)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.FLOAT, ValType.STRING), (a,b) => { return new Val((float)a + (string)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.STRING, ValType.FLOAT), (a,b) => { return new Val((string)a + (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.FLOAT2, ValType.FLOAT2), (a,b) => { return new Val((float2)a + (float2)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.FLOAT3, ValType.FLOAT3), (a,b) => { return new Val((float3)a + (float3)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.FLOAT4, ValType.FLOAT4), (a,b) => { return new Val((float4)a + (float4)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.FLOAT_ARRAY, ValType.FLOAT_ARRAY), (a,b) => { return new Val(MemberwiseAdd((float[])a, (float[])b)); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.FLOAT_ARRAY, ValType.INT_ARRAY), (a,b) => { return new Val(MemberwiseAdd((float[])a, (int[])b)); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.INT_ARRAY, ValType.FLOAT_ARRAY), (a,b) => { return new Val(MemberwiseAdd((int[])a, (float[])b)); }},
-        {new Trip<BOp, ValType, ValType>(BOp.ADD, ValType.INT_ARRAY, ValType.INT_ARRAY), (a,b) => { return new Val(MemberwiseAdd((int[])a, (int[])b)); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(int), typeof(int)), (a,b) => { return new Val((int)a + (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(int), typeof(float)), (a,b) => { return new Val((int)a + (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(float), typeof(int)), (a,b) => { return new Val((float)a + (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(float), typeof(float)), (a,b) => { return new Val((float)a + (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(int), typeof(string)), (a,b) => { return new Val((int)a + (string)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(string), typeof(int)), (a,b) => { return new Val((string)a + (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(string), typeof(string)), (a,b) => { return new Val((string)a + (string)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(float), typeof(string)), (a,b) => { return new Val((float)a + (string)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(string), typeof(float)), (a,b) => { return new Val((string)a + (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(float2), typeof(float2)), (a,b) => { return new Val((float2)a + (float2)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(float3), typeof(float3)), (a,b) => { return new Val((float3)a + (float3)b); }},
+        {new Trip<BOp, Type, Type>(BOp.ADD, typeof(float4), typeof(float4)), (a,b) => { return new Val((float4)a + (float4)b); }},
+        //{new Trip<BOp, Type, Type>(BOp.ADD, typeof(float[]), typeof(float[])), (a,b) => { return new Val(MemberwiseAdd((float[])a, (float[])b)); }},
+        //{new Trip<BOp, Type, Type>(BOp.ADD, typeof(float[]), typeof(int[])), (a,b) => { return new Val(MemberwiseAdd((float[])a, (int[])b)); }},
+        //{new Trip<BOp, Type, Type>(BOp.ADD, typeof(int[]), typeof(float[])), (a,b) => { return new Val(MemberwiseAdd((int[])a, (float[])b)); }},
+        //{new Trip<BOp, Type, Type>(BOp.ADD, typeof(int[]), typeof(int[])), (a,b) => { return new Val(MemberwiseAdd((int[])a, (int[])b)); }},
 
         // SUBTRACT
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a - (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a - (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a - (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a - (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.FLOAT2, ValType.FLOAT2), (a,b) => { return new Val((float2)a - (float2)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.FLOAT3, ValType.FLOAT3), (a,b) => { return new Val((float3)a - (float3)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.FLOAT4, ValType.FLOAT4), (a,b) => { return new Val((float4)a - (float4)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.FLOAT_ARRAY, ValType.FLOAT_ARRAY), (a,b) => { return new Val(MemberwiseSubstract((float[])a, (float[])b)); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.FLOAT_ARRAY, ValType.INT_ARRAY), (a,b) => { return new Val(MemberwiseSubstract((float[])a, (int[])b)); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.INT_ARRAY, ValType.FLOAT_ARRAY), (a,b) => { return new Val(MemberwiseSubstract((int[])a, (float[])b)); }},
-        {new Trip<BOp, ValType, ValType>(BOp.SUBTRACT, ValType.INT_ARRAY, ValType.INT_ARRAY), (a,b) => { return new Val(MemberwiseSubstract((int[])a, (int[])b)); }},
+        {new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(int), typeof(int)), (a,b) => { return new Val((int)a - (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(int), typeof(float)), (a,b) => { return new Val((int)a - (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(float), typeof(int)), (a,b) => { return new Val((float)a - (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(float), typeof(float)), (a,b) => { return new Val((float)a - (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(float2), typeof(float2)), (a,b) => { return new Val((float2)a - (float2)b); }},
+        {new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(float3), typeof(float3)), (a,b) => { return new Val((float3)a - (float3)b); }},
+        {new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(float4), typeof(float4)), (a,b) => { return new Val((float4)a - (float4)b); }},
+        //{new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(float[]), typeof(float[])), (a,b) => { return new Val(MemberwiseSubstract((float[])a, (float[])b)); }},
+        //{new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(float[]), typeof(int[])), (a,b) => { return new Val(MemberwiseSubstract((float[])a, (int[])b)); }},
+        //{new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(int[]), typeof(float[])), (a,b) => { return new Val(MemberwiseSubstract((int[])a, (float[])b)); }},
+        //{new Trip<BOp, Type, Type>(BOp.SUBTRACT, typeof(int[]), typeof(int[])), (a,b) => { return new Val(MemberwiseSubstract((int[])a, (int[])b)); }},
 
         // MULTIPLY
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a * (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a * (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a * (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a * (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.FLOAT2, ValType.FLOAT), (a,b) => { return new Val((float2)a * (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.FLOAT3, ValType.FLOAT), (a,b) => { return new Val((float3)a * (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.FLOAT4, ValType.FLOAT), (a,b) => { return new Val((float4)a * (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.FLOAT2, ValType.INT), (a,b) => { return new Val((float2)a * (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.FLOAT3, ValType.INT), (a,b) => { return new Val((float3)a * (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MULTIPLY, ValType.FLOAT4, ValType.INT), (a,b) => { return new Val((float4)a * (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(int), typeof(int)), (a,b) => { return new Val((int)a * (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(int), typeof(float)), (a,b) => { return new Val((int)a * (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(float), typeof(int)), (a,b) => { return new Val((float)a * (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(float), typeof(float)), (a,b) => { return new Val((float)a * (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(float2), typeof(float)), (a,b) => { return new Val((float2)a * (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(float3), typeof(float)), (a,b) => { return new Val((float3)a * (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(float4), typeof(float)), (a,b) => { return new Val((float4)a * (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(float2), typeof(int)), (a,b) => { return new Val((float2)a * (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(float3), typeof(int)), (a,b) => { return new Val((float3)a * (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MULTIPLY, typeof(float4), typeof(int)), (a,b) => { return new Val((float4)a * (int)b); }},
 
         // DIVIDE
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a / (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a / (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a / (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a / (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.FLOAT2, ValType.FLOAT), (a,b) => { return new Val((float2)a / (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.FLOAT3, ValType.FLOAT), (a,b) => { return new Val((float3)a / (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.FLOAT4, ValType.FLOAT), (a,b) => { return new Val((float4)a / (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.FLOAT2, ValType.INT), (a,b) => { return new Val((float2)a / (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.FLOAT3, ValType.INT), (a,b) => { return new Val((float3)a / (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.DIVIDE, ValType.FLOAT4, ValType.INT), (a,b) => { return new Val((float4)a / (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(int), typeof(int)), (a,b) => { return new Val((int)a / (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(int), typeof(float)), (a,b) => { return new Val((int)a / (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(float), typeof(int)), (a,b) => { return new Val((float)a / (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(float), typeof(float)), (a,b) => { return new Val((float)a / (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(float2), typeof(float)), (a,b) => { return new Val((float2)a / (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(float3), typeof(float)), (a,b) => { return new Val((float3)a / (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(float4), typeof(float)), (a,b) => { return new Val((float4)a / (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(float2), typeof(int)), (a,b) => { return new Val((float2)a / (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(float3), typeof(int)), (a,b) => { return new Val((float3)a / (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.DIVIDE, typeof(float4), typeof(int)), (a,b) => { return new Val((float4)a / (int)b); }},
 
         // MODULUS
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a % (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a % (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a % (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a % (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.FLOAT2, ValType.FLOAT), (a,b) => { return new Val((float2)a % (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.FLOAT3, ValType.FLOAT), (a,b) => { return new Val((float3)a % (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.FLOAT4, ValType.FLOAT), (a,b) => { return new Val((float4)a % (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.FLOAT2, ValType.INT), (a,b) => { return new Val((float2)a % (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.FLOAT3, ValType.INT), (a,b) => { return new Val((float3)a % (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MODULUS, ValType.FLOAT4, ValType.INT), (a,b) => { return new Val((float4)a % (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(int), typeof(int)), (a,b) => { return new Val((int)a % (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(int), typeof(float)), (a,b) => { return new Val((int)a % (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(float), typeof(int)), (a,b) => { return new Val((float)a % (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(float), typeof(float)), (a,b) => { return new Val((float)a % (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(float2), typeof(float)), (a,b) => { return new Val((float2)a % (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(float3), typeof(float)), (a,b) => { return new Val((float3)a % (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(float4), typeof(float)), (a,b) => { return new Val((float4)a % (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(float2), typeof(int)), (a,b) => { return new Val((float2)a % (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(float3), typeof(int)), (a,b) => { return new Val((float3)a % (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MODULUS, typeof(float4), typeof(int)), (a,b) => { return new Val((float4)a % (int)b); }},
 
         // LOGICAL_OR
-        {new Trip<BOp, ValType, ValType>(BOp.LOGICAL_OR, ValType.BOOL, ValType.BOOL), (a,b) => { return new Val((bool)a || (bool)b); }},
-        //{new Trip<BOp, ValType, ValType>(BOp.LOGICAL_OR, ValType.INT, ValType.INT), (a,b) => { return new Val(a.ValueI | b.ValueI); }},
+        {new Trip<BOp, Type, Type>(BOp.LOGICAL_OR, typeof(bool), typeof(bool)), (a,b) => { return new Val((bool)a || (bool)b); }},
+        //{new Trip<BOp, Type, Type>(BOp.LOGICAL_OR, typeof(int), typeof(int)), (a,b) => { return new Val(a.ValueI | b.ValueI); }},
 
         // LOGICAL_AND
-        {new Trip<BOp, ValType, ValType>(BOp.LOGICAL_AND, ValType.BOOL, ValType.BOOL), (a,b) => { return new Val((bool)a & (bool)b); }},
-        //{new Trip<BOp, ValType, ValType>(BOp.LOGICAL_AND, ValType.INT, ValType.INT), (a,b) => { return new Val(a.ValueI & b.ValueI); }},
+        {new Trip<BOp, Type, Type>(BOp.LOGICAL_AND, typeof(bool), typeof(bool)), (a,b) => { return new Val((bool)a & (bool)b); }},
+        //{new Trip<BOp, Type, Type>(BOp.LOGICAL_AND, typeof(int), typeof(int)), (a,b) => { return new Val(a.ValueI & b.ValueI); }},
 
         // EQUAL_TO
-        {new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, ValType.STRING, ValType.NULL), (a,b) => { return new Val((string)a == null); }},
-        {new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, ValType.NULL, ValType.STRING), (a,b) => { return new Val((string)b == null); }},
-        {new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a == (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a == (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.EQUAL_TO, typeof(string), null), (a,b) => { return new Val((string)a == null); }},
+        {new Trip<BOp, Type, Type>(BOp.EQUAL_TO, null, typeof(string)), (a,b) => { return new Val((string)b == null); }},
+        {new Trip<BOp, Type, Type>(BOp.EQUAL_TO, typeof(int), typeof(float)), (a,b) => { return new Val((int)a == (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.EQUAL_TO, typeof(float), typeof(int)), (a,b) => { return new Val((float)a == (int)b); }},
 
         // NOT_EQUAL_TO
-        {new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, ValType.STRING, ValType.NULL), (a,b) => { return new Val((string)a != null); }},
-        {new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, ValType.NULL, ValType.STRING), (a,b) => { return new Val((string)b != null); }},
-        {new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a != (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a != (int)b); }},
-
+        {new Trip<BOp, Type, Type>(BOp.NOT_EQUAL_TO, typeof(string), null), (a,b) => { return new Val((string)a != null); }},
+        {new Trip<BOp, Type, Type>(BOp.NOT_EQUAL_TO, null, typeof(string)), (a,b) => { return new Val((string)b != null); }},
+        {new Trip<BOp, Type, Type>(BOp.NOT_EQUAL_TO, typeof(int), typeof(float)), (a,b) => { return new Val((int)a != (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.NOT_EQUAL_TO, typeof(float), typeof(int)), (a,b) => { return new Val((float)a != (int)b); }},
 
         // MORE_THAN
-        {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a > (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a > (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a > (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a > (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MORE_THAN, typeof(int), typeof(int)), (a,b) => { return new Val((int)a > (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MORE_THAN, typeof(int), typeof(float)), (a,b) => { return new Val((int)a > (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MORE_THAN, typeof(float), typeof(int)), (a,b) => { return new Val((float)a > (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MORE_THAN, typeof(float), typeof(float)), (a,b) => { return new Val((float)a > (float)b); }},
 
         // MORE_THAN_OR_EQUAL_TO
-        {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN_OR_EQUAL_TO, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a >= (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN_OR_EQUAL_TO, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a >= (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN_OR_EQUAL_TO, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a >= (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.MORE_THAN_OR_EQUAL_TO, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a >= (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MORE_THAN_OR_EQUAL_TO, typeof(int), typeof(int)), (a,b) => { return new Val((int)a >= (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MORE_THAN_OR_EQUAL_TO, typeof(int), typeof(float)), (a,b) => { return new Val((int)a >= (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MORE_THAN_OR_EQUAL_TO, typeof(float), typeof(int)), (a,b) => { return new Val((float)a >= (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.MORE_THAN_OR_EQUAL_TO, typeof(float), typeof(float)), (a,b) => { return new Val((float)a >= (float)b); }},
 
         // LESS_THAN
-        {new Trip<BOp, ValType, ValType>(BOp.LESS_THAN, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a < (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.LESS_THAN, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a < (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.LESS_THAN, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a < (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.LESS_THAN, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a < (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.LESS_THAN, typeof(int), typeof(int)), (a,b) => { return new Val((int)a < (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.LESS_THAN, typeof(int), typeof(float)), (a,b) => { return new Val((int)a < (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.LESS_THAN, typeof(float), typeof(int)), (a,b) => { return new Val((float)a < (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.LESS_THAN, typeof(float), typeof(float)), (a,b) => { return new Val((float)a < (float)b); }},
 
         // LESS_THAN_OR_EQUAL_TO
-        {new Trip<BOp, ValType, ValType>(BOp.LESS_THAN_OR_EQUAL_TO, ValType.INT, ValType.INT), (a,b) => { return new Val((int)a <= (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.LESS_THAN_OR_EQUAL_TO, ValType.INT, ValType.FLOAT), (a,b) => { return new Val((int)a <= (float)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.LESS_THAN_OR_EQUAL_TO, ValType.FLOAT, ValType.INT), (a,b) => { return new Val((float)a <= (int)b); }},
-        {new Trip<BOp, ValType, ValType>(BOp.LESS_THAN_OR_EQUAL_TO, ValType.FLOAT, ValType.FLOAT), (a,b) => { return new Val((float)a <= (float)b); } }
+        {new Trip<BOp, Type, Type>(BOp.LESS_THAN_OR_EQUAL_TO, typeof(int), typeof(int)), (a,b) => { return new Val((int)a <= (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.LESS_THAN_OR_EQUAL_TO, typeof(int), typeof(float)), (a,b) => { return new Val((int)a <= (float)b); }},
+        {new Trip<BOp, Type, Type>(BOp.LESS_THAN_OR_EQUAL_TO, typeof(float), typeof(int)), (a,b) => { return new Val((float)a <= (int)b); }},
+        {new Trip<BOp, Type, Type>(BOp.LESS_THAN_OR_EQUAL_TO, typeof(float), typeof(float)), (a,b) => { return new Val((float)a <= (float)b); } }
       };
 
     /// <summary>
@@ -164,7 +152,7 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val Do(UOp op, Val v)
     {
-      if (!unaryops.TryGetValue(new Pair<UOp, ValType>(op, v.Type), out Func<Val, Val> fn))
+      if (!unaryops.TryGetValue(new Pair<UOp, Type>(op, v.Type), out Func<Val, Val> fn))
         throw new ArgumentException(Resource.Strings.Error_IncompatibleUOp.F(op, v.Type));
 
       return fn.Invoke(v);
@@ -179,10 +167,9 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val Do(BOp op, Val v1, Val v2)
     {
-      if (CoerceTypes.Contains(new Pair<ValType, ValType>(v1.Type, v2.Type)))
-        v2 = Coerce(v1.Type, v2);
+      ImplicitCast(ref v1, ref v2);
 
-      if (!binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(op, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
+      if (!binaryops.TryGetValue(new Trip<BOp, Type, Type>(op, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
         throw new ArgumentException(Resource.Strings.Error_IncompatibleBOp.F(op, v1.Type, v2.Type));
 
       return fn.Invoke(v1, v2);
@@ -196,10 +183,9 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val IsEqual(Val v1, Val v2)
     {
-      if (CoerceTypes.Contains(new Pair<ValType, ValType>(v1.Type, v2.Type)))
-        v2 = Coerce(v1.Type, v2);
+      ImplicitCast(ref v1, ref v2);
 
-      if (binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(BOp.EQUAL_TO, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
+      if (binaryops.TryGetValue(new Trip<BOp, Type, Type>(BOp.EQUAL_TO, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
         return fn.Invoke(v1, v2);
 
       if (v1.Type == v2.Type)
@@ -216,10 +202,9 @@ namespace Primrose.Expressions
     /// <returns></returns>
     public static Val IsNotEqual(Val v1, Val v2)
     {
-      if (CoerceTypes.Contains(new Pair<ValType, ValType>(v1.Type, v2.Type)))
-        v2 = Coerce(v1.Type, v2);
+      ImplicitCast(ref v1, ref v2);
 
-      if (binaryops.TryGetValue(new Trip<BOp, ValType, ValType>(BOp.NOT_EQUAL_TO, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
+      if (binaryops.TryGetValue(new Trip<BOp, Type, Type>(BOp.NOT_EQUAL_TO, v1.Type, v2.Type), out Func<Val, Val, Val> fn))
         return fn.Invoke(v1, v2);
 
       if (v1.Type == v2.Type)
@@ -324,90 +309,32 @@ namespace Primrose.Expressions
       return ret;
     }
 
-    internal static Val Coerce(ValType t, Val val)
+    /// <summary>Perform implicit casting</summary>
+    public static Val ImplicitCast(Type t, Val val)
     {
-      if (t == val.Type)
+      Type vt = val.Type;
+      if (t == vt)
         return val;
 
-      // float can accept int
-      else if (t == ValType.FLOAT && val.Type == ValType.INT)
-        return new Val((float)val);
+      if (ImplicitConversionTable.HasImplicitConversion(vt, t))
+        return new Val(Convert.ChangeType(val.Value, t));
+      else
+        throw new ValTypeMismatchException(val.Type, t);
+    }
 
-      // int can accept float
-      else if (t == ValType.INT && val.Type == ValType.FLOAT)
-        return new Val((int)val);
+    /// <summary>Perform implicit casting towards a common type</summary>
+    public static void ImplicitCast(ref Val v1, ref Val v2)
+    {
+      Type vt1 = v1.Type;
+      Type vt2 = v2.Type;
+      if (vt1 == vt2)
+        return;
 
-      // float_array can accept int_array of same length
-      else if (t == ValType.FLOAT_ARRAY && val.Type == ValType.INT_ARRAY)
-      {
-        int[] iv = (int[])val;
-        float[] ret = new float[iv.Length];
-        for (int i = 0; i < iv.Length; i++)
-          ret[i] = iv[i];
-        return new Val(ret);
-      }
+      if (ImplicitConversionTable.HasImplicitConversion(vt1, vt2)) { v1 = new Val(Convert.ChangeType(v1.Value, vt2)); }
+      else if (ImplicitConversionTable.HasImplicitConversion(vt2, vt1)) { v2 = new Val(Convert.ChangeType(v2.Value, vt1)); }
+      //else throw new ValTypeMismatchException(vt1, vt2);
 
-      // float2/3/4 can accept float_array/int_array of same length
-      else if (t == ValType.FLOAT2 && val.Type == ValType.FLOAT_ARRAY)
-      {
-        float[] fv = (float[])val;
-        int len = fv.Length;
-        if (len == 2)
-          return new Val(float2.FromArray(fv));
-        else
-          throw new ValTypeMismatchException(len, t);
-      }
-
-      else if (t == ValType.FLOAT3 && val.Type == ValType.FLOAT_ARRAY)
-      {
-        float[] fv = (float[])val;
-        int len = fv.Length;
-        if (len == 3)
-          return new Val(float3.FromArray(fv));
-        else
-          throw new ValTypeMismatchException(len, t);
-      }
-
-      else if (t == ValType.FLOAT4 && val.Type == ValType.FLOAT_ARRAY)
-      {
-        float[] fv = (float[])val;
-        int len = fv.Length;
-        if (len == 4)
-          return new Val(float4.FromArray(fv));
-        else
-          throw new ValTypeMismatchException(len, t);
-      }
-
-      else if (t == ValType.FLOAT2 && val.Type == ValType.INT_ARRAY)
-      {
-        int[] fv = (int[])val;
-        int len = fv.Length;
-        if (len == 2)
-          return new Val(float2.FromArray(fv));
-        else
-          throw new ValTypeMismatchException(len, t);
-      }
-
-      else if (t == ValType.FLOAT3 && val.Type == ValType.INT_ARRAY)
-      {
-        int[] fv = (int[])val;
-        int len = fv.Length;
-        if (len == 3)
-          return new Val(float3.FromArray(fv));
-        else
-          throw new ValTypeMismatchException(len, t);
-      }
-
-      else if (t == ValType.FLOAT4 && val.Type == ValType.INT_ARRAY)
-      {
-        int[] fv = (int[])val;
-        int len = fv.Length;
-        if (len == 4)
-          return new Val(float4.FromArray(fv));
-        else
-          throw new ValTypeMismatchException(len, t);
-      }
-      throw new ValTypeMismatchException(val.Type, t);
+      return;
     }
   }
 }

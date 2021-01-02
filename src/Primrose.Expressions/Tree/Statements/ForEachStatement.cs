@@ -1,4 +1,5 @@
 ﻿using Primrose.Expressions.Tree.Expressions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -68,51 +69,15 @@ namespace Primrose.Expressions.Tree.Statements
       if (_enumerable != null)
       {
         Val array = _enumerable.Evaluate(context);
+        Array a = array.Cast<Array>();
 
-        if (array.Type == ValType.BOOL_ARRAY)
+        foreach (object o in a)
         {
-          foreach (bool v in (bool[])array)
-          {
-            _scope.SetVar(this, _var.varName, new Val(v));
-            foreach (CStatement s in _actions)
-              s.Evaluate(context);
-          }
-          return;
-        }
-        else if (array.Type == ValType.INT_ARRAY)
-        {
-          foreach (int v in (int[])array)
-          {
-            _scope.SetVar(this, _var.varName, new Val(v));
-            foreach (CStatement s in _actions)
-              s.Evaluate(context);
-          }
-          return;
-        }
-        else if (array.Type == ValType.FLOAT_ARRAY)
-        {
-          foreach (float v in (float[])array)
-          {
-            _scope.SetVar(this, _var.varName, new Val(v));
-            foreach (CStatement s in _actions)
-              s.Evaluate(context);
-          }
-          return;
-        }
-        else if (array.Type == ValType.STRING_ARRAY)
-        {
-          foreach (string v in (string[])array)
-          {
-            _scope.SetVar(this, _var.varName, new Val(v));
-            foreach (CStatement s in _actions)
-              s.Evaluate(context);
-          }
-          return;
+          _scope.SetVar(this, _var.varName, new Val(o));
+          foreach (CStatement s in _actions)
+            s.Evaluate(context);
         }
       }
-
-      foreach (CStatement s in _actions)
-        s.Evaluate(context);
     }
 
     public override void Write(StringBuilder sb)

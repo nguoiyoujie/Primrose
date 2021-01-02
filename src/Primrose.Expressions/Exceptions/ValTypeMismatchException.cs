@@ -1,6 +1,5 @@
 ﻿using Primrose.Primitives.Extensions;
 using System;
-using System.Runtime.Versioning;
 
 namespace Primrose.Expressions
 {
@@ -8,14 +7,14 @@ namespace Primrose.Expressions
   public class ValTypeMismatchException : InvalidOperationException
   {
     /// <summary>
-    /// Represents an exception when attempting to assign an array to a ValType
+    /// Represents an exception when attempting to assign an array to another Type
     /// </summary>
-    public ValTypeMismatchException(int length, ValType type) : base(Resource.Strings.Error_ValTypeMismatchException_Length.F(length, type)) { }
+    public ValTypeMismatchException(int length, Type type) : base(Resource.Strings.Error_ValTypeMismatchException_Length.F(length, type.Name)) { }
 
     /// <summary>
-    /// Represents an exception when attempting to assign an array to a ValType
+    /// Represents an exception when attempting to assign a Type to another Type
     /// </summary>
-    public ValTypeMismatchException(ValType type1, ValType type2) : base(Resource.Strings.Error_ValTypeMismatchException_Type.F(type1, type2)) { }
+    public ValTypeMismatchException(Type type1, Type type2) : base(Resource.Strings.Error_ValTypeMismatchException_Type.F(type1.Name, type2.Name)) { }
   }
 }
 

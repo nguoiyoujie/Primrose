@@ -42,7 +42,7 @@ namespace Primrose.Expressions.Tree.Expressions
     public override Val Evaluate(IContext context)
     {
       Val result = _question.Evaluate(context);
-      if (result.Type != ValType.BOOL) throw new EvalException(this, Resource.Strings.Error_EvalException_NonBooleanConditional.F(result.Value));
+      if (result.Type != typeof(bool)) throw new EvalException(this, Resource.Strings.Error_EvalException_NonBooleanConditional.F(result.Value));
       if ((bool)result)
         return _true?.Evaluate(context) ?? new Val();
       else

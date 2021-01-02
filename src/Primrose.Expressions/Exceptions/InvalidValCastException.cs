@@ -7,9 +7,9 @@ namespace Primrose.Expressions
   public class InvalidValCastException : InvalidCastException
   {
     /// <summary>
-    /// Represents an exception when performing an invalid cast with a ValType
+    /// Represents an exception when performing an invalid cast to another Type/>
     /// </summary>
-    public InvalidValCastException(Type type, ValType valType) : base(Resource.Strings.Error_InvalidValCastException.F(type.Name, valType)) { }
+    public InvalidValCastException(Type type, Type target_type) : base(Resource.Strings.Error_InvalidValCastException.F(type.Name, target_type.Name)) { }
   }
 }
 

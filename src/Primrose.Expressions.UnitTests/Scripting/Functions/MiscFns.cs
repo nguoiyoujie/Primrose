@@ -55,6 +55,10 @@ namespace Primrose.Expressions.UnitTests.Scripting
     /// <returns>BOOL/INT/FLOAT, depending on the input</returns>
     public static Val GetArrayElement(IContext context, Val array, int index)
     {
+      Array a = array.Cast<Array>();
+      return new Val(a.GetValue(index));
+
+      /*
       if (array.Type == ValType.BOOL_ARRAY)
         return new Val(((bool[])array)[index]);
       else if (array.Type == ValType.INT_ARRAY)
@@ -68,6 +72,7 @@ namespace Primrose.Expressions.UnitTests.Scripting
 
       else
         throw new Exception("Attempted to apply GetArrayElement on a non-array object.");
+      */
     }
   }
 }

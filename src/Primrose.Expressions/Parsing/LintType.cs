@@ -31,7 +31,10 @@
     FUNCTION,
 
     /// <summary>Indicates linting for variables</summary>
-    VARIABLE
+    VARIABLE,
+
+    /// <summary>Inconclusive linting for variables or type</summary>
+    VARIABLE_OR_TYPE
   }
 }
 
