@@ -58,14 +58,9 @@
         <member name="T:Primrose.Expressions.InvalidValCastException">
             <summary>Represents an exception as a result of performing an invalid cast with a ValType</summary>
         </member>
-        <member name="M:Primrose.Expressions.InvalidValCastException.#ctor(System.Type,Primrose.Expressions.ValType)">
-            <summary>
-            Represents an exception when performing an invalid cast with a ValType
-            </summary>
-        </member>
         <member name="M:Primrose.Expressions.InvalidValCastException.#ctor(System.Type,System.Type)">
             <summary>
-            Represents an exception when performing an invalid cast with a ValType
+            Represents an exception when performing an invalid cast to another Type/>
             </summary>
         </member>
         <member name="T:Primrose.Expressions.BOp">
@@ -390,7 +385,7 @@
         <member name="M:Primrose.Expressions.ContextScope.Clear">
             <summary>Clears the context of information</summary>
         </member>
-        <member name="M:Primrose.Expressions.ContextScope.DeclVar(System.String,Primrose.Expressions.ValType,Primrose.Expressions.Lexer)">
+        <member name="M:Primrose.Expressions.ContextScope.DeclVar(System.String,System.Type,Primrose.Expressions.Lexer)">
             <summary>Declares a variable</summary>
             <param name="name">The variable name</param>
             <param name="type">The variable type</param>
@@ -405,7 +400,14 @@
             <exception cref="T:System.InvalidOperationException">Attempted to get the value from an undeclared variable</exception>
         </member>
         <member name="M:Primrose.Expressions.ContextScope.SetVar(Primrose.Expressions.ITracker,System.String,Primrose.Expressions.Val)">
-            <summary>Set the value of a variable</summary>
+            <summary>Sets the value of a variable</summary>
+            <param name="eval">The expression object being evaluated</param>
+            <param name="name">The variable name</param>
+            <param name="val">The Val object containing the value of the variable</param>
+            <exception cref="T:System.InvalidOperationException">Attempted to set the value of an undeclared variable</exception>
+        </member>
+        <member name="M:Primrose.Expressions.ContextScope.SetVar(Primrose.Expressions.ITracker,System.String,Primrose.Expressions.Val,System.Int32[][])">
+            <summary>Sets the value of an indexed variable</summary>
             <param name="eval">The expression object being evaluated</param>
             <param name="name">The variable name</param>
             <param name="val">The Val object containing the value of the variable</param>
@@ -449,14 +451,14 @@
         <member name="T:Primrose.Expressions.ValTypeMismatchException">
             <summary>Represents an exception as a result of processing an array with an unexpected format</summary>
         </member>
-        <member name="M:Primrose.Expressions.ValTypeMismatchException.#ctor(System.Int32,Primrose.Expressions.ValType)">
+        <member name="M:Primrose.Expressions.ValTypeMismatchException.#ctor(System.Int32,System.Type)">
             <summary>
-            Represents an exception when attempting to assign an array to a ValType
+            Represents an exception when attempting to assign an array to another Type
             </summary>
         </member>
-        <member name="M:Primrose.Expressions.ValTypeMismatchException.#ctor(Primrose.Expressions.ValType,Primrose.Expressions.ValType)">
+        <member name="M:Primrose.Expressions.ValTypeMismatchException.#ctor(System.Type,System.Type)">
             <summary>
-            Represents an exception when attempting to assign an array to a ValType
+            Represents an exception when attempting to assign a Type to another Type
             </summary>
         </member>
         <member name="T:Primrose.Expressions.EvalException">
@@ -560,6 +562,12 @@
             <param name="v2">The second value</param>
             <returns></returns>
         </member>
+        <member name="M:Primrose.Expressions.Ops.ImplicitCast(System.Type,Primrose.Expressions.Val)">
+            <summary>Perform implicit casting</summary>
+        </member>
+        <member name="M:Primrose.Expressions.Ops.ImplicitCast(Primrose.Expressions.Val@,Primrose.Expressions.Val@)">
+            <summary>Perform implicit casting towards a common type</summary>
+        </member>
         <member name="M:Primrose.Expressions.IMatcher.Match(System.String)">
             <summary>
             Return the number of characters that this "regex" or equivalent
@@ -632,6 +640,9 @@
         </member>
         <member name="F:Primrose.Expressions.LintType.VARIABLE">
             <summary>Indicates linting for variables</summary>
+        </member>
+        <member name="F:Primrose.Expressions.LintType.VARIABLE_OR_TYPE">
+            <summary>Inconclusive linting for variables or type</summary>
         </member>
         <member name="T:Primrose.Expressions.Resource.Strings">
             <summary>
@@ -940,19 +951,19 @@
         <member name="F:Primrose.Expressions.UOp.NEGATION">
             <summary>The numerical negation operator (-a)</summary>
         </member>
-        <member name="T:Primrose.Expressions.CastTo`1">
+        <member name="T:Primrose.Expressions.UnaryOp`1">
             <summary>
-            Class to cast between types, avoiding boxing if possible
+            Performs and caches functions for basic operations
             </summary>
-            <typeparam name="T">Target type</typeparam>
+            <typeparam name="TIn">Input type</typeparam>
         </member>
-        <member name="M:Primrose.Expressions.CastTo`1.From``1(``0)">
+        <member name="M:Primrose.Expressions.UnaryOp`1.Cast``1(`0)">
             <summary>
-            Casts <see cref="!:S"/> to <see cref="!:T"/>.
+            Casts <typeparamref name="TIn"/> to <typeparamref name="TOut"/>.
             This does not cause boxing for value types.
             Useful in generic methods.
             </summary>
-            <typeparam name="S">Source type to cast from. Usually a generic type.</typeparam>
+            <typeparam name="TOut">Target type to cast to. Usually a generic type.</typeparam>
         </member>
         <member name="T:Primrose.Expressions.ValObj">
             <summary>
@@ -974,10 +985,8 @@
             Represents a script value
             </summary>
         </member>
-        <member name="F:Primrose.Expressions.Val.Type">
-            <summary>
-            The type of the value
-            </summary>
+        <member name="P:Primrose.Expressions.Val.Type">
+            <summary>Retrieves the type of the value</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.Cast``1">
             <summary>Retrieves the value and casts it as a <typeparamref name="T"/></summary>
@@ -1018,7 +1027,7 @@
         <member name="P:Primrose.Expressions.Val.Value">
             <summary>Retrieves the value as an object</summary>
         </member>
-        <member name="M:Primrose.Expressions.Val.#ctor(Primrose.Expressions.ValType)">
+        <member name="M:Primrose.Expressions.Val.#ctor(System.Type)">
             <summary>Defines a value</summary>
         </member>
         <member name="M:Primrose.Expressions.Val.#ctor(System.Boolean)">
@@ -1054,6 +1063,9 @@
         <member name="M:Primrose.Expressions.Val.#ctor(System.String[])">
             <summary>Defines a value</summary>
         </member>
+        <member name="M:Primrose.Expressions.Val.#ctor(System.Object)">
+            <summary>Defines a value</summary>
+        </member>
         <member name="F:Primrose.Expressions.Val.NULL">
             <summary>Represents a null value</summary>
         </member>
@@ -1075,44 +1087,8 @@
         <member name="P:Primrose.Expressions.Val.IsArray">
             <summary>Determines if a value is an array</summary>
         </member>
-        <member name="T:Primrose.Expressions.ValType">
-            <summary>Represents a value type</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.NULL">
-            <summary>Represents a null value</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.BOOL">
-            <summary>Represents a boolean value</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.INT">
-            <summary>Represents a 32-bit integer value</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.FLOAT">
-            <summary>Represents a 32-bit floating point value</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.STRING">
-            <summary>Represents a string value</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.FLOAT2">
-            <summary>Represents two floating point values</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.FLOAT3">
-            <summary>Represents three floating point values</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.FLOAT4">
-            <summary>Represents four floating point values</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.BOOL_ARRAY">
-            <summary>Represents an array of boolean values</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.INT_ARRAY">
-            <summary>Represents an array of integer values</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.FLOAT_ARRAY">
-            <summary>Represents an array of floating point values</summary>
-        </member>
-        <member name="F:Primrose.Expressions.ValType.STRING_ARRAY">
-            <summary>Represents an array of strings</summary>
+        <member name="M:Primrose.Expressions.Val.ToString">
+            <summary>Gets the string representation of the value</summary>
         </member>
     </members>
 </doc>

@@ -3015,6 +3015,141 @@
         <member name="M:Primrose.Primitives.Triggers.Trigger.ActionCollection.Clear">
             <summary>Clears all actions from the trigger</summary>
         </member>
+        <member name="T:Primrose.Primitives.ValueTypes.floatRect">
+            <summary>A float rectangle value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.floatRect.x">
+            <summary>The x or [0] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.floatRect.y">
+            <summary>The y or [1] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.floatRect.w">
+            <summary>The w or [2] value</summary>
+        </member>
+        <member name="F:Primrose.Primitives.ValueTypes.floatRect.h">
+            <summary>The h or [3] value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.#ctor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a floatRect value
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="w"></param>
+            <param name="h"></param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.#ctor(Primrose.Primitives.ValueTypes.float2,Primrose.Primitives.ValueTypes.float2)">
+            <summary>
+            Creates a floatRect value
+            </summary>
+            <param name="position"></param>
+            <param name="size"></param>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.floatRect.Item(System.Single)">
+            <summary>The value indexer</summary>
+            <exception cref="T:System.IndexOutOfRangeException">The array is accessed with an invalid index</exception>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.floatRect.Position">
+            <summary>The position of the rectangle</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.floatRect.Size">
+            <summary>The position of the rectangle</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.ToString">
+            <summary>Returns the string representation of this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.ToArray">
+            <summary>Creates a float[] array from this value</summary>
+            <returns>An array of length 4 with identical indexed values</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.FromArray(System.Single[])">
+            <summary>Creates a floatRect from an array</summary>
+            <param name="array">The array</param>
+            <returns>A floatRect value</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a floatRect</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.FromArray(System.Int32[])">
+            <summary>Creates a floatRect from an array</summary>
+            <param name="array">The array</param>
+            <returns>A floatRect value</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+            <exception cref="T:Primrose.Primitives.ArrayMismatchException">Only an array of length 4 can be converted to a floatRect</exception>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.Parse(System.String)">
+            <summary>Parses a floatRect from a string</summary>
+            <param name="s">The string value</param>
+            <returns>A floatRect value</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.Parse(System.String,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.floatRect)">
+            <summary>Parses a floatRect from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <returns>A floatRect value, or the default value if the parsing fails</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.TryParse(System.String,Primrose.Primitives.ValueTypes.floatRect@)">
+            <summary>Parses a floatRect from a string</summary>
+            <param name="s">The string value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.TryParse(System.String,Primrose.Primitives.ValueTypes.floatRect@,Primrose.Primitives.Parsers.IResolver,Primrose.Primitives.ValueTypes.floatRect)">
+            <summary>Parses a floatRect from a string</summary>
+            <param name="s">The string value</param>
+            <param name="resolver">A string resolver function</param>
+            <param name="defaultValue">The default value</param>
+            <param name="result">The parsed value</param>
+            <returns>True if the parse is successful</returns>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.Equals(System.Object)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="obj">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.Equals(Primrose.Primitives.ValueTypes.floatRect)">
+            <summary>Returns true if the value of another object is equal to this object</summary>
+            <param name="other">The object to compare for equality</param>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.GetHashCode">
+            <summary>Generates the hash code for this object</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.op_Equality(Primrose.Primitives.ValueTypes.floatRect,Primrose.Primitives.ValueTypes.floatRect)">
+            <summary>Determines if two floatRect values are equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.op_Inequality(Primrose.Primitives.ValueTypes.floatRect,Primrose.Primitives.ValueTypes.floatRect)">
+            <summary>Determines if two floatRect values are not equal</summary>
+        </member>
+        <member name="P:Primrose.Primitives.ValueTypes.floatRect.Empty">
+            <summary>Returns a floatRect value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.ContainsPofloat(Primrose.Primitives.ValueTypes.float2)">
+            <summary>Determines if a pofloat is inside the rectangle represented</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.floatersectsRectangle(Primrose.Primitives.ValueTypes.float2,Primrose.Primitives.ValueTypes.float2)">
+            <summary>Determines if at least part of a rectangle floatersects with the rectangle represented</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.floatersectsRectangle(Primrose.Primitives.ValueTypes.floatRect)">
+            <summary>Determines if at least part of a rectangle floatersects with the rectangle represented</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.Union(Primrose.Primitives.ValueTypes.floatRect)">
+            <summary>Returns the bounding rectangle of the union of two rectangles</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.floatersect(Primrose.Primitives.ValueTypes.floatRect)">
+            <summary>Returns the bounding rectangle of the floatersection of two rectangles</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.op_Explicit(Primrose.Primitives.ValueTypes.floatRect)~System.Single[]">
+            <summary>Creates a float[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.floatRect">
+            <summary>Creates a floatRect value from this array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.floatRect">
+            <summary>Creates a floatRect value from this array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.floatRect.op_Implicit(Primrose.Primitives.ValueTypes.intRect)~Primrose.Primitives.ValueTypes.floatRect">
+            <summary>Converts a intRect value to a floatRect value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.intRect">
             <summary>A int rectangle value</summary>
         </member>
@@ -3131,6 +3266,12 @@
         <member name="M:Primrose.Primitives.ValueTypes.intRect.Intersect(Primrose.Primitives.ValueTypes.intRect)">
             <summary>Returns the bounding rectangle of the intersection of two rectangles</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.intRect.op_Explicit(Primrose.Primitives.ValueTypes.intRect)~System.Int32[]">
+            <summary>Creates a int[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.intRect.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.intRect">
+            <summary>Creates a intRect value from this array</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.sbyte2">
             <summary>A sbyte2 pair value</summary>
         </member>
@@ -3210,6 +3351,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.sbyte2.Empty">
             <summary>Returns a sbyte2 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.op_Explicit(Primrose.Primitives.ValueTypes.sbyte2)~System.SByte[]">
+            <summary>Creates a sbyte[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte2.op_Explicit(System.SByte[])~Primrose.Primitives.ValueTypes.sbyte2">
+            <summary>Creates a sbyte2 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.sbyte3">
             <summary>A sbyte3 triple value</summary>
@@ -3295,6 +3442,12 @@
         <member name="P:Primrose.Primitives.ValueTypes.sbyte3.Empty">
             <summary>Returns a sbyte3 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.op_Explicit(Primrose.Primitives.ValueTypes.sbyte3)~System.SByte[]">
+            <summary>Creates a sbyte[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte3.op_Explicit(System.SByte[])~Primrose.Primitives.ValueTypes.sbyte3">
+            <summary>Creates a sbyte3 value from this array</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.sbyte4">
             <summary>A sbyte4 quad value</summary>
         </member>
@@ -3379,6 +3532,12 @@
         <member name="P:Primrose.Primitives.ValueTypes.sbyte4.Empty">
             <summary>Returns a sbyte4 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.op_Explicit(Primrose.Primitives.ValueTypes.sbyte4)~System.SByte[]">
+            <summary>Creates a sbyte[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.sbyte4.op_Explicit(System.SByte[])~Primrose.Primitives.ValueTypes.sbyte4">
+            <summary>Creates a sbyte4 value from this array</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.ushort2">
             <summary>A ushort2 pair value</summary>
         </member>
@@ -3458,6 +3617,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.ushort2.Empty">
             <summary>Returns a ushort2 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.op_Explicit(Primrose.Primitives.ValueTypes.ushort2)~System.UInt16[]">
+            <summary>Creates a ushort[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort2.op_Explicit(System.UInt16[])~Primrose.Primitives.ValueTypes.ushort2">
+            <summary>Creates a ushort2 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.ushort3">
             <summary>A ushort3 triple value</summary>
@@ -3542,6 +3707,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.ushort3.Empty">
             <summary>Returns a ushort3 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.op_Explicit(Primrose.Primitives.ValueTypes.ushort3)~System.UInt16[]">
+            <summary>Creates a ushort[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort3.op_Explicit(System.UInt16[])~Primrose.Primitives.ValueTypes.ushort3">
+            <summary>Creates a ushort3 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.ushort4">
             <summary>A ushort4 quad value</summary>
@@ -3630,6 +3801,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.ushort4.Empty">
             <summary>Returns a ushort4 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.op_Explicit(Primrose.Primitives.ValueTypes.ushort4)~System.UInt16[]">
+            <summary>Creates a ushort[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.ushort4.op_Explicit(System.UInt16[])~Primrose.Primitives.ValueTypes.ushort4">
+            <summary>Creates a ushort4 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.uint2">
             <summary>A uint2 pair value</summary>
@@ -3738,6 +3915,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.uint2.Empty">
             <summary>Returns a uint2 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint2.op_Explicit(Primrose.Primitives.ValueTypes.uint2)~System.UInt32[]">
+            <summary>Creates a uint[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint2.op_Explicit(System.UInt32[])~Primrose.Primitives.ValueTypes.uint2">
+            <summary>Creates a uint2 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.uint3">
             <summary>A uint3 triple value</summary>
@@ -3850,6 +4033,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.uint3.Empty">
             <summary>Returns a uint3 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint3.op_Explicit(Primrose.Primitives.ValueTypes.uint3)~System.UInt32[]">
+            <summary>Creates a uint[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint3.op_Explicit(System.UInt32[])~Primrose.Primitives.ValueTypes.uint3">
+            <summary>Creates a uint3 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.uint4">
             <summary>A uint4 quad value</summary>
@@ -3967,6 +4156,12 @@
         <member name="P:Primrose.Primitives.ValueTypes.uint4.Empty">
             <summary>Returns a uint4 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint4.op_Explicit(Primrose.Primitives.ValueTypes.uint4)~System.UInt32[]">
+            <summary>Creates a uint[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.uint4.op_Explicit(System.UInt32[])~Primrose.Primitives.ValueTypes.uint4">
+            <summary>Creates a uint4 value from this array</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.short2">
             <summary>A short2 pair value</summary>
         </member>
@@ -4047,6 +4242,12 @@
         <member name="P:Primrose.Primitives.ValueTypes.short2.Empty">
             <summary>Returns a short2 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short2.op_Explicit(Primrose.Primitives.ValueTypes.short2)~System.Int16[]">
+            <summary>Creates a short[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short2.op_Explicit(System.Int16[])~Primrose.Primitives.ValueTypes.short2">
+            <summary>Creates a short2 value from this array</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.byte2">
             <summary>A byte2 pair value</summary>
         </member>
@@ -4126,6 +4327,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.byte2.Empty">
             <summary>Returns a byte2 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte2.op_Explicit(Primrose.Primitives.ValueTypes.byte2)~System.Byte[]">
+            <summary>Creates a byte[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte2.op_Explicit(System.Byte[])~Primrose.Primitives.ValueTypes.byte2">
+            <summary>Creates a byte2 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.short3">
             <summary>A short3 triple value</summary>
@@ -4210,6 +4417,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.short3.Empty">
             <summary>Returns a short3 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short3.op_Explicit(Primrose.Primitives.ValueTypes.short3)~System.Int16[]">
+            <summary>Creates a short[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short3.op_Explicit(System.Int16[])~Primrose.Primitives.ValueTypes.short3">
+            <summary>Creates a short3 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.short4">
             <summary>A short4 quad value</summary>
@@ -4298,6 +4511,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.short4.Empty">
             <summary>Returns a short4 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short4.op_Explicit(Primrose.Primitives.ValueTypes.short4)~System.Int16[]">
+            <summary>Creates a short[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.short4.op_Explicit(System.Int16[])~Primrose.Primitives.ValueTypes.short4">
+            <summary>Creates a short4 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.int2">
             <summary>A int2 pair value</summary>
@@ -4414,6 +4633,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.int2.Empty">
             <summary>Returns a int2 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Explicit(Primrose.Primitives.ValueTypes.int2)~System.Int32[]">
+            <summary>Creates a int[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int2">
+            <summary>Creates a int2 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float2">
             <summary>A float2 pair value</summary>
@@ -4538,6 +4763,18 @@
         <member name="P:Primrose.Primitives.ValueTypes.float2.Empty">
             <summary>Returns a float2 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(Primrose.Primitives.ValueTypes.float2)~System.Single[]">
+            <summary>Creates a float[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float2">
+            <summary>Creates a float2 value from this array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float2">
+            <summary>Creates a float2 value from this array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Implicit(Primrose.Primitives.ValueTypes.int2)~Primrose.Primitives.ValueTypes.float2">
+            <summary>Converts a int2 value to a float2 value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.byte3">
             <summary>A byte3 triple value</summary>
         </member>
@@ -4621,6 +4858,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.byte3.Empty">
             <summary>Returns a byte3 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte3.op_Explicit(Primrose.Primitives.ValueTypes.byte3)~System.Byte[]">
+            <summary>Creates a byte[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte3.op_Explicit(System.Byte[])~Primrose.Primitives.ValueTypes.byte3">
+            <summary>Creates a byte3 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.int3">
             <summary>A int3 triple value</summary>
@@ -4741,6 +4984,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.int3.Empty">
             <summary>Returns a int3 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Explicit(Primrose.Primitives.ValueTypes.int3)~System.Int32[]">
+            <summary>Creates a int[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int3">
+            <summary>Creates a int3 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float3">
             <summary>A float3 triple value</summary>
@@ -4869,6 +5118,18 @@
         <member name="P:Primrose.Primitives.ValueTypes.float3.Empty">
             <summary>Returns a float3 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(Primrose.Primitives.ValueTypes.float3)~System.Single[]">
+            <summary>Creates a float[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float3">
+            <summary>Creates a float3 value from this array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float3">
+            <summary>Creates a float3 value from this array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Implicit(Primrose.Primitives.ValueTypes.int3)~Primrose.Primitives.ValueTypes.float3">
+            <summary>Converts a int3 value to a float3 value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.byte4">
             <summary>A byte4 quad value</summary>
         </member>
@@ -4956,6 +5217,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.byte4.Empty">
             <summary>Returns a byte4 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte4.op_Explicit(Primrose.Primitives.ValueTypes.byte4)~System.Byte[]">
+            <summary>Creates a byte[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.byte4.op_Explicit(System.Byte[])~Primrose.Primitives.ValueTypes.byte4">
+            <summary>Creates a byte4 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.int4">
             <summary>A int4 quad value</summary>
@@ -5080,6 +5347,12 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.int4.Empty">
             <summary>Returns a int4 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Explicit(Primrose.Primitives.ValueTypes.int4)~System.Int32[]">
+            <summary>Creates a int[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int4">
+            <summary>Creates a int4 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float4">
             <summary>A float4 quad value</summary>
@@ -5211,6 +5484,18 @@
         </member>
         <member name="P:Primrose.Primitives.ValueTypes.float4.Empty">
             <summary>Returns a float4 value with all elements set to their default value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(Primrose.Primitives.ValueTypes.float4)~System.Single[]">
+            <summary>Creates a float[] array from this value</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float4">
+            <summary>Creates a float4 value from this array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float4">
+            <summary>Creates a float4 value from this array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Implicit(Primrose.Primitives.ValueTypes.int4)~Primrose.Primitives.ValueTypes.float4">
+            <summary>Converts a int4 value to a float4 value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.Trip`3">
             <summary>
