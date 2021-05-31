@@ -1,5 +1,6 @@
 ﻿using Primrose.Primitives.Parsers;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Primrose.FileFormat.INI
@@ -75,7 +76,7 @@ namespace Primrose.FileFormat.INI
 
     private void InnerWrite<T>(INIFile f, T value, string fieldName, string defaultSection)
     {
-      if (value.Equals(null))
+      if (typeof(T).IsClass && value == null)
         return;
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
