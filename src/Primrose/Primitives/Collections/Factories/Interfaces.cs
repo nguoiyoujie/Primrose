@@ -47,7 +47,7 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Removes an object from the registry</summary>
     /// <param name="key">The identifier key to remove</param>
-    void Remove(K key);
+    bool Remove(K key);
 
     /// <summary>Purges all data from the registry</summary>
     void Clear();

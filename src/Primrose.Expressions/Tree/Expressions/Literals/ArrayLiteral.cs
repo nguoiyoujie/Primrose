@@ -14,9 +14,9 @@ namespace Primrose.Expressions.Tree.Expressions.Literals
     // elements must be of the same type or can be implicitly cast to the same type. Otherwise, the new object expression (e.g. new float[]{1,2,3}) should be used.
 
     private readonly Array _param; // nested CExpression
-    private int[] _dimensions;
-    private int _elementCount;
-    private Array _eval;
+    private readonly int[] _dimensions;
+    private readonly int _elementCount;
+    private readonly Array _eval;
     public int[] Dimensions { get => _dimensions; }
 
     internal ArrayLiteral(ContextScope scope, Lexer lexer) : base(scope, lexer)
@@ -136,8 +136,8 @@ namespace Primrose.Expressions.Tree.Expressions.Literals
           t = vt;
         else if (t != vt)
         {
-          if (ImplicitConversionTable.HasImplicitConversion(vt, t)) { }
-          else if (ImplicitConversionTable.HasImplicitConversion(t, vt)) { t = vt; }
+          if (ImplicitConversionTable.HasImplicitConversion(vt, t, out _)) { }
+          else if (ImplicitConversionTable.HasImplicitConversion(t, vt, out _)) { t = vt; }
           else throw new EvalException(this, Resource.Strings.Error_EvalException_IncompatibleArrayElement.F(t.Name, vt.Name));
         }
       }

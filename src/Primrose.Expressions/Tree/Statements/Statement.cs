@@ -18,6 +18,10 @@ namespace Primrose.Expressions.Tree.Statements
         //if (lexer.TokenType == TokenEnum.COMMENT)
         //  lexer.Next();
       }
+      else
+      {
+        lexer.Next();
+      }
     }
 
     public override void Evaluate(IContext context)

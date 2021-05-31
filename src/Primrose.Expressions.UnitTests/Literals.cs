@@ -17,7 +17,7 @@ namespace Primrose.Expressions.UnitTests
     }
 
     private const string _intStrings = "intStrings";
-    private static string[] intStrings = {
+    private static readonly string[] intStrings = {
         "0", // zero
         "1", "432", "57965", // natural
         "-2", "-93", "-24611", // negative
@@ -34,7 +34,7 @@ namespace Primrose.Expressions.UnitTests
     }
 
     private const string _floatStrings = "floatStrings";
-    private static string[] floatStrings = {
+    private static readonly string[] floatStrings = {
         "0.0", // zero
         "0.54", "0.231", "0.00001", // 0 < x < 1
         "20.4", "539022.2",
@@ -50,7 +50,7 @@ namespace Primrose.Expressions.UnitTests
     }
 
     private const string _strings = "Strings";
-    private static string[] Strings = {
+    private static readonly string[] Strings = {
         "\"yes\"",
         "\"affirmative\"",
         "\"joy to the world\"",

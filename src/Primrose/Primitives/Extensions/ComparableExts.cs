@@ -104,15 +104,39 @@ namespace Primrose.Primitives.Extensions
     }
 
     /// <summary>
-    /// Determines if a value is between two values
+    /// Determines if a value is within the exclusive range of two values
     /// </summary>
     /// <param name="value">The value to check</param>
     /// <param name="min">The inclusive lower bound</param>
     /// <param name="max">The inclusive upper bound</param>
-    /// <returns>True if the value is within the bounds of the two values, False otherwise</returns>
-    public static bool Within<T>(this T value, T min, T max) where T : struct, IComparable<T>
+    /// <returns>True if the value is within the inclusive bounds of the two values, False otherwise</returns>
+    public static bool WithinRangeExclusive<T>(this T value, T min, T max) where T : struct, IComparable<T>
+    {
+      return (value.CompareTo(min) > 0 && value.CompareTo(max) < 0);
+    }
+
+    /// <summary>
+    /// Determines if a value is within the inclusive range of two values
+    /// </summary>
+    /// <param name="value">The value to check</param>
+    /// <param name="min">The inclusive lower bound</param>
+    /// <param name="max">The inclusive upper bound</param>
+    /// <returns>True if the value is within the inclusive bounds of the two values, False otherwise</returns>
+    public static bool WithinRangeInclusive<T>(this T value, T min, T max) where T : struct, IComparable<T>
     {
       return (value.CompareTo(min) >= 0 && value.CompareTo(max) <= 0);
+    }
+
+    /// <summary>
+    /// Determines if a value is within the range of two values
+    /// </summary>
+    /// <param name="value">The value to check</param>
+    /// <param name="min">The inclusive lower bound</param>
+    /// <param name="max">The exclusive upper bound</param>
+    /// <returns>True if the value is within the range of the two values, False otherwise</returns>
+    public static bool WithinRange<T>(this T value, T min, T max) where T : struct, IComparable<T>
+    {
+      return (value.CompareTo(min) >= 0 && value.CompareTo(max) < 0);
     }
 
     /// <summary>
@@ -123,7 +147,7 @@ namespace Primrose.Primitives.Extensions
     /// <param name="max">The inclusive upper bound</param>
     /// <param name="comparer">The comparer object used to compare the values</param>
     /// <returns>True if the value is within the bounds of the two values, False otherwise</returns>
-    public static bool Within<T>(this T value, T min, T max, IComparer<T> comparer) where T : struct, IComparable<T>
+    public static bool WithinRangeInclusive<T>(this T value, T min, T max, IComparer<T> comparer) where T : struct, IComparable<T>
     {
       if (comparer == null) { throw new ArgumentNullException(nameof(comparer)); }
 

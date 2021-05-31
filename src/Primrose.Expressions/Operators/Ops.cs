@@ -4,6 +4,7 @@ using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Primrose.Expressions
 {
@@ -144,6 +145,18 @@ namespace Primrose.Expressions
         {new Trip<BOp, Type, Type>(BOp.LESS_THAN_OR_EQUAL_TO, typeof(float), typeof(float)), (a,b) => { return new Val((float)a <= (float)b); } }
       };
 
+    internal static Dictionary<Type, Func<Val, int[], Val>> indexops
+  = new Dictionary<Type, Func<Val, int[], Val>>
+  {
+        //{ typeof(int2), (a, ind) => { if (ind != null && ind.Length == 1) { return new Val(((int2)a)[ind[0]]); } else { throw new IndexOutOfRangeException(); } } },
+        //{ typeof(int3), (a, ind) => { if (ind != null && ind.Length == 1) { return new Val(((int3)a)[ind[0]]); } else { throw new IndexOutOfRangeException(); } } },
+        //{ typeof(int4), (a, ind) => { if (ind != null && ind.Length == 1) { return new Val(((int4)a)[ind[0]]); } else { throw new IndexOutOfRangeException(); } } },
+        { typeof(float2), (a, ind) => { if (ind != null && ind.Length == 1) { return new Val(((float2)a)[ind[0]]); } else { throw new IndexOutOfRangeException(); } } },
+        { typeof(float3), (a, ind) => { if (ind != null && ind.Length == 1) { return new Val(((float3)a)[ind[0]]); } else { throw new IndexOutOfRangeException(); } } },
+        { typeof(float4), (a, ind) => { if (ind != null && ind.Length == 1) { return new Val(((float4)a)[ind[0]]); } else { throw new IndexOutOfRangeException(); } } },
+  };
+
+
     /// <summary>
     /// Performs an unary operation 
     /// </summary>
@@ -211,6 +224,46 @@ namespace Primrose.Expressions
         return new Val(!(v1.Value?.Equals(v2.Value) ?? (v2.Value == null)));
 
       return new Val(true);
+    }
+
+    /// <summary>
+    /// Performs an index operation 
+    /// </summary>
+    /// <param name="v">The value</param>
+    /// <param name="indices">The indices</param>
+    /// <returns></returns>
+    public static Val GetIndex(Val v, int[] indices)
+    {
+      if (indexops.TryGetValue(v.Type, out Func<Val, int[], Val> fn))
+      {
+        return fn.Invoke(v, indices);
+      }
+      else
+      {
+        Array a;
+        try
+        {
+          a = v.Cast<Array>();
+        }
+        catch
+        {
+          throw new EvalException(null, Resource.Strings.Error_EvalException_IndexOnNonArray.F(v));
+        }
+
+        try
+        {
+          return new Val(a.GetValue(indices));
+        }
+        catch (IndexOutOfRangeException)
+        {
+          int len = a?.Length ?? 0;
+          throw new EvalException(null, Resource.Strings.Error_EvalException_IndexOutOfRange.F(indices.Length, len));
+        }
+        catch
+        {
+          throw new EvalException(null, Resource.Strings.Error_EvalException_IndexOnNonArray.F(v));
+        }
+      }
     }
 
     private static float[] MemberwiseAdd(float[] v1, float[] v2)
@@ -316,10 +369,27 @@ namespace Primrose.Expressions
       if (t == vt)
         return val;
 
-      if (ImplicitConversionTable.HasImplicitConversion(vt, t))
-        return new Val(Convert.ChangeType(val.Value, t));
+      if (ImplicitConversionTable.HasImplicitConversion(vt, t, out Type type))
+      {
+        if (val.Value is IConvertible)
+        {
+          return new Val(Convert.ChangeType(val.Value, t));
+        }
+        else
+        {
+          MethodInfo mRead = typeof(Ops).GetMethod(nameof(Cast), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+          MethodInfo gmRead = mRead.MakeGenericMethod(new Type[] { vt, t });
+          object o = gmRead.Invoke(null, new object[] { val.Value, type });
+          return new Val(o);
+        }
+      }
       else
         throw new ValTypeMismatchException(val.Type, t);
+    }
+
+    private static TOut Cast<TIn, TOut>(TIn value, Type type)
+    {
+      return UnaryOp<TIn>.CastIntermediate<TOut>(value, type);
     }
 
     /// <summary>Perform implicit casting towards a common type</summary>
@@ -330,8 +400,8 @@ namespace Primrose.Expressions
       if (vt1 == vt2)
         return;
 
-      if (ImplicitConversionTable.HasImplicitConversion(vt1, vt2)) { v1 = new Val(Convert.ChangeType(v1.Value, vt2)); }
-      else if (ImplicitConversionTable.HasImplicitConversion(vt2, vt1)) { v2 = new Val(Convert.ChangeType(v2.Value, vt1)); }
+      if (ImplicitConversionTable.HasImplicitConversion(vt1, vt2, out _)) { v1 = ImplicitCast(vt2, v1); }
+      else if (ImplicitConversionTable.HasImplicitConversion(vt2, vt1, out _)) { v2 = ImplicitCast(vt1, v2); }
       //else throw new ValTypeMismatchException(vt1, vt2);
 
       return;

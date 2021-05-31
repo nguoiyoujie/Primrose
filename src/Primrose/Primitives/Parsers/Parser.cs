@@ -2,6 +2,7 @@
 using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Primrose.Primitives.Parsers
@@ -51,8 +52,8 @@ namespace Primrose.Primitives.Parsers
       _fromStr.Add(typeof(float3), (s, r) => Rules.ToFloat3(s, r));
       _fromStr.Add(typeof(float4), (s, r) => Rules.ToFloat4(s, r));
       _fromStr.Add(typeof(double), (s, r) => Rules.ToDouble(s, r));
-      _fromStr.Add(typeof(string), (s, r) => { return r?.Resolve(s) ?? s; });
-      _fromStr.Add(typeof(StringBuilder), (s, r) => new StringBuilder(s));
+      _fromStr.Add(typeof(string), (s, r) => Rules.ToString(s, r));
+      _fromStr.Add(typeof(StringBuilder), (s, r) => new StringBuilder(Rules.ToString(s, r)));
 
       _toStr.Add(typeof(bool), Rules.ToStrGeneric);
       _toStr.Add(typeof(byte), Rules.ToStrGeneric);
@@ -254,5 +255,33 @@ namespace Primrose.Primitives.Parsers
       _toStr.Remove(typeof(T));
       _tokens.Remove(typeof(T));
     }
+
+    /*
+    /// <summary>
+    /// Casts <typeparamref name="TIn"/> to <typeparamref name="TOut"/>.
+    /// This does not cause boxing for value types.
+    /// Useful in generic methods.
+    /// </summary>
+    /// <typeparam name="TOut">Target type to cast to. Usually a generic type.</typeparam>
+    /// <typeparam name="TIn">Input type to cast from. Usually a generic type.</typeparam>
+    public static TOut Cast<TOut, TIn>(TIn s)
+    {
+      if (typeof(TOut) == typeof(string)) return (TOut)(object)(s.ToString()); // override for string
+
+      return Cache<TOut, TIn>.Cast(s);
+    }
+
+    private static class Cache<TOut, TIn>
+    {
+      public static readonly Func<TIn, TOut> Cast = cast();
+
+      private static Func<TIn, TOut> cast()
+      {
+        ParameterExpression p = Expression.Parameter(typeof(TIn));
+        UnaryExpression c = Expression.ConvertChecked(p, typeof(TOut));
+        return Expression.Lambda<Func<TIn, TOut>>(c, p).Compile();
+      }
+    }
+    */
   }
 }

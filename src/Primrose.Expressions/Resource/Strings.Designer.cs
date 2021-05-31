@@ -226,6 +226,15 @@ namespace Primrose.Expressions.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation &apos;{0}&apos; incompatible with an indexed operation.
+        /// </summary>
+        internal static string Error_IncompatibleIndexOp {
+            get {
+                return ResourceManager.GetString("Error_IncompatibleIndexOp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operation &apos;{0}&apos; incompatible with {1}.
         /// </summary>
         internal static string Error_IncompatibleUOp {

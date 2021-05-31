@@ -29,26 +29,11 @@ namespace Primrose.Expressions.Tree.Statements
       _scope = scope;
       switch (lexer.TokenType)
       {
-        /*
-        case TokenEnum.DECL_BOOL:
-        case TokenEnum.DECL_INT:
-        case TokenEnum.DECL_FLOAT:
-        case TokenEnum.DECL_FLOAT2:
-        case TokenEnum.DECL_FLOAT3:
-        case TokenEnum.DECL_FLOAT4:
-        case TokenEnum.DECL_STRING:
-        case TokenEnum.DECL_BOOL_ARRAY:
-        case TokenEnum.DECL_INT_ARRAY:
-        case TokenEnum.DECL_FLOAT_ARRAY:
-        case TokenEnum.DECL_STRING_ARRAY:
-        */
         case TokenEnum.VARIABLE:
           {
-            // TO-DO: Change variable to support assignment to index
-
             if (Parser.TypeTokens[lexer.TokenContents] != null)
             {
-              DeclVariable d = new DeclVariable(scope, lexer).Get() as DeclVariable;
+              DeclVariable d = new DeclVariable(scope, lexer);
               _varExpr = d;
               _varName = d.varName;
             }

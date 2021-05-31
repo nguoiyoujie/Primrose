@@ -209,7 +209,7 @@ namespace Primrose.Primitives.ValueTypes
     public bool ContainsPofloat(float2 pofloat)
     {
       float2 p = pofloat - Position;
-      return p.x.Within(0, w) && p.y.Within(0, h);
+      return p.x.WithinRangeInclusive(0, w) && p.y.WithinRange(0, h);
     }
 
     /// <summary>Determines if at least part of a rectangle floatersects with the rectangle represented</summary>
@@ -221,8 +221,8 @@ namespace Primrose.Primitives.ValueTypes
       float min_y = topleft.y;
       float max_y = topleft.y + size.y;
 
-      return (0f.Within(min_x, max_x) || w.Within(min_x, max_x) || min_x.Within(0, w) || max_x.Within(0, w))
-          && (0f.Within(min_y, max_y) || h.Within(min_y, max_y) || min_y.Within(0, h) || max_y.Within(0, h));
+      return (0f.WithinRangeInclusive(min_x, max_x) || w.WithinRangeInclusive(min_x, max_x) || min_x.WithinRangeInclusive(0, w) || max_x.WithinRangeInclusive(0, w))
+          && (0f.WithinRangeInclusive(min_y, max_y) || h.WithinRangeInclusive(min_y, max_y) || min_y.WithinRangeInclusive(0, h) || max_y.WithinRangeInclusive(0, h));
     }
 
     /// <summary>Determines if at least part of a rectangle floatersects with the rectangle represented</summary>
@@ -233,8 +233,8 @@ namespace Primrose.Primitives.ValueTypes
       float min_y = otherRect.y - Position.y;
       float max_y = otherRect.y - Position.y + otherRect.h;
 
-      return (0f.Within(min_x, max_x) || w.Within(min_x, max_x) || min_x.Within(0, w) || max_x.Within(0, w))
-          && (0f.Within(min_y, max_y) || h.Within(min_y, max_y) || min_y.Within(0, h) || max_y.Within(0, h));
+      return (0f.WithinRangeInclusive(min_x, max_x) || w.WithinRangeInclusive(min_x, max_x) || min_x.WithinRangeInclusive(0, w) || max_x.WithinRangeInclusive(0, w))
+          && (0f.WithinRangeInclusive(min_y, max_y) || h.WithinRangeInclusive(min_y, max_y) || min_y.WithinRangeInclusive(0, h) || max_y.WithinRangeInclusive(0, h));
     }
 
     /// <summary>Returns the bounding rectangle of the union of two rectangles</summary>

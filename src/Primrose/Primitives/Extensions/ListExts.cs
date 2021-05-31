@@ -59,26 +59,40 @@ namespace Primrose.Primitives.Extensions
     /// <typeparam name="T">The member type</typeparam>
     /// <param name="list">The array</param>
     /// <param name="rand">The random object</param>
-    /// <returns>A random object from the array. If the array has no members, return the default value of the member type</returns>
+    /// <param name="result">A random object from the array. If the array has no members, return the default value of the member type</param>
+    /// <returns>True if a random object is picked. False if otherwise (e.g. the array is empty)</returns>
     /// <exception cref="ArgumentNullException"><paramref name="list"/> and <paramref name="rand"/> cannot be null</exception>
-    public static T Random<T>(this List<T> list, Random rand)
+    public static bool SelectRandom<T>(this List<T> list, Random rand, out T result)
     {
       if (list == null) { throw new ArgumentNullException(nameof(list)); }
       if (rand == null) { throw new ArgumentNullException(nameof(rand)); }
-      return list[rand.Next(0, list.Count)];
+      if (list.Count == 0)
+      {
+        result = default;
+        return false;
+      }
+      result = list[rand.Next(0, list.Count)];
+      return true;
     }
 
     /// <summary>Retrives a random object from a list of objects</summary>
     /// <typeparam name="T">The member type</typeparam>
     /// <param name="list">The array</param>
     /// <param name="rand">The random object</param>
-    /// <returns>A random object from the array. If the array has no members, return the default value of the member type</returns>
+    /// <param name="result">A random object from the array. If the array has no members, return the default value of the member type</param>
+    /// <returns>True if a random object is picked. False if otherwise (e.g. the array is empty)</returns>
     /// <exception cref="ArgumentNullException"><paramref name="list"/> and <paramref name="rand"/> cannot be null</exception>
-    public static T Random<T>(this ConcurrentBag<T> list, Random rand)
+    public static bool SelectRandom<T>(this ConcurrentBag<T> list, Random rand, out T result)
     {
       if (list == null) { throw new ArgumentNullException(nameof(list)); }
       if (rand == null) { throw new ArgumentNullException(nameof(rand)); }
-      return list.ToArray()[rand.Next(0, list.Count)];
+      if (list.Count == 0)
+      {
+        result = default;
+        return false;
+      }
+      result = list.ToArray()[rand.Next(0, list.Count)];
+      return true;
     }
 
     /// <summary>
@@ -128,6 +142,25 @@ namespace Primrose.Primitives.Extensions
         count--;
       }
       return node.Value;
+    }
+
+    /// <summary>Retrives the first element from a list of objects, that matches a condition</summary>
+    /// <typeparam name="T">The member type</typeparam>
+    /// <param name="list">The array</param>
+    /// <param name="condition">The matching condition</param>
+    /// <returns>The first element that matches the condition, or the default value if none matches the condition</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="list"/> and <paramref name="condition"/> cannot be null</exception>
+    public static T Find<T>(this List<T> list, Predicate<T> condition)
+    {
+      if (list == null) { throw new ArgumentNullException(nameof(list)); }
+      if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
+
+      foreach (T item in list)
+      {
+        if (condition(item))
+          return item;
+      }
+      return default;
     }
   }
 }

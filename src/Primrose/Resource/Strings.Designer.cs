@@ -70,7 +70,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted operation between two arrays of different length.
+        ///   Looks up a localized string similar to Attempted operation between two arrays of different length..
         /// </summary>
         internal static string Error_ArrayMismatchException {
             get {
@@ -79,7 +79,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted operation between two arrays of different lengths &apos;{0}&apos; and &apos;{1}&apos;.
+        ///   Looks up a localized string similar to Attempted operation between two arrays of different lengths &apos;{0}&apos; and &apos;{1}&apos;..
         /// </summary>
         internal static string Error_ArrayMismatchException_length_length {
             get {
@@ -88,7 +88,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted assignment of an array of length {0} to {1}.
+        ///   Looks up a localized string similar to Attempted assignment of an array of length {0} to {1}..
         /// </summary>
         internal static string Error_ArrayMismatchException_length_type {
             get {
@@ -106,7 +106,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to push an item into {0} that has reached capacity limit of {1}.
+        ///   Looks up a localized string similar to Attempted to push an item into {0} that has reached capacity limit of {1}..
         /// </summary>
         internal static string Error_CapacityExceededException {
             get {
@@ -115,7 +115,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to add an existing key &apos;{0}&apos; to a {1}.
+        ///   Looks up a localized string similar to Attempted to add an existing key &apos;{0}&apos; to a {1}..
         /// </summary>
         internal static string Error_CollectionAddDuplicateKey {
             get {
@@ -124,7 +124,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to add a null key to a {0}.
+        ///   Looks up a localized string similar to Attempted to add a null key to a {0}..
         /// </summary>
         internal static string Error_CollectionAddNullKey {
             get {
@@ -133,7 +133,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to put value of a null key in a {0}.
+        ///   Looks up a localized string similar to Attempted to put value of a null key in a {0}..
         /// </summary>
         internal static string Error_CollectionPutNullKey {
             get {
@@ -142,7 +142,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to set value to an non-existent key &apos;{0}&apos; in a {1}.
+        ///   Looks up a localized string similar to Attempted to set value to an non-existent key &apos;{0}&apos; in a {1}..
         /// </summary>
         internal static string Error_CollectionSetKeyNotFound {
             get {
@@ -151,7 +151,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to set value of a null key to a {0}.
+        ///   Looks up a localized string similar to Attempted to set value of a null key to a {0}..
         /// </summary>
         internal static string Error_CollectionSetNullKey {
             get {
@@ -169,7 +169,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type &apos;{0}&apos; is not an enum.
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; is not an enum..
         /// </summary>
         internal static string Error_ExpectedEnumException {
             get {
@@ -250,7 +250,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to access invalid index &apos;{0}&apos; of {1}.
+        ///   Looks up a localized string similar to Attempted to access invalid index &apos;{0}&apos; of {1}..
         /// </summary>
         internal static string Error_InvalidIndex {
             get {
@@ -286,7 +286,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to parse invalid value &apos;{0}&apos; as {1}.
+        ///   Looks up a localized string similar to Attempted to parse invalid value &apos;{0}&apos; as {1}..
         /// </summary>
         internal static string Error_RuleConversionException {
             get {
@@ -295,7 +295,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to parse a string from an unsupported type &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Attempted to parse a string from an unsupported type &apos;{0}&apos;..
         /// </summary>
         internal static string Error_UnsupportedParseException {
             get {
@@ -304,7 +304,7 @@ namespace Primrose.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to write a string from an unsupported type &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Attempted to write a string from an unsupported type &apos;{0}&apos;..
         /// </summary>
         internal static string Error_UnsupportedWriteException {
             get {

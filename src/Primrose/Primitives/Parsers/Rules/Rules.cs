@@ -10,6 +10,14 @@ namespace Primrose.Primitives.Parsers
     /// <summary>Defines parsing rules for interpreting strings into values</summary>
     public static class Rules
     {
+      /// <summary>Resolves a string value</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static string ToString(string value, IResolver resolver)
+      {
+        return resolver?.Resolve(value) ?? value;
+      }
+
       /// <summary>Parses a string to a bool value</summary>
       /// <param name="value">The string to be parsed</param>
       /// <param name="resolver">A string resolver function</param>

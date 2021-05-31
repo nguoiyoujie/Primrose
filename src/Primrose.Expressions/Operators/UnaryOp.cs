@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Primrose.Expressions
 {
@@ -19,7 +20,24 @@ namespace Primrose.Expressions
     /// <typeparam name="TOut">Target type to cast to. Usually a generic type.</typeparam>
     public static TOut Cast<TOut>(TIn s)
     {
+      if (typeof(TOut) == typeof(string)) return (TOut)(object)(s.ToString()); // override for string
+
       return Cache<TOut>.Cast(s);
+    }
+
+    /// <summary>
+    /// Casts <typeparamref name="TIn"/> to <typeparamref name="TOut"/>.
+    /// This does not cause boxing for value types.
+    /// Useful in generic methods.
+    /// </summary>
+    /// <typeparam name="TOut">Target type to cast to. Usually a generic type.</typeparam>
+    public static TOut CastIntermediate<TOut>(TIn s, Type intermediate)
+    {
+      if (typeof(TOut) == typeof(string)) return (TOut)(object)(s.ToString()); // override for string
+
+      MethodInfo mRead = typeof(UnaryOp<TIn>).GetMethod(nameof(Cast), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+      MethodInfo gmRead = mRead.MakeGenericMethod(new Type[] { intermediate });
+      return (TOut)gmRead.Invoke(null, new object[] { s });
     }
 
     private static class Cache<TOut>

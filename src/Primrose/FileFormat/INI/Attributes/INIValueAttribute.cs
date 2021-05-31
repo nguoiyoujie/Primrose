@@ -75,7 +75,7 @@ namespace Primrose.FileFormat.INI
 
     private void InnerWrite<T>(INIFile f, T value, string fieldName, string defaultSection)
     {
-      if (value == null)
+      if (value.Equals(null))
         return;
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);

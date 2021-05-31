@@ -121,40 +121,40 @@
     <value>Setting ID to AFactoryObject with existing ID '{0}' is not allowed!</value>
   </data>
   <data name="Error_ArrayMismatchException" xml:space="preserve">
-    <value>Attempted operation between two arrays of different length</value>
+    <value>Attempted operation between two arrays of different length.</value>
   </data>
   <data name="Error_ArrayMismatchException_length_length" xml:space="preserve">
-    <value>Attempted operation between two arrays of different lengths '{0}' and '{1}'</value>
+    <value>Attempted operation between two arrays of different lengths '{0}' and '{1}'.</value>
   </data>
   <data name="Error_ArrayMismatchException_length_type" xml:space="preserve">
-    <value>Attempted assignment of an array of length {0} to {1}</value>
+    <value>Attempted assignment of an array of length {0} to {1}.</value>
   </data>
   <data name="Error_CacheKeyNotFound" xml:space="preserve">
     <value>Attempted to get an non-existent key '{0}' from a cache.</value>
   </data>
   <data name="Error_CapacityExceededException" xml:space="preserve">
-    <value>Attempted to push an item into {0} that has reached capacity limit of {1}</value>
+    <value>Attempted to push an item into {0} that has reached capacity limit of {1}.</value>
   </data>
   <data name="Error_CollectionAddDuplicateKey" xml:space="preserve">
-    <value>Attempted to add an existing key '{0}' to a {1}</value>
+    <value>Attempted to add an existing key '{0}' to a {1}.</value>
   </data>
   <data name="Error_CollectionAddNullKey" xml:space="preserve">
-    <value>Attempted to add a null key to a {0}</value>
+    <value>Attempted to add a null key to a {0}.</value>
   </data>
   <data name="Error_CollectionPutNullKey" xml:space="preserve">
-    <value>Attempted to put value of a null key in a {0}</value>
+    <value>Attempted to put value of a null key in a {0}.</value>
   </data>
   <data name="Error_CollectionSetKeyNotFound" xml:space="preserve">
-    <value>Attempted to set value to an non-existent key '{0}' in a {1}</value>
+    <value>Attempted to set value to an non-existent key '{0}' in a {1}.</value>
   </data>
   <data name="Error_CollectionSetNullKey" xml:space="preserve">
-    <value>Attempted to set value of a null key to a {0}</value>
+    <value>Attempted to set value of a null key to a {0}.</value>
   </data>
   <data name="Error_DuplicateINISection" xml:space="preserve">
     <value>Invalid duplicate section [{0}] detected.</value>
   </data>
   <data name="Error_ExpectedEnumException" xml:space="preserve">
-    <value>Type '{0}' is not an enum</value>
+    <value>Type '{0}' is not an enum.</value>
   </data>
   <data name="Error_FileNotFound" xml:space="preserve">
     <value>The file {0} is not found!</value>
@@ -181,7 +181,7 @@
     <value>INISubSectionListAttribute attribute can only be used with a single-level array (T[]) data type! ({0})</value>
   </data>
   <data name="Error_InvalidIndex" xml:space="preserve">
-    <value>Attempted to access invalid index '{0}' of {1}</value>
+    <value>Attempted to access invalid index '{0}' of {1}.</value>
   </data>
   <data name="Error_InvalidStateCommandException" xml:space="preserve">
     <value>Command '{0}' is not valid on state '{1}'</value>
@@ -193,12 +193,12 @@
     <value>There is already a background object pool for '{0}'</value>
   </data>
   <data name="Error_RuleConversionException" xml:space="preserve">
-    <value>Attempted to parse invalid value '{0}' as {1}</value>
+    <value>Attempted to parse invalid value '{0}' as {1}.</value>
   </data>
   <data name="Error_UnsupportedParseException" xml:space="preserve">
-    <value>Attempted to parse a string from an unsupported type '{0}'</value>
+    <value>Attempted to parse a string from an unsupported type '{0}'.</value>
   </data>
   <data name="Error_UnsupportedWriteException" xml:space="preserve">
-    <value>Attempted to write a string from an unsupported type '{0}'</value>
+    <value>Attempted to write a string from an unsupported type '{0}'.</value>
   </data>
 </root>

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Primrose</RootNamespace>
     <AssemblyName>Primrose</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Build.cs" />
+    <Compile Include="Delegates.cs" />
     <Compile Include="Diagnostics\PerformanceMonitor.cs" />
     <Compile Include="FileFormat\Common\IFile.cs" />
     <Compile Include="FileFormat\INI\Attributes\INISubSectionRegistryAttribute.cs" />
@@ -97,10 +98,16 @@
     <Compile Include="Log\LogLevel.cs" />
     <Compile Include="Primitives\Cache\Cache.cs" />
     <Compile Include="Primitives\Cache\EnumNames.cs" />
+    <Compile Include="Primitives\Cache\WeakReference_T.cs" />
     <Compile Include="Primitives\Collections\CircularQueue.cs" />
     <Compile Include="Primitives\Collections\Factories\SortedRegistry_KT.cs" />
     <Compile Include="Primitives\Collections\Factories\WeakReferenceRegistry_KT.cs" />
+    <Compile Include="Primitives\Collections\ResizableArray.cs" />
     <Compile Include="Primitives\Collections\ThreadSafeDictionary.cs" />
+    <Compile Include="Primitives\Collections\ThreadSafeEnumerable.cs" />
+    <Compile Include="Primitives\Collections\ThreadSafeEnumerable_T.cs" />
+    <Compile Include="Primitives\Collections\ThreadSafeEnumerator_T.cs" />
+    <Compile Include="Primitives\Collections\ThreadSafeEnumerator.cs" />
     <Compile Include="Primitives\Collections\ThreadSafeList.cs" />
     <Compile Include="Primitives\Exceptions\ExceededCapacityException.cs" />
     <Compile Include="Primitives\Exceptions\ExpectedEnumException.cs" />
@@ -108,6 +115,8 @@
     <Compile Include="FileFormat\INI\Attributes\INISubSectionKeyListAttribute.cs" />
     <Compile Include="FileFormat\INI\Attributes\INIHeaderAttribute.cs" />
     <Compile Include="FileFormat\INI\Exceptions\InvalidTypeException.cs" />
+    <Compile Include="Primitives\Extensions\Array.cs" />
+    <Compile Include="Primitives\Extensions\CallerExt.cs" />
     <Compile Include="Primitives\Strings\StringSource.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogItem.cs" />

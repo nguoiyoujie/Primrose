@@ -16,6 +16,15 @@
         <member name="F:Primrose.Build.Revision">
             <summary>The daily revision number of the build</summary> 
         </member>
+        <member name="T:Primrose.MessageDelegate">
+            <summary>A delegate representing a receipt of a string message</summary>
+            <param name="message">Represents message received</param>
+        </member>
+        <member name="T:Primrose.MessageDelegate`1">
+            <summary>A delegate representing a receipt of a typed message</summary>
+            <typeparam name="T">The type of the message</typeparam>
+            <param name="message">Represents message received</param>
+        </member>
         <member name="T:Primrose.Diagnostics.PerformanceMonitor">
             <summary>Sets up runtime monitoring of functions</summary>
         </member>
@@ -583,6 +592,27 @@
             <param name="key">The enum value</param>
             <returns></returns>
         </member>
+        <member name="T:Primrose.Primitives.Cache.WeakReference`1">
+            <summary>
+            Holds a typed object in a weak reference, allowing garbage collection
+            </summary>
+            <typeparam name="T">The type of the referenced object</typeparam>
+        </member>
+        <member name="M:Primrose.Primitives.Cache.WeakReference`1.#ctor(`0)">
+            <summary>Holds a typed object in a weak reference, allowing garbage collection</summary>
+            <param name="target">The object to hold</param>
+        </member>
+        <member name="M:Primrose.Primitives.Cache.WeakReference`1.#ctor(`0,System.Boolean)">
+            <summary>Holds a typed object in a weak reference, allowing garbage collection</summary>
+            <param name="target">The object to hold</param>
+            <param name="trackResurrection"></param>
+        </member>
+        <member name="P:Primrose.Primitives.Cache.WeakReference`1.Target">
+            <summary>Gets the target object referenced by the current WeakReference&lt;T&gt; object.</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Cache.WeakReference`1.TryGetTarget(`0@)">
+            <summary>Tries to retrieve the target object that is referenced by the current WeakReference&lt;T&gt; object.</summary>
+        </member>
         <member name="T:Primrose.Primitives.Collections.CircularQueue`1">
             <summary>
             Provides a FIFO queue based on circular linkage
@@ -610,6 +640,115 @@
         <member name="M:Primrose.Primitives.Collections.CircularQueue`1.Dequeue">
             <summary>Dequeues an item from the queue</summary>
             <returns></returns>
+        </member>
+        <member name="T:Primrose.Primitives.Collections.ResizableArray`1">
+            <summary>Represents an resizable array</summary>
+            <typeparam name="T">The element type</typeparam>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ResizableArray`1.#ctor(System.Int32)">
+            <summary>Represents an resizable array</summary>
+            <param name="initialCount">The initial size of the array</param>
+        </member>
+        <member name="P:Primrose.Primitives.Collections.ResizableArray`1.InternalArray">
+            <summary>Retrieves the underlying array</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Collections.ResizableArray`1.Count">
+            <summary>The number of valid elements in the array</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ResizableArray`1.Add(`0)">
+            <summary>Adds an element to the array</summary>
+            <param name="element">The element to be added</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ResizableArray`1.AddRange(`0[])">
+            <summary>Adds a range of elements to the array</summary>
+            <param name="elements">The range of elements to be added</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ResizableArray`1.AddRange(Primrose.Primitives.Collections.ResizableArray{`0})">
+            <summary>Adds a range of elements to the array</summary>
+            <param name="elements">The range of elements to be added</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ResizableArray`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>Adds a range of elements to the array</summary>
+            <param name="elements">The range of elements to be added</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ResizableArray`1.Resize(System.Int32)">
+            <summary>Resets the elements</summary>
+            <param name="count">The initial size of the array</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ResizableArray`1.Clear(System.Boolean)">
+            <summary>Resets the count to 0, and optionally clears elements to default</summary>
+            <param name="clearElements">Determines if the members of the array should be zeroed</param>
+        </member>
+        <member name="P:Primrose.Primitives.Collections.ResizableArray`1.Item(System.Int32)">
+            <summary>Retrieves the element at an index of the array</summary>
+            <param name="id">The index of the element</param>
+        </member>
+        <member name="T:Primrose.Primitives.Collections.ThreadSafeEnumerable">
+            <summary>Represents a thread-safe wrapper over an enumerable collection</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerable.#ctor(System.Collections.IEnumerable,System.Object)">
+            <summary>Creates a thread-safe wrapper over an enumerable collection</summary>
+            <param name="inner">The (thread-unsafe) enumerator</param>
+            <param name="lock">The locking object</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerable.GetEnumerator">
+            <summary>Returns an enumerator that iterates through the collection</summary>
+            <returns>A System.Collections.Generic.IEnumerator`1 that can be used to iterate through the collection</returns>
+        </member>
+        <member name="T:Primrose.Primitives.Collections.ThreadSafeEnumerable`1">
+            <summary>Represents a thread-safe wrapper over an enumerable collection</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerable`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Object)">
+            <summary>Creates a thread-safe wrapper over an enumerable collection</summary>
+            <param name="inner">The (thread-unsafe) enumerator</param>
+            <param name="lock">The locking object</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerable`1.GetEnumerator">
+            <summary>Returns an enumerator that iterates through the collection</summary>
+            <returns>A System.Collections.Generic.IEnumerator`1 that can be used to iterate through the collection</returns>
+        </member>
+        <member name="T:Primrose.Primitives.Collections.ThreadSafeEnumerator`1">
+            <summary>Represents a thread-safe wrapper over an enumerator</summary>
+            <typeparam name="T">The enumerated type</typeparam>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerator`1.#ctor(System.Func{System.Collections.Generic.IEnumerator{`0}},System.Object)">
+            <summary>Creates a thread-safe wrapper over an enumerator</summary>
+            <param name="inner">The (thread-unsafe) enumerator</param>
+            <param name="lock">The locking object</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerator`1.Dispose">
+            <summary>Disposes the wrapper and releases the lock</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerator`1.MoveNext">
+            <summary>Advances the enumerator to the next element of the collection</summary>
+            <returns>true if the enumerator was successfully advanced to the next element; false if the enumerator has passed the end of the collection</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerator`1.Reset">
+            <summary>Sets the enumerator to its initial position, which is before the first element in the collection</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Collections.ThreadSafeEnumerator`1.Current">
+            <summary>Gets the current element in the collection</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Collections.ThreadSafeEnumerator">
+            <summary>Represents a thread-safe wrapper over an enumerator</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerator.#ctor(System.Func{System.Collections.IEnumerator},System.Object)">
+            <summary>Creates a thread-safe wrapper over an enumerator</summary>
+            <param name="inner">The (thread-unsafe) enumerator</param>
+            <param name="lock">The locking object</param>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerator.Dispose">
+            <summary>Disposes the wrapper and releases the lock</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerator.MoveNext">
+            <summary>Advances the enumerator to the next element of the collection</summary>
+            <returns>true if the enumerator was successfully advanced to the next element; false if the enumerator has passed the end of the collection</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Collections.ThreadSafeEnumerator.Reset">
+            <summary>Sets the enumerator to its initial position, which is before the first element in the collection</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Collections.ThreadSafeEnumerator.Current">
+            <summary>Gets the current element in the collection</summary>
         </member>
         <member name="T:Primrose.Primitives.Factories.SortedRegistry`2">
             <summary>
@@ -704,6 +843,12 @@
         </member>
         <member name="M:Primrose.Primitives.Factories.SortedRegistry`2.Clear">
             <summary>Purges all data from the registry</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.SortedRegistry`2.GetEnumerator">
+            <summary>Retrieves the enumerator for the registry</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.SortedRegistry`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Retrieves the enumerator for the registry</summary>
         </member>
         <member name="P:Primrose.Primitives.Factories.SortedRegistry`2.Count">
             <summary>The number of elements in this registry</summary>
@@ -874,6 +1019,20 @@
         <member name="M:Primrose.Primitives.Factories.Registry`2.#ctor(Primrose.Primitives.Factories.IRegistry{`0,`1})">
             <summary>Creates an object registry that contains elements copied from another registry</summary>
             <param name="other">The other registry whose elements are copied to this registry</param>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>Creates an object registry with an equality comparer</summary>
+            <param name="comparer">The equality comparer for the registry</param>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.#ctor(System.Int32,System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>Creates an object registry with an initial capacity</summary>
+            <param name="capacity">The initial capacity of the registry</param>
+            <param name="comparer">The equality comparer for the registry</param>
+        </member>
+        <member name="M:Primrose.Primitives.Factories.Registry`2.#ctor(Primrose.Primitives.Factories.IRegistry{`0,`1},System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>Creates an object registry that contains elements copied from another registry</summary>
+            <param name="other">The other registry whose elements are copied to this registry</param>
+            <param name="comparer">The equality comparer for the registry</param>
         </member>
         <member name="F:Primrose.Primitives.Factories.Registry`2.list">
             <summary>The container data source</summary>
@@ -1209,203 +1368,12 @@
             Represents an exception when attempting to assign an array to a typed value
             </summary>
         </member>
-        <member name="T:Primrose.Primitives.Strings.StringSource`1">
-            <summary>Defines a data resource that maps a token code to a string resource</summary>
+        <member name="T:Primrose.Primitives.Extensions.Array`1">
+            <summary>Helper class for referencing empty arrays without allocation</summary>
+            <typeparam name="T">The element type of the array</typeparam>
         </member>
-        <member name="M:Primrose.Primitives.Strings.StringSource`1.Add(`0,System.String)">
-            <summary>Registers a new string token with a formatted string</summary>
-            <param name="key">The identifier string token</param>
-            <param name="formattedString">The formatted string</param>
-        </member>
-        <member name="M:Primrose.Primitives.Strings.StringSource`1.Put(`0,System.String)">
-            <summary>Registers or redefines a new string token with a formatted string</summary>
-            <param name="key">The identifier string token</param>
-            <param name="formattedString">The formatted string</param>
-        </member>
-        <member name="M:Primrose.Primitives.Strings.StringSource`1.Get(`0)">
-            <summary>Retrieves a formatted string from its code</summary>
-            <param name="key">The identifier string code.</param>
-        </member>
-        <member name="M:Primrose.Primitives.Strings.StringSource`1.Remove(`0)">
-            <summary>Removes a new string token</summary>
-            <param name="key">The identifier string token to remove</param>
-        </member>
-        <member name="M:Primrose.Primitives.Strings.StringSource`1.Clear">
-            <summary>Clears the source of all tokens</summary>
-        </member>
-        <member name="T:Primrose.Primitives.Observables.ChangeEventDelegate`1">
-            <summary>
-            A delegate representing a change in value
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="newValue">Represents the new value</param>
-            <param name="oldValue">Represents the old value</param>
-        </member>
-        <member name="T:Primrose.Primitives.Observables.ObservableRegistry`2">
-            <summary>
-            A wrapper for binding modification events to a registry
-            </summary>
-            <typeparam name="K">The encapsulated key type</typeparam>
-            <typeparam name="V">The encapsulated value type</typeparam>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableRegistry`2.RegistryChanged">
-            <summary>Represents the set of functions to be called when the registry is replaced</summary>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableRegistry`2.KeyAdded">
-            <summary>Represents the set of functions to be called when a key is added</summary>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableRegistry`2.KeyRemoved">
-            <summary>Represents the set of functions to be called when a key is removed</summary>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableRegistry`2.ValueChanged">
-            <summary>Represents the set of functions to be called when a value is changed</summary>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.#ctor(Primrose.Primitives.Factories.Registry{`0,`1})">
-            <summary>Defines an event-bounded registry</summary>
-            <param name="reg">The initial registry. No events are fired on the assignment of the initial registry.</param>
-        </member>
-        <member name="P:Primrose.Primitives.Observables.ObservableRegistry`2.Registry">
-            <summary>
-            The encapsulated registry. Direct method calls to the encapsulated object will not trigger any events.
-            </summary>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.GetUnderlyingDictionary">
-            <summary>Retrieves the underlying dictionary</summary>
-        </member>
-        <member name="P:Primrose.Primitives.Observables.ObservableRegistry`2.Item(`0)">
-            <summary>Gets or sets an element in the list, accessed by an index</summary>
-        </member>
-        <member name="P:Primrose.Primitives.Observables.ObservableRegistry`2.Count">
-            <summary>Gets the number of elements contained in the registry</summary>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Contains(`0)">
-            <summary>Determines whether the registry contains a key</summary>
-            <param name="key">The identifier key to check</param>
-            <returns>True if the registry contains this key, False if otherwise</returns>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Get(`0)">
-            <summary>Retrieves the value associated with a key</summary>
-            <param name="key">The identifier key to check</param>
-            <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.GetX(`0)">
-            <summary>Strictly retrieves the value associated with a key</summary>
-            <param name="key">The identifier key to check</param>
-            <returns>The value associated with the key</returns>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.GetKeys">
-            <summary>Retrives an array of all the keys in the registry</summary>
-            <returns></returns>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.GetValues">
-            <summary>Retrives an array of all the values in the registry</summary>
-            <returns></returns>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Add(`0,`1)">
-            <summary>Adds an object into the registry</summary>
-            <param name="key">The identifier key to add</param>
-            <param name="item">The object to be associated with this key</param>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Put(`0,`1)">
-            <summary>Updates or adds an object into the registry</summary>
-            <param name="key">The identifier key to add</param>
-            <param name="item">The object to be associated with this key</param>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Remove(`0)">
-            <summary>Removes an object from the registry</summary>
-            <param name="key">The identifier key to remove</param>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Clear">
-            <summary>Purges all data from the registry</summary>
-        </member>
-        <member name="T:Primrose.Primitives.Observables.ObservableList`2">
-            <summary>Represents a list with events that notify on modification</summary>
-            <typeparam name="TList">The type of the list</typeparam>
-            <typeparam name="T">The type of elements in the list</typeparam>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableList`2.ListChanged">
-            <summary>Represents the set of functions to be called when the registry is replaced</summary>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableList`2.ItemAdded">
-            <summary>Represents the set of functions to be called when a key is added</summary>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableList`2.ItemRemoved">
-            <summary>Represents the set of functions to be called when a key is removed</summary>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableList`2.ItemChanged">
-            <summary>Represents the set of functions to be called when a value is changed</summary>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.#ctor(`0)">
-            <summary>Represents a list with events that notify on modification</summary>
-            <param name="source">The initial list. No events are fired on the assignment of the initial list.</param>
-        </member>
-        <member name="P:Primrose.Primitives.Observables.ObservableList`2.Item(System.Int32)">
-            <summary>Gets or sets an element in the list, accessed by an index</summary>
-        </member>
-        <member name="P:Primrose.Primitives.Observables.ObservableList`2.Count">
-            <summary>Gets the number of elements contained in the list</summary>
-        </member>
-        <member name="P:Primrose.Primitives.Observables.ObservableList`2.IsReadOnly">
-            <summary>Gets a value indicating whether the list is read-only</summary>
-        </member>
-        <member name="P:Primrose.Primitives.Observables.ObservableList`2.List">
-            <summary>The encapsulated list. Direct method calls to the encapsulated object will not trigger any events.</summary>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Add(`1)">
-            <summary>Adds an item to the list</summary>
-            <param name="item">The object to add to the list</param>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Clear">
-            <summary>Removes all items from the list</summary>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Contains(`1)">
-            <summary>Determines if the list contains a specific value</summary>
-            <param name="item">The object to locate in the list</param>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.CopyTo(`1[],System.Int32)">
-            <summary>Copies the elements of the list to an array, starting at a particular index.</summary>
-            <param name="array">The one-dimensional array that is the destination of the elements copied the list. The array must have zero-based indexing.</param>
-            <param name="arrayIndex">The zero-based index in the array at which copying begins.</param>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.IndexOf(`1)">
-            <summary>Determines the index of a specific item in the list</summary>
-            <param name="item">The object to locate in the list</param>
-            <returns></returns>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Insert(System.Int32,`1)">
-            <summary>Inserts an item to the list at the specified index.</summary>
-            <param name="index">The zero-based index at which item should be inserted</param>
-            <param name="item">The object to insert into the list</param>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Remove(`1)">
-            <summary>Removes the first occurrence of a specific object from the list</summary>
-            <param name="item">The object to remove from the item</param>
-            <returns></returns>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.RemoveAt(System.Int32)">
-            <summary>Removes the item at the specified index.</summary>
-            <param name="index">The zero-based index of the item to remove.</param>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableList`2.GetEnumerator">
-            <summary>Returns an enumerator that iterates through the collection.</summary>
-        </member>
-        <member name="T:Primrose.Primitives.Observables.ObservableValue`1">
-            <summary>
-            A wrapper for binding modification events to a variable
-            </summary>
-            <typeparam name="T">The encapsulated type</typeparam>
-        </member>
-        <member name="M:Primrose.Primitives.Observables.ObservableValue`1.#ctor(`0)">
-            <summary>Creates an ObservableValue with an initialValue. The initial value does not trigger events</summary>
-            <param name="initialValue"></param>
-        </member>
-        <member name="P:Primrose.Primitives.Observables.ObservableValue`1.Value">
-            <summary>
-            The encapsulated value
-            </summary>
-        </member>
-        <member name="E:Primrose.Primitives.Observables.ObservableValue`1.ValueChanged">
-            <summary>Represents the set of functions to be called when a value is changed</summary>
+        <member name="P:Primrose.Primitives.Extensions.Array`1.Empty">
+            <summary>Retrieves a reference to the empty array</summary>
         </member>
         <member name="T:Primrose.Primitives.Extensions.ArrayExts">
             <summary>
@@ -1603,16 +1571,34 @@
             <param name="comparer">The comparer object used to compare the two values</param>
             <returns>The smaller of the two values</returns>
         </member>
-        <member name="M:Primrose.Primitives.Extensions.ComparableExts.Within``1(``0,``0,``0)">
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.WithinRangeExclusive``1(``0,``0,``0)">
             <summary>
-            Determines if a value is between two values
+            Determines if a value is within the exclusive range of two values
             </summary>
             <param name="value">The value to check</param>
             <param name="min">The inclusive lower bound</param>
             <param name="max">The inclusive upper bound</param>
-            <returns>True if the value is within the bounds of the two values, False otherwise</returns>
+            <returns>True if the value is within the inclusive bounds of the two values, False otherwise</returns>
         </member>
-        <member name="M:Primrose.Primitives.Extensions.ComparableExts.Within``1(``0,``0,``0,System.Collections.Generic.IComparer{``0})">
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.WithinRangeInclusive``1(``0,``0,``0)">
+            <summary>
+            Determines if a value is within the inclusive range of two values
+            </summary>
+            <param name="value">The value to check</param>
+            <param name="min">The inclusive lower bound</param>
+            <param name="max">The inclusive upper bound</param>
+            <returns>True if the value is within the inclusive bounds of the two values, False otherwise</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.WithinRange``1(``0,``0,``0)">
+            <summary>
+            Determines if a value is within the range of two values
+            </summary>
+            <param name="value">The value to check</param>
+            <param name="min">The inclusive lower bound</param>
+            <param name="max">The exclusive upper bound</param>
+            <returns>True if the value is within the range of the two values, False otherwise</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Extensions.ComparableExts.WithinRangeInclusive``1(``0,``0,``0,System.Collections.Generic.IComparer{``0})">
             <summary>
             Determines if a value is between two values, as determined by a comparer
             </summary>
@@ -1688,20 +1674,22 @@
             <param name="comparer"></param>
             <returns></returns>
         </member>
-        <member name="M:Primrose.Primitives.Extensions.ListExts.Random``1(System.Collections.Generic.List{``0},System.Random)">
+        <member name="M:Primrose.Primitives.Extensions.ListExts.SelectRandom``1(System.Collections.Generic.List{``0},System.Random,``0@)">
             <summary>Retrives a random object from a list of objects</summary>
             <typeparam name="T">The member type</typeparam>
             <param name="list">The array</param>
             <param name="rand">The random object</param>
-            <returns>A random object from the array. If the array has no members, return the default value of the member type</returns>
+            <param name="result">A random object from the array. If the array has no members, return the default value of the member type</param>
+            <returns>True if a random object is picked. False if otherwise (e.g. the array is empty)</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="list"/> and <paramref name="rand"/> cannot be null</exception>
         </member>
-        <member name="M:Primrose.Primitives.Extensions.ListExts.Random``1(System.Collections.Concurrent.ConcurrentBag{``0},System.Random)">
+        <member name="M:Primrose.Primitives.Extensions.ListExts.SelectRandom``1(System.Collections.Concurrent.ConcurrentBag{``0},System.Random,``0@)">
             <summary>Retrives a random object from a list of objects</summary>
             <typeparam name="T">The member type</typeparam>
             <param name="list">The array</param>
             <param name="rand">The random object</param>
-            <returns>A random object from the array. If the array has no members, return the default value of the member type</returns>
+            <param name="result">A random object from the array. If the array has no members, return the default value of the member type</param>
+            <returns>True if a random object is picked. False if otherwise (e.g. the array is empty)</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="list"/> and <paramref name="rand"/> cannot be null</exception>
         </member>
         <member name="M:Primrose.Primitives.Extensions.ListExts.RemoveAll``1(System.Collections.Generic.LinkedList{``0},System.Predicate{``0})">
@@ -1720,6 +1708,14 @@
             <param name="rand">The random object</param>
             <returns>A random object from the array. If the array has no members, return the default value of the member type</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="list"/> and <paramref name="rand"/> cannot be null</exception>
+        </member>
+        <member name="M:Primrose.Primitives.Extensions.ListExts.Find``1(System.Collections.Generic.List{``0},System.Predicate{``0})">
+            <summary>Retrives the first element from a list of objects, that matches a condition</summary>
+            <typeparam name="T">The member type</typeparam>
+            <param name="list">The array</param>
+            <param name="condition">The matching condition</param>
+            <returns>The first element that matches the condition, or the default value if none matches the condition</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="list"/> and <paramref name="condition"/> cannot be null</exception>
         </member>
         <member name="T:Primrose.Primitives.Extensions.ObjectExts">
             <summary>
@@ -1933,6 +1929,204 @@
             <param name="t">The type to be enumerated</param>
             <returns>A enumeration of types that is inherited by <paramref name="t"/></returns>
         </member>
+        <member name="T:Primrose.Primitives.Strings.StringSource`1">
+            <summary>Defines a data resource that maps a token code to a string resource</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Add(`0,System.String)">
+            <summary>Registers a new string token with a formatted string</summary>
+            <param name="key">The identifier string token</param>
+            <param name="formattedString">The formatted string</param>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Put(`0,System.String)">
+            <summary>Registers or redefines a new string token with a formatted string</summary>
+            <param name="key">The identifier string token</param>
+            <param name="formattedString">The formatted string</param>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Get(`0)">
+            <summary>Retrieves a formatted string from its code</summary>
+            <param name="key">The identifier string code.</param>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Remove(`0)">
+            <summary>Removes a new string token</summary>
+            <param name="key">The identifier string token to remove</param>
+        </member>
+        <member name="M:Primrose.Primitives.Strings.StringSource`1.Clear">
+            <summary>Clears the source of all tokens</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Observables.ChangeEventDelegate`1">
+            <summary>
+            A delegate representing a change in value
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="newValue">Represents the new value</param>
+            <param name="oldValue">Represents the old value</param>
+        </member>
+        <member name="T:Primrose.Primitives.Observables.ObservableRegistry`2">
+            <summary>
+            A wrapper for binding modification events to a registry
+            </summary>
+            <typeparam name="K">The encapsulated key type</typeparam>
+            <typeparam name="V">The encapsulated value type</typeparam>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableRegistry`2.RegistryChanged">
+            <summary>Represents the set of functions to be called when the registry is replaced</summary>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableRegistry`2.KeyAdded">
+            <summary>Represents the set of functions to be called when a key is added</summary>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableRegistry`2.KeyRemoved">
+            <summary>Represents the set of functions to be called when a key is removed</summary>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableRegistry`2.ValueChanged">
+            <summary>Represents the set of functions to be called when a value is changed</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.#ctor(Primrose.Primitives.Factories.Registry{`0,`1})">
+            <summary>Defines an event-bounded registry</summary>
+            <param name="reg">The initial registry. No events are fired on the assignment of the initial registry.</param>
+        </member>
+        <member name="P:Primrose.Primitives.Observables.ObservableRegistry`2.Registry">
+            <summary>
+            The encapsulated registry. Direct method calls to the encapsulated object will not trigger any events.
+            </summary>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.GetUnderlyingDictionary">
+            <summary>Retrieves the underlying dictionary</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Observables.ObservableRegistry`2.Item(`0)">
+            <summary>Gets or sets an element in the list, accessed by an index</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Observables.ObservableRegistry`2.Count">
+            <summary>Gets the number of elements contained in the registry</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Contains(`0)">
+            <summary>Determines whether the registry contains a key</summary>
+            <param name="key">The identifier key to check</param>
+            <returns>True if the registry contains this key, False if otherwise</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Get(`0)">
+            <summary>Retrieves the value associated with a key</summary>
+            <param name="key">The identifier key to check</param>
+            <returns>The value associated with the key. If the registry does not contain this key, returns Default</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.GetX(`0)">
+            <summary>Strictly retrieves the value associated with a key</summary>
+            <param name="key">The identifier key to check</param>
+            <returns>The value associated with the key</returns>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.GetKeys">
+            <summary>Retrives an array of all the keys in the registry</summary>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.GetValues">
+            <summary>Retrives an array of all the values in the registry</summary>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Add(`0,`1)">
+            <summary>Adds an object into the registry</summary>
+            <param name="key">The identifier key to add</param>
+            <param name="item">The object to be associated with this key</param>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Put(`0,`1)">
+            <summary>Updates or adds an object into the registry</summary>
+            <param name="key">The identifier key to add</param>
+            <param name="item">The object to be associated with this key</param>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Remove(`0)">
+            <summary>Removes an object from the registry</summary>
+            <param name="key">The identifier key to remove</param>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableRegistry`2.Clear">
+            <summary>Purges all data from the registry</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Observables.ObservableList`2">
+            <summary>Represents a list with events that notify on modification</summary>
+            <typeparam name="TList">The type of the list</typeparam>
+            <typeparam name="T">The type of elements in the list</typeparam>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableList`2.ListChanged">
+            <summary>Represents the set of functions to be called when the registry is replaced</summary>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableList`2.ItemAdded">
+            <summary>Represents the set of functions to be called when a key is added</summary>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableList`2.ItemRemoved">
+            <summary>Represents the set of functions to be called when a key is removed</summary>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableList`2.ItemChanged">
+            <summary>Represents the set of functions to be called when a value is changed</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.#ctor(`0)">
+            <summary>Represents a list with events that notify on modification</summary>
+            <param name="source">The initial list. No events are fired on the assignment of the initial list.</param>
+        </member>
+        <member name="P:Primrose.Primitives.Observables.ObservableList`2.Item(System.Int32)">
+            <summary>Gets or sets an element in the list, accessed by an index</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Observables.ObservableList`2.Count">
+            <summary>Gets the number of elements contained in the list</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Observables.ObservableList`2.IsReadOnly">
+            <summary>Gets a value indicating whether the list is read-only</summary>
+        </member>
+        <member name="P:Primrose.Primitives.Observables.ObservableList`2.List">
+            <summary>The encapsulated list. Direct method calls to the encapsulated object will not trigger any events.</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Add(`1)">
+            <summary>Adds an item to the list</summary>
+            <param name="item">The object to add to the list</param>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Clear">
+            <summary>Removes all items from the list</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Contains(`1)">
+            <summary>Determines if the list contains a specific value</summary>
+            <param name="item">The object to locate in the list</param>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.CopyTo(`1[],System.Int32)">
+            <summary>Copies the elements of the list to an array, starting at a particular index.</summary>
+            <param name="array">The one-dimensional array that is the destination of the elements copied the list. The array must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in the array at which copying begins.</param>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.IndexOf(`1)">
+            <summary>Determines the index of a specific item in the list</summary>
+            <param name="item">The object to locate in the list</param>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Insert(System.Int32,`1)">
+            <summary>Inserts an item to the list at the specified index.</summary>
+            <param name="index">The zero-based index at which item should be inserted</param>
+            <param name="item">The object to insert into the list</param>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.Remove(`1)">
+            <summary>Removes the first occurrence of a specific object from the list</summary>
+            <param name="item">The object to remove from the item</param>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.RemoveAt(System.Int32)">
+            <summary>Removes the item at the specified index.</summary>
+            <param name="index">The zero-based index of the item to remove.</param>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableList`2.GetEnumerator">
+            <summary>Returns an enumerator that iterates through the collection.</summary>
+        </member>
+        <member name="T:Primrose.Primitives.Observables.ObservableValue`1">
+            <summary>
+            A wrapper for binding modification events to a variable
+            </summary>
+            <typeparam name="T">The encapsulated type</typeparam>
+        </member>
+        <member name="M:Primrose.Primitives.Observables.ObservableValue`1.#ctor(`0)">
+            <summary>Creates an ObservableValue with an initialValue. The initial value does not trigger events</summary>
+            <param name="initialValue"></param>
+        </member>
+        <member name="P:Primrose.Primitives.Observables.ObservableValue`1.Value">
+            <summary>
+            The encapsulated value
+            </summary>
+        </member>
+        <member name="E:Primrose.Primitives.Observables.ObservableValue`1.ValueChanged">
+            <summary>Represents the set of functions to be called when a value is changed</summary>
+        </member>
         <member name="T:Primrose.Primitives.IIdentity">
             <summary>
             Implements an ID object
@@ -1983,6 +2177,11 @@
         </member>
         <member name="T:Primrose.Primitives.Parsers.Parser.Rules">
             <summary>Defines parsing rules for interpreting strings into values</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToString(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Resolves a string value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
         </member>
         <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToBool(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a bool value</summary>
@@ -2658,6 +2857,15 @@
             <param name="completion_handler">The action to be performed on successful completion of the main action</param>
             <returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew``1(System.Action{``0},``0,System.Action{System.Threading.Tasks.Task,``0},System.Action{System.Threading.Tasks.Task,``0})">
+            <summary>Creates and starts a task with a parameterized state</summary>
+            <typeparam name="T">The type of the parameterized state</typeparam>
+            <param name="action">The main action</param>
+            <param name="state">The parameterized state for the action</param>
+            <param name="exception_handler">The action to be performed on encountered exception during execution of the main action</param>
+            <param name="completion_handler">The action to be performed on successful completion of the main action</param>
+            <returns></returns>
+        </member>
         <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew(System.Action,System.Threading.CancellationToken,System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
             <summary>Creates and starts a task</summary>
             <param name="action">The main action</param>
@@ -2691,6 +2899,9 @@
         <member name="M:Primrose.Primitives.Tasks.TaskSet`1.#ctor(System.Action{`0},System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
             <summary>Creates a container for handled tasks</summary>
         </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskSet`1.#ctor(System.Action{`0},System.Action{System.Threading.Tasks.Task,`0},System.Action{System.Threading.Tasks.Task,`0})">
+            <summary>Creates a container for handled tasks</summary>
+        </member>
         <member name="T:Primrose.Primitives.Tasks.TaskSet">
             <summary>Defines a container for handled tasks</summary>
         </member>
@@ -2711,12 +2922,32 @@
             Represents a time control 
             </summary>
         </member>
+        <member name="T:Primrose.Primitives.TimeControl.TimePrecision">
+            <summary>Sets a time precision mode</summary>
+        </member>
+        <member name="F:Primrose.Primitives.TimeControl.TimePrecision.NONE">
+            <summary>Disables any time control. Wait() will do nothing. Intended for when you have other methods of time control and only want to measure the time</summary>
+        </member>
+        <member name="F:Primrose.Primitives.TimeControl.TimePrecision.SIMPLE">
+            <summary>Sets a time control with low precision</summary>
+        </member>
+        <member name="F:Primrose.Primitives.TimeControl.TimePrecision.HIGH_PRECISION">
+            <summary>Sets a time control to high precision by spinning the CPU instead of yielding it</summary>
+        </member>
+        <member name="F:Primrose.Primitives.TimeControl.TimePrecision.DYNAMIC">
+            <summary>Sets a time control to adjust itself between simple and high precision modes</summary>
+        </member>
         <member name="M:Primrose.Primitives.TimeControl.#ctor">
             <summary>
             Initializes a time control
             </summary>
         </member>
         <member name="M:Primrose.Primitives.TimeControl.#ctor(System.UInt32)">
+            <summary>
+            Initializes a time control
+            </summary>
+        </member>
+        <member name="M:Primrose.Primitives.TimeControl.#ctor(System.UInt32,Primrose.Primitives.TimeControl.TimePrecision)">
             <summary>
             Initializes a time control
             </summary>
@@ -2735,6 +2966,15 @@
         </member>
         <member name="P:Primrose.Primitives.TimeControl.FPS">
             <summary>The current FPS</summary>
+        </member>
+        <member name="P:Primrose.Primitives.TimeControl.SpinsInLastFrame">
+            <summary>Shows the number of spinning cycles made while during the last Wait() call. Can be used to check performance</summary>
+        </member>
+        <member name="P:Primrose.Primitives.TimeControl.SpinsPerFrame">
+            <summary>The current number of spin cycles per second</summary>
+        </member>
+        <member name="P:Primrose.Primitives.TimeControl.Precision">
+            <summary>The precision mode of the timer</summary>
         </member>
         <member name="P:Primrose.Primitives.TimeControl.TargetFPS">
             <summary>The target FPS</summary>
@@ -4634,10 +4874,13 @@
         <member name="P:Primrose.Primitives.ValueTypes.int2.Empty">
             <summary>Returns a int2 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Explicit(Primrose.Primitives.ValueTypes.int2)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.int2.op_Explicit(Primrose.Primitives.ValueTypes.int2)~System.Int32[]">
             <summary>Creates a int[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int2">
+        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.int2">
             <summary>Creates a int2 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float2">
@@ -4727,6 +4970,10 @@
             <summary>Performs a memberwise division between two float2 values</summary>
             <param name="a"></param><param name="b"></param><returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Multiply(System.Single,Primrose.Primitives.ValueTypes.float2)">
+            <summary>Performs a multiplication operation between a float2 value and a float multiplier</summary>
+            <param name="a"></param><param name="m"></param><returns></returns>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float2.op_Multiply(Primrose.Primitives.ValueTypes.float2,System.Single)">
             <summary>Performs a multiplication operation between a float2 value and a float multiplier</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
@@ -4751,6 +4998,10 @@
             <summary>Returns true if the value of another object is equal to this object</summary>
             <param name="other">The object to compare for equality</param>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(Primrose.Primitives.ValueTypes.float2)~Primrose.Primitives.ValueTypes.int2">
+            <summary>Casts a float2 to int2</summary>
+            <param name="o">The object to cast</param>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float2.GetHashCode">
             <summary>Generates the hash code for this object</summary>
         </member>
@@ -4763,13 +5014,16 @@
         <member name="P:Primrose.Primitives.ValueTypes.float2.Empty">
             <summary>Returns a float2 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(Primrose.Primitives.ValueTypes.float2)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(Primrose.Primitives.ValueTypes.float2)~System.Single[]">
             <summary>Creates a float[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float2">
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Implicit(System.Single[])~Primrose.Primitives.ValueTypes.float2">
             <summary>Creates a float2 value from this array</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float2">
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.float2">
             <summary>Creates a float2 value from this array</summary>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float2.op_Implicit(Primrose.Primitives.ValueTypes.int2)~Primrose.Primitives.ValueTypes.float2">
@@ -4985,10 +5239,13 @@
         <member name="P:Primrose.Primitives.ValueTypes.int3.Empty">
             <summary>Returns a int3 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Explicit(Primrose.Primitives.ValueTypes.int3)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.int3.op_Explicit(Primrose.Primitives.ValueTypes.int3)~System.Int32[]">
             <summary>Creates a int[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int3">
+        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.int3">
             <summary>Creates a int3 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float3">
@@ -5082,6 +5339,10 @@
             <summary>Performs a memberwise division between two float3 values</summary>
             <param name="a"></param><param name="b"></param><returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Multiply(System.Single,Primrose.Primitives.ValueTypes.float3)">
+            <summary>Performs a multiplication operation between a float3 value and a float multiplier</summary>
+            <param name="a"></param><param name="m"></param><returns></returns>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float3.op_Multiply(Primrose.Primitives.ValueTypes.float3,System.Single)">
             <summary>Performs a multiplication operation between a float3 value and a float multiplier</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
@@ -5106,6 +5367,10 @@
             <summary>Returns true if the value of another object is equal to this object</summary>
             <param name="other">The object to compare for equality</param>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(Primrose.Primitives.ValueTypes.float3)~Primrose.Primitives.ValueTypes.int3">
+            <summary>Casts a float3 to int3</summary>
+            <param name="o">The object to cast</param>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float3.GetHashCode">
             <summary>Generates the hash code for this object</summary>
         </member>
@@ -5118,13 +5383,16 @@
         <member name="P:Primrose.Primitives.ValueTypes.float3.Empty">
             <summary>Returns a float3 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(Primrose.Primitives.ValueTypes.float3)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(Primrose.Primitives.ValueTypes.float3)~System.Single[]">
             <summary>Creates a float[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float3">
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Implicit(System.Single[])~Primrose.Primitives.ValueTypes.float3">
             <summary>Creates a float3 value from this array</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float3">
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.float3">
             <summary>Creates a float3 value from this array</summary>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float3.op_Implicit(Primrose.Primitives.ValueTypes.int3)~Primrose.Primitives.ValueTypes.float3">
@@ -5348,10 +5616,13 @@
         <member name="P:Primrose.Primitives.ValueTypes.int4.Empty">
             <summary>Returns a int4 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Explicit(Primrose.Primitives.ValueTypes.int4)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.int4.op_Explicit(Primrose.Primitives.ValueTypes.int4)~System.Int32[]">
             <summary>Creates a int[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int4">
+        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.int4">
             <summary>Creates a int4 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float4">
@@ -5449,6 +5720,10 @@
             <summary>Performs a memberwise division between two float4 values</summary>
             <param name="a"></param><param name="b"></param><returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Multiply(System.Single,Primrose.Primitives.ValueTypes.float4)">
+            <summary>Performs a multiplication operation between a float4 value and a float multiplier</summary>
+            <param name="a"></param><param name="m"></param><returns></returns>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float4.op_Multiply(Primrose.Primitives.ValueTypes.float4,System.Single)">
             <summary>Performs a multiplication operation between a float4 value and a float multiplier</summary>
             <param name="a"></param><param name="m"></param><returns></returns>
@@ -5473,6 +5748,10 @@
             <summary>Returns true if the value of another object is equal to this object</summary>
             <param name="other">The object to compare for equality</param>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(Primrose.Primitives.ValueTypes.float4)~Primrose.Primitives.ValueTypes.int4">
+            <summary>Casts a float4 to int4</summary>
+            <param name="o">The object to cast</param>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float4.GetHashCode">
             <summary>Generates the hash code for this object</summary>
         </member>
@@ -5485,13 +5764,16 @@
         <member name="P:Primrose.Primitives.ValueTypes.float4.Empty">
             <summary>Returns a float4 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(Primrose.Primitives.ValueTypes.float4)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(Primrose.Primitives.ValueTypes.float4)~System.Single[]">
             <summary>Creates a float[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float4">
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Implicit(System.Single[])~Primrose.Primitives.ValueTypes.float4">
             <summary>Creates a float4 value from this array</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float4">
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.float4">
             <summary>Creates a float4 value from this array</summary>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float4.op_Implicit(Primrose.Primitives.ValueTypes.int4)~Primrose.Primitives.ValueTypes.float4">
@@ -5538,6 +5820,9 @@
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.Trip`3.op_Inequality(Primrose.Primitives.ValueTypes.Trip{`0,`1,`2},Primrose.Primitives.ValueTypes.Trip{`0,`1,`2})">
             <summary>Determines if two short3 values are not equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.Trip`3.ToString">
+            <summary>Provides a string representation of this value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.Quad`4">
             <summary>
@@ -5586,6 +5871,9 @@
         <member name="M:Primrose.Primitives.ValueTypes.Quad`4.op_Inequality(Primrose.Primitives.ValueTypes.Quad{`0,`1,`2,`3},Primrose.Primitives.ValueTypes.Quad{`0,`1,`2,`3})">
             <summary>Determines if two short3 values are not equal</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.Quad`4.ToString">
+            <summary>Provides a string representation of this value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.Pair`2">
             <summary>
             A value pair
@@ -5622,6 +5910,9 @@
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.Pair`2.op_Inequality(Primrose.Primitives.ValueTypes.Pair{`0,`1},Primrose.Primitives.ValueTypes.Pair{`0,`1})">
             <summary>Determines if two short3 values are not equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.Pair`2.ToString">
+            <summary>Provides a string representation of this value</summary>
         </member>
         <member name="T:Primrose.Log">
             <summary>Handles logging behaviour for the program</summary>
@@ -5905,13 +6196,13 @@
             <param name="channel">The log channel to write to</param>
             <param name="ex">The exception to log</param>
         </member>
-        <member name="M:Primrose.Log.RegisterCallback(System.String,System.Action{System.String},Primrose.LogLevel)">
+        <member name="M:Primrose.Log.RegisterCallback(System.String,Primrose.MessageDelegate,Primrose.LogLevel)">
             <summary>Registers a callback function to a log channel</summary>
             <param name="channel">The log channel to handle the callback</param>
             <param name="callback">The callback function to register</param>
             <param name="level">The logging levels were the callback will be triggered</param>
         </member>
-        <member name="M:Primrose.Log.RemoveCallback(System.String,System.Action{System.String})">
+        <member name="M:Primrose.Log.RemoveCallback(System.String,Primrose.MessageDelegate)">
             <summary>Removes a callback function from a log channel registry list</summary>
             <param name="channel">The log channel to handle the callback</param>
             <param name="callback">The callback function to register</param>
@@ -5960,17 +6251,17 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException">
             <summary>
-              Looks up a localized string similar to Attempted operation between two arrays of different length.
+              Looks up a localized string similar to Attempted operation between two arrays of different length..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException_length_length">
             <summary>
-              Looks up a localized string similar to Attempted operation between two arrays of different lengths &apos;{0}&apos; and &apos;{1}&apos;.
+              Looks up a localized string similar to Attempted operation between two arrays of different lengths &apos;{0}&apos; and &apos;{1}&apos;..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException_length_type">
             <summary>
-              Looks up a localized string similar to Attempted assignment of an array of length {0} to {1}.
+              Looks up a localized string similar to Attempted assignment of an array of length {0} to {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CacheKeyNotFound">
@@ -5980,32 +6271,32 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CapacityExceededException">
             <summary>
-              Looks up a localized string similar to Attempted to push an item into {0} that has reached capacity limit of {1}.
+              Looks up a localized string similar to Attempted to push an item into {0} that has reached capacity limit of {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionAddDuplicateKey">
             <summary>
-              Looks up a localized string similar to Attempted to add an existing key &apos;{0}&apos; to a {1}.
+              Looks up a localized string similar to Attempted to add an existing key &apos;{0}&apos; to a {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionAddNullKey">
             <summary>
-              Looks up a localized string similar to Attempted to add a null key to a {0}.
+              Looks up a localized string similar to Attempted to add a null key to a {0}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionPutNullKey">
             <summary>
-              Looks up a localized string similar to Attempted to put value of a null key in a {0}.
+              Looks up a localized string similar to Attempted to put value of a null key in a {0}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionSetKeyNotFound">
             <summary>
-              Looks up a localized string similar to Attempted to set value to an non-existent key &apos;{0}&apos; in a {1}.
+              Looks up a localized string similar to Attempted to set value to an non-existent key &apos;{0}&apos; in a {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionSetNullKey">
             <summary>
-              Looks up a localized string similar to Attempted to set value of a null key to a {0}.
+              Looks up a localized string similar to Attempted to set value of a null key to a {0}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_DuplicateINISection">
@@ -6015,7 +6306,7 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_ExpectedEnumException">
             <summary>
-              Looks up a localized string similar to Type &apos;{0}&apos; is not an enum.
+              Looks up a localized string similar to Type &apos;{0}&apos; is not an enum..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_FileNotFound">
@@ -6060,7 +6351,7 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_InvalidIndex">
             <summary>
-              Looks up a localized string similar to Attempted to access invalid index &apos;{0}&apos; of {1}.
+              Looks up a localized string similar to Attempted to access invalid index &apos;{0}&apos; of {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_InvalidStateCommandException">
@@ -6080,18 +6371,27 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_RuleConversionException">
             <summary>
-              Looks up a localized string similar to Attempted to parse invalid value &apos;{0}&apos; as {1}.
+              Looks up a localized string similar to Attempted to parse invalid value &apos;{0}&apos; as {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_UnsupportedParseException">
             <summary>
-              Looks up a localized string similar to Attempted to parse a string from an unsupported type &apos;{0}&apos;.
+              Looks up a localized string similar to Attempted to parse a string from an unsupported type &apos;{0}&apos;..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_UnsupportedWriteException">
             <summary>
-              Looks up a localized string similar to Attempted to write a string from an unsupported type &apos;{0}&apos;.
+              Looks up a localized string similar to Attempted to write a string from an unsupported type &apos;{0}&apos;..
             </summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.CallerMemberNameAttribute">
+            <summary></summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.CallerFilePathAttribute">
+            <summary></summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.CallerLineNumberAttribute">
+            <summary></summary>
         </member>
     </members>
 </doc>

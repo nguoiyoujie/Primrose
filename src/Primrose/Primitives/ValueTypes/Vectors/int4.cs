@@ -230,10 +230,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Returns a int4 value with all elements set to their default value</summary>
     public static int4 Empty { get { return new int4(); } }
 
+    /// <summary>Creates an array from this value</summary>
+    public static explicit operator Array(int4 a) { return a.ToArray(); }
+
     /// <summary>Creates a int[] array from this value</summary>
     public static explicit operator int[](int4 a) { return a.ToArray(); }
 
     /// <summary>Creates a int4 value from this array</summary>
-    public static explicit operator int4(int[] a) { return FromArray(a); }
+    public static implicit operator int4(int[] a) { return FromArray(a); }
   }
 }

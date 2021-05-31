@@ -411,6 +411,7 @@
             <param name="eval">The expression object being evaluated</param>
             <param name="name">The variable name</param>
             <param name="val">The Val object containing the value of the variable</param>
+            <param name="indices">The indices to set</param>
             <exception cref="T:System.InvalidOperationException">Attempted to set the value of an undeclared variable</exception>
         </member>
         <member name="T:Primrose.Expressions.IContext">
@@ -560,6 +561,14 @@
             </summary>
             <param name="v1">The first value</param>
             <param name="v2">The second value</param>
+            <returns></returns>
+        </member>
+        <member name="M:Primrose.Expressions.Ops.GetIndex(Primrose.Expressions.Val,System.Int32[])">
+            <summary>
+            Performs an index operation 
+            </summary>
+            <param name="v">The value</param>
+            <param name="indices">The indices</param>
             <returns></returns>
         </member>
         <member name="M:Primrose.Expressions.Ops.ImplicitCast(System.Type,Primrose.Expressions.Val)">
@@ -751,6 +760,11 @@
         <member name="P:Primrose.Expressions.Resource.Strings.Error_IncompatibleBOp">
             <summary>
               Looks up a localized string similar to Operation &apos;{0}&apos; incompatible between {1} and {2}.
+            </summary>
+        </member>
+        <member name="P:Primrose.Expressions.Resource.Strings.Error_IncompatibleIndexOp">
+            <summary>
+              Looks up a localized string similar to Operation &apos;{0}&apos; incompatible with an indexed operation.
             </summary>
         </member>
         <member name="P:Primrose.Expressions.Resource.Strings.Error_IncompatibleUOp">
@@ -958,6 +972,14 @@
             <typeparam name="TIn">Input type</typeparam>
         </member>
         <member name="M:Primrose.Expressions.UnaryOp`1.Cast``1(`0)">
+            <summary>
+            Casts <typeparamref name="TIn"/> to <typeparamref name="TOut"/>.
+            This does not cause boxing for value types.
+            Useful in generic methods.
+            </summary>
+            <typeparam name="TOut">Target type to cast to. Usually a generic type.</typeparam>
+        </member>
+        <member name="M:Primrose.Expressions.UnaryOp`1.CastIntermediate``1(`0,System.Type)">
             <summary>
             Casts <typeparamref name="TIn"/> to <typeparamref name="TOut"/>.
             This does not cause boxing for value types.

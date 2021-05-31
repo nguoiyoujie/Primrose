@@ -59,7 +59,7 @@ namespace Primrose.FileFormat.INI
             if (startpos > -1 && endpos > -1 && startpos < endpos)
             {
               Header = line.Substring(startpos + 1, endpos - startpos - 1);
-              line = line.Substring(0, endpos);
+              line = line.Substring(endpos + 1);
             }
             else
               Header = "";
@@ -76,7 +76,6 @@ namespace Primrose.FileFormat.INI
                   for (int i = 0; i < headers.Length; i++)
                     Inherits[i] = headers[i].Trim();
                 }
-                line = line.Substring(0, inhpos);
               }
             }
           }

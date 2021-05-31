@@ -2,6 +2,7 @@
 using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Primrose.Expressions
@@ -311,6 +312,9 @@ namespace Primrose.Expressions
       obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint2)), new Func<object, uint[]>((o) => ((uint2)o).ToArray()));
       obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint3)), new Func<object, uint[]>((o) => ((uint3)o).ToArray()));
       obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint4)), new Func<object, uint[]>((o) => ((uint4)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint2)), new Func<object, Array>((o) => ((uint2)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint3)), new Func<object, Array>((o) => ((uint3)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint4)), new Func<object, Array>((o) => ((uint4)o).ToArray()));
 
       // float[] <-> floatX
       obj_cast_func.Add(new Pair<Type, Type>(typeof(float2), typeof(float[])), new Func<object, float2>((o) => float2.FromArray((float[])o)));
@@ -319,6 +323,9 @@ namespace Primrose.Expressions
       obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float2)), new Func<object, float[]>((o) => ((float2)o).ToArray()));
       obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float3)), new Func<object, float[]>((o) => ((float3)o).ToArray()));
       obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float4)), new Func<object, float[]>((o) => ((float4)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float2)), new Func<object, Array>((o) => ((float2)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float3)), new Func<object, Array>((o) => ((float3)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float4)), new Func<object, Array>((o) => ((float4)o).ToArray()));
     }
 
     /// <summary>Retrieves the value and casts it as a <typeparamref name="T"/></summary>
@@ -347,16 +354,14 @@ namespace Primrose.Expressions
         {
           return tobj;
         }
-        else if (ImplicitConversionTable.HasImplicitConversion(t_in, t_out))
+        else if (ImplicitConversionTable.HasImplicitConversion(t_in, t_out, out Type t))
         {
-          return UnaryOp<object>.Cast<T>(_obj);
+          MethodInfo mRead = typeof(UnaryOp<>).MakeGenericType(new Type[] { t_in })
+            .GetMethod(nameof(UnaryOp<T>.CastIntermediate), BindingFlags.Public | BindingFlags.Static);
+
+          MethodInfo gmRead = mRead.MakeGenericMethod(new Type[] { t });
+          return (T)gmRead.Invoke(null, new object[] { _obj, t });
         }
-        /*
-        else if (obj_cast_func.Contains(p))
-        {
-          return ((Func<object, T>)val_cast_func[p])(_obj);
-        }
-        */
       }
       throw new InvalidValCastException(t_out, p.u);
     }

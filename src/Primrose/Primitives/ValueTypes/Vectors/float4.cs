@@ -179,6 +179,13 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Performs a multiplication operation between a float4 value and a float multiplier</summary>
     /// <param name="a"></param><param name="m"></param><returns></returns>
+    public static float4 operator *(float m, float4 a)
+    {
+      return new float4(a.x * m, a.y * m, a.z * m, a.w * m);
+    }
+
+    /// <summary>Performs a multiplication operation between a float4 value and a float multiplier</summary>
+    /// <param name="a"></param><param name="m"></param><returns></returns>
     public static float4 operator *(float4 a, float m)
     {
       return new float4(a.x * m, a.y * m, a.z * m, a.w * m);
@@ -219,6 +226,13 @@ namespace Primrose.Primitives.ValueTypes
       return x == other.x && y == other.y && z == other.z && w == other.w;
     }
 
+    /// <summary>Casts a float4 to int4</summary>
+    /// <param name="o">The object to cast</param>
+    public static explicit operator int4(float4 o)
+    {
+      return new int4((int)o.x, (int)o.y, (int)o.z, (int)o.w);
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -245,14 +259,17 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Returns a float4 value with all elements set to their default value</summary>
     public static float4 Empty { get { return new float4(); } }
 
+    /// <summary>Creates an array from this value</summary>
+    public static explicit operator Array(float4 a) { return a.ToArray(); }
+
     /// <summary>Creates a float[] array from this value</summary>
     public static explicit operator float[](float4 a) { return a.ToArray(); }
 
     /// <summary>Creates a float4 value from this array</summary>
-    public static explicit operator float4(float[] a) { return FromArray(a); }
+    public static implicit operator float4(float[] a) { return FromArray(a); }
 
     /// <summary>Creates a float4 value from this array</summary>
-    public static explicit operator float4(int[] a) { return FromArray(a); }
+    public static implicit operator float4(int[] a) { return FromArray(a); }
 
     /// <summary>Converts a int4 value to a float4 value</summary>
     public static implicit operator float4(int4 a) { return new float4(a.x, a.y, a.z, a.w); }

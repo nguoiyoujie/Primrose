@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Primrose.Primitives.Extensions;
+using System;
 using System.Collections.Generic;
 
 namespace Primrose.Primitives.ValueTypes
@@ -81,6 +82,12 @@ namespace Primrose.Primitives.ValueTypes
           || !EqualityComparer<U>.Default.Equals(a.u, b.u)
           || !EqualityComparer<V>.Default.Equals(a.v, b.v)
           || !EqualityComparer<W>.Default.Equals(a.w, b.w);
+    }
+
+    /// <summary>Provides a string representation of this value</summary>
+    public override string ToString()
+    {
+      return "{{{0},{1},{2},{3}}}".F(t, u, v, w);
     }
   }
 }

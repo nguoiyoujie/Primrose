@@ -66,10 +66,11 @@ namespace Primrose.Expressions
             Linter.AddRange(lint);
             ScriptReadEnd?.Invoke(script.Name ?? nameof(Registry.Global));
           }
-          Linter.Add(new LintElement(linenumber, 0, LintType.HEADER));
-          Linter.Add(new LintElement(linenumber, line.Length - 1, LintType.NONE));
+          string head2 = line.TrimEnd().TrimEnd(headerSeperator);
+          string header = line.TrimEnd().TrimEnd(headerSeperator).Trim();
 
-          string header = line.TrimEnd(headerSeperator).Trim();
+          Linter.Add(new LintElement(linenumber, 0, LintType.HEADER));
+          Linter.Add(new LintElement(linenumber, head2.Length + 1, LintType.NONE));
 
           ScriptReadBegin?.Invoke(header);
           script = new Script(header, Registry);

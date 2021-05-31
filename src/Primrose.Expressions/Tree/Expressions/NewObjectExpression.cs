@@ -35,7 +35,7 @@ namespace Primrose.Expressions.Tree.Expressions
         _ttypeName = lexer.TokenContents;
         _type = Parser.TypeTokens[_ttypeName];
         if (_type == null)
-          throw new ParseException(lexer);
+          throw new ParseException(lexer, "Type identifier expected, read '{0}' instead.".F(_ttypeName));
 
         lexer.Next(); //DECL
 

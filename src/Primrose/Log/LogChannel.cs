@@ -14,7 +14,7 @@ namespace Primrose
     public TextWriter Writer { get; private set; }
     public string TimeFormat = "s";
     public LogLevel Levels = LogLevel.ALL;
-    public readonly Registry<Action<string>, LogLevel> CallbackList = new Registry<Action<string>, LogLevel>();
+    public readonly Registry<MessageDelegate, LogLevel> CallbackList = new Registry<MessageDelegate, LogLevel>();
     private readonly Timer _logTimer = new Timer();
     private readonly ConcurrentQueue<LogItem> _queue = new ConcurrentQueue<LogItem>();
 
@@ -23,8 +23,8 @@ namespace Primrose
       Writer = writer;
       Levels = levels;
       _logTimer.Interval = 100;
-      _logTimer.AutoReset = false;
-      _logTimer.Elapsed += (o, e) => DoWrite();
+      _logTimer.AutoReset = true;
+      _logTimer.Elapsed += DoWrite;
     }
 
     public LogChannel(string logpath, LogLevel levels = LogLevel.ALL)
@@ -32,8 +32,8 @@ namespace Primrose
       SetWriter(logpath);
       Levels = levels;
       _logTimer.Interval = 100;
-      _logTimer.AutoReset = false;
-      _logTimer.Elapsed += (o, e) => DoWrite();
+      _logTimer.AutoReset = true;
+      _logTimer.Elapsed += DoWrite;
     }
 
     public void Close()
@@ -128,7 +128,7 @@ namespace Primrose
         }
       }
       
-      foreach (Action<string> action in CallbackList.EnumerateKeys())
+      foreach (MessageDelegate action in CallbackList.EnumerateKeys())
       {
         if ((CallbackList[action] | item.Level) != 0)
         {
@@ -166,9 +166,9 @@ namespace Primrose
       }
     }
 
-    private void DoWrite()
+    private void DoWrite(object sender, ElapsedEventArgs e)
     {
-      _logTimer.Stop();
+      //_logTimer.Stop();
       while (_queue.TryDequeue(out LogItem item))
       {
         DoWrite(item);

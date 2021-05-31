@@ -16,6 +16,15 @@
         <member name="F:Primrose.Build.Revision">
             <summary>The daily revision number of the build</summary> 
         </member>
+        <member name="T:Primrose.MessageDelegate">
+            <summary>A delegate representing a receipt of a string message</summary>
+            <param name="message">Represents message received</param>
+        </member>
+        <member name="T:Primrose.MessageDelegate`1">
+            <summary>A delegate representing a receipt of a typed message</summary>
+            <typeparam name="T">The type of the message</typeparam>
+            <param name="message">Represents message received</param>
+        </member>
         <member name="T:Primrose.Diagnostics.PerformanceMonitor">
             <summary>Sets up runtime monitoring of functions</summary>
         </member>
@@ -707,25 +716,6 @@
         </member>
         <member name="P:Primrose.Primitives.Factories.SortedRegistry`2.Count">
             <summary>The number of elements in this registry</summary>
-        </member>
-        <member name="T:Primrose.Primitives.Factories.WeakReferenceRegistry`2">
-            <summary>
-            Maintains a typed registry of objects.
-            </summary>
-            <typeparam name="K">The type of the key</typeparam>
-            <typeparam name="T">The type of the registered object</typeparam>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.WeakReferenceRegistry`2.Mark(`0,`1@)">
-            <summary>Marks the object as active and holds it with a strong reference</summary>
-            <param name="key">The identifier key</param>
-            <param name="item">The object associated with this key</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.WeakReferenceRegistry`2.Unmark(System.Boolean)">
-            <summary>Unmarks all active objects. Call SetUnmarkedForCollection to allow collection of previously active objects</summary>
-            <param name="allowCollection">If true, allows collection of objects immediately</param>
-        </member>
-        <member name="M:Primrose.Primitives.Factories.WeakReferenceRegistry`2.SetUnmarkedForCollection">
-            <summary>Allows collection of previously active objects that are now unmarked</summary>
         </member>
         <member name="T:Primrose.Primitives.Factories.Factory`2">
             <summary>
@@ -1984,6 +1974,11 @@
         <member name="T:Primrose.Primitives.Parsers.Parser.Rules">
             <summary>Defines parsing rules for interpreting strings into values</summary>
         </member>
+        <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToString(System.String,Primrose.Primitives.Parsers.IResolver)">
+            <summary>Resolves a string value</summary>
+            <param name="value">The string to be parsed</param>
+            <param name="resolver">A string resolver function</param>
+        </member>
         <member name="M:Primrose.Primitives.Parsers.Parser.Rules.ToBool(System.String,Primrose.Primitives.Parsers.IResolver)">
             <summary>Parses a string to a bool value</summary>
             <param name="value">The string to be parsed</param>
@@ -2658,6 +2653,15 @@
             <param name="completion_handler">The action to be performed on successful completion of the main action</param>
             <returns></returns>
         </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew``1(System.Action{``0},``0,System.Action{System.Threading.Tasks.Task,``0},System.Action{System.Threading.Tasks.Task,``0})">
+            <summary>Creates and starts a task with a parameterized state</summary>
+            <typeparam name="T">The type of the parameterized state</typeparam>
+            <param name="action">The main action</param>
+            <param name="state">The parameterized state for the action</param>
+            <param name="exception_handler">The action to be performed on encountered exception during execution of the main action</param>
+            <param name="completion_handler">The action to be performed on successful completion of the main action</param>
+            <returns></returns>
+        </member>
         <member name="M:Primrose.Primitives.Tasks.TaskHandler.StartNew(System.Action,System.Threading.CancellationToken,System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
             <summary>Creates and starts a task</summary>
             <param name="action">The main action</param>
@@ -2689,6 +2693,9 @@
             <summary>The action to be performed on successful completion of the main action</summary>
         </member>
         <member name="M:Primrose.Primitives.Tasks.TaskSet`1.#ctor(System.Action{`0},System.Action{System.Threading.Tasks.Task},System.Action{System.Threading.Tasks.Task})">
+            <summary>Creates a container for handled tasks</summary>
+        </member>
+        <member name="M:Primrose.Primitives.Tasks.TaskSet`1.#ctor(System.Action{`0},System.Action{System.Threading.Tasks.Task,`0},System.Action{System.Threading.Tasks.Task,`0})">
             <summary>Creates a container for handled tasks</summary>
         </member>
         <member name="T:Primrose.Primitives.Tasks.TaskSet">
@@ -4634,10 +4641,13 @@
         <member name="P:Primrose.Primitives.ValueTypes.int2.Empty">
             <summary>Returns a int2 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Explicit(Primrose.Primitives.ValueTypes.int2)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.int2.op_Explicit(Primrose.Primitives.ValueTypes.int2)~System.Int32[]">
             <summary>Creates a int[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int2">
+        <member name="M:Primrose.Primitives.ValueTypes.int2.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.int2">
             <summary>Creates a int2 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float2">
@@ -4763,13 +4773,16 @@
         <member name="P:Primrose.Primitives.ValueTypes.float2.Empty">
             <summary>Returns a float2 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(Primrose.Primitives.ValueTypes.float2)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(Primrose.Primitives.ValueTypes.float2)~System.Single[]">
             <summary>Creates a float[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float2">
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Implicit(System.Single[])~Primrose.Primitives.ValueTypes.float2">
             <summary>Creates a float2 value from this array</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float2">
+        <member name="M:Primrose.Primitives.ValueTypes.float2.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.float2">
             <summary>Creates a float2 value from this array</summary>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float2.op_Implicit(Primrose.Primitives.ValueTypes.int2)~Primrose.Primitives.ValueTypes.float2">
@@ -4985,10 +4998,13 @@
         <member name="P:Primrose.Primitives.ValueTypes.int3.Empty">
             <summary>Returns a int3 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Explicit(Primrose.Primitives.ValueTypes.int3)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.int3.op_Explicit(Primrose.Primitives.ValueTypes.int3)~System.Int32[]">
             <summary>Creates a int[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int3">
+        <member name="M:Primrose.Primitives.ValueTypes.int3.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.int3">
             <summary>Creates a int3 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float3">
@@ -5118,13 +5134,16 @@
         <member name="P:Primrose.Primitives.ValueTypes.float3.Empty">
             <summary>Returns a float3 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(Primrose.Primitives.ValueTypes.float3)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(Primrose.Primitives.ValueTypes.float3)~System.Single[]">
             <summary>Creates a float[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float3">
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Implicit(System.Single[])~Primrose.Primitives.ValueTypes.float3">
             <summary>Creates a float3 value from this array</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float3">
+        <member name="M:Primrose.Primitives.ValueTypes.float3.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.float3">
             <summary>Creates a float3 value from this array</summary>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float3.op_Implicit(Primrose.Primitives.ValueTypes.int3)~Primrose.Primitives.ValueTypes.float3">
@@ -5348,10 +5367,13 @@
         <member name="P:Primrose.Primitives.ValueTypes.int4.Empty">
             <summary>Returns a int4 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Explicit(Primrose.Primitives.ValueTypes.int4)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.int4.op_Explicit(Primrose.Primitives.ValueTypes.int4)~System.Int32[]">
             <summary>Creates a int[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.int4">
+        <member name="M:Primrose.Primitives.ValueTypes.int4.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.int4">
             <summary>Creates a int4 value from this array</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.float4">
@@ -5485,13 +5507,16 @@
         <member name="P:Primrose.Primitives.ValueTypes.float4.Empty">
             <summary>Returns a float4 value with all elements set to their default value</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(Primrose.Primitives.ValueTypes.float4)~System.Array">
+            <summary>Creates an array from this value</summary>
+        </member>
         <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(Primrose.Primitives.ValueTypes.float4)~System.Single[]">
             <summary>Creates a float[] array from this value</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(System.Single[])~Primrose.Primitives.ValueTypes.float4">
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Implicit(System.Single[])~Primrose.Primitives.ValueTypes.float4">
             <summary>Creates a float4 value from this array</summary>
         </member>
-        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Explicit(System.Int32[])~Primrose.Primitives.ValueTypes.float4">
+        <member name="M:Primrose.Primitives.ValueTypes.float4.op_Implicit(System.Int32[])~Primrose.Primitives.ValueTypes.float4">
             <summary>Creates a float4 value from this array</summary>
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.float4.op_Implicit(Primrose.Primitives.ValueTypes.int4)~Primrose.Primitives.ValueTypes.float4">
@@ -5538,6 +5563,9 @@
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.Trip`3.op_Inequality(Primrose.Primitives.ValueTypes.Trip{`0,`1,`2},Primrose.Primitives.ValueTypes.Trip{`0,`1,`2})">
             <summary>Determines if two short3 values are not equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.Trip`3.ToString">
+            <summary>Provides a string representation of this value</summary>
         </member>
         <member name="T:Primrose.Primitives.ValueTypes.Quad`4">
             <summary>
@@ -5586,6 +5614,9 @@
         <member name="M:Primrose.Primitives.ValueTypes.Quad`4.op_Inequality(Primrose.Primitives.ValueTypes.Quad{`0,`1,`2,`3},Primrose.Primitives.ValueTypes.Quad{`0,`1,`2,`3})">
             <summary>Determines if two short3 values are not equal</summary>
         </member>
+        <member name="M:Primrose.Primitives.ValueTypes.Quad`4.ToString">
+            <summary>Provides a string representation of this value</summary>
+        </member>
         <member name="T:Primrose.Primitives.ValueTypes.Pair`2">
             <summary>
             A value pair
@@ -5622,6 +5653,9 @@
         </member>
         <member name="M:Primrose.Primitives.ValueTypes.Pair`2.op_Inequality(Primrose.Primitives.ValueTypes.Pair{`0,`1},Primrose.Primitives.ValueTypes.Pair{`0,`1})">
             <summary>Determines if two short3 values are not equal</summary>
+        </member>
+        <member name="M:Primrose.Primitives.ValueTypes.Pair`2.ToString">
+            <summary>Provides a string representation of this value</summary>
         </member>
         <member name="T:Primrose.Log">
             <summary>Handles logging behaviour for the program</summary>
@@ -5905,13 +5939,13 @@
             <param name="channel">The log channel to write to</param>
             <param name="ex">The exception to log</param>
         </member>
-        <member name="M:Primrose.Log.RegisterCallback(System.String,System.Action{System.String},Primrose.LogLevel)">
+        <member name="M:Primrose.Log.RegisterCallback(System.String,Primrose.MessageDelegate,Primrose.LogLevel)">
             <summary>Registers a callback function to a log channel</summary>
             <param name="channel">The log channel to handle the callback</param>
             <param name="callback">The callback function to register</param>
             <param name="level">The logging levels were the callback will be triggered</param>
         </member>
-        <member name="M:Primrose.Log.RemoveCallback(System.String,System.Action{System.String})">
+        <member name="M:Primrose.Log.RemoveCallback(System.String,Primrose.MessageDelegate)">
             <summary>Removes a callback function from a log channel registry list</summary>
             <param name="channel">The log channel to handle the callback</param>
             <param name="callback">The callback function to register</param>
@@ -5960,17 +5994,17 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException">
             <summary>
-              Looks up a localized string similar to Attempted operation between two arrays of different length.
+              Looks up a localized string similar to Attempted operation between two arrays of different length..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException_length_length">
             <summary>
-              Looks up a localized string similar to Attempted operation between two arrays of different lengths &apos;{0}&apos; and &apos;{1}&apos;.
+              Looks up a localized string similar to Attempted operation between two arrays of different lengths &apos;{0}&apos; and &apos;{1}&apos;..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_ArrayMismatchException_length_type">
             <summary>
-              Looks up a localized string similar to Attempted assignment of an array of length {0} to {1}.
+              Looks up a localized string similar to Attempted assignment of an array of length {0} to {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CacheKeyNotFound">
@@ -5980,32 +6014,32 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CapacityExceededException">
             <summary>
-              Looks up a localized string similar to Attempted to push an item into {0} that has reached capacity limit of {1}.
+              Looks up a localized string similar to Attempted to push an item into {0} that has reached capacity limit of {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionAddDuplicateKey">
             <summary>
-              Looks up a localized string similar to Attempted to add an existing key &apos;{0}&apos; to a {1}.
+              Looks up a localized string similar to Attempted to add an existing key &apos;{0}&apos; to a {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionAddNullKey">
             <summary>
-              Looks up a localized string similar to Attempted to add a null key to a {0}.
+              Looks up a localized string similar to Attempted to add a null key to a {0}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionPutNullKey">
             <summary>
-              Looks up a localized string similar to Attempted to put value of a null key in a {0}.
+              Looks up a localized string similar to Attempted to put value of a null key in a {0}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionSetKeyNotFound">
             <summary>
-              Looks up a localized string similar to Attempted to set value to an non-existent key &apos;{0}&apos; in a {1}.
+              Looks up a localized string similar to Attempted to set value to an non-existent key &apos;{0}&apos; in a {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_CollectionSetNullKey">
             <summary>
-              Looks up a localized string similar to Attempted to set value of a null key to a {0}.
+              Looks up a localized string similar to Attempted to set value of a null key to a {0}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_DuplicateINISection">
@@ -6015,7 +6049,7 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_ExpectedEnumException">
             <summary>
-              Looks up a localized string similar to Type &apos;{0}&apos; is not an enum.
+              Looks up a localized string similar to Type &apos;{0}&apos; is not an enum..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_FileNotFound">
@@ -6060,7 +6094,7 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_InvalidIndex">
             <summary>
-              Looks up a localized string similar to Attempted to access invalid index &apos;{0}&apos; of {1}.
+              Looks up a localized string similar to Attempted to access invalid index &apos;{0}&apos; of {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_InvalidStateCommandException">
@@ -6080,17 +6114,17 @@
         </member>
         <member name="P:Primrose.Resource.Strings.Error_RuleConversionException">
             <summary>
-              Looks up a localized string similar to Attempted to parse invalid value &apos;{0}&apos; as {1}.
+              Looks up a localized string similar to Attempted to parse invalid value &apos;{0}&apos; as {1}..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_UnsupportedParseException">
             <summary>
-              Looks up a localized string similar to Attempted to parse a string from an unsupported type &apos;{0}&apos;.
+              Looks up a localized string similar to Attempted to parse a string from an unsupported type &apos;{0}&apos;..
             </summary>
         </member>
         <member name="P:Primrose.Resource.Strings.Error_UnsupportedWriteException">
             <summary>
-              Looks up a localized string similar to Attempted to write a string from an unsupported type &apos;{0}&apos;.
+              Looks up a localized string similar to Attempted to write a string from an unsupported type &apos;{0}&apos;..
             </summary>
         </member>
     </members>

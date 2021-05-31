@@ -346,12 +346,12 @@ namespace Primrose
     /// <param name="channel">The log channel to handle the callback</param>
     /// <param name="callback">The callback function to register</param>
     /// <param name="level">The logging levels were the callback will be triggered</param>
-    public static void RegisterCallback(string channel, Action<string> callback, LogLevel level = LogLevel.ALL) { GetOrCreateDefault(channel).CallbackList.Put(callback, level); }
+    public static void RegisterCallback(string channel, MessageDelegate callback, LogLevel level = LogLevel.ALL) { GetOrCreateDefault(channel).CallbackList.Put(callback, level); }
 
     /// <summary>Removes a callback function from a log channel registry list</summary>
     /// <param name="channel">The log channel to handle the callback</param>
     /// <param name="callback">The callback function to register</param>
-    public static void RemoveCallback(string channel, Action<string> callback) { GetOrCreateDefault(channel).CallbackList.Remove(callback); }
+    public static void RemoveCallback(string channel, MessageDelegate callback) { GetOrCreateDefault(channel).CallbackList.Remove(callback); }
 
     /// <summary>Sets the time format for a log channel</summary>
     /// <param name="channel">The log channel to handle the callback</param>

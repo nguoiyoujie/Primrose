@@ -9,7 +9,7 @@ namespace Primrose.Expressions.Tree.Statements
   {
     private readonly ContextScope _scope;
     private readonly CExpression _enumerable;
-    private readonly Variable _var;
+    private readonly DeclVariable _var;
     private readonly List<CStatement> _actions = new List<CStatement>();
 
     internal ForEachStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
@@ -27,7 +27,7 @@ namespace Primrose.Expressions.Tree.Statements
         lexer.Next(); //BRACKETOPEN
 
         _scope = scope.Next;
-        _var = (DeclVariable)(new DeclVariable(_scope, lexer).Get());
+        _var = new DeclVariable(_scope, lexer);
 
         if (lexer.TokenType != TokenEnum.IN)
           throw new ParseException(lexer, TokenEnum.IN);

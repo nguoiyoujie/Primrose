@@ -193,7 +193,7 @@ namespace Primrose.Primitives.ValueTypes
     public bool ContainsPoint(int2 point)
     {
       int2 p = point - Position;
-      return p.x.Within(0, w) && p.y.Within(0, h);
+      return p.x.WithinRangeInclusive(0, w) && p.y.WithinRangeInclusive(0, h);
     }
 
     /// <summary>Determines if at least part of a rectangle intersects with the rectangle represented</summary>
@@ -205,8 +205,8 @@ namespace Primrose.Primitives.ValueTypes
       int min_y = topleft.y;
       int max_y = topleft.y + size.y;
 
-      return (0.Within(min_x, max_x) || w.Within(min_x, max_x) || min_x.Within(0, w) || max_x.Within(0, w))
-          && (0.Within(min_y, max_y) || h.Within(min_y, max_y) || min_y.Within(0, h) || max_y.Within(0, h));
+      return (0.WithinRangeInclusive(min_x, max_x) || w.WithinRangeInclusive(min_x, max_x) || min_x.WithinRangeInclusive(0, w) || max_x.WithinRangeInclusive(0, w))
+          && (0.WithinRangeInclusive(min_y, max_y) || h.WithinRangeInclusive(min_y, max_y) || min_y.WithinRangeInclusive(0, h) || max_y.WithinRangeInclusive(0, h));
     }
 
     /// <summary>Determines if at least part of a rectangle intersects with the rectangle represented</summary>
@@ -217,17 +217,22 @@ namespace Primrose.Primitives.ValueTypes
       int min_y = otherRect.y - Position.y;
       int max_y = otherRect.y - Position.y + otherRect.h;
 
-      return (0.Within(min_x, max_x) || w.Within(min_x, max_x) || min_x.Within(0, w) || max_x.Within(0, w))
-          && (0.Within(min_y, max_y) || h.Within(min_y, max_y) || min_y.Within(0, h) || max_y.Within(0, h));
+      return (0.WithinRangeInclusive(min_x, max_x) || w.WithinRangeInclusive(min_x, max_x) || min_x.WithinRangeInclusive(0, w) || max_x.WithinRangeInclusive(0, w))
+          && (0.WithinRangeInclusive(min_y, max_y) || h.WithinRangeInclusive(min_y, max_y) || min_y.WithinRangeInclusive(0, h) || max_y.WithinRangeInclusive(0, h));
     }
 
     /// <summary>Returns the bounding rectangle of the union of two rectangles</summary>
     public intRect Union(intRect other)
     {
-      return new intRect(x.Min(other.x)
-                        , y.Min(other.y)
-                        , w.Max(other.x + other.w - x)
-                        , h.Max(other.y + other.h - y)
+      int min_x = x.Min(other.x).Min(x + w).Min(other.x + other.w);
+      int max_x = x.Max(other.x).Max(x + w).Max(other.x + other.w);
+      int min_y = y.Min(other.y).Min(y + h).Min(other.y + other.h);
+      int max_y = y.Max(other.y).Max(y + h).Max(other.y + other.h);
+
+      return new intRect(min_x
+                        , min_y
+                        , max_x - min_x
+                        , max_y - min_y
                         );
     }
 

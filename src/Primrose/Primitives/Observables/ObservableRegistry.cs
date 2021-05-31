@@ -117,10 +117,11 @@ namespace Primrose.Primitives.Observables
 
     /// <summary>Removes an object from the registry</summary>
     /// <param name="key">The identifier key to remove</param>
-    public void Remove(K key)
+    public bool Remove(K key)
     {
-      _reg.Remove(key);
+      bool ret = _reg.Remove(key);
       _keyRemoved.Invoke(default, key);
+      return ret;
     }
 
     /// <summary>Purges all data from the registry</summary>

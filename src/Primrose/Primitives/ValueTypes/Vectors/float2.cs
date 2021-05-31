@@ -161,6 +161,13 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Performs a multiplication operation between a float2 value and a float multiplier</summary>
     /// <param name="a"></param><param name="m"></param><returns></returns>
+    public static float2 operator *(float m, float2 a)
+    {
+      return new float2(a.x * m, a.y * m);
+    }
+
+    /// <summary>Performs a multiplication operation between a float2 value and a float multiplier</summary>
+    /// <param name="a"></param><param name="m"></param><returns></returns>
     public static float2 operator *(float2 a, float m)
     {
       return new float2(a.x * m, a.y * m);
@@ -201,6 +208,13 @@ namespace Primrose.Primitives.ValueTypes
       return x == other.x && y == other.y;
     }
 
+    /// <summary>Casts a float2 to int2</summary>
+    /// <param name="o">The object to cast</param>
+    public static explicit operator int2(float2 o)
+    {
+      return new int2((int)o.x, (int)o.y);
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -225,14 +239,17 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Returns a float2 value with all elements set to their default value</summary>
     public static float2 Empty { get { return new float2(); } }
 
+    /// <summary>Creates an array from this value</summary>
+    public static explicit operator Array(float2 a) { return a.ToArray(); }
+
     /// <summary>Creates a float[] array from this value</summary>
     public static explicit operator float[](float2 a) { return a.ToArray(); }
 
     /// <summary>Creates a float2 value from this array</summary>
-    public static explicit operator float2(float[] a) { return FromArray(a); }
+    public static implicit operator float2(float[] a) { return FromArray(a); }
 
     /// <summary>Creates a float2 value from this array</summary>
-    public static explicit operator float2(int[] a) { return FromArray(a); }
+    public static implicit operator float2(int[] a) { return FromArray(a); }
 
     /// <summary>Converts a int2 value to a float2 value</summary>
     public static implicit operator float2(int2 a) { return new float2(a.x, a.y); }

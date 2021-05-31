@@ -5,7 +5,7 @@ INT4 = 4, 5, 6, 7
 FLOAT = 1.2
 FLOAT4 = 23, 3.4, 0.5, .56
 
-[Test1]
+[Test1] : [Test2]
 SHORT = 3
 SHORT2 = 5, 7
 SHORT3 = 9, 11, 13

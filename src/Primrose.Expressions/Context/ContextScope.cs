@@ -79,17 +79,18 @@ namespace Primrose.Expressions
     /// <param name="eval">The expression object being evaluated</param>
     /// <param name="name">The variable name</param>
     /// <param name="val">The Val object containing the value of the variable</param>
+    /// <param name="indices">The indices to set</param>
     /// <exception cref="InvalidOperationException">Attempted to set the value of an undeclared variable</exception>
-    public void SetVar(ITracker eval, string name, Val val, int[][] rank)
+    public void SetVar(ITracker eval, string name, Val val, int[][] indices)
     {
       if (m_variables.ContainsKey(name))
       {
-        WriteVar(name, val, rank);
+        WriteVar(name, val, indices);
       }
       else
       {
         if (Parent != null)
-          Parent.SetVar(eval, name, val, rank);
+          Parent.SetVar(eval, name, val, indices);
         else
           throw new EvalException(eval, Resource.Strings.Error_EvalException_Set_VariableNotFound.F(name));
       }
@@ -108,21 +109,21 @@ namespace Primrose.Expressions
       }
     }
 
-    private void WriteVar(string name, Val val, int[][] rank)
+    private void WriteVar(string name, Val val, int[][] indices)
     {
       Type t = m_variables[name].Type;
       try
       {
         Array a = m_variables[name].Cast<Array>();
         object o = a;
-        foreach (int[] i2 in rank)
+        foreach (int[] i2 in indices)
         {
           a = (Array)o;
           o = a.GetValue(i2);
           t = t.GetElementType();
         }
 
-        a.SetValue(Ops.ImplicitCast(t, val).Value, rank[rank.Length - 1]);
+        a.SetValue(Ops.ImplicitCast(t, val).Value, indices[indices.Length - 1]);
       }
       catch (Exception ex)
       {

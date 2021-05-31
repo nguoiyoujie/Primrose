@@ -1,4 +1,5 @@
-﻿using Primrose.Primitives.Factories;
+﻿using Primrose.Primitives.Extensions;
+using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
@@ -6,12 +7,12 @@ using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
 {
-  internal class DeclVariable : Variable
+  internal class DeclVariable : CVariable
   {
     private readonly string _declClassName;
     private readonly int[] _dimensions;
 
-    internal DeclVariable(ContextScope scope, Lexer lexer) : base(scope, lexer, 0)
+    internal DeclVariable(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {
       // <typename>[...][...]... <variable_name>
 
@@ -22,7 +23,7 @@ namespace Primrose.Expressions.Tree.Expressions
       _declClassName = lexer.TokenContents;
       Type type = Parser.TypeTokens[_declClassName];
       if (type == null)
-        throw new ParseException(lexer);
+        throw new ParseException(lexer, "Type identifier expected, read '{0}' instead.".F(_declClassName));
 
       lexer.Next(); //DECL
 

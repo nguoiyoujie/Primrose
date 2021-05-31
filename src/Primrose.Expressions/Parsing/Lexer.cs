@@ -125,7 +125,8 @@ namespace Primrose.Expressions
       TokenContents = content;
       TokenPosition = Position;
       Position = position;
-
+      if (LineNumber == 206)
+      { }
       if (matched > 0)
       {
         lineRemaining = lineRemaining.Substring(matched);
@@ -133,6 +134,8 @@ namespace Primrose.Expressions
           nextLine();
         return true;
       }
+      if (lineRemaining == null || lineRemaining.Length == 0)
+        nextLine();
       return false;
     }
 

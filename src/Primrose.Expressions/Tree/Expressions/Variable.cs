@@ -2,12 +2,9 @@
 
 namespace Primrose.Expressions.Tree.Expressions
 {
-  internal class Variable : CExpression
+  internal class Variable : CVariable
   {
     private readonly ContextScope _scope;
-    public string varName { get; protected set; }
-
-    internal Variable(ContextScope scope, Lexer lexer, int level) : base(scope, lexer) { }
 
     internal Variable(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {

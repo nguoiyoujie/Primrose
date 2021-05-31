@@ -1,6 +1,7 @@
 ﻿using Primrose.Primitives.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
@@ -32,8 +33,10 @@ namespace Primrose.Expressions.Tree.Expressions
         while (lexer.TokenType == TokenEnum.SQBRACKETOPEN)
         {
           lexer.Next(); // SQBRACKETOPEN
-          List<CExpression> innerlist = new List<CExpression>();
-          innerlist.Add(new Expression(scope, lexer).Get());
+          List<CExpression> innerlist = new List<CExpression>
+          {
+            new Expression(scope, lexer).Get()
+          };
 
           while (lexer.TokenType == TokenEnum.COMMA)
           {
@@ -84,6 +87,14 @@ namespace Primrose.Expressions.Tree.Expressions
         }
       }
 
+      Val cv = c;
+      foreach (int[] i2 in _indices)
+      {
+        cv = Ops.GetIndex(cv, i2);
+      }
+      return cv;
+
+      /*
       Array a;
       try
       {
@@ -114,6 +125,7 @@ namespace Primrose.Expressions.Tree.Expressions
       {
         throw new EvalException(this, Resource.Strings.Error_EvalException_IndexOnNonArray.F(c));
       }
+      */
     }
 
     public override void Write(StringBuilder sb)

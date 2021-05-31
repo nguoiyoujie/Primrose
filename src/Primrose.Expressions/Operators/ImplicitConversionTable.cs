@@ -48,8 +48,17 @@ namespace Primrose.Expressions
         _table.Add(new Pair<Type, Type>(typeof(ulong), t));
     }
 
-    public static bool HasImplicitConversion(Type baseType, Type targetType)
+    public static bool HasImplicitConversion(Type baseType, Type targetType, out Type intermediateType)
     {
+      intermediateType = targetType;
+
+      // special, force ToString() if target is string
+      if (targetType == typeof(string)) 
+        return true;
+
+      if (targetType == typeof(Array))
+      { }
+
       Pair<Type, Type> p = new Pair<Type, Type>(baseType, targetType);
       if (_table.Contains(p))
         return true;
@@ -57,15 +66,29 @@ namespace Primrose.Expressions
       if (_ntable.Contains(p))
         return false;
 
-      bool result = HasImplicitConversion(baseType, baseType, targetType) || HasImplicitConversion(targetType, baseType, targetType);
-      if (result) // cache result
-        _table.Add(p);
-      else
-        _ntable.Add(p);
+      GetImplicitConversions(baseType, baseType);
+      GetImplicitConversions(targetType, baseType);
 
-      return result;
+      //if (_table.Contains(p))
+      foreach (Pair<Type, Type> pair in _table.Where(u => { return u.t.IsAssignableFrom(p.t) && p.u.IsAssignableFrom(u.u); }))
+      {
+        intermediateType = pair.u;
+        return true;
+      } 
+      //else
+      _ntable.Add(p);
+      return false;
+
+      //bool result = HasImplicitConversion(baseType, baseType, targetType) || HasImplicitConversion(targetType, baseType, targetType);
+      //if (result) // cache result
+      //  _table.Add(p);
+      //else
+      //  _ntable.Add(p);
+
+      //return result;
     }
 
+    /*
     private static bool HasImplicitConversion(Type definedOn, Type baseType, Type targetType)
     {
       return definedOn.GetMethods(BindingFlags.Public | BindingFlags.Static)
@@ -75,6 +98,22 @@ namespace Primrose.Expressions
                       ParameterInfo pi = mi.GetParameters().FirstOrDefault();
                       return pi != null && pi.ParameterType == baseType;
                     });
+    }
+    */
+
+    private static void GetImplicitConversions(Type definedOn, Type baseType)
+    {
+      foreach (MethodInfo m in definedOn.GetMethods(BindingFlags.Public | BindingFlags.Static)
+                    .Where(mi => mi.Name == "op_Implicit"))
+      {
+        ParameterInfo pi = m.GetParameters().FirstOrDefault();
+        if (pi != null)
+        {
+          Pair<Type, Type> p = new Pair<Type, Type>(pi.ParameterType, m.ReturnType);
+          if (!_table.Contains(p))
+            _table.Add(p);
+        }
+      }
     }
   }
 }

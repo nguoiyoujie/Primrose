@@ -170,6 +170,13 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>Performs a multiplication operation between a float3 value and a float multiplier</summary>
     /// <param name="a"></param><param name="m"></param><returns></returns>
+    public static float3 operator *(float m, float3 a)
+    {
+      return new float3(a.x * m, a.y * m, a.z * m);
+    }
+
+    /// <summary>Performs a multiplication operation between a float3 value and a float multiplier</summary>
+    /// <param name="a"></param><param name="m"></param><returns></returns>
     public static float3 operator *(float3 a, float m)
     {
       return new float3(a.x * m, a.y * m, a.z * m);
@@ -210,6 +217,13 @@ namespace Primrose.Primitives.ValueTypes
       return x == other.x && y == other.y && z == other.z;
     }
 
+    /// <summary>Casts a float3 to int3</summary>
+    /// <param name="o">The object to cast</param>
+    public static explicit operator int3(float3 o)
+    {
+      return new int3((int)o.x, (int)o.y, (int)o.z);
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -235,14 +249,17 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Returns a float3 value with all elements set to their default value</summary>
     public static float3 Empty { get { return new float3(); } }
 
+    /// <summary>Creates an array from this value</summary>
+    public static explicit operator Array(float3 a) { return a.ToArray(); }
+
     /// <summary>Creates a float[] array from this value</summary>
     public static explicit operator float[](float3 a) { return a.ToArray(); }
 
     /// <summary>Creates a float3 value from this array</summary>
-    public static explicit operator float3(float[] a) { return FromArray(a); }
+    public static implicit operator float3(float[] a) { return FromArray(a); }
 
     /// <summary>Creates a float3 value from this array</summary>
-    public static explicit operator float3(int[] a) { return FromArray(a); }
+    public static implicit operator float3(int[] a) { return FromArray(a); }
 
     /// <summary>Converts a int3 value to a float3 value</summary>
     public static implicit operator float3(int3 a) { return new float3(a.x, a.y, a.z); }

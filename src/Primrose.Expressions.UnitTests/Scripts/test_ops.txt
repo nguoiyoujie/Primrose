@@ -155,8 +155,14 @@ array:
 	}
 	Assert.AreEqual(sum, 78);
 
+vectors:
+	float2 v2 = {-1, -2}; 
+	Assert.AreEqual(v2[0], -1);
+	Assert.AreEqual(v2[1], -2);
 
-
-
-
+	float2 v2b = {10, 10};
+	v2b += v2 * 2;
+	v2b -= {1, 1};
+	Assert.AreEqual(v2b[0], 7);
+	Assert.AreEqual(v2b[1], 5);
 

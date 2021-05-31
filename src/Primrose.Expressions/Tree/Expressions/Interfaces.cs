@@ -2,6 +2,12 @@
 
 namespace Primrose.Expressions.Tree.Expressions
 {
+  internal class CVariable : CExpression
+  {
+    public string varName { get; protected set; }
+    internal CVariable(ContextScope scope, Lexer lexer) : base(scope, lexer) { }
+  }
+
   internal class CLiteral : CExpression
   {
     internal CLiteral(ContextScope scope, Lexer lexer) : base(scope, lexer) { }
