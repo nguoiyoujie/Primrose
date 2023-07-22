@@ -5,9 +5,9 @@ namespace Primrose.Expressions
   public static class Build 
   { 
    /// <summary>The time of build</summary> 
-   public const string Time = "Sat 22/07/2023 13:05:21.39"; 
+   public const string Time = "Sat 22/07/2023 16:58:54.78"; 
    /// <summary>The date of build in YYYYMMDD format</summary> 
-   public const string BuildDate = "20232213"; 
+   public const string BuildDate = "20232216"; 
    /// <summary>The daily revision number of the build</summary> 
    public const string Revision = "04"; 
   } 

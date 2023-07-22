@@ -17,7 +17,7 @@ namespace Primrose.Expressions.Editor.Checker
       Log = log;
     }
 
-    public bool Verify(IContext context)
+    public bool Verify(ContextBase context)
     {
       try
       {
@@ -25,7 +25,7 @@ namespace Primrose.Expressions.Editor.Checker
         if (Log != null)
           f.ScriptReadBegin += Log.Invoke;
 
-        ((ContextBase)context).Reset();
+        context.Reset();
         using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.ASCII.GetBytes(Content))))
           f.ReadFromStream(sr);
         return true;
@@ -37,7 +37,7 @@ namespace Primrose.Expressions.Editor.Checker
       }
     }
 
-    public SortedList<Pair<int, int>, LintType> Lint(IContext context)
+    public SortedList<Pair<int, int>, LintType> Lint(ContextBase context)
     {
       ScriptFile f = new ScriptFile(context);
       try
@@ -45,7 +45,7 @@ namespace Primrose.Expressions.Editor.Checker
         if (Log != null)
           f.ScriptReadBegin += Log.Invoke;
 
-        ((ContextBase)context).Reset();
+        context.Reset();
         using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.ASCII.GetBytes(Content))))
           f.ReadFromStream(sr);
       }

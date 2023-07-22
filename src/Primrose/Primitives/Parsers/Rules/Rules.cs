@@ -375,8 +375,9 @@ namespace Primrose.Primitives.Parsers
           return default;
 
         Type et = Nullable.GetUnderlyingType(typeof(T));
-        Func<string, IResolver, T> func = (Func<string, IResolver, T>)_fromStr.Get(et);
-        return func.Invoke(value, resolver);
+        //Func<string, IResolver, T> func = (Func<string, IResolver, T>)_fromStr.Get(et); // doesnot work since we dont T is a nullable type, and we got the base type
+        Delegate func = _fromStr.Get(et);
+        return (T)func.DynamicInvoke(value, resolver);
       }
 
       /// <summary>Parses a string to a nullable value</summary>

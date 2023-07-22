@@ -54,7 +54,7 @@ namespace Primrose.Primitives.Parsers
       _fromStr.Add(typeof(StringBuilder), (Func<string, IResolver, StringBuilder>)((s, r) => { StringBuilder sb = ObjectPool<StringBuilder>.GetStaticPool().GetNew(); sb.Append(Rules.ToString(s, r)); return sb; }));
 
       _toStr.Add(typeof(bool), (Func<bool, string>)Rules.ToStrGeneric);
-      _toStr.Add(typeof(byte), (Func<bool, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(byte), (Func<byte, string>)Rules.ToStrGeneric);
       _toStr.Add(typeof(byte2), (Func<byte2, string>)Rules.VecNToStr);
       _toStr.Add(typeof(byte3), (Func<byte3, string>)Rules.VecNToStr);
       _toStr.Add(typeof(byte4), (Func<byte4, string>)Rules.VecNToStr);
@@ -207,8 +207,8 @@ namespace Primrose.Primitives.Parsers
         Type et = Nullable.GetUnderlyingType(typeof(T));
         if (_toStr.Contains(et))
         {
-          Func<T, string> func = (Func<T, string>)_toStr.Get(et);
-          return func.Invoke(value);
+          Delegate func = _toStr.Get(et);
+          return (string)func.DynamicInvoke(value);
         }
         else if (et.IsEnum)
         {

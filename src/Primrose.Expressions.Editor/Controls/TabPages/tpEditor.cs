@@ -233,7 +233,7 @@ namespace Primrose.Expressions.Editor
       Editor_SelectionChanged?.Invoke();
     }
 
-    public void DoCheck(IContext context)
+    public void DoCheck(ContextBase context)
     {
       ScriptChecker checker = new ScriptChecker(rtb.Text, Output);
       

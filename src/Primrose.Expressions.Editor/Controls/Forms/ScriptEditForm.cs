@@ -11,7 +11,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
 {
   public partial class ScriptEditForm : Form
   {
-    private IContext Context;
+    private ContextBase Context;
 
     private readonly Registry<IHighlighter, ToolStripMenuItem> HighlightAssoc = new Registry<IHighlighter, ToolStripMenuItem>();
 
@@ -298,7 +298,7 @@ namespace Primrose.Expressions.Editor.Controls.Forms
             {
               try
               {
-                Context = (IContext)Activator.CreateInstance(t);
+                Context = (ContextBase)Activator.CreateInstance(t);
               }
               catch (Exception ex)
               {

@@ -12,8 +12,8 @@ namespace Primrose.Expressions.Editor
   public class ScriptHighlighter : IHighlighter
   {
     public static ScriptHighlighter Instance = new ScriptHighlighter();
-    private IContext _context;
-    public IContext Context
+    private ContextBase _context;
+    public ContextBase Context
     {
       get { return _context; }
       set
@@ -36,7 +36,7 @@ namespace Primrose.Expressions.Editor
       LintColors.Put(LintType.TYPE, Color.DodgerBlue);
       LintColors.Put(LintType.FUNCTION, Color.CadetBlue);
       LintColors.Put(LintType.VARIABLE, Color.Indigo);
-      LintColors.Put(LintType.VARIABLE_OR_TYPE, Color.Indigo);
+      LintColors.Put(LintType.TYPE, Color.Indigo);
       LintColors.Put(LintType.STRINGLITERAL, Color.Brown);
       LintColors.Put(LintType.NUMERICLITERAL, Color.DarkOrange);
       LintColors.Put(LintType.SPECIALLITERAL, Color.DarkRed);
