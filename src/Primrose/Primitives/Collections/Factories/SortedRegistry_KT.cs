@@ -15,38 +15,59 @@ namespace Primrose.Primitives.Factories
   public class SortedRegistry<K, T> : IRegistry<K, T>, IEnumerable<KeyValuePair<K, T>>
   {
     private readonly object locker = new object();
+
+    // 2021.06.02: Create fixed funcs in constructor to eliminate repeat allocation of Func objects.
     private readonly Func<IEnumerator<KeyValuePair<K, T>>> _listEnumerator;
+    private readonly Func<IEnumerator<K>> _keyEnumerator;
+    private readonly Func<IEnumerator<T>> _valueEnumerator;
+
+    private IEnumerator<KeyValuePair<K, T>> GetListEnumerator() { return list.GetEnumerator(); }
+    private IEnumerator<K> GetKeysEnumerator() { return list.Keys.GetEnumerator(); }
+    private IEnumerator<T> GetValuesEnumerator() { return list.Values.GetEnumerator(); }
 
     /// <summary>Creates an object registry</summary>
-    public SortedRegistry() { list = new SortedDictionary<K, T>(Comparer<K>.Default); _listEnumerator = () => list.GetEnumerator(); }
+    public SortedRegistry() : this(new SortedDictionary<K, T>(Comparer<K>.Default)) { }
 
-    /// <summary>Creates an object registry with a sorting comparer</summary>
+    /// <summary>Creates an object registry with a comparer</summary>
     /// <param name="comparer">The sorting comparer for the registry</param>
-    public SortedRegistry(IComparer<K> comparer) { list = new SortedDictionary<K, T>(comparer); _listEnumerator = () => list.GetEnumerator(); }
-
-    /// <summary>Creates an object registry that contains elements copied from another registry</summary>
-    /// <param name="dictionary">The other dictionary whose elements are copied to this registry</param>
-    public SortedRegistry(IDictionary<K, T> dictionary) { list = new SortedDictionary<K, T>(dictionary); _listEnumerator = () => list.GetEnumerator(); }
-
-    /// <summary>Creates an object registry that contains elements copied from another registry</summary>
-    /// <param name="dictionary">The other dictionary whose elements are copied to this registry</param>
-    /// <param name="comparer">The sorting comparer for the registry</param>
-    public SortedRegistry(IDictionary<K, T> dictionary, IComparer<K> comparer) { list = new SortedDictionary<K, T>(dictionary, comparer); _listEnumerator = () => list.GetEnumerator(); }
+    public SortedRegistry(IComparer<K> comparer) : this(new SortedDictionary<K, T>(comparer)) { }
 
     /// <summary>Creates an object registry that contains elements copied from another registry</summary>
     /// <param name="other">The other registry whose elements are copied to this registry</param>
-    public SortedRegistry(IRegistry<K, T> other) { list = new SortedDictionary<K, T>(other.GetUnderlyingDictionary()); _listEnumerator = () => list.GetEnumerator(); }
+    public SortedRegistry(IRegistry<K, T> other) : this(new SortedDictionary<K, T>(other.GetUnderlyingDictionary())) { }
+
+    /// <summary>Creates an object registry that uses the given backing dictionary</summary>
+    /// <param name="dictionary">The other dictionary whose elements are copied to this registry</param>
+    public SortedRegistry(IDictionary<K, T> dictionary) : this(new SortedDictionary<K, T>(new SortedDictionary<K, T>(dictionary))) { }
+
+    /// <summary>Creates an object registry that uses the given backing dictionary</summary>
+    /// <param name="dictionary">The other dictionary whose elements are copied to this registry</param>
+    /// <param name="comparer">The sorting comparer for the registry</param>
+    public SortedRegistry(IDictionary<K, T> dictionary, IComparer<K> comparer) : this(new SortedDictionary<K, T>(dictionary, comparer)) { }
 
     /// <summary>Creates an object registry that contains elements copied from another registry</summary>
     /// <param name="other">The other registry whose elements are copied to this registry</param>
     /// <param name="comparer">The sorting comparer for the registry</param>
-    public SortedRegistry(IRegistry<K, T> other, IComparer<K> comparer) { list = new SortedDictionary<K, T>(other.GetUnderlyingDictionary(), comparer); _listEnumerator = () => list.GetEnumerator(); }
+    public SortedRegistry(IRegistry<K, T> other, IComparer<K> comparer) : this(new SortedDictionary<K, T>(other.GetUnderlyingDictionary(), comparer)) { }
+
+    /// <summary>Creates an object registry that uses the given backing dictionary</summary>
+    /// <param name="dictionary">The backing dictionary for this registry</param>
+    public SortedRegistry(SortedDictionary<K, T> dictionary)
+    {
+      list = dictionary ?? new SortedDictionary<K, T>();
+      _listEnumerator = GetListEnumerator;
+      _keyEnumerator = GetKeysEnumerator;
+      _valueEnumerator = GetValuesEnumerator;
+    }
 
     /// <summary>The container data source</summary>
     protected readonly SortedDictionary<K, T> list;
 
     /// <summary>The default value returned</summary>
     public T Default = default;
+
+    /// <summary>Retrieves the underlying dictionary in its concrete form. Useful if avoiding allocations due to IDictionary cast is needed. Use it only when you know what you are doing</summary>
+    public SortedDictionary<K, T> GetUnderlyingConcreteDictionary() { return list; }
 
     /// <summary>Retrieves the underlying dictionary</summary>
     public IDictionary<K, T> GetUnderlyingDictionary() { return list; }
@@ -63,7 +84,7 @@ namespace Primrose.Primitives.Factories
     /// <summary>Retrieves the value associated with a key</summary>
     /// <param name="key">The identifier key to check</param>
     /// <returns>The value associated with the key. If the registry does not contain this key or the key is null, returns Default</returns>
-    public T Get(K key) { lock (locker) { if (key.Equals(null) || !list.TryGetValue(key, out T t)) return Default; return t; } }
+    public T Get(K key) { lock (locker) { if ((!typeof(K).IsValueType && EqualityComparer<K>.Default.Equals(key, default)) || !list.TryGetValue(key, out T t)) return Default; return t; } }
 
     /// <summary>Strictly retrieves the value associated with a key</summary>
     /// <param name="key">The identifier key to check</param>
@@ -77,7 +98,7 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Enumerates through the keys in the registry</summary>
     /// <returns></returns>
-    public IEnumerable<K> EnumerateKeys() { return new ThreadSafeEnumerable<K>(list.Keys, locker); }
+    public IEnumerable<K> EnumerateKeys() { return new ThreadSafeEnumerable<K>(_keyEnumerator, locker); }
 
     /// <summary>Retrives an array of all the values in the registry</summary>
     /// <returns></returns>
@@ -85,7 +106,7 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Enumerates through the values in the registry</summary>
     /// <returns></returns>
-    public IEnumerable<T> EnumerateValues() { return new ThreadSafeEnumerable<T>(list.Values, locker); }
+    public IEnumerable<T> EnumerateValues() { return new ThreadSafeEnumerable<T>(_valueEnumerator, locker); }
 
     /// <summary>Adds an object into the registry</summary>
     /// <param name="key">The identifier key to add</param>

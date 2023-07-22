@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Primrose.Primitives.Extensions
+﻿namespace Primrose.Primitives.Extensions
 {
   /// <summary>Helper class for referencing empty arrays without allocation</summary>
   /// <typeparam name="T">The element type of the array</typeparam>

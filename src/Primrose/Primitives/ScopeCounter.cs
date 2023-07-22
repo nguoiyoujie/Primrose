@@ -54,11 +54,11 @@ namespace Primrose.Primitives
 
     /// <summary>Decrements the reference count of a local scope</summary>
     /// <param name="scope">The local scope</param>
-    private static void ReleaseOne(ScopeCounter scope) { Interlocked.Decrement(ref scope._count); }
+    public static void ReleaseOne(ScopeCounter scope) { Interlocked.Decrement(ref scope._count); }
 
     /// <summary>Decrements the reference count of a global scope</summary>
     /// <param name="scope">The global scope</param>
-    private static void ReleaseOne(ScopeGlobalCounter scope) { Interlocked.Decrement(ref scope._count); }
+    public static void ReleaseOne(ScopeGlobalCounter scope) { Interlocked.Decrement(ref scope._count); }
 
     /// <summary>Increments the reference count of a global scope only if the count is zero</summary>
     /// <param name="global">The global scope</param>

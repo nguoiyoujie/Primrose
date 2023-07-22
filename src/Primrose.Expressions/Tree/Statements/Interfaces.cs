@@ -13,7 +13,7 @@ namespace Primrose.Expressions.Tree.Statements
 
     public virtual CStatement Get() { return this; }
     public CStatement GetNext(ContextScope scope, Lexer lexer) { return ExpressionOrder.NextStatement[this.GetType()](scope, lexer).Get(); }
-    public virtual void Evaluate(IContext context) { }
+    public virtual bool Evaluate(IContext context, ref Val retval) { return false; }
     public virtual void Write(StringBuilder sb) { sb.Append(ToString()); }
     public string Write() { StringBuilder sb = new StringBuilder(); Write(sb); return sb.ToString(); }
 
@@ -25,6 +25,6 @@ namespace Primrose.Expressions.Tree.Statements
   internal interface IStatement
   {
     CStatement Get();
-    void Evaluate(IContext context);
+    bool Evaluate(IContext context, ref Val retval);
   }
 }

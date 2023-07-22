@@ -1,6 +1,8 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives.Cache;
+using Primrose.Primitives.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Primrose.FileFormat.INI
 {
@@ -54,9 +56,9 @@ namespace Primrose.FileFormat.INI
       Required = required;
     }
 
-    internal string[] Read(Type t, INIFile f, string defaultSection)
+    internal IEnumerable<string> Read(Type t, INIFile f, string defaultSection)
     {
-      if (t != typeof(string[]))
+      if (t != typeof(string[]) && t != typeof(List<string>))
         throw new InvalidOperationException(Resource.Strings.Error_INIKeyListInvalidType.F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
@@ -72,7 +74,14 @@ namespace Primrose.FileFormat.INI
         throw new INISectionNotFoundException(s);
       }
 
-      return vals.ToArray();
+      if (t == typeof(List<string>))
+      {
+        return vals.ToList();
+      }
+      else
+      {
+        return vals.ToArray();
+      }
     }
 
     private string GetValue(ValueSource vSrc, string key, string value)
@@ -91,15 +100,19 @@ namespace Primrose.FileFormat.INI
       }
     }
 
-    internal void Write(Type t, INIFile f, string[] value, string defaultSection)
+    internal void Write(Type t, INIFile f, IEnumerable<string> value, string defaultSection)
     {
       if (value == null)
         return;
 
-      if (t != typeof(string[]))
+      if (t != typeof(string[]) && t != typeof(List<string>))
         throw new InvalidOperationException(Resource.Strings.Error_INIKeyListInvalidType.F(t.Name));
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
+      if (f.HasSection(s))
+      {
+        f.GetSection(s).Clear();
+      }
       int count = 0;
       foreach (string v in value)
         SetValue(ValueSource, f, count++, s, v);
@@ -116,7 +129,7 @@ namespace Primrose.FileFormat.INI
           break;
 
         case ValueSource.VALUE_ONLY:
-          f.SetString(s, count.ToString(), v);
+          f.SetString(s, ToStringCache<int>.Get(count), v);
           break;
       }
     }

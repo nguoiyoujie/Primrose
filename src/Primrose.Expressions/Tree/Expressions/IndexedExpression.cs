@@ -1,7 +1,4 @@
-﻿using Primrose.Primitives.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
@@ -62,7 +59,7 @@ namespace Primrose.Expressions.Tree.Expressions
 
     public override CExpression Get()
     {
-      return (_indices_expr == null) ? _expression : this;
+      return (_indices_expr == null) ? _expression.Get() : this;
     }
 
     public override Val Evaluate(IContext context)

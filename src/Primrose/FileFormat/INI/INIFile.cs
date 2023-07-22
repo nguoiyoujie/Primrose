@@ -15,7 +15,10 @@ namespace Primrose.FileFormat.INI
     public const string PreHeaderSectionName = "\n"; // not possible to duplicate in a real section
 
     /// <summary>The default list delimiter used in an INIFile class</summary>
-    public static char[] ListDelimiter { get { return Parser.ListDelimiter; } }
+    public static char[] ListDelimiter { get { return ArrayConstants.Comma; } }
+
+    // cache
+    private static INIFileConfigurationAttribute _configAttribute;
 
     /// <summary>Initializes an empty INI file</summary>
     public INIFile() { }
@@ -32,10 +35,15 @@ namespace Primrose.FileFormat.INI
     {
       get
       {
-        object[] list = GetType().GetCustomAttributes(typeof(INIFileConfigurationAttribute), true);
-        if (list == null || list.Length < 1)
-          throw new Exception(Resource.Strings.Error_INIFileAttributeNotFound);
-        return ((INIFileConfigurationAttribute)list[0]);
+        if (_configAttribute == null)
+        {
+          object[] list = GetType().GetCustomAttributes(typeof(INIFileConfigurationAttribute), true);
+          if (list == null || list.Length < 1)
+            throw new Exception(Resource.Strings.Error_INIFileAttributeNotFound);
+
+          _configAttribute = ((INIFileConfigurationAttribute)list[0]);
+        }
+        return _configAttribute;
       }
     }
 

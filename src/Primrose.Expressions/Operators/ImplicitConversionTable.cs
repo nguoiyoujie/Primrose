@@ -70,12 +70,15 @@ namespace Primrose.Expressions
       GetImplicitConversions(targetType, baseType);
 
       //if (_table.Contains(p))
-      foreach (Pair<Type, Type> pair in _table.Where(u => { return u.t.IsAssignableFrom(p.t) && p.u.IsAssignableFrom(u.u); }))
+      foreach (Pair<Type, Type> pair in _table) // _table.Where(u => { return u.t.IsAssignableFrom(p.t) && p.u.IsAssignableFrom(u.u); }) Avoid 'Where', heavy allocation
       {
-        intermediateType = pair.u;
-        return true;
-      } 
-      //else
+        if (pair.t.IsAssignableFrom(p.t) && p.u.IsAssignableFrom(pair.u))
+        {
+          intermediateType = pair.u;
+          return true;
+        }
+      }
+
       _ntable.Add(p);
       return false;
 

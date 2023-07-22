@@ -12,13 +12,13 @@ namespace Primrose.Primitives
   {
     static ScopedManager()
     {
-      pool = new ObjectPool<ScopedItem>(() => new ScopedItem(), (p) => { });// p.Dispose());
+      ObjectPool<ScopedItem>.CreateStaticPool(() => new ScopedItem());
     }
 
-    private static readonly ObjectPool<ScopedItem> pool;
+    //private static readonly ObjectPool<ScopedItem> pool;
 
     /// <summary>The number of scope objects in the pool</summary>
-    public static int PoolCount { get { return pool.Count; } }
+    public static int PoolCount { get { return ObjectPool<ScopedItem>.GetStaticPool().Count; } }
 
     /// <summary>
     /// Attaches a scope to an item
@@ -30,7 +30,7 @@ namespace Primrose.Primitives
       if (item == null)
         return null;
 
-      ScopedItem e = pool.GetNew();
+      ScopedItem e = ObjectPool<ScopedItem>.GetStaticPool().GetNew();
       e.ScopeOne(item);
       return e;
     }

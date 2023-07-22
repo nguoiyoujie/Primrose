@@ -21,3 +21,17 @@
 /build/release.txt
 /build/debug.txt
 /update.bat
+/build/debug/net40
+/build/debug/net472
+/build/debug/net45
+/build/debug/net5.0-windows
+/build/debug/net5.0
+/build/debug/netstandard2.0
+/build/debug/Primrose.XML
+/build/debug/Primrose.Expressions.XML
+/build/release/net472
+/build/release/net45
+/build/release/net40
+/build/release/netstandard2.0
+/build/release/Primrose.XML
+/build/release/Primrose.Expressions.XML

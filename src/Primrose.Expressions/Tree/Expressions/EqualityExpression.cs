@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
@@ -36,7 +35,7 @@ namespace Primrose.Expressions.Tree.Expressions
     public override CExpression Get()
     {
       if (_second == null)
-        return _first;
+        return _first.Get();
       return this;
     }
 

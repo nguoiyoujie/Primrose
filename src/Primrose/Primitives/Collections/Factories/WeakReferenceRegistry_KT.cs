@@ -1,8 +1,4 @@
-﻿using Primrose.Primitives.Cache;
-using Primrose.Primitives.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Primrose.Primitives.Factories
 {
@@ -11,7 +7,7 @@ namespace Primrose.Primitives.Factories
   /// </summary>
   /// <typeparam name="K">The type of the key</typeparam>
   /// <typeparam name="T">The type of the registered object</typeparam>
-  public class WeakReferenceRegistry<K, T> : Registry<K, WeakReference<T>> where T : class
+  public class WeakReferenceRegistry<K, T> : Registry<K, Cache.WeakReference<T>> where T : class
   {
     private readonly List<T> _active = new List<T>();
     private int _mark;

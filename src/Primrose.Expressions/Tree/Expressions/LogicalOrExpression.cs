@@ -27,7 +27,7 @@ namespace Primrose.Expressions.Tree.Expressions
     public override CExpression Get()
     {
       if (_set.Count == 0)
-        return _first;
+        return _first.Get();
       return this;
     }
 

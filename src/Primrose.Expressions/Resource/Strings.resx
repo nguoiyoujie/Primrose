@@ -202,6 +202,9 @@ Line: {5}</value>
   <data name="Error_ParseException_DuplicateVariable" xml:space="preserve">
     <value>Duplicate declaration of variable '{0}' in the same scope</value>
   </data>
+  <data name="Error_ParseException_Type" xml:space="preserve">
+    <value>Type identifier expected, read '{0}' instead.</value>
+  </data>
   <data name="Error_ScriptFileNotFound" xml:space="preserve">
     <value>Script file '{0}' is not found!</value>
   </data>
@@ -231,6 +234,9 @@ Line: {5}</value>
   </data>
   <data name="String" xml:space="preserve">
     <value>&lt;string&gt;</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>&lt;type&gt;</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>&lt;???&gt;</value>

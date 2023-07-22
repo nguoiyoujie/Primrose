@@ -2,6 +2,7 @@
 using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -16,7 +17,7 @@ namespace Primrose.Expressions
   /// swtiching to a single 'object' field
   /// </comment>
   [StructLayout(LayoutKind.Explicit, Size = 8)]
-  internal struct ValObj
+  internal readonly struct ValObj
   {
     [FieldOffset(0)]
     internal readonly string vS;
@@ -132,7 +133,7 @@ namespace Primrose.Expressions
     [FieldOffset(0)]
     internal readonly float v_float;
 
-    [FieldOffset(4)]
+    [FieldOffset(8)]
     internal readonly Type Type;
 
     public ValPrim(Type type) 
@@ -193,11 +194,16 @@ namespace Primrose.Expressions
     /// <summary>Retrieves the type of the value</summary>
     public Type Type { get => _val.Type ?? _type; }
 
-    private static readonly Registry<Pair<Type, Type>, object> val_cast_func = new Registry<Pair<Type, Type>, object>();
-    private static readonly Registry<Pair<Type, Type>, object> obj_cast_func = new Registry<Pair<Type, Type>, object>();
+    // Not used because output is object which is a headache to convert to Func
+    //private static readonly Registry<Pair<Type, Type>, object> val_cast_func = new Registry<Pair<Type, Type>, object>();
+    //private static readonly Registry<Pair<Type, Type>, object> obj_cast_func = new Registry<Pair<Type, Type>, object>();
 
     static Val()
     {
+      // List<Val> pool
+      ObjectPool<List<Val>>.CreateStaticPool(() => new List<Val>(16), (l) => l.Clear());
+
+      /*
       // Output type, Input type 
       // bool
       val_cast_func.Add(new Pair<Type, Type>(typeof(bool), typeof(bool)), new Func<Val, bool>((v) => v._val.v_bool));
@@ -266,66 +272,67 @@ namespace Primrose.Expressions
       val_cast_func.Add(new Pair<Type, Type>(typeof(float), typeof(float)), new Func<Val, float>((v) => v._val.v_float));
 
       // byte[] <-> byteX
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(byte2), typeof(byte[])), new Func<object, byte2>((o) => byte2.FromArray((byte[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(byte3), typeof(byte[])), new Func<object, byte3>((o) => byte3.FromArray((byte[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(byte4), typeof(byte[])), new Func<object, byte4>((o) => byte4.FromArray((byte[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(byte[]), typeof(byte2)), new Func<object, byte[]>((o) => ((byte2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(byte[]), typeof(byte3)), new Func<object, byte[]>((o) => ((byte3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(byte[]), typeof(byte4)), new Func<object, byte[]>((o) => ((byte4)o).ToArray()));
-
-      // sbyte[] <-> sbyteX
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte2), typeof(sbyte[])), new Func<object, sbyte2>((o) => sbyte2.FromArray((sbyte[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte3), typeof(sbyte[])), new Func<object, sbyte3>((o) => sbyte3.FromArray((sbyte[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte4), typeof(sbyte[])), new Func<object, sbyte4>((o) => sbyte4.FromArray((sbyte[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte[]), typeof(sbyte2)), new Func<object, sbyte[]>((o) => ((sbyte2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte[]), typeof(sbyte3)), new Func<object, sbyte[]>((o) => ((sbyte3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte[]), typeof(sbyte4)), new Func<object, sbyte[]>((o) => ((sbyte4)o).ToArray()));
-
-      // short[] <-> shortX
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(short2), typeof(short[])), new Func<object, short2>((o) => short2.FromArray((short[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(short3), typeof(short[])), new Func<object, short3>((o) => short3.FromArray((short[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(short4), typeof(short[])), new Func<object, short4>((o) => short4.FromArray((short[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(short[]), typeof(short2)), new Func<object, short[]>((o) => ((short2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(short[]), typeof(short3)), new Func<object, short[]>((o) => ((short3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(short[]), typeof(short4)), new Func<object, short[]>((o) => ((short4)o).ToArray()));
-
-      // ushort[] <-> ushortX
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort2), typeof(ushort[])), new Func<object, ushort2>((o) => ushort2.FromArray((ushort[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort3), typeof(ushort[])), new Func<object, ushort3>((o) => ushort3.FromArray((ushort[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort4), typeof(ushort[])), new Func<object, ushort4>((o) => ushort4.FromArray((ushort[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort[]), typeof(ushort2)), new Func<object, ushort[]>((o) => ((ushort2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort[]), typeof(ushort3)), new Func<object, ushort[]>((o) => ((ushort3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort[]), typeof(ushort4)), new Func<object, ushort[]>((o) => ((ushort4)o).ToArray()));
-
-      // int[] <-> intX
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(int2), typeof(int[])), new Func<object, int2>((o) => int2.FromArray((int[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(int3), typeof(int[])), new Func<object, int3>((o) => int3.FromArray((int[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(int4), typeof(int[])), new Func<object, int4>((o) => int4.FromArray((int[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(int[]), typeof(int2)), new Func<object, int[]>((o) => ((int2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(int[]), typeof(int3)), new Func<object, int[]>((o) => ((int3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(int[]), typeof(int4)), new Func<object, int[]>((o) => ((int4)o).ToArray()));
-
-      // uint[] <-> uintX
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(uint2), typeof(uint[])), new Func<object, uint2>((o) => uint2.FromArray((uint[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(uint3), typeof(uint[])), new Func<object, uint3>((o) => uint3.FromArray((uint[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(uint4), typeof(uint[])), new Func<object, uint4>((o) => uint4.FromArray((uint[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint2)), new Func<object, uint[]>((o) => ((uint2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint3)), new Func<object, uint[]>((o) => ((uint3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint4)), new Func<object, uint[]>((o) => ((uint4)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint2)), new Func<object, Array>((o) => ((uint2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint3)), new Func<object, Array>((o) => ((uint3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint4)), new Func<object, Array>((o) => ((uint4)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(byte2), typeof(byte[])), new Func<Val, byte2>((o) => byte2.FromArray((byte[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(byte3), typeof(byte[])), new Func<Val, byte3>((o) => byte3.FromArray((byte[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(byte4), typeof(byte[])), new Func<Val, byte4>((o) => byte4.FromArray((byte[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(byte[]), typeof(byte2)), new Func<Val, byte[]>((o) => ((byte2)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(byte[]), typeof(byte3)), new Func<Val, byte[]>((o) => ((byte3)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(byte[]), typeof(byte4)), new Func<Val, byte[]>((o) => ((byte4)o).ToArray()));
+      //
+      //// sbyte[] <-> sbyteX
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte2), typeof(sbyte[])), new Func<Val, sbyte2>((o) => sbyte2.FromArray((sbyte[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte3), typeof(sbyte[])), new Func<Val, sbyte3>((o) => sbyte3.FromArray((sbyte[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte4), typeof(sbyte[])), new Func<Val, sbyte4>((o) => sbyte4.FromArray((sbyte[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte[]), typeof(sbyte2)), new Func<Val, sbyte[]>((o) => ((sbyte2)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte[]), typeof(sbyte3)), new Func<Val, sbyte[]>((o) => ((sbyte3)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(sbyte[]), typeof(sbyte4)), new Func<Val, sbyte[]>((o) => ((sbyte4)o).ToArray()));
+      //
+      //// short[] <-> shortX
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(short2), typeof(short[])), new Func<Val, short2>((o) => short2.FromArray((short[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(short3), typeof(short[])), new Func<Val, short3>((o) => short3.FromArray((short[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(short4), typeof(short[])), new Func<Val, short4>((o) => short4.FromArray((short[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(short[]), typeof(short2)), new Func<Val, short[]>((o) => ((short2)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(short[]), typeof(short3)), new Func<Val, short[]>((o) => ((short3)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(short[]), typeof(short4)), new Func<Val, short[]>((o) => ((short4)o).ToArray()));
+      //
+      //// ushort[] <-> ushortX
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort2), typeof(ushort[])), new Func<Val, ushort2>((o) => ushort2.FromArray((ushort[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort3), typeof(ushort[])), new Func<Val, ushort3>((o) => ushort3.FromArray((ushort[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort4), typeof(ushort[])), new Func<Val, ushort4>((o) => ushort4.FromArray((ushort[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort[]), typeof(ushort2)), new Func<Val, ushort[]>((o) => ((ushort2)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort[]), typeof(ushort3)), new Func<Val, ushort[]>((o) => ((ushort3)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(ushort[]), typeof(ushort4)), new Func<Val, ushort[]>((o) => ((ushort4)o).ToArray()));
+      //
+      //// int[] <-> intX
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(int2), typeof(int[])), new Func<Val, int2>((o) => int2.FromArray((int[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(int3), typeof(int[])), new Func<Val, int3>((o) => int3.FromArray((int[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(int4), typeof(int[])), new Func<Val, int4>((o) => int4.FromArray((int[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(int[]), typeof(int2)), new Func<Val, int[]>((o) => ((int2)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(int[]), typeof(int3)), new Func<Val, int[]>((o) => ((int3)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(int[]), typeof(int4)), new Func<Val, int[]>((o) => ((int4)o).ToArray()));
+      //
+      //// uint[] <-> uintX
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(uint2), typeof(uint[])), new Func<Val, uint2>((o) => uint2.FromArray((uint[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(uint3), typeof(uint[])), new Func<Val, uint3>((o) => uint3.FromArray((uint[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(uint4), typeof(uint[])), new Func<Val, uint4>((o) => uint4.FromArray((uint[])o)));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint2)), new Func<Val, uint[]>((o) => ((uint2)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint3)), new Func<Val, uint[]>((o) => ((uint3)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(uint[]), typeof(uint4)), new Func<Val, uint[]>((o) => ((uint4)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint2)), new Func<Val, Array>((o) => ((uint2)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint3)), new Func<Val, Array>((o) => ((uint3)o).ToArray()));
+      //obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(uint4)), new Func<Val, Array>((o) => ((uint4)o).ToArray()));
 
       // float[] <-> floatX
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(float2), typeof(float[])), new Func<object, float2>((o) => float2.FromArray((float[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(float3), typeof(float[])), new Func<object, float3>((o) => float3.FromArray((float[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(float4), typeof(float[])), new Func<object, float4>((o) => float4.FromArray((float[])o)));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float2)), new Func<object, float[]>((o) => ((float2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float3)), new Func<object, float[]>((o) => ((float3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float4)), new Func<object, float[]>((o) => ((float4)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float2)), new Func<object, Array>((o) => ((float2)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float3)), new Func<object, Array>((o) => ((float3)o).ToArray()));
-      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float4)), new Func<object, Array>((o) => ((float4)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(float2), typeof(float[])), new Func<Val, float2>((o) => float2.FromArray((float[])o)));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(float3), typeof(float[])), new Func<Val, float3>((o) => float3.FromArray((float[])o)));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(float4), typeof(float[])), new Func<Val, float4>((o) => float4.FromArray((float[])o)));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float2)), new Func<Val, float[]>((o) => ((float2)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float3)), new Func<Val, float[]>((o) => ((float3)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(float[]), typeof(float4)), new Func<Val, float[]>((o) => ((float4)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float2)), new Func<Val, Array>((o) => ((float2)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float3)), new Func<Val, Array>((o) => ((float3)o).ToArray()));
+      obj_cast_func.Add(new Pair<Type, Type>(typeof(Array), typeof(float4)), new Func<Val, Array>((o) => ((float4)o).ToArray()));
+      */
     }
 
     /// <summary>Retrieves the value and casts it as a <typeparamref name="T"/></summary>
@@ -342,6 +349,7 @@ namespace Primrose.Expressions
 
       if (_val.Type != null)
       {
+        // handles extraction of primitive types
         return _val.Get<T>();
       }
       else
@@ -354,13 +362,11 @@ namespace Primrose.Expressions
         {
           return tobj;
         }
-        else if (ImplicitConversionTable.HasImplicitConversion(t_in, t_out, out Type t))
+        else if (ImplicitConversionTable.HasImplicitConversion(t_in, t_out, out Type t)) // allocations galore, but this should be called rarely because we don't use many object types
         {
-          MethodInfo mRead = typeof(UnaryOp<>).MakeGenericType(new Type[] { t_in })
-            .GetMethod(nameof(UnaryOp<T>.CastIntermediate), BindingFlags.Public | BindingFlags.Static);
-
+          MethodInfo mRead = typeof(UnaryOp<>).MakeGenericType(new Type[] { t_in }).GetMethod(nameof(UnaryOp<T>.Cast), BindingFlags.Public | BindingFlags.Static);
           MethodInfo gmRead = mRead.MakeGenericMethod(new Type[] { t });
-          return (T)gmRead.Invoke(null, new object[] { _obj, t });
+          return (T)gmRead.Invoke(null, new object[] { _obj });
         }
       }
       throw new InvalidValCastException(t_out, p.u);
@@ -483,7 +489,7 @@ namespace Primrose.Expressions
     /// <summary>Gets the string representation of the value</summary>
     public override string ToString()
     {
-      return "{{Type: \"{0}\"  Value: \"{1}\"}}".F(Type.FullName ?? "<null>", Value?.ToString() ?? "<null>"); ;
+      return "{{Type: \"{0}\"  Value: \"{1}\"}}".F(Type.FullName ?? "<null>", Value?.ToString() ?? "<null>");
     }
   }
 }

@@ -31,20 +31,24 @@ namespace Primrose.Expressions
     /// Useful in generic methods.
     /// </summary>
     /// <typeparam name="TOut">Target type to cast to. Usually a generic type.</typeparam>
-    public static TOut CastIntermediate<TOut>(TIn s, Type intermediate)
+    /// <typeparam name="TMid">Intermediate type to cast to. Usually a generic type.</typeparam>
+    public static TOut CastIntermediate<TOut, TMid>(TIn s)//, Type intermediate)
     {
       if (typeof(TOut) == typeof(string)) return (TOut)(object)(s.ToString()); // override for string
 
-      MethodInfo mRead = typeof(UnaryOp<TIn>).GetMethod(nameof(Cast), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-      MethodInfo gmRead = mRead.MakeGenericMethod(new Type[] { intermediate });
-      return (TOut)gmRead.Invoke(null, new object[] { s });
+      return UnaryOp<TMid>.Cast<TOut>(Cache<TMid>.Cast(s));
+
+
+      //MethodInfo mRead = typeof(UnaryOp<TIn>).GetMethod(nameof(Cast), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+      //MethodInfo gmRead = mRead.MakeGenericMethod(new Type[] { intermediate });
+      //return (TOut)gmRead.Invoke(null, new object[] { s });
     }
 
     private static class Cache<TOut>
     {
-      public static readonly Func<TIn, TOut> Cast = cast();
+      public static readonly Func<TIn, TOut> Cast = CastInner();
 
-      private static Func<TIn, TOut> cast()
+      private static Func<TIn, TOut> CastInner()
       {
         ParameterExpression p = Expression.Parameter(typeof(TIn));
         UnaryExpression c = Expression.ConvertChecked(p, typeof(TOut));

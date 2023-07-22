@@ -18,7 +18,7 @@ namespace Primrose.Expressions.Tree.Statements
       // IF ( EXPR ) STATEMENT ELSE STATEMENT
       // IF ( EXPR ) { STATEMENT STATEMENT STATEMENT ... } ELSE { STATEMENT ... }
       // or
-      // ASSIGNMENTEXPR
+      // RETURNEXPR (GetNext)
 
       if (lexer.TokenType == TokenEnum.IF)
       {
@@ -76,22 +76,25 @@ namespace Primrose.Expressions.Tree.Statements
     public override CStatement Get()
     {
       if (_condition == null)
-        return _actionIfTrue[0];
+        return _actionIfTrue[0].Get();
       return this;
     }
 
-    public override void Evaluate(IContext context)
+    public override bool Evaluate(IContext context, ref Val retval)
     {
       if (_condition == null || _condition.Evaluate(context).IsTrue)
       {
         foreach (CStatement s in _actionIfTrue)
-          s.Evaluate(context);
+          if (s.Evaluate(context, ref retval))
+            return true;
       }
       else
       {
         foreach (CStatement s in _actionIfFalse)
-          s.Evaluate(context);
+          if (s.Evaluate(context, ref retval))
+            return true;
       }
+      return false;
     }
 
     public override void Write(StringBuilder sb)

@@ -1,7 +1,9 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives.Cache;
+using Primrose.Primitives.Extensions;
 using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Primrose.Primitives.Parsers
 {
@@ -24,10 +26,9 @@ namespace Primrose.Primitives.Parsers
       public static bool ToBool(string value, IResolver resolver)
       {
         value = resolver?.Resolve(value) ?? value;
-        string s = value.ToLower().Trim();
-        if (s.Equals("0") || s.Trim().Equals("false") || s.Equals("no"))
+        if (value.Equals("0") || value.Equals("false", StringComparison.InvariantCultureIgnoreCase) || value.Equals("no", StringComparison.InvariantCultureIgnoreCase))
           return false;
-        else if (s.Equals("1") || s.Equals("true") || s.Equals("yes"))
+        else if (value.Equals("1") || value.Equals("true", StringComparison.InvariantCultureIgnoreCase) || value.Equals("yes", StringComparison.InvariantCultureIgnoreCase))
           return true;
         throw new RuleConversionException(typeof(bool), value);
       }
@@ -374,7 +375,8 @@ namespace Primrose.Primitives.Parsers
           return default;
 
         Type et = Nullable.GetUnderlyingType(typeof(T));
-        return (T)_fromStr.Get(et).Invoke(value, resolver);
+        Func<string, IResolver, T> func = (Func<string, IResolver, T>)_fromStr.Get(et);
+        return func.Invoke(value, resolver);
       }
 
       /// <summary>Parses a string to a nullable value</summary>
@@ -391,28 +393,64 @@ namespace Primrose.Primitives.Parsers
         return (T)Enum.Parse(et, s);
       }
 
+      // cache
+      private static object _lock = new object();
+      private static Type[] _type1 = new Type[1];
+      private static Dictionary<Type, Delegate> _delToArrayAsElement = new Dictionary<Type, Delegate>();
+
       /// <summary>Parses a string to an array of values</summary>
       /// <param name="value">The string to be parsed</param>
       /// <param name="resolver">A string resolver function</param>
       public static T ToArray<T>(string value, IResolver resolver)
       {
-        if (string.IsNullOrWhiteSpace(value))
-          throw new RuleConversionException(typeof(T), value);
-
-        Type et = typeof(T).GetElementType();
-
-        int n = _tokens.Get(et);
-        string[] tokens = new List<string>(value.SplitBy(ListDelimiter[0], n)).ToArray();
-
-        Array array = Array.CreateInstance(et, tokens.Length);
-        //object defaultElement = (et.IsValueType) ? Activator.CreateInstance(et) : null;
-
-        for (int i = 0; i < tokens.Length; i++)
+        Type t = typeof(T);
+        lock (_lock)
         {
-          array.SetValue(_fromStr.Get(et).Invoke(tokens[i].Trim(), resolver), i);
+          _type1[0] = typeof(T).GetElementType();
+          if (!_delToArrayAsElement.ContainsKey(t))
+          {
+            MethodInfo method = typeof(Rules).GetMethod(nameof(ToArrayAsElement), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(_type1);
+            _delToArrayAsElement.Add(t, Delegate.CreateDelegate(typeof(Func<string, IResolver, T>), method));
+          }
+          Func<string, IResolver, T> func = (Func<string, IResolver, T>)_delToArrayAsElement[t];
+          return func.Invoke(value, resolver);
         }
+      }
 
-        return (T)(object)array;
+      /// <summary>Parses a string to an array of values</summary>
+      /// <param name="value">The string to be parsed</param>
+      /// <param name="resolver">A string resolver function</param>
+      public static TElement[] ToArrayAsElement<TElement>(string value, IResolver resolver)
+      {
+        Type et = typeof(TElement);
+        TElement[] array;
+        if (string.IsNullOrWhiteSpace(value))
+        {
+          array = Array<TElement>.Empty;
+        }
+        else
+        {
+          int n = _tokens.Get(et);
+          int tokencount = 1;
+          for (int i = 0; i < value.Length; i++)
+          {
+            if (value[i] == ArrayConstants.Comma[0])
+            {
+              tokencount++;
+            }
+          }
+          tokencount /= n;
+          var tokens = value.SplitBy(ArrayConstants.Comma[0], n);
+
+          array = new TElement[tokencount];
+          int index = 0;
+          Func<string, IResolver, TElement> func = (Func<string, IResolver, TElement>)_fromStr.Get(et);
+          foreach (string t in tokens)
+          {
+            array[index++] = func.Invoke(t.Trim(), resolver);
+          }
+        }
+        return array;
       }
 
       /// <summary>Parses a string to a enumerated value</summary>
@@ -432,7 +470,7 @@ namespace Primrose.Primitives.Parsers
           throw new RuleConversionException(typeof(T), value);
 
         string s = value.Replace("|", ",");
-        string[] tokens = s.Split(ListDelimiter);
+        string[] tokens = s.Split(ArrayConstants.Comma);
 
         Type et = typeof(T).GetElementType();
         Array array = Array.CreateInstance(et, tokens.Length);
@@ -451,25 +489,48 @@ namespace Primrose.Primitives.Parsers
         return value.ToString();
       }
 
+      // cache
+      private static object _lockb = new object();
+      private static Type[] _type1b = new Type[1];
+      private static Dictionary<Type, Delegate> _delArrayToStrByElement = new Dictionary<Type, Delegate>();
+
       /// <summary>Converts an array of values to a string</summary>
       /// <param name="list">The value to be converted</param>
       public static string ArrayToStr<T>(T list)
       {
-        Array array = (Array)(object)list;
-        string[] str = new string[array.Length];
-        for (int i = 0; i < array.Length; i++)
+        Type t = typeof(T);
+        lock (_lockb)
         {
-          str[i] = _toStr.Get(typeof(T).GetElementType()).Invoke(array.GetValue(i));
+          _type1b[0] = typeof(T).GetElementType();
+          if (!_delArrayToStrByElement.ContainsKey(t))
+          {
+            MethodInfo method = typeof(Rules).GetMethod(nameof(ArrayToStrByElement), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(_type1b);
+            _delArrayToStrByElement.Add(t, Delegate.CreateDelegate(typeof(Func<T, string>), method));
+          }
+          Func<T, string> func = (Func<T, string>)_delArrayToStrByElement[t];
+          return func.Invoke(list);
+        }
+      }
+
+      /// <summary>Converts an array of values to a string</summary>
+      /// <param name="list">The value to be converted</param>
+      public static string ArrayToStrByElement<TElement>(TElement[] list)
+      {
+        string[] str = new string[list.Length];
+        for (int i = 0; i < list.Length; i++)
+        {
+          Func<TElement, string> func = (Func<TElement, string>)_toStr.Get(typeof(TElement));
+          str[i] = func.Invoke(list[i]);
         }
 
-        return string.Join(ListDelimiter[0].ToString(), str);
+        return string.Join(ArrayConstants.Comma[0].ToString(), str);
       }
 
       /// <summary>Converts an enumerated value to a string</summary>
       /// <param name="value">The value to be converted</param>
-      public static string EnumToStr<T>(T value)
+      public static string EnumToStr<T>(T value) 
       {
-        return value.ToString().Replace(", ", "|");
+        return ToStringCache<T>.Get(value).Replace(", ", "|");
       }
 
       /// <summary>Converts an array of enumerated values to a string</summary>
@@ -483,14 +544,14 @@ namespace Primrose.Primitives.Parsers
           str[i] = array.GetValue(i).ToString().Replace(", ", "|");
         }
 
-        return string.Join(ListDelimiter[0].ToString(), str);
+        return string.Join(ToStringCache<char>.Get(ArrayConstants.Comma[0]), str);
       }
 
       /// <summary>Converts a vectorized value to a string</summary>
       /// <param name="value">The value to be converted</param>
       public static string VecNToStr<T>(T value)
       {
-        return value.ToString().Trim('{', '}');
+        return ToStringCache<T>.Get(value).Trim(ArrayConstants.Braces);
       }
     }
   }

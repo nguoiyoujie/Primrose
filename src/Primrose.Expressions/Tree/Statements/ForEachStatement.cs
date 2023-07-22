@@ -17,7 +17,7 @@ namespace Primrose.Expressions.Tree.Statements
       // FOREACH ( DECL VAR IN EXPR ) STATEMENT 
       // FOREACH ( DECL VAR IN EXPR ) { STATEMENT STATEMENT STATEMENT ... } 
       // or
-      // ASSIGNMENTEXPR
+      // ASSIGNMENTEXPR (GetNext)
 
       if (lexer.TokenType == TokenEnum.FOREACH)
       {
@@ -60,24 +60,62 @@ namespace Primrose.Expressions.Tree.Statements
     public override CStatement Get()
     {
       if (_enumerable == null)
-        return _actions[0];
+        return _actions[0].Get();
       return this;
     }
 
-    public override void Evaluate(IContext context)
+    public override bool Evaluate(IContext context, ref Val retval)
     {
       if (_enumerable != null)
       {
         Val array = _enumerable.Evaluate(context);
-        Array a = array.Cast<Array>();
-
-        foreach (object o in a)
+        // there are limited primitive types supported. Use the directly and avoid (object) boxing allocations
+        if (array.Type == typeof(int[]))
         {
-          _scope.SetVar(this, _var.varName, new Val(o));
-          foreach (CStatement s in _actions)
-            s.Evaluate(context);
+          int[] intarray = (int[])array;
+          foreach (int i in intarray)
+          {
+            _scope.SetVar(this, _var.varName, new Val(i));
+            foreach (CStatement s in _actions)
+              if (s.Evaluate(context, ref retval))
+                return true;
+          }
+        }
+        else if (array.Type == typeof(float[]))
+        {
+          float[] floatarray = (float[])array;
+          foreach (float f in floatarray)
+          {
+            _scope.SetVar(this, _var.varName, new Val(f));
+            foreach (CStatement s in _actions)
+              if (s.Evaluate(context, ref retval))
+                return true;
+          }
+        }
+        else if (array.Type == typeof(bool[]))
+        {
+          bool[] boolarray = (bool[])array;
+          foreach (bool b in boolarray)
+          {
+            _scope.SetVar(this, _var.varName, new Val(b));
+            foreach (CStatement s in _actions)
+              if (s.Evaluate(context, ref retval))
+                return true;
+          }
+        }
+        else
+        {
+          Array a = array.Cast<Array>();
+          foreach (object o in a)
+          {
+            _scope.SetVar(this, _var.varName, new Val(o));
+            foreach (CStatement s in _actions)
+              if (s.Evaluate(context, ref retval))
+                return true;
+          }
         }
       }
+      return false;
     }
 
     public override void Write(StringBuilder sb)

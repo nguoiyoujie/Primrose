@@ -1,6 +1,7 @@
 ﻿using Primrose.Primitives.Parsers;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Primrose.FileFormat.INI
@@ -52,13 +53,26 @@ namespace Primrose.FileFormat.INI
 
     internal object Read(Type t, INIFile f, object defaultValue, string fieldName, string defaultSection, IResolver resolver)
     {
-      MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-      MethodInfo gmRead = mRead.MakeGenericMethod(t);
-      return gmRead.Invoke(this, new object[] { f, defaultValue, fieldName, defaultSection, resolver});
+      lock (_delInnerRead)
+      {
+        if (!_delInnerRead.ContainsKey(t))
+        {
+          _type1r[0] = t;
+          MethodInfo mRead = GetType().GetMethod(nameof(InnerRead), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+          MethodInfo gmRead = mRead.MakeGenericMethod(_type1r);
+#pragma warning disable HAA0101 // Array allocation for params parameter
+          Type delegateType = Expression.GetFuncType(GetType(), typeof(INIFile), typeof(object), typeof(string), typeof(string), typeof(IResolver), typeof(object)); // allocates, but it is called once per type, so it's ok?
+#pragma warning restore HAA0101 // Array allocation for params parameter
+          _delInnerRead.Add(t, Delegate.CreateDelegate(delegateType, gmRead));
+        }
+        Func<INIValueAttribute, INIFile, object, string, string, IResolver, object> func = (Func<INIValueAttribute, INIFile, object, string, string, IResolver, object>)_delInnerRead[t];
+        return func.Invoke(this, f, defaultValue, fieldName, defaultSection, resolver);
+      }
     }
 
-    private T InnerRead<T>(INIFile f, T defaultValue, string fieldName, string defaultSection, IResolver resolver)
+    private object InnerRead<T>(INIFile f, object defaultObj, string fieldName, string defaultSection, IResolver resolver)
     {
+      T defaultValue = (T)defaultObj;
       string s = INIAttributeExt.GetSection(Section, defaultSection);
       string k = INIAttributeExt.GetKey(Key, fieldName);
       if (Required && !f.HasKey(s, k))
@@ -69,14 +83,26 @@ namespace Primrose.FileFormat.INI
 
     internal void Write(Type t, INIFile f, object value, string fieldName, string defaultSection)
     {
-      MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-      MethodInfo gmRead = mRead.MakeGenericMethod(t);
-      gmRead.Invoke(this, new object[] { f, value, fieldName, defaultSection });
+      lock (_delInnerWrite)
+      {
+        if (!_delInnerWrite.ContainsKey(t))
+        {
+          _type1w[0] = t;
+          MethodInfo mRead = GetType().GetMethod(nameof(InnerWrite), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+          MethodInfo gmRead = mRead.MakeGenericMethod(_type1w);
+#pragma warning disable HAA0101 // Array allocation for params parameter
+          Type delegateType = Expression.GetActionType(GetType(), typeof(INIFile), typeof(object), typeof(string), typeof(string)); // allocates, but it is called once per type, so it's ok?
+#pragma warning restore HAA0101 // Array allocation for params parameter
+          _delInnerWrite.Add(t, Delegate.CreateDelegate(delegateType, gmRead));
+        }
+        Action<INIValueAttribute, INIFile, object, string, string> func = (Action<INIValueAttribute, INIFile, object, string, string>)_delInnerWrite[t];
+        func.Invoke(this, f, value, fieldName, defaultSection);
+      }
     }
 
-    private void InnerWrite<T>(INIFile f, T value, string fieldName, string defaultSection)
+    private void InnerWrite<T>(INIFile f, object obj, string fieldName, string defaultSection)
     {
-      if (typeof(T).IsClass && value == null)
+      if (obj == default || !(obj is T value))
         return;
 
       string s = INIAttributeExt.GetSection(Section, defaultSection);
@@ -85,5 +111,17 @@ namespace Primrose.FileFormat.INI
       if (!v.Equals(NoWriteValue))
         f.SetString(s, k, v);
     }
+
+    // cache
+    private static object _lock = new object();
+    private static Type[] _type1 = new Type[1];
+    private static object[] _object4 = new object[4];
+    private static object[] _object5 = new object[5];
+
+    // cache
+    private static Type[] _type1r = new Type[1];
+    private static Type[] _type1w = new Type[1];
+    private static Dictionary<Type, Delegate> _delInnerRead = new Dictionary<Type, Delegate>();
+    private static Dictionary<Type, Delegate> _delInnerWrite = new Dictionary<Type, Delegate>();
   }
 }

@@ -9,7 +9,7 @@ namespace Primrose.Expressions.Tree.Statements
     private readonly ContextScope _scope;
     private readonly CStatement _begin;
     private readonly CExpression _condition;
-    private readonly CStatement _next;
+    private readonly CExpression _next;
     private readonly List<CStatement> _actions = new List<CStatement>();
 
     internal ForStatement(ContextScope scope, Lexer lexer) : base(scope, lexer)
@@ -17,7 +17,7 @@ namespace Primrose.Expressions.Tree.Statements
       // FOR ( STATEMENT; CONDEXPR; EXPR ) STATEMENT 
       // FOR ( STATEMENT; CONDEXPR; EXPR ) { STATEMENT STATEMENT STATEMENT ... } 
       // or
-      // ASSIGNMENTEXPR
+      // ASSIGNMENTEXPR (GetNext)
 
       if (lexer.TokenType == TokenEnum.FOR)
       {
@@ -27,7 +27,7 @@ namespace Primrose.Expressions.Tree.Statements
         lexer.Next(); //BRACKETOPEN
 
         _scope = scope.Next;
-        _begin = new Statement(_scope, lexer).Get();
+        _begin = new SingleStatement(_scope, lexer).Get();
 
         _condition = new Expression(_scope, lexer).Get();
 
@@ -35,7 +35,7 @@ namespace Primrose.Expressions.Tree.Statements
           throw new ParseException(lexer, TokenEnum.SEMICOLON);
         lexer.Next(); //SEMICOLON
 
-        _next = new AssignmentStatement(_scope, lexer).Get();
+        _next = new AssignmentExpression(_scope, lexer).Get();
 
         if (lexer.TokenType != TokenEnum.BRACKETCLOSE)
           throw new ParseException(lexer, TokenEnum.BRACKETCLOSE);
@@ -62,28 +62,32 @@ namespace Primrose.Expressions.Tree.Statements
     public override CStatement Get()
     {
       if (_condition == null)
-        return _actions[0];
+        return _actions[0].Get();
       return this;
     }
 
-    public override void Evaluate(IContext context)
+    public override bool Evaluate(IContext context, ref Val retval)
     {
       if (_condition != null)
       {
-        _begin.Evaluate(context);
+        if (_begin.Evaluate(context, ref retval)) // it should be illegal to put a return statement here...
+          return true;
 
         while (_condition.Evaluate(context).IsTrue)
         {
           foreach (CStatement s in _actions)
-            s.Evaluate(context);
+            if (s.Evaluate(context, ref retval))
+              return true;
 
           _next.Evaluate(context);
         }
-        return;
+        return false;
       }
 
       foreach (CStatement s in _actions)
-        s.Evaluate(context);
+        if (s.Evaluate(context, ref retval))
+          return true;
+      return false;
     }
 
     public override void Write(StringBuilder sb)

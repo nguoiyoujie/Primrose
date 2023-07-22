@@ -71,7 +71,7 @@ namespace Primrose.Primitives.ValueTypes
     }
 
     /// <summary>Returns the string representation of this value</summary>
-    public override string ToString() { return "{{{0},{1},{2},{3}}}".F(x, y, z, w); }
+    public override string ToString() { return "{" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "," + w.ToString() + "}"; }
 
     /// <summary>Creates a ushort[] array from this value</summary>
     /// <returns>An array of length 4 with identical indexed values</returns>
@@ -95,7 +95,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a ushort4 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A ushort4 value</returns>
-    public static ushort4 Parse(string s) { return FromArray(Parser.Parse<ushort[]>(s.Trim('{', '}'))); }
+    public static ushort4 Parse(string s) { return FromArray(Parser.Parse<ushort[]>(s.Trim(ArrayConstants.Braces))); }
 
     /// <summary>Parses a ushort4 from a string</summary>
     /// <param name="s">The string value</param>
@@ -104,11 +104,16 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>A ushort4 value, or the default value if the parsing fails</returns>
     public static ushort4 Parse(string s, IResolver resolver, ushort4 defaultValue)
     {
-      ushort[] list = Parser.Parse(s.Trim('{', '}'), resolver, new ushort[0]);
+      ushort[] list = Parser.Parse(s.Trim(ArrayConstants.Braces), resolver, new ushort[0]);
       ushort4 value = defaultValue;
-      for (int i = 0; i < list.Length; i++)
-        value[i] = list[i];
-
+      if (list.Length != 0)
+      {
+        for (int i = 0; i < list.Length; i++)
+          value[i] = list[i];
+        // fill excluded indices with the same value as the last
+        for (int i = list.Length; i < 4; i++)
+          value[i] = list[list.Length - 1];
+      }
       return value;
     }
 

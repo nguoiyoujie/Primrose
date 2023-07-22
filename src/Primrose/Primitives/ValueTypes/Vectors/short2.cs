@@ -53,7 +53,7 @@ namespace Primrose.Primitives.ValueTypes
     }
 
     /// <summary>Returns the string representation of this value</summary>
-    public override string ToString() { return "{{{0},{1}}}".F(x, y); }
+    public override string ToString() { return "{" + x.ToString() + "," + y.ToString() + "}"; }
 
     /// <summary>Creates a short[] array from this value</summary>
     /// <returns>An array of length 2 with identical indexed values</returns>
@@ -77,7 +77,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a short2 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A short2 value</returns>
-    public static short2 Parse(string s) { return FromArray(Parser.Parse<short[]>(s.Trim('{', '}'))); }
+    public static short2 Parse(string s) { return FromArray(Parser.Parse<short[]>(s.Trim(ArrayConstants.Braces))); }
 
     /// <summary>Parses a short2 from a string</summary>
     /// <param name="s">The string value</param>
@@ -86,11 +86,16 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>A short2 value, or the default value if the parsing fails</returns>
     public static short2 Parse(string s, IResolver resolver, short2 defaultValue)
     {
-      short[] list = Parser.Parse(s.Trim('{', '}'), resolver, new short[0]);
+      short[] list = Parser.Parse(s.Trim(ArrayConstants.Braces), resolver, new short[0]);
       short2 value = defaultValue;
-      for (int i = 0; i < list.Length; i++)
-        value[i] = list[i];
-
+      if (list.Length != 0)
+      {
+        for (int i = 0; i < list.Length; i++)
+          value[i] = list[i];
+        // fill excluded indices with the same value as the last
+        for (int i = list.Length; i < 2; i++)
+          value[i] = list[list.Length - 1];
+      }
       return value;
     }
 

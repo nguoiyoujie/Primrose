@@ -2,7 +2,6 @@
 using Primrose.Expressions.Tree.Statements;
 using Primrose.Primitives.Factories;
 using System;
-using System.Text;
 
 namespace Primrose.Expressions.Tree
 {
@@ -16,6 +15,8 @@ namespace Primrose.Expressions.Tree
       NextExpression.Default = (_, __) => { throw new InvalidOperationException(Resource.Strings.Error_ExpressionNotFound); };
       NextStatement.Default = (_, __) => { throw new InvalidOperationException(Resource.Strings.Error_StatementNotFound); };
 
+      NextExpression.Add(typeof(AssignmentExpression), (s, l) => { return new TernaryExpression(s, l); });
+
       NextExpression.Add(typeof(Expression), (s, l) => { return new TernaryExpression(s, l); });
       NextExpression.Add(typeof(TernaryExpression), (s, l) => { return new LogicalOrExpression(s, l); });
       NextExpression.Add(typeof(LogicalOrExpression), (s, l) => { return new LogicalAndExpression(s, l); });
@@ -27,12 +28,13 @@ namespace Primrose.Expressions.Tree
       NextExpression.Add(typeof(UnaryExpression), (s, l) => { return new IndexedExpression(s, l); });
       NextExpression.Add(typeof(IndexedExpression), (s, l) => { return new PrimaryExpression(s, l); });
 
-      NextStatement.Add(typeof(Statement), (s, l) => { return new WhileStatement(s, l); });
+      NextStatement.Add(typeof(Statement), (s, l) => { return new ReturnStatement(s, l); });
+      NextStatement.Add(typeof(ReturnStatement), (s, l) => { return new WhileStatement(s, l); });
       NextStatement.Add(typeof(WhileStatement), (s, l) => { return new ForStatement(s, l); });
       NextStatement.Add(typeof(ForStatement), (s, l) => { return new ForEachStatement(s, l); });
       NextStatement.Add(typeof(ForEachStatement), (s, l) => { return new IfThenElseStatement(s, l); });
       NextStatement.Add(typeof(IfThenElseStatement), (s, l) => { return new SingleStatement(s, l); });
-      NextStatement.Add(typeof(SingleStatement), (s, l) => { return new AssignmentStatement(s, l); });
+      //NextStatement.Add(typeof(SingleStatement), (s, l) => { return new AssignmentStatement(s, l); });
     }
   }
 }

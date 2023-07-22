@@ -77,7 +77,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a byte2 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A byte2 value</returns>
-    public static byte2 Parse(string s) { return FromArray(Parser.Parse<byte[]>(s.Trim('{', '}'))); }
+    public static byte2 Parse(string s) { return FromArray(Parser.Parse<byte[]>(s.Trim(ArrayConstants.Braces))); }
 
     /// <summary>Parses a byte2 from a string</summary>
     /// <param name="s">The string value</param>
@@ -86,11 +86,16 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>A byte2 value, or the default value if the parsing fails</returns>
     public static byte2 Parse(string s, IResolver resolver, byte2 defaultValue)
     {
-      byte[] list = Parser.Parse(s.Trim('{', '}'), resolver, new byte[0]);
+      byte[] list = Parser.Parse(s.Trim(ArrayConstants.Braces), resolver, Array<byte>.Empty);
       byte2 value = defaultValue;
-      for (int i = 0; i < list.Length; i++)
-        value[i] = list[i];
-
+      if (list.Length != 0)
+      {
+        for (int i = 0; i < list.Length; i++)
+          value[i] = list[i];
+        // fill excluded indices with the same value as the last
+        for (int i = list.Length; i < 2; i++)
+          value[i] = list[list.Length - 1];
+      }
       return value;
     }
 

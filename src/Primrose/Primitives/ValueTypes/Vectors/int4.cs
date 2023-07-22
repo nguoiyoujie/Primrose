@@ -4,8 +4,8 @@ using System;
 
 namespace Primrose.Primitives.ValueTypes
 {
-  /// <summary>A int4 quad value</summary>
-  public struct int4 : IEquatable<int4>
+  ///<summary>Defines a container containing four <see cref="int"/> values</summary>
+  public struct int4 : IEquatable<int4>, IComparable<int4>
   {
     /// <summary>The x or [0] value</summary>
     public int x;
@@ -20,7 +20,7 @@ namespace Primrose.Primitives.ValueTypes
     public int w;
 
     /// <summary>
-    /// Creates a int4 value
+    /// Creates a <see cref="int4"/> value
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
@@ -71,7 +71,7 @@ namespace Primrose.Primitives.ValueTypes
     }
 
     /// <summary>Returns the string representation of this value</summary>
-    public override string ToString() { return "{{{0},{1},{2},{3}}}".F(x, y, z, w); }
+    public override string ToString() { return "{" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "," + w.ToString() + "}"; }
 
     /// <summary>Creates a int[] array from this value</summary>
     /// <returns>An array of length 4 with identical indexed values</returns>
@@ -95,7 +95,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a int4 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A int4 value</returns>
-    public static int4 Parse(string s) { return FromArray(Parser.Parse<int[]>(s.Trim('{', '}'))); }
+    public static int4 Parse(string s) { return FromArray(Parser.Parse<int[]>(s.Trim(ArrayConstants.Braces))); }
 
     /// <summary>Parses a int4 from a string</summary>
     /// <param name="s">The string value</param>
@@ -104,11 +104,16 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>A int4 value, or the default value if the parsing fails</returns>
     public static int4 Parse(string s, IResolver resolver, int4 defaultValue)
     {
-      int[] list = Parser.Parse(s.Trim('{', '}'), resolver, new int[0]);
+      int[] list = Parser.Parse(s.Trim(ArrayConstants.Braces), resolver, new int[0]);
       int4 value = defaultValue;
-      for (int i = 0; i < list.Length; i++)
-        value[i] = list[i];
-
+      if (list.Length != 0)
+      {
+        for (int i = 0; i < list.Length; i++)
+          value[i] = list[i];
+        // fill excluded indices with the same value as the last
+        for (int i = list.Length; i < 4; i++)
+          value[i] = list[list.Length - 1];
+      }
       return value;
     }
 
@@ -213,6 +218,16 @@ namespace Primrose.Primitives.ValueTypes
       hashCode = hashCode * -1521134295 + z.GetHashCode();
       hashCode = hashCode * -1521134295 + w.GetHashCode();
       return hashCode;
+    }
+
+    /// <summary>Compares one int3 value to the other</summary>
+    public int CompareTo(int4 other)
+    {
+      int r = w.CompareTo(w);
+      if (r == 0) { r = z.CompareTo(other.z); }
+      if (r == 0) { r = y.CompareTo(other.y); }
+      if (r == 0) { r = x.CompareTo(other.x); }
+      return r;
     }
 
     /// <summary>Determines if two int4 values are equal</summary>

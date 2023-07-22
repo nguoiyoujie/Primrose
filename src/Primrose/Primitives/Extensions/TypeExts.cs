@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace Primrose.Primitives.Extensions
 {
@@ -21,5 +23,28 @@ namespace Primrose.Primitives.Extensions
         t = t.BaseType;
       }
     }
+
+    /// <summary>
+    /// Determines the size, in bytes, of a type, usually a struct
+    /// </summary>
+    /// <param name="t">The type to inspect</param>
+    /// <returns>The size, in bytes, of one instance of the given type</returns>
+    public static int GetSizeInBytes(this Type t)
+    {
+      if (t == null) throw new ArgumentNullException("t");
+
+      return _sizeof_cache.GetOrAdd(t, t2 =>
+      {
+        var dm = new DynamicMethod("$", typeof(int), Type.EmptyTypes);
+        ILGenerator il = dm.GetILGenerator();
+        il.Emit(OpCodes.Sizeof, t2);
+        il.Emit(OpCodes.Ret);
+
+        var func = (Func<int>)dm.CreateDelegate(typeof(Func<int>));
+        return func();
+      });
+    }
+
+    private static readonly ConcurrentDictionary<Type, int> _sizeof_cache = new ConcurrentDictionary<Type, int>();
   }
 }

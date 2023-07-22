@@ -125,6 +125,26 @@ namespace Primrose.FileFormat.INI
         m_lines.Add(new INILine { Key = key, Value = value });
       }
 
+      /// <summary>Removes the key from the section</summary>
+      /// <param name="key">The key name</param>
+      public void RemoveKey(string key)
+      {
+        for (int i = 0; i < m_lines.Count; i++)
+        {
+          if (m_lines[i].Key == key)
+          {
+            m_lines.RemoveAt(i);
+            return;
+          }
+        }
+      }
+
+      /// <summary>Clears all keys from the section</summary>
+      public void Clear()
+      {
+        m_lines.Clear();
+      }
+
       /// <summary>Merges the content of this section with another section</summary>
       /// <param name="section">The name of the other section</param>
       public void Merge(INISection section)

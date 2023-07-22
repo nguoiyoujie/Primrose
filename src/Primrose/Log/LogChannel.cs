@@ -20,20 +20,38 @@ namespace Primrose
 
     public LogChannel(TextWriter writer, LogLevel levels = LogLevel.ALL)
     {
-      Writer = writer;
-      Levels = levels;
-      _logTimer.Interval = 100;
-      _logTimer.AutoReset = true;
-      _logTimer.Elapsed += DoWrite;
+      if (writer == null || writer == TextWriter.Null)
+      {
+        SetWriter(TextWriter.Null);
+        Levels = LogLevel.NONE; // nothing is written
+        _logTimer.Interval = 100;
+      }
+      else
+      {
+        Writer = writer;
+        Levels = levels;
+        _logTimer.Interval = 100;
+        _logTimer.AutoReset = true;
+        _logTimer.Elapsed += DoWrite;
+      }
     }
 
     public LogChannel(string logpath, LogLevel levels = LogLevel.ALL)
     {
-      SetWriter(logpath);
-      Levels = levels;
-      _logTimer.Interval = 100;
-      _logTimer.AutoReset = true;
-      _logTimer.Elapsed += DoWrite;
+      if (logpath == null)
+      {
+        SetWriter(TextWriter.Null);
+        Levels = LogLevel.NONE; // nothing is written
+        _logTimer.Interval = 100;
+      }
+      else
+      {
+        SetWriter(logpath);
+        Levels = levels;
+        _logTimer.Interval = 100;
+        _logTimer.AutoReset = true;
+        _logTimer.Elapsed += DoWrite;
+      }
     }
 
     public void Close()
@@ -102,6 +120,7 @@ namespace Primrose
 
     public void DoCallback(LogItem item)
     {
+      // TO-DO: many allocations here
       string stime = item.Time.ToString(TimeFormat);
       string slevel = "{0,-8}".F(item.Level);
       string message = "";
@@ -128,11 +147,11 @@ namespace Primrose
         }
       }
       
-      foreach (MessageDelegate action in CallbackList.EnumerateKeys())
+      foreach (var action in CallbackList.GetUnderlyingConcreteDictionary())
       {
-        if ((CallbackList[action] | item.Level) != 0)
+        if ((action.Value | item.Level) != 0)
         {
-          action.Invoke(message);
+          action.Key.Invoke(message);
         }
       }
     }

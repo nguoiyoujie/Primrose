@@ -8,25 +8,24 @@ namespace Primrose.Expressions.Tree.Statements
 
     internal Statement(ContextScope scope, Lexer lexer) : base(scope, lexer)
     {
-      // IFTHENELSE
+      // IFTHENELSE (GetNext)
 
-      if (lexer.TokenType != TokenEnum.NOTHING && lexer.TokenType != TokenEnum.COMMENT)
-      {
-        _statement = GetNext(scope, lexer);
-
-        // comment (eliminated by lexer)
-        //if (lexer.TokenType == TokenEnum.COMMENT)
-        //  lexer.Next();
-      }
-      else
+      while (lexer.TokenType == TokenEnum.NOTHING || lexer.TokenType == TokenEnum.COMMENT)
       {
         lexer.Next();
       }
+
+      _statement = GetNext(scope, lexer);
     }
 
-    public override void Evaluate(IContext context)
+    public override CStatement Get()
     {
-      _statement.Evaluate(context);
+      return _statement.Get();
+    }
+
+    public override bool Evaluate(IContext context, ref Val retval)
+    {
+      return _statement.Evaluate(context, ref retval);
     }
 
     public override void Write(StringBuilder sb)

@@ -36,7 +36,7 @@ namespace Primrose.Expressions.Tree.Expressions
     public override CExpression Get()
     {
       if (_type == TokenEnum.NOTHING)
-        return _primary;
+        return _primary.Get();
       return this;
     }
 

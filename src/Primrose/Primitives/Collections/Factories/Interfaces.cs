@@ -1,6 +1,5 @@
 ﻿using Primrose.Primitives.Extensions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Primrose.Primitives.Factories
@@ -57,7 +56,7 @@ namespace Primrose.Primitives.Factories
   /// Defines a Factory object>
   /// </summary>
   /// <typeparam name="K">The type of the associated key</typeparam>
-  public abstract class AFactoryObject<K>
+  public abstract class AFactoryObject<K> : IIdentity<K>
   {
     private K id;
     /// <summary>The unique identifier of the object</summary>

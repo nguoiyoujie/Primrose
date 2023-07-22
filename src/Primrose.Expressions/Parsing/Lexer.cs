@@ -1,5 +1,4 @@
 ﻿using Primrose.Primitives.Extensions;
-using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,8 +21,7 @@ namespace Primrose.Expressions
     public LintType Lint { get; private set; }
     public List<LintElement> Linter { get; private set; }
 
-    private string lineRemaining;
-    public bool EndOfStream { get { return lineRemaining == null; } }
+    public bool EndOfStream { get { return m_reader.Peek() == -1 && Position >= (LineText?.Length ?? 0); } } // both current line is done, and there are no more lines to read
 
     public Lexer(TextReader reader, TokenDefinition[] tokenDefinitions, string srcname, int linenumber)
     {
@@ -32,27 +30,31 @@ namespace Primrose.Expressions
       m_tokenDefinitions = tokenDefinitions;
       LineNumber = linenumber;
       Lint = LintType.NONE;
-      Linter = new List<LintElement>();
+      Linter = new List<LintElement>(256);
       nextLine();
       Next();
     }
 
-    private void nextLine()
+    private bool nextLine()
     {
+      if (m_reader.Peek() == -1) // nothing more to read
+      {
+        return false;
+      }
       do
       {
-        lineRemaining = m_reader.ReadLine();
-        LineText = lineRemaining;
+        LineText = m_reader.ReadLine();
         if (LineNumber > 0)
         {
-          Linter.Add(new LintElement(LineNumber, Position, LintType.NONE));
+          Linter?.Add(new LintElement(LineNumber, Position, LintType.NONE));
           Lint = LintType.NONE;
         }
 
         ++LineNumber;
         Position = 0;
         TokenPosition = 0;
-      } while (lineRemaining != null && lineRemaining.Length == 0);
+      } while (m_reader.Peek() != -1 && Position >= LineText.Length);
+      return true;
     }
 
     public TokenEnum Peek()
@@ -63,7 +65,7 @@ namespace Primrose.Expressions
 
     private int LookAhead(out TokenEnum token, out string content, out int position, out LintType lint)
     {
-      if (lineRemaining == null)
+      if (LineText == null || Position >= LineText.Length) // end of line or end of text
       {
         token = 0;
         content = "";
@@ -73,25 +75,25 @@ namespace Primrose.Expressions
       }
       foreach (var def in m_tokenDefinitions)
       {
-        var matched = def.Matcher.Match(lineRemaining);
+        var matched = def.Matcher.Match(LineText, Position);
         if (matched > 0)
         {
           position = Position + matched;
           token = def.Token;
           lint = def.Lint;
-          content = lineRemaining.Substring(0, matched);
+          content = LineText.Substring(Position, matched);
 
-          // special case for linting for type
-          if (lint == LintType.VARIABLE_OR_TYPE && token == TokenEnum.VARIABLE)
-          {
-            if (Parser.TypeTokens.Contains(content))
-              lint = LintType.TYPE;
-            else
-              lint = LintType.VARIABLE;
-          }
+          // special case for linting for type 
+          //if (lint == LintType.VARIABLE_OR_TYPE && token == TokenEnum.VARIABLE)
+          //{
+          //  if (Parser.TypeTokens.Contains(content))
+          //    lint = LintType.TYPE;
+          //  else
+          //    lint = LintType.VARIABLE;
+          //}
 
           // whitespace elimination
-          if (content.Trim().Length == 0)
+          if (string.IsNullOrWhiteSpace(content))
           {
             DoNext(matched, token, content, position);
             return LookAhead(out token, out content, out position, out lint);
@@ -101,14 +103,20 @@ namespace Primrose.Expressions
           if (token == TokenEnum.COMMENT)
           {
             Linter.Add(new LintElement(LineNumber, Position, LintType.COMMENT));
-            nextLine();
+            if (!nextLine())
+            {
+              token = 0;
+              content = "";
+              lint = LintType.NONE;
+              return 0;
+            }
             return LookAhead(out token, out content, out position, out lint);
           }
 
           return matched;
         }
       }
-      throw new Exception(Resource.Strings.Error_Lexer_InvalidToken.F(LineNumber, Position, lineRemaining));
+      throw new Exception(Resource.Strings.Error_Lexer_InvalidToken.F(LineNumber, Position, LineText.Substring(Position)));
     }
 
     public bool Next()
@@ -125,18 +133,9 @@ namespace Primrose.Expressions
       TokenContents = content;
       TokenPosition = Position;
       Position = position;
-      if (LineNumber == 206)
-      { }
-      if (matched > 0)
-      {
-        lineRemaining = lineRemaining.Substring(matched);
-        if (lineRemaining.Length == 0)
-          nextLine();
-        return true;
-      }
-      if (lineRemaining == null || lineRemaining.Length == 0)
+      if (LineText == null || Position >= LineText.Length)
         nextLine();
-      return false;
+      return matched > 0;
     }
 
     public void Dispose() => m_reader.Dispose();

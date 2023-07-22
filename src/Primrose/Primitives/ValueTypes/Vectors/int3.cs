@@ -5,7 +5,7 @@ using System;
 namespace Primrose.Primitives.ValueTypes
 {
   /// <summary>A int3 triple value</summary>
-  public struct int3 : IEquatable<int3>
+  public struct int3 : IEquatable<int3>, IComparable<int3>
   {
     /// <summary>The x or [0] value</summary>
     public int x;
@@ -62,7 +62,7 @@ namespace Primrose.Primitives.ValueTypes
     }
 
     /// <summary>Returns the string representation of this value</summary>
-    public override string ToString() { return "{{{0},{1},{2}}}".F(x, y, z); }
+    public override string ToString() { return "{" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "}"; }
 
     /// <summary>Creates a int[] array from this value</summary>
     /// <returns>An array of length 3 with identical indexed values</returns>
@@ -86,7 +86,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a int3 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A int3 value</returns>
-    public static int3 Parse(string s) { return FromArray(Parser.Parse<int[]>(s.Trim('{', '}'))); }
+    public static int3 Parse(string s) { return FromArray(Parser.Parse<int[]>(s.Trim(ArrayConstants.Braces))); }
 
     /// <summary>Parses a int3 from a string</summary>
     /// <param name="s">The string value</param>
@@ -95,11 +95,16 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>A int3 value, or the default value if the parsing fails</returns>
     public static int3 Parse(string s, IResolver resolver, int3 defaultValue)
     {
-      int[] list = Parser.Parse(s.Trim('{', '}'), resolver, new int[0]);
+      int[] list = Parser.Parse(s.Trim(ArrayConstants.Braces), resolver, new int[0]);
       int3 value = defaultValue;
-      for (int i = 0; i < list.Length; i++)
-        value[i] = list[i];
-
+      if (list.Length != 0)
+      {
+        for (int i = 0; i < list.Length; i++)
+          value[i] = list[i];
+        // fill excluded indices with the same value as the last
+        for (int i = list.Length; i < 3; i++)
+          value[i] = list[list.Length - 1];
+      }
       return value;
     }
 
@@ -202,6 +207,15 @@ namespace Primrose.Primitives.ValueTypes
       hashCode = hashCode * -1521134295 + y.GetHashCode();
       hashCode = hashCode * -1521134295 + z.GetHashCode();
       return hashCode;
+    }
+
+    /// <summary>Compares one int3 value to the other</summary>
+    public int CompareTo(int3 other)
+    {
+      int r = z.CompareTo(z);
+      if (r == 0) { r = y.CompareTo(other.y); }
+      if (r == 0) { r = x.CompareTo(other.x); }
+      return r;
     }
 
     /// <summary>Determines if two int3 values are equal</summary>

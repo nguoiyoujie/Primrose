@@ -56,8 +56,11 @@ namespace Primrose.Primitives.Observables
       }
     }
 
+    /// <summary>Retrieves the underlying dictionary in its concrete form. Useful if avoiding allocations due to IDictionary cast is needed. Use it only when you know what you are doing</summary>
+    public Dictionary<K, V> GetUnderlyingConcreteDictionary() { return _reg.GetUnderlyingConcreteDictionary(); }
+
     /// <summary>Retrieves the underlying dictionary</summary>
-    public IDictionary<K, V> GetUnderlyingDictionary() { return _reg.GetUnderlyingDictionary(); }
+    public IDictionary<K, V> GetUnderlyingDictionary() { return _reg.GetUnderlyingConcreteDictionary(); }
 
     /// <summary>Gets or sets an element in the list, accessed by an index</summary>
     public V this[K id] { get { return Get(id); } set { Put(id, value); } }

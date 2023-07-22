@@ -30,7 +30,13 @@ namespace Primrose.Primitives
     private int _FPScounter;
     private int _spincounter;
     private float _addTime;
-    private float _FPScountTime;
+    private float _countTimeTotal;
+    private float _countTimeProcess;
+    private float _countTimeMark;
+    private float _countTimeWait;
+    private float _lastTimeProcess;
+    private float _lastTimeMark = -1;
+    private float _lastTimeWait;
     private TimePrecision _precision = TimePrecision.NONE;
     private Func<Stopwatch, uint, int> _waitFunc = _wait_none;
     private readonly Stopwatch stopwatch = Stopwatch.StartNew();
@@ -70,6 +76,15 @@ namespace Primrose.Primitives
 
     /// <summary>The current number of spin cycles per second</summary>
     public float SpinsPerFrame { get; private set; }
+
+    /// <summary>The fraction of time spent in Wait()</summary>
+    public float PercentWait { get; private set; }
+
+    /// <summary>The fraction of time spent between Mark() and Unmark()</summary>
+    public float PercentMarked { get; private set; }
+
+    /// <summary>The fraction of time spent outside of Wait()</summary>
+    public float PercentProcess { get; private set; }
 
     /// <summary>The precision mode of the timer</summary>
     public TimePrecision Precision
@@ -135,21 +150,39 @@ namespace Primrose.Primitives
     public void Update()
     {
       float interval = (float)stopwatch.Elapsed.TotalSeconds;
-
-      stopwatch.Restart();
-      if (_FPScountTime > FPSRefreshInterval)
+      if (_lastTimeProcess > 0)
       {
-        FPS = _FPScounter / _FPScountTime;
-        SpinsPerFrame = _spincounter / _FPScounter;
-
-        _FPScounter = 0;
-        _FPScountTime = 0;
-        _spincounter = 0;
+        _lastTimeWait = interval - _lastTimeProcess;
+      }
+      else
+      {
+        _lastTimeProcess = interval;
       }
 
-      _FPScounter++;
-      _FPScountTime += interval;
+      stopwatch.Restart();
 
+      _FPScounter++;
+      _countTimeTotal += interval;
+      _countTimeProcess += _lastTimeProcess;
+      _countTimeWait += _lastTimeWait;
+      _lastTimeProcess = 0;
+      _lastTimeWait = 0;
+
+      if (_countTimeTotal > FPSRefreshInterval)
+      {
+        FPS = _FPScounter / _countTimeTotal;
+        SpinsPerFrame = _spincounter / _FPScounter;
+        PercentProcess = _countTimeProcess / _countTimeTotal * 100;
+        PercentWait = _countTimeWait / _countTimeTotal * 100;
+        PercentMarked = _countTimeMark / _countTimeTotal * 100;
+
+        _FPScounter = 0;
+        _countTimeTotal = 0;
+        _countTimeProcess = 0;
+        _countTimeWait = 0;
+        _countTimeMark = 0;
+        _spincounter = 0;
+      }
       UpdateInterval = interval.Clamp(1f / FPS.Max(TargetFPS), 1f / MinimumFPS);
       WorldTime += WorldInterval;
       _addTime = 0;
@@ -165,8 +198,33 @@ namespace Primrose.Primitives
     /// <summary>Performs a wait to suspend process until the target FPS is reached</summary>
     public void Wait()
     {
+      _lastTimeProcess = (float)stopwatch.Elapsed.TotalSeconds;
+      _lastTimeWait = 0;
       SpinsInLastFrame = _waitFunc.Invoke(stopwatch, TargetFPS);
       _spincounter += SpinsInLastFrame;
+    }
+
+    /// <summary>Begins measurement of two points of time</summary>
+    public void Mark()
+    {
+      _lastTimeMark = (float)stopwatch.Elapsed.TotalSeconds;
+    }
+
+    /// <summary>Ends measurement of two points of time</summary>
+    public float Unmark()
+    {
+      if (_lastTimeMark != -1)
+      {
+        float m = (float)stopwatch.Elapsed.TotalSeconds - _lastTimeMark;
+        _countTimeMark += m;
+        _lastTimeMark = -1;
+        return m;
+      }
+      else
+      {
+        // Mark() was not called
+        return 0;
+      }
     }
 
     private static Func<Stopwatch, uint, int> _wait_none = new Func<Stopwatch, uint, int>((s, targetFPS) =>

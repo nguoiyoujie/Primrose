@@ -1,7 +1,6 @@
 ﻿using Primrose.Primitives.Extensions;
 using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
-using System;
 using System.Collections.Generic;
 
 namespace Primrose.Expressions
@@ -13,7 +12,7 @@ namespace Primrose.Expressions
   /// <param name="context">The script context</param>
   /// <param name="param">The input parameters to the function</param>
   /// <returns>The result of the function</returns>
-  public delegate Val FunctionDelegate(ContextBase context, Val[] param);
+  public delegate Val FunctionDelegate(ContextBase context, IList<Val> param);
   */
 
 
@@ -56,13 +55,13 @@ namespace Primrose.Expressions
     /// <param name="name">The function name</param>
     /// <param name="param">The function parameters</param>
     /// <returns></returns>
-    public Val RunFunction(ITracker caller, string name, Val[] param)
+    public Val RunFunction(ITracker caller, string name, IList<Val> param)
     {
-      IValFunc vfs = ValFuncs.Get(new Pair<string, int>(name, param.Length));
+      IValFunc vfs = ValFuncs.Get(new Pair<string, int>(name, param.Count));
       if (vfs == null)
         if (ValFuncRef.Contains(name))
         {
-          vfs = ValFuncs.Get(new Pair<string, int>(name, -1)); // Val[]
+          vfs = ValFuncs.Get(new Pair<string, int>(name, -1)); // IList<Val>
           if (vfs == null)
             throw new EvalException(caller, Resource.Strings.Error_EvalException_IncorrectParameters.F(name));
         }
@@ -86,6 +85,8 @@ namespace Primrose.Expressions
     /// <summary>Resets the context and clears the script</summary>
     public virtual void Reset()
     {
+      ClearFunctions();
+      DefineFunctions();
       Scripts.Clear();
     }
 
@@ -93,6 +94,26 @@ namespace Primrose.Expressions
     /// <param name="name">The function name</param>
     /// <param name="fn">The function delegate</param>
     protected void AddDynamicFunc(string name, FunctionDelegateParam fn) { ValFuncs.Add(new Pair<string, int>(name, -1), new ValFunc_Dynamic(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name); }
+
+    /// <summary>Adds a script as a function to the context</summary>
+    /// <param name="script">The script</param>
+    internal void AddScriptFunc(Script script) 
+    {
+      string name = script.Name;
+      if (name == null) 
+        return;
+      //int parameters = script.Scope.ParameterCount;
+      FunctionDelegateParam fn = (c, l) =>
+      {
+        for (int i = 0; i < l.Count; i++)
+        {
+          script.Scope.SetParameter(i, l[i]);
+        }
+        script.Run(c);
+        return Val.NULL;
+      };
+      ValFuncs.Add(new Pair<string, int>(name, -1), new ValFunc_Dynamic(fn)); if (!ValFuncRef.Contains(name)) ValFuncRef.Add(name);
+    }
 
     /// <summary>Adds a function to the context</summary>
     /// <param name="name">The function name</param>

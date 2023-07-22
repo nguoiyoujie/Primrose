@@ -38,7 +38,7 @@ namespace Primrose.Primitives.ValueTypes
 
     /// <summary>The value indexer</summary>
     /// <exception cref="IndexOutOfRangeException">The array is accessed with an invalid index</exception>
-    public float this[float i]
+    public float this[int i]
     {
       get
       {
@@ -94,7 +94,7 @@ namespace Primrose.Primitives.ValueTypes
 
 
     /// <summary>Returns the string representation of this value</summary>
-    public override string ToString() { return "{{{0},{1},{2},{3}}}".F(x, y, w, h); }
+    public override string ToString() { return "{" + x.ToString() + "," + y.ToString() + "," + w + "," + h + "}"; }
 
     /// <summary>Creates a float[] array from this value</summary>
     /// <returns>An array of length 4 with identical indexed values</returns>
@@ -134,7 +134,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a floatRect from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A floatRect value</returns>
-    public static floatRect Parse(string s) { return FromArray(Parser.Parse<float[]>(s.Trim('{', '}'))); }
+    public static floatRect Parse(string s) { return FromArray(Parser.Parse<float[]>(s.Trim(ArrayConstants.Braces))); }
 
     /// <summary>Parses a floatRect from a string</summary>
     /// <param name="s">The string value</param>
@@ -143,11 +143,16 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>A floatRect value, or the default value if the parsing fails</returns>
     public static floatRect Parse(string s, IResolver resolver, floatRect defaultValue)
     {
-      float[] list = Parser.Parse(s.Trim('{', '}'), resolver, new float[0]);
+      float[] list = Parser.Parse(s.Trim(ArrayConstants.Braces), resolver, new float[0]);
       floatRect value = defaultValue;
-      for (int i = 0; i < list.Length; i++)
-        value[i] = list[i];
-
+      if (list.Length != 0)
+      {
+        for (int i = 0; i < list.Length; i++)
+          value[i] = list[i];
+        // fill excluded indices with the same value as the last
+        for (int i = list.Length; i < 4; i++)
+          value[i] = list[list.Length - 1];
+      }
       return value;
     }
 
@@ -205,15 +210,15 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Returns a floatRect value with all elements set to their default value</summary>
     public static floatRect Empty { get { return new floatRect(); } }
 
-    /// <summary>Determines if a pofloat is inside the rectangle represented</summary>
-    public bool ContainsPofloat(float2 pofloat)
+    /// <summary>Determines if a point is inside the rectangle represented</summary>
+    public bool ContainsPoint(float2 point)
     {
-      float2 p = pofloat - Position;
+      float2 p = point - Position;
       return p.x.WithinRangeInclusive(0, w) && p.y.WithinRange(0, h);
     }
 
-    /// <summary>Determines if at least part of a rectangle floatersects with the rectangle represented</summary>
-    public bool floatersectsRectangle(float2 topleft, float2 size)
+    /// <summary>Determines if at least part of a rectangle intersects with the rectangle represented</summary>
+    public bool IntersectsRectangle(float2 topleft, float2 size)
     {
       topleft -= Position;
       float min_x = topleft.x;
@@ -225,8 +230,8 @@ namespace Primrose.Primitives.ValueTypes
           && (0f.WithinRangeInclusive(min_y, max_y) || h.WithinRangeInclusive(min_y, max_y) || min_y.WithinRangeInclusive(0, h) || max_y.WithinRangeInclusive(0, h));
     }
 
-    /// <summary>Determines if at least part of a rectangle floatersects with the rectangle represented</summary>
-    public bool floatersectsRectangle(floatRect otherRect)
+    /// <summary>Determines if at least part of a rectangle intersects with the rectangle represented</summary>
+    public bool IntersectsRectangle(floatRect otherRect)
     {
       float min_x = otherRect.x - Position.x;
       float max_x = otherRect.x - Position.x + otherRect.w;
@@ -248,7 +253,7 @@ namespace Primrose.Primitives.ValueTypes
     }
 
     /// <summary>Returns the bounding rectangle of the floatersection of two rectangles</summary>
-    public floatRect floatersect(floatRect other)
+    public floatRect Interesect(floatRect other)
     {
       return new floatRect(x.Max(other.x)
                   , y.Max(other.y)

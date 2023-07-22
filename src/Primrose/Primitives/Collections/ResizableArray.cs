@@ -79,16 +79,30 @@ namespace Primrose.Primitives.Collections
       foreach (T t in elements) { Add(t); }
     }
 
-    /// <summary>Resets the elements</summary>
-    /// <param name="count">The initial size of the array</param>
+    /// <summary>Resizes the array to contain the specified number of elements. This resizing will double the size of the current array to accommodate this count.</summary>
+    /// <param name="count">The desired size of the array</param>
     public void Resize(int count)
     {
-      if (_count < count)
+      // double size
+      if (count > _array.Length)
       {
-        Array.Resize(ref _array, count);
+        int newSize = _array.Length;
+        while (count > newSize)
+          newSize *= 2;
+
+        Array.Resize(ref _array, newSize);
       }
       _count = count;
     }
+
+    /// <summary>Resizes the array to contain the specified number of elements. This resizing is exact.</summary>
+    /// <param name="count">The desired size of the array</param>
+    public void ResizeExact(int count)
+    {
+      Array.Resize(ref _array, count);
+      _count = count;
+    }
+
 
     /// <summary>Resets the count to 0, and optionally clears elements to default</summary>
     /// <param name="clearElements">Determines if the members of the array should be zeroed</param>
@@ -99,6 +113,13 @@ namespace Primrose.Primitives.Collections
       {
         Array.Clear(_array, 0, _array.Length);
       }
+    }
+
+    /// <summary>Clears elements within the array to default values</summary>
+    public void ClearElements(int start, int length)
+    {
+      length = length.Min(_array.Length - start); // do not go out of range
+      Array.Clear(_array, start, length);
     }
 
     /// <summary>Retrieves the element at an index of the array</summary>

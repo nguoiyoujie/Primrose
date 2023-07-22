@@ -19,7 +19,7 @@ namespace Primrose.Expressions.Resource {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -302,6 +302,15 @@ namespace Primrose.Expressions.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type identifier expected, read &apos;{0}&apos; instead..
+        /// </summary>
+        internal static string Error_ParseException_Type {
+            get {
+                return ResourceManager.GetString("Error_ParseException_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Script file &apos;{0}&apos; is not found!.
         /// </summary>
         internal static string Error_ScriptFileNotFound {
@@ -388,6 +397,15 @@ namespace Primrose.Expressions.Resource {
         internal static string String {
             get {
                 return ResourceManager.GetString("String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;type&gt;.
+        /// </summary>
+        internal static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
             }
         }
         

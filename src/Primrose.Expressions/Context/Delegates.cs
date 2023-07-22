@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Primrose.Expressions
 {
   /// <summary>Defines a delegate representing a function expression</summary>
-  public delegate Val FunctionDelegateParam(IContext context, Val[] param);
+  public delegate Val FunctionDelegateParam(IContext context, IList<Val> param);
 
   /// <summary>Defines a delegate representing a function expression</summary>
   public delegate Val FunctionDelegate(IContext context);

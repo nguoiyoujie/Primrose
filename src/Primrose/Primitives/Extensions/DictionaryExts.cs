@@ -6,7 +6,7 @@ namespace Primrose.Primitives.Extensions
   /// <summary>
   /// Provides extension methods for Dictionaries
   /// </summary>
-  public static class DictionaryExts
+  public static class Dictionary
   {
     /// <summary>
     /// Adds or updates a key-value pair in a dictionary.

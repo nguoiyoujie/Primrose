@@ -192,6 +192,9 @@
   <data name="Error_ObjectPoolDuplicateBackgroundPool" xml:space="preserve">
     <value>There is already a background object pool for '{0}'</value>
   </data>
+  <data name="Error_ObjectPoolDuplicateItem" xml:space="preserve">
+    <value>The object to be admitted into the pool '{0}' already exists in the pool!</value>
+  </data>
   <data name="Error_RuleConversionException" xml:space="preserve">
     <value>Attempted to parse invalid value '{0}' as {1}.</value>
   </data>

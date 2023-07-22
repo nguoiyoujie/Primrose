@@ -8,8 +8,9 @@
     /// matches.
     /// </summary>
     /// <param name="text">The text to be matched</param>
+    /// <param name="startposition">The start position to begin the match</param>
     /// <returns>The number of characters that matched</returns>
-    int Match(string text);
+    int Match(string text, int startposition);
   }
 
   /// <summary>

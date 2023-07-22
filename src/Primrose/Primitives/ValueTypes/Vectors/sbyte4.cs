@@ -71,7 +71,7 @@ namespace Primrose.Primitives.ValueTypes
     }
 
     /// <summary>Returns the string representation of this value</summary>
-    public override string ToString() { return "{{{0},{1},{2},{3}}}".F(x, y, z, w); }
+    public override string ToString() { return "{" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "," + w.ToString() + "}"; }
 
     /// <summary>Creates a sbyte[] array from this value</summary>
     /// <returns>An array of length 4 with identical indexed values</returns>
@@ -95,7 +95,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a sbyte4 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A sbyte4 value</returns>
-    public static sbyte4 Parse(string s) { return FromArray(Parser.Parse<sbyte[]>(s.Trim('{', '}'))); }
+    public static sbyte4 Parse(string s) { return FromArray(Parser.Parse<sbyte[]>(s.Trim(ArrayConstants.Braces))); }
 
     /// <summary>Parses a sbyte4 from a string</summary>
     /// <param name="s">The string value</param>
@@ -104,11 +104,16 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>A sbyte4 value, or the default value if the parsing fails</returns>
     public static sbyte4 Parse(string s, IResolver resolver, sbyte4 defaultValue)
     {
-      sbyte[] list = Parser.Parse(s.Trim('{', '}'), resolver, new sbyte[0]);
+      sbyte[] list = Parser.Parse(s.Trim(ArrayConstants.Braces), resolver, new sbyte[0]);
       sbyte4 value = defaultValue;
-      for (int i = 0; i < list.Length; i++)
-        value[i] = list[i];
-
+      if (list.Length != 0)
+      {
+        for (int i = 0; i < list.Length; i++)
+          value[i] = list[i];
+        // fill excluded indices with the same value as the last
+        for (int i = list.Length; i < 4; i++)
+          value[i] = list[list.Length - 1];
+      }
       return value;
     }
 
@@ -134,6 +139,13 @@ namespace Primrose.Primitives.ValueTypes
       return obj is sbyte4 fobj && x == fobj.x && y == fobj.y && z == fobj.z && w == fobj.w;
     }
 
+    /// <summary>Returns true if the value of another object is equal to this object</summary>
+    /// <param name="other">The object to compare for equality</param>
+    public bool Equals(sbyte4 other)
+    {
+      return x == other.x && y == other.y && z == other.z && w == other.w;
+    }
+
     /// <summary>Generates the hash code for this object</summary>
     public override int GetHashCode()
     {
@@ -148,13 +160,13 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Determines if two sbyte4 values are equal</summary>
     public static bool operator ==(sbyte4 a, sbyte4 b)
     {
-      return a.Equals(b);
+      return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
     }
 
     /// <summary>Determines if two sbyte4 values are not equal</summary>
     public static bool operator !=(sbyte4 a, sbyte4 b)
     {
-      return !a.Equals(b);
+      return a.x != b.x || a.y != b.y || a.z != b.z || a.w != b.w;
     }
 
     /// <summary>Returns a sbyte4 value with all elements set to their default value</summary>

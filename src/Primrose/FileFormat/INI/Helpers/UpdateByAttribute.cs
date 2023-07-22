@@ -1,11 +1,18 @@
 ﻿using Primrose.Primitives.Parsers;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Primrose.FileFormat.INI
 {
   public partial class INIFile
   {
+    // Delegate: Func<T, TValue>
+    //private Dictionary<string, Delegate> _getter = new Dictionary<string, Delegate>();
+
+    // Delegate: Action<T, TValue>
+    //private Dictionary<string, Delegate> _setter = new Dictionary<string, Delegate>();
+
     /// <summary>Passes the elements into the fields of another class</summary>
     public void LoadByAttribute<T>(ref T target, string defaultSection = null, IResolver resolver = null)
     {
@@ -29,46 +36,42 @@ namespace Primrose.FileFormat.INI
       foreach (FieldInfo fi in tt.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
       {
         Type t = fi.FieldType;
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIEmbedObjectAttribute), true))
+        foreach (Attribute a in fi.GetCustomAttributes( true)) // allocates
         {
-          object fObj = fi.GetValue(obj) ?? Activator.CreateInstance(t);
-          LoadByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection, resolver);
-          fi.SetValue(obj, fObj);
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIHeaderAttribute), true))
-        {
-          fi.SetValue(obj, ((INIHeaderAttribute)a).Read(defaultSection));
-        }
-        
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIValueAttribute), true))
-        {
-          fi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, fi.GetValue(obj), fi.Name, defaultSection, resolver));
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIKeyListAttribute), true))
-        {
-          fi.SetValue(obj, ((INIKeyListAttribute)a).Read(t, this, defaultSection));
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIRegistryAttribute), true))
-        {
-          fi.SetValue(obj, ((INIRegistryAttribute)a).Read(t, this, defaultSection, resolver));
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
-        {
-          fi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, fi.Name, defaultSection, resolver));
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
-        {
-          fi.SetValue(obj, ((INISubSectionKeyListAttribute)a).Read(t, this, fi.Name, defaultSection, resolver));
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionRegistryAttribute), true))
-        {
-          fi.SetValue(obj, ((INISubSectionRegistryAttribute)a).Read(t, this, fi.Name, defaultSection, resolver));
+          if (a is INIEmbedObjectAttribute iniEmbedObjectAttribute)
+          {
+            object fObj = fi.GetValue(obj) ?? Activator.CreateInstance(t);
+            LoadByAttribute(ref fObj, iniEmbedObjectAttribute.Section ?? defaultSection, resolver);
+            fi.SetValue(obj, fObj);
+          }
+          else if (a is INIHeaderAttribute iniHeaderAttribute)
+          {
+            fi.SetValue(obj, iniHeaderAttribute.Read(defaultSection));
+          }
+          else if (a is INIValueAttribute iniValueAttribute)
+          {
+            fi.SetValue(obj, iniValueAttribute.Read(t, this, fi.GetValue(obj), fi.Name, defaultSection, resolver));
+          }
+          else if (a is INIKeyListAttribute iniKeyListAttribute)
+          {
+            fi.SetValue(obj, iniKeyListAttribute.Read(t, this, defaultSection));
+          }
+          else if (a is INIRegistryAttribute iniRegistryAttribute)
+          {
+            fi.SetValue(obj, iniRegistryAttribute.Read(t, this, defaultSection, resolver));
+          }
+          else if (a is INISubSectionListAttribute iniSubSectionListAttribute)
+          {
+            fi.SetValue(obj, iniSubSectionListAttribute.Read(t, this, fi.Name, defaultSection, resolver));
+          }
+          else if (a is INISubSectionKeyListAttribute iniSubSectionKeyListAttribute)
+          {
+            fi.SetValue(obj, iniSubSectionKeyListAttribute.Read(t, this, fi.Name, defaultSection, resolver));
+          }
+          else if (a is INISubSectionRegistryAttribute iniSubSectionRegistryAttribute)
+          {
+            fi.SetValue(obj, iniSubSectionRegistryAttribute.Read(t, this, fi.Name, defaultSection, resolver));
+          }
         }
       }
     }
@@ -80,46 +83,42 @@ namespace Primrose.FileFormat.INI
         Type t = pi.PropertyType;
         if (pi.GetIndexParameters().Length == 0) // ignore indexed properties
         {
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIEmbedObjectAttribute), true))
+          foreach (Attribute a in pi.GetCustomAttributes(true)) // allocates
           {
-            object fObj = pi.GetValue(obj, null) ?? Activator.CreateInstance(t);
-            LoadByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection, resolver);
-            pi.SetValue(obj, fObj, null);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIHeaderAttribute), true))
-          {
-            pi.SetValue(obj, ((INIHeaderAttribute)a).Read(defaultSection), null);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIValueAttribute), true))
-          {
-            pi.SetValue(obj, ((INIValueAttribute)a).Read(t, this, pi.GetValue(obj, null), pi.Name, defaultSection, resolver), null);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIKeyListAttribute), true))
-          {
-            pi.SetValue(obj, ((INIKeyListAttribute)a).Read(t, this, defaultSection), null);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIRegistryAttribute), true))
-          {
-            pi.SetValue(obj, ((INIRegistryAttribute)a).Read(t, this, defaultSection, resolver), null);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
-          {
-            pi.SetValue(obj, ((INISubSectionListAttribute)a).Read(t, this, pi.Name, defaultSection, resolver), null);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
-          {
-            pi.SetValue(obj, ((INISubSectionKeyListAttribute)a).Read(t, this, pi.Name, defaultSection, resolver), null);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionRegistryAttribute), true))
-          {
-            pi.SetValue(obj, ((INISubSectionRegistryAttribute)a).Read(t, this, pi.Name, defaultSection, resolver), null);
+            if (a is INIEmbedObjectAttribute iniEmbedObjectAttribute)
+            {
+              object fObj = pi.GetValue(obj, null) ?? Activator.CreateInstance(t);
+              LoadByAttribute(ref fObj, iniEmbedObjectAttribute.Section ?? defaultSection, resolver);
+              pi.SetValue(obj, fObj, null);
+            }
+            else if (a is INIHeaderAttribute iniHeaderAttribute)
+            {
+              pi.SetValue(obj, iniHeaderAttribute.Read(defaultSection), null);
+            }
+            else if (a is INIValueAttribute iniValueAttribute)
+            {
+              pi.SetValue(obj, iniValueAttribute.Read(t, this, pi.GetValue(obj, null), pi.Name, defaultSection, resolver), null);
+            }
+            else if (a is INIKeyListAttribute iniKeyListAttribute)
+            {
+              pi.SetValue(obj, iniKeyListAttribute.Read(t, this, defaultSection), null);
+            }
+            else if (a is INIRegistryAttribute iniRegistryAttribute)
+            {
+              pi.SetValue(obj, iniRegistryAttribute.Read(t, this, defaultSection, resolver), null);
+            }
+            else if (a is INISubSectionListAttribute iniSubSectionListAttribute)
+            {
+              pi.SetValue(obj, iniSubSectionListAttribute.Read(t, this, pi.Name, defaultSection, resolver), null);
+            }
+            else if (a is INISubSectionKeyListAttribute iniSubSectionKeyListAttribute)
+            {
+              pi.SetValue(obj, iniSubSectionKeyListAttribute.Read(t, this, pi.Name, defaultSection, resolver), null);
+            }
+            else if (a is INISubSectionRegistryAttribute iniSubSectionRegistryAttribute)
+            {
+              pi.SetValue(obj, iniSubSectionRegistryAttribute.Read(t, this, pi.Name, defaultSection, resolver), null);
+            }
           }
         }
       }
@@ -129,7 +128,10 @@ namespace Primrose.FileFormat.INI
     public void UpdateByAttribute<T>(ref T target, string defaultSection = null)
     {
       Type tt = target.GetType();
-      object boxed = target; // unfortunately, it is either boxing or using TypedReference
+#pragma warning disable HAA0601 // Explicit boxing for use by reflection
+      // unfortunately, it is either boxing or using TypedReference
+      object boxed = target;
+#pragma warning restore HAA0601
       Update(boxed, tt, defaultSection);
     }
 
@@ -147,45 +149,41 @@ namespace Primrose.FileFormat.INI
       foreach (FieldInfo fi in tt.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
       {
         Type t = fi.FieldType;
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIHeaderAttribute), true))
+        foreach (Attribute a in fi.GetCustomAttributes(true)) // allocates
         {
-          defaultSection = fi.GetValue(obj)?.ToString() ?? defaultSection;
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIEmbedObjectAttribute), true))
-        {
-          object fObj = fi.GetValue(obj) ?? Activator.CreateInstance(t);
-          UpdateByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection);
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIValueAttribute), false))
-        {
-          ((INIValueAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIKeyListAttribute), false))
-        {
-          ((INIKeyListAttribute)a).Write(t, this, (string[])fi.GetValue(obj), defaultSection);
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INIRegistryAttribute), true))
-        {
-          ((INIRegistryAttribute)a).Write(t, this, fi.GetValue(obj), defaultSection);
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
-        {
-          ((INISubSectionListAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
-        {
-          ((INISubSectionKeyListAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
-        }
-
-        foreach (Attribute a in fi.GetCustomAttributes(typeof(INISubSectionRegistryAttribute), true))
-        {
-          ((INISubSectionRegistryAttribute)a).Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
+          if (a is INIHeaderAttribute iniHeaderAttribute)
+          {
+            defaultSection = fi.GetValue(obj)?.ToString() ?? defaultSection;
+          }
+          else if (a is INIEmbedObjectAttribute iniEmbedObjectAttribute)
+          {
+            object fObj = fi.GetValue(obj) ?? Activator.CreateInstance(t);
+            UpdateByAttribute(ref fObj, iniEmbedObjectAttribute.Section ?? defaultSection);
+          }
+          else if (a is INIValueAttribute iniValueAttribute)
+          {
+            iniValueAttribute.Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
+          }
+          else if (a is INIKeyListAttribute iniKeyListAttribute)
+          {
+            iniKeyListAttribute.Write(t, this, (IEnumerable<string>)fi.GetValue(obj), defaultSection);
+          }
+          else if (a is INIRegistryAttribute iniRegistryAttribute)
+          {
+            iniRegistryAttribute.Write(t, this, fi.GetValue(obj), defaultSection);
+          }
+          else if (a is INISubSectionListAttribute iniSubSectionListAttribute)
+          {
+            iniSubSectionListAttribute.Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
+          }
+          else if (a is INISubSectionKeyListAttribute iniSubSectionKeyListAttribute)
+          {
+            iniSubSectionKeyListAttribute.Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
+          }
+          else if (a is INISubSectionRegistryAttribute iniSubSectionRegistryAttribute)
+          {
+            iniSubSectionRegistryAttribute.Write(t, this, fi.GetValue(obj), fi.Name, defaultSection);
+          }
         }
       }
     }
@@ -197,40 +195,41 @@ namespace Primrose.FileFormat.INI
         Type t = pi.PropertyType;
         if (pi.GetIndexParameters().Length == 0) // ignore indexed properties
         {
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIEmbedObjectAttribute), true))
+          foreach (Attribute a in pi.GetCustomAttributes(true)) // allocates
           {
-            object fObj = pi.GetValue(obj, null) ?? Activator.CreateInstance(t);
-            UpdateByAttribute(ref fObj, ((INIEmbedObjectAttribute)a).Section ?? defaultSection);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIValueAttribute), true))
-          {
-            ((INIValueAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIKeyListAttribute), true))
-          {
-            ((INIKeyListAttribute)a).Write(t, this, (string[])pi.GetValue(obj, null), defaultSection);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INIRegistryAttribute), true))
-          {
-            ((INIRegistryAttribute)a).Write(t, this, pi.GetValue(obj, null), defaultSection);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionListAttribute), true))
-          {
-            ((INISubSectionListAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionKeyListAttribute), true))
-          {
-            ((INISubSectionKeyListAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
-          }
-
-          foreach (Attribute a in pi.GetCustomAttributes(typeof(INISubSectionRegistryAttribute), true))
-          {
-            ((INISubSectionRegistryAttribute)a).Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
+            if (a is INIHeaderAttribute iniHeaderAttribute)
+            {
+              defaultSection = pi.GetValue(obj, null)?.ToString() ?? defaultSection;
+            }
+            else if (a is INIEmbedObjectAttribute iniEmbedObjectAttribute)
+            {
+              object fObj = pi.GetValue(obj, null) ?? Activator.CreateInstance(t);
+              UpdateByAttribute(ref fObj, iniEmbedObjectAttribute.Section ?? defaultSection);
+            }
+            else if (a is INIValueAttribute iniValueAttribute)
+            {
+              iniValueAttribute.Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
+            }
+            else if (a is INIKeyListAttribute iniKeyListAttribute)
+            {
+              iniKeyListAttribute.Write(t, this, (IEnumerable<string>)pi.GetValue(obj, null), defaultSection);
+            }
+            else if (a is INIRegistryAttribute iniRegistryAttribute)
+            {
+              iniRegistryAttribute.Write(t, this, pi.GetValue(obj, null), defaultSection);
+            }
+            else if (a is INISubSectionListAttribute iniSubSectionListAttribute)
+            {
+              iniSubSectionListAttribute.Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
+            }
+            else if (a is INISubSectionKeyListAttribute iniSubSectionKeyListAttribute)
+            {
+              iniSubSectionKeyListAttribute.Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
+            }
+            else if (a is INISubSectionRegistryAttribute iniSubSectionRegistryAttribute)
+            {
+              iniSubSectionRegistryAttribute.Write(t, this, pi.GetValue(obj, null), pi.Name, defaultSection);
+            }
           }
         }
       }

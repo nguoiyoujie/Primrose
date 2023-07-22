@@ -8,6 +8,7 @@
     COMMENT,
 
     // Keywords
+    RETURN,
     NEW,
     IF,
     THEN,
@@ -16,6 +17,9 @@
     IN,
     FOR,
     WHILE,
+
+    // Type
+    TYPE,
 
     // Literals
     NULLLITERAL,

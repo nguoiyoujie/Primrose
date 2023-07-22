@@ -1,258 +1,192 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6127267C-E6D9-4B1A-A22A-0F3AE7FF3EEE}</ProjectGuid>
+    <TargetFrameworks>netstandard2.0;net40;net45;net472</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Primrose</RootNamespace>
-    <AssemblyName>Primrose</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
+
+  <Target Name="GenerateBuildInfo" BeforeTargets="DispatchToInnerBuilds">
+    <Exec Command="cd &quot;$(MSBuildProjectDirectory)&quot;&#xD;&#xA;call prebuild.bat" />
+  </Target>
+
+  <Target Name="GenerateVersionInfo" AfterTargets="CoreCompile">
+    <Exec Command="cd &quot;$(MSBuildProjectDirectory)&quot;&#xD;&#xA;call postbuild.bat" />
+  </Target>
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\build\debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\build\release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\build\debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\build\release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\build\debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutputPath>..\..\build\debug\</OutputPath>
+    <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <OutputPath>..\..\build\debug\</OutputPath>
+    <DocumentationFile>..\..\build\debug\Primrose.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>..\..\build\release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputPath>..\..\build\release\</OutputPath>
+    <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <OutputPath>..\..\build\release\</OutputPath>
+    <DocumentationFile>..\..\build\release\Primrose.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Build.cs" />
-    <Compile Include="Delegates.cs" />
-    <Compile Include="Diagnostics\PerformanceMonitor.cs" />
-    <Compile Include="FileFormat\Common\IFile.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INISubSectionRegistryAttribute.cs" />
-    <Compile Include="FileFormat\INI\Enums\ValueSource.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Log\LogChannel.cs" />
-    <Compile Include="Log\LogLevel.cs" />
-    <Compile Include="Primitives\Cache\Cache.cs" />
-    <Compile Include="Primitives\Cache\EnumNames.cs" />
-    <Compile Include="Primitives\Cache\WeakReference_T.cs" />
-    <Compile Include="Primitives\Collections\CircularQueue.cs" />
-    <Compile Include="Primitives\Collections\Factories\SortedRegistry_KT.cs" />
-    <Compile Include="Primitives\Collections\Factories\WeakReferenceRegistry_KT.cs" />
-    <Compile Include="Primitives\Collections\ResizableArray.cs" />
-    <Compile Include="Primitives\Collections\ThreadSafeDictionary.cs" />
-    <Compile Include="Primitives\Collections\ThreadSafeEnumerable.cs" />
-    <Compile Include="Primitives\Collections\ThreadSafeEnumerable_T.cs" />
-    <Compile Include="Primitives\Collections\ThreadSafeEnumerator_T.cs" />
-    <Compile Include="Primitives\Collections\ThreadSafeEnumerator.cs" />
-    <Compile Include="Primitives\Collections\ThreadSafeList.cs" />
-    <Compile Include="Primitives\Exceptions\ExceededCapacityException.cs" />
-    <Compile Include="Primitives\Exceptions\ExpectedEnumException.cs" />
-    <Compile Include="Primitives\Exceptions\ArrayMismatchException.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INISubSectionKeyListAttribute.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INIHeaderAttribute.cs" />
-    <Compile Include="FileFormat\INI\Exceptions\InvalidTypeException.cs" />
-    <Compile Include="Primitives\Extensions\Array.cs" />
-    <Compile Include="Primitives\Extensions\CallerExt.cs" />
-    <Compile Include="Primitives\Strings\StringSource.cs" />
-    <Compile Include="Log\Log.cs" />
-    <Compile Include="Log\LogItem.cs" />
-    <Compile Include="Primitives\Observables\Delegates.cs" />
-    <Compile Include="Primitives\Observables\ObservableRegistry.cs" />
-    <Compile Include="Primitives\Observables\ObservableList.cs" />
-    <Compile Include="Primitives\Observables\ObservableValue.cs" />
-    <Compile Include="Primitives\Extensions\ArrayExts.cs" />
-    <Compile Include="Primitives\Extensions\BitExt.cs" />
-    <Compile Include="Primitives\Extensions\DictionaryExts.cs" />
-    <Compile Include="Primitives\Extensions\ComparableExts.cs" />
-    <Compile Include="Primitives\Extensions\NumericExts.cs" />
-    <Compile Include="Primitives\Extensions\ListExts.cs" />
-    <Compile Include="Primitives\Extensions\ObjectExts.cs" />
-    <Compile Include="Primitives\Extensions\StringExts.cs" />
-    <Compile Include="Primitives\Extensions\TypeExts.cs" />
-    <Compile Include="Primitives\Collections\Factories\Factory.cs" />
-    <Compile Include="Primitives\Collections\Factories\Interfaces.cs" />
-    <Compile Include="Primitives\Collections\Factories\ObjectPoolStatic.cs" />
-    <Compile Include="Primitives\Collections\Factories\ObjectPool.cs" />
-    <Compile Include="Primitives\Collections\Factories\Registry_KT.cs" />
-    <Compile Include="Primitives\Collections\Factories\Registry_T.cs" />
-    <Compile Include="FileFormat\INI\Attributes\DuplicateResolutionPolicy.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INIFileConfigurationAttribute.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INIEmbedObjectAttribute.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INISubSectionListAttribute.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INIRegistryAttribute.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INIKeyListAttribute.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INIAttributeExt.cs" />
-    <Compile Include="FileFormat\INI\Attributes\INIValueAttribute.cs" />
-    <Compile Include="FileFormat\INI\Components\INIHeaderLine.cs" />
-    <Compile Include="FileFormat\INI\Components\INILine.cs" />
-    <Compile Include="FileFormat\INI\Components\INISection.cs" />
-    <Compile Include="FileFormat\INI\Helpers\Getters\GetValue.cs" />
-    <Compile Include="FileFormat\INI\Helpers\Getters\GetString.cs" />
-    <Compile Include="FileFormat\INI\Helpers\Setters\SetValue.cs" />
-    <Compile Include="FileFormat\INI\Helpers\Setters\SetString.cs" />
-    <Compile Include="FileFormat\INI\Helpers\Setters\SetEmptyKey.cs" />
-    <Compile Include="FileFormat\INI\Helpers\UpdateByAttribute.cs" />
-    <Compile Include="FileFormat\INI\INIFile.cs" />
-    <Compile Include="Primitives\Interfaces.cs" />
-    <Compile Include="Primitives\Parsers\Exceptions\UnsupportedWriteException.cs" />
-    <Compile Include="Primitives\Parsers\Exceptions\UnsupportedParseException.cs" />
-    <Compile Include="Primitives\Parsers\Exceptions\RuleConversionException.cs" />
-    <Compile Include="Primitives\Parsers\IResolver.cs" />
-    <Compile Include="Primitives\Parsers\Rules\Rules.cs" />
-    <Compile Include="Primitives\Parsers\Parser.cs" />
-    <Compile Include="Primitives\Pipelines\Pipeline.cs" />
-    <Compile Include="Primitives\ScopeCounter.cs" />
-    <Compile Include="Primitives\Scope.cs" />
-    <Compile Include="Primitives\StateMachines\Exceptions\InvalidStateCommandException.cs" />
-    <Compile Include="Primitives\StateMachines\StateMachine.cs" />
-    <Compile Include="Primitives\StaticEnumerators.cs" />
-    <Compile Include="Primitives\Tasks\TaskHandler.cs" />
-    <Compile Include="Primitives\Tasks\TaskSet_T.cs" />
-    <Compile Include="Primitives\Tasks\TaskSet.cs" />
-    <Compile Include="Primitives\TimeControl.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\AObservableValueCondition.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\ASubscriberCondition.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\LogicalNotCondition.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\LogicalOrCondition.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\LogicalAndCondition.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\ObservableCompareCondition.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\FuncCondition.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\ICondition.cs" />
-    <Compile Include="Primitives\Triggers\MatchType.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\ValueCondition.cs" />
-    <Compile Include="Primitives\Triggers\Conditions\ACondition.cs" />
-    <Compile Include="Primitives\Triggers\Events.cs" />
-    <Compile Include="Primitives\Triggers\Trigger.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\floatRect.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\intRect.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\sbyte2.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\sbyte3.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\sbyte4.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\ushort2.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\ushort3.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\ushort4.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\uint2.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\uint3.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\uint4.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\short2.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\byte2.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\short3.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\short4.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\int2.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\float2.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\byte3.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\int3.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\float3.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\byte4.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\int4.cs" />
-    <Compile Include="Primitives\ValueTypes\Vectors\float4.cs" />
-    <Compile Include="Primitives\ValueTypes\Trip.cs" />
-    <Compile Include="Primitives\ValueTypes\Quad.cs" />
-    <Compile Include="Primitives\ValueTypes\Pair.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resource\Strings.Designer.cs">
+    <Compile Update="Resource\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="postbuild.bat" />
-    <None Include="prebuild.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resource\Strings.resx">
+    <EmbeddedResource Update="Resource\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>cd $(ProjectDir)
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="System.Reflection.Emit.Lightweight">
+      <Version>4.7.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Documentations\" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Reflection.Emit.Lightweight">
+      <Version>4.7.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="System.Reflection.Emit.Lightweight">
+      <Version>4.7.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ClrHeapAllocationAnalyzer" Version="3.0.0" PrivateAssets="all"/>
+  </ItemGroup>
+  <!--PropertyGroup>
+    <PreBuildEvent>cd "$(MSBuildProjectDirectory)"
 call prebuild.bat</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>cd $(ProjectDir)
+    <PostBuildEvent>cd "$(MSBuildProjectDirectory)"
 call postbuild.bat</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  </PropertyGroup-->
 </Project>

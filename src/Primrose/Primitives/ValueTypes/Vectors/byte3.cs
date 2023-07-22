@@ -62,7 +62,7 @@ namespace Primrose.Primitives.ValueTypes
     }
 
     /// <summary>Returns the string representation of this value</summary>
-    public override string ToString() { return "{{{0},{1},{2}}}".F(x, y, z); }
+    public override string ToString() { return "{" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "}"; }
 
     /// <summary>Creates a byte[] array from this value</summary>
     /// <returns>An array of length 3 with identical indexed values</returns>
@@ -86,7 +86,7 @@ namespace Primrose.Primitives.ValueTypes
     /// <summary>Parses a byte3 from a string</summary>
     /// <param name="s">The string value</param>
     /// <returns>A byte3 value</returns>
-    public static byte3 Parse(string s) { return FromArray(Parser.Parse<byte[]>(s.Trim('{', '}'))); }
+    public static byte3 Parse(string s) { return FromArray(Parser.Parse<byte[]>(s.Trim(ArrayConstants.Braces))); }
 
     /// <summary>Parses a byte3 from a string</summary>
     /// <param name="s">The string value</param>
@@ -95,11 +95,16 @@ namespace Primrose.Primitives.ValueTypes
     /// <returns>A byte3 value, or the default value if the parsing fails</returns>
     public static byte3 Parse(string s, IResolver resolver, byte3 defaultValue)
     {
-      byte[] list = Parser.Parse(s.Trim('{', '}'), resolver, new byte[0]);
+      byte[] list = Parser.Parse(s.Trim(ArrayConstants.Braces), resolver, new byte[0]);
       byte3 value = defaultValue;
-      for (int i = 0; i < list.Length; i++)
-        value[i] = list[i];
-
+      if (list.Length != 0)
+      {
+        for (int i = 0; i < list.Length; i++)
+          value[i] = list[i];
+        // fill excluded indices with the same value as the last
+        for (int i = list.Length; i < 3; i++)
+          value[i] = list[list.Length - 1];
+      }
       return value;
     }
 

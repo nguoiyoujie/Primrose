@@ -86,10 +86,16 @@
 
       value %= max - min;
 
-      if (value > max)
-        value -= max - min;
-      else if (value < min)
+      int min_r = min % (max - min);
+      if (min_r < 0)
+      {
+        min_r += max - min;
+      }
+      value = min - min_r + value;
+      if (value < min)
+      {
         value += max - min;
+      }
 
       return value;
     }

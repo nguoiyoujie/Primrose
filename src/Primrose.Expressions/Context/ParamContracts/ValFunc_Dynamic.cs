@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Primrose.Expressions
 {
@@ -10,7 +10,7 @@ namespace Primrose.Expressions
 
     public object Func { get { return F; } }
 
-    public Val Execute(ITracker caller, string _funcName, IContext c, Val[] p)
+    public Val Execute(ITracker caller, string _funcName, IContext c, IList<Val> p)
     {
       return F(c, p);
     }

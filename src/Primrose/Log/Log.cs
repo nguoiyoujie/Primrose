@@ -1,4 +1,5 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives.Cache;
+using Primrose.Primitives.Extensions;
 using Primrose.Primitives.Factories;
 using System;
 using System.IO;
@@ -13,6 +14,8 @@ namespace Primrose
 
     /// <summary>The log directory path specified for created log channels.</summary>
     public static string DirectoryPath = "./";
+
+    private static LogChannel NullChannel = new LogChannel(TextWriter.Null, LogLevel.NONE);
 
     private static readonly Registry<string, LogChannel> Channels = new Registry<string, LogChannel>();
 
@@ -69,17 +72,21 @@ namespace Primrose
     /// <returns></returns>
     private static LogChannel GetOrCreateDefault(string channel) 
     {
+      if (channel == null)
+        return NullChannel;
+
       LogChannel ch = Channels[channel];
       if (ch == null)
       {
         string chname = channel;
         foreach (char c in Path.GetInvalidFileNameChars())
         {
-          if (chname.Contains(c.ToString()))
-            chname = chname.Replace(c.ToString(), "");
+          string s = ToStringCache<char>.Get(c);
+          if (chname.Contains(s))
+            chname = chname.Replace(s, "");
         }
 
-        ch = new LogChannel(Path.Combine(DirectoryPath, "{0}{1}".F(chname, LOG_EXT)));
+        ch = new LogChannel(Path.Combine(DirectoryPath, chname + LOG_EXT));
         Channels.Put(channel, ch);
       }
 
@@ -353,10 +360,19 @@ namespace Primrose
     /// <param name="callback">The callback function to register</param>
     public static void RemoveCallback(string channel, MessageDelegate callback) { GetOrCreateDefault(channel).CallbackList.Remove(callback); }
 
+    /// <summary>Removes all callback functions from a log channel registry list</summary>
+    /// <param name="channel">The log channel to handle the callback</param>
+    public static void RemoveCallbacks(string channel) { GetOrCreateDefault(channel).CallbackList.Clear(); }
+
     /// <summary>Sets the time format for a log channel</summary>
     /// <param name="channel">The log channel to handle the callback</param>
     /// <param name="format">The new time format to use</param>
     public static void SetTimeFormat(string channel, string format) { GetOrCreateDefault(channel).TimeFormat = format; }
+
+    public static void Info(string logChannel, object value)
+    {
+      throw new NotImplementedException();
+    }
 
 
     #endregion

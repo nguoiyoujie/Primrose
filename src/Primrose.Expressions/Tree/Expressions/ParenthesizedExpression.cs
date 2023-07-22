@@ -35,7 +35,7 @@ namespace Primrose.Expressions.Tree.Expressions
 
     public override CExpression Get()
     {
-      return this;
+      return _expression.Get();
     }
 
     public override Val Evaluate(IContext context)

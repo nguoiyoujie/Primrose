@@ -52,9 +52,9 @@ namespace Primrose.Primitives.ValueTypes
     public override int GetHashCode()
     {
       int hashCode = 1502939027;
-      hashCode = hashCode * -1521134295 + t?.GetHashCode() ?? 0;
-      hashCode = hashCode * -1521134295 + u?.GetHashCode() ?? 0;
-      hashCode = hashCode * -1521134295 + v?.GetHashCode() ?? 0;
+      hashCode = hashCode * -1521134295 + (EqualityComparer<T>.Default.Equals(t, default) ? 0 : EqualityComparer<T>.Default.GetHashCode(t));
+      hashCode = hashCode * -1521134295 + (EqualityComparer<U>.Default.Equals(u, default) ? 0 : EqualityComparer<U>.Default.GetHashCode(u));
+      hashCode = hashCode * -1521134295 + (EqualityComparer<V>.Default.Equals(v, default) ? 0 : EqualityComparer<V>.Default.GetHashCode(v));
       return hashCode;
     }
 

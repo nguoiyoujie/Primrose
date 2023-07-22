@@ -1,11 +1,11 @@
 ﻿using Primrose.Expressions.Tree.Expressions;
+using Primrose.Expressions.Tree.Header;
 using Primrose.Expressions.Tree.Statements;
 using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Primrose.Expressions
 {
@@ -18,20 +18,23 @@ namespace Primrose.Expressions
         new TokenDefinition(@"\s+", TokenEnum.WHITESPACE, LintType.NONE),
 
         // keywords
+        new TokenDefinition(@"return\b", TokenEnum.RETURN, LintType.KEYWORD),
         new TokenDefinition(@"new\b", TokenEnum.NEW, LintType.KEYWORD),
         new TokenDefinition(@"if\b", TokenEnum.IF, LintType.KEYWORD),
-        new TokenDefinition(@"then\b", TokenEnum.THEN, LintType.KEYWORD),
+        //new TokenDefinition(@"then\b", TokenEnum.THEN, LintType.KEYWORD), // not used
         new TokenDefinition(@"else\b", TokenEnum.ELSE, LintType.KEYWORD),
         new TokenDefinition(@"foreach\b", TokenEnum.FOREACH, LintType.KEYWORD),
         new TokenDefinition(@"in\b", TokenEnum.IN, LintType.KEYWORD),
         new TokenDefinition(@"for\b", TokenEnum.FOR, LintType.KEYWORD),
         new TokenDefinition(@"while\b", TokenEnum.WHILE, LintType.KEYWORD),
 
+        new TokenDefinition(@"(bool|int|float|float2|float3|float4|string)\b", TokenEnum.TYPE, LintType.TYPE),
+
         // literals
         new TokenDefinition(@"(((N|n)ull)|NULL)\b", TokenEnum.NULLLITERAL, LintType.SPECIALLITERAL),
         new TokenDefinition(@"((T|t)rue|(F|f)alse|TRUE|FALSE)\b", TokenEnum.BOOLEANLITERAL, LintType.SPECIALLITERAL),
-        new TokenDefinition(@"[a-zA-Z_][a-zA-Z0-9_\.]*(?=\s*\()", TokenEnum.FUNCTION, LintType.FUNCTION),
-        new TokenDefinition(@"[a-zA-Z_][a-zA-Z0-9_\.]*(?!\s*\()", TokenEnum.VARIABLE, LintType.VARIABLE_OR_TYPE),
+        new TokenDefinition(@"[a-zA-Z_][a-zA-Z0-9_\.]*[a-zA-Z0-9_]*(?=\s*\()", TokenEnum.FUNCTION, LintType.FUNCTION),
+        new TokenDefinition(@"[a-zA-Z_][a-zA-Z0-9_\.]*[a-zA-Z0-9_]*(?!\s*\()", TokenEnum.VARIABLE, LintType.VARIABLE),
         new TokenDefinition(@"""(?:[^""\\]|\\.)*""", TokenEnum.STRINGLITERAL, LintType.STRINGLITERAL),
         new TokenDefinition(@"0(x|X)[0-9a-fA-F]+\b", TokenEnum.HEXINTEGERLITERAL, LintType.NUMERICLITERAL),
         new TokenDefinition(@"[0-9]+(?![fFdDMmeE\.])\b", TokenEnum.DECIMALINTEGERLITERAL, LintType.NUMERICLITERAL),
@@ -138,6 +141,17 @@ namespace Primrose.Expressions
       {
         Lexer lex = new Lexer(reader, Definitions, srcname, linenumber);
         result = new Expression(scope, lex);
+        linenumber = lex.LineNumber;
+        linter = lex.Linter;
+      }
+    }
+
+    public static void Parse(ContextScope scope, string text, out HeaderExpression result, string srcname, ref int linenumber, out List<LintElement> linter)
+    {
+      using (StringReader reader = new StringReader(text))
+      {
+        Lexer lex = new Lexer(reader, Definitions, srcname, linenumber);
+        result = new HeaderExpression(scope, lex);
         linenumber = lex.LineNumber;
         linter = lex.Linter;
       }

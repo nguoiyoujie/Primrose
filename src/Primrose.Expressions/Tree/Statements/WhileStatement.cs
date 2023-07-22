@@ -14,7 +14,7 @@ namespace Primrose.Expressions.Tree.Statements
       // WHILE ( EXPR ) STATEMENT 
       // WHILE ( EXPR ) { STATEMENT STATEMENT STATEMENT ... } 
       // or
-      // 
+      // FORSTATEMENT (GetNext)
 
       if (lexer.TokenType == TokenEnum.WHILE)
       {
@@ -50,17 +50,19 @@ namespace Primrose.Expressions.Tree.Statements
     public override CStatement Get()
     {
       if (_condition == null)
-        return _actions[0];
+        return _actions[0].Get();
       return this;
     }
 
-    public override void Evaluate(IContext context)
+    public override bool Evaluate(IContext context, ref Val retval)
     {
       while (_condition.Evaluate(context).IsTrue)
       {
         foreach (CStatement s in _actions)
-          s.Evaluate(context);
+          if (s.Evaluate(context, ref retval))
+            return true;
       }
+      return false;
     }
 
     public override void Write(StringBuilder sb)

@@ -18,8 +18,10 @@ namespace Primrose.Expressions.Tree.Expressions
           _child = new Function(scope, lexer).Get();
           break;
 
+        case TokenEnum.PLUSPLUS:
+        case TokenEnum.MINUSMINUS:
         case TokenEnum.VARIABLE:
-          _child = new Variable(scope, lexer).Get();
+          _child = new SelfAssigningVariable(scope, lexer).Get(); // Variable
           break;
 
         case TokenEnum.NEW:
@@ -56,7 +58,7 @@ namespace Primrose.Expressions.Tree.Expressions
 
     public override CExpression Get()
     {
-      return _child;
+      return _child.Get();
     }
 
     public override Val Evaluate(IContext context)

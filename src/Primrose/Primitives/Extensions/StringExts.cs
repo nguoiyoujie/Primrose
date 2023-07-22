@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Primrose.Primitives.Factories;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,8 +11,6 @@ namespace Primrose.Primitives.Extensions
   public static class StringExts
   {
     // cached
-    private static readonly string[] NewLines = new string[] { "\r\n", "\r", "\n" };
-    private static readonly char[] Spaces = new char[] { ' ' };
 
     /// <summary>
     /// Provides a multiline representation of a string
@@ -22,7 +21,7 @@ namespace Primrose.Primitives.Extensions
     /// <returns>A multiline representation of a string. Each new line is preceded by a newline "\n" character</returns>
     public static string Multiline(this string input, int maxLineLength, string separator = "\n")
     {
-      string[] lines = input.Split(NewLines, StringSplitOptions.None);
+      string[] lines = input.Split(ArrayConstants.NewLines, StringSplitOptions.None);
       for (int i = 0; i < lines.Length; i++)
         lines[i] = string.Join(separator, lines[i].SplitToLines(maxLineLength));
 
@@ -51,10 +50,15 @@ namespace Primrose.Primitives.Extensions
       }
     }
 
-    private static IEnumerable<string> SplitToLines(this string stringToSplit, int maxLineLength)
+    /// <summary>Splits a string by words, keeping each line within a maximum number of characters</summary>
+    /// <param name="stringToSplit">The input string</param>
+    /// <param name="maxLineLength">The maximum number of characters in a line</param>
+    /// <returns></returns>
+    public static IEnumerable<string> SplitToLines(this string stringToSplit, int maxLineLength)
     {
-      string[] words = stringToSplit.Split(Spaces);
-      StringBuilder line = new StringBuilder();
+      // TO-DO: Remove allocation
+      string[] words = stringToSplit.Split(ArrayConstants.Space);
+      StringBuilder line = ObjectPool<StringBuilder>.GetStaticPool().GetNew();
       foreach (string word in words)
       {
         if (word.Length + line.Length <= maxLineLength)
@@ -93,7 +97,8 @@ namespace Primrose.Primitives.Extensions
     {
       if (rand == null) throw new ArgumentNullException(nameof(rand));
 
-      StringBuilder jumble = new StringBuilder(str);
+      StringBuilder jumble = ObjectPool<StringBuilder, int>.GetStaticPool().GetNew(str.Length);
+      jumble.Append(str);
       int length = jumble.Length;
       for (int i = length - 1; i > 0; i--)
       {
@@ -102,9 +107,12 @@ namespace Primrose.Primitives.Extensions
         jumble[j] = jumble[i];
         jumble[i] = temp;
       }
-      return jumble.ToString();
+      string s = jumble.ToString();
+      ObjectPool<StringBuilder, int>.GetStaticPool().Return(jumble);
+      return s;
     }
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation
     /// <summary>Replaces one or more format items in a specified string with the string representation of a specified object.</summary>
     /// <typeparam name="T1"></typeparam>
     /// <param name="fmt">A composite format string.</param>
@@ -262,5 +270,6 @@ namespace Primrose.Primitives.Extensions
     /// <param name="s10">The tenth string to concatenate.</param>
     /// <returns>The concatenation of the specified strings.</returns>
     public static string C(this string s1, string s2, string s3, string s4, string s5, string s6, string s7, string s8, string s9, string s10) { return s1.C(s2, s3, s4).C(s5, s6, s7).C(s8, s9, s10); }
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
   }
 }

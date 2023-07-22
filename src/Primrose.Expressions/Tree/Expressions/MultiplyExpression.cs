@@ -31,15 +31,16 @@ namespace Primrose.Expressions.Tree.Expressions
     public override CExpression Get()
     {
       if (_set.Count == 0)
-        return _first;
+        return _first.Get();
       return this;
     }
 
     public override Val Evaluate(IContext context)
     {
       Val result = _first.Evaluate(context);
-      foreach (CExpression _expr in _set.Keys)
+      foreach (var kvp in _set)
       {
+        CExpression _expr = kvp.Key;
         Val adden = _expr.Evaluate(context);
 
         switch (_set[_expr])
@@ -62,8 +63,9 @@ namespace Primrose.Expressions.Tree.Expressions
     public override void Write(StringBuilder sb)
     {
       _first.Write(sb);
-      foreach (CExpression _expr in _set.Keys)
+      foreach (var kvp in _set)
       {
+        CExpression _expr = kvp.Key;
         _set[_expr].Write(sb, Writer.Padding.BOTH);
         _expr.Write(sb);
       }

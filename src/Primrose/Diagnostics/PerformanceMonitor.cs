@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Primrose.Diagnostics
 {
@@ -18,8 +17,8 @@ namespace Primrose.Diagnostics
     /// <summary>Sets up runtime monitoring of functions</summary>
     public PerformanceMonitor()
     {
-      pool = new ObjectPool<PerfElement>(() => new PerfElement(this, "<undefined>"), (p) => p.Reset());
-      sbpool = new ObjectPool<StringBuilder>(() => new StringBuilder(128), (p) => p.Clear());
+      pool = new ObjectPool<PerfElement>(true, () => new PerfElement(this, "<undefined>"), (p) => p.Reset());
+      sbpool = ObjectPool<StringBuilder>.GetStaticPool();
     }
 
     /// <summary>Determines the file path where monitoring report will be written to</summary>
@@ -85,7 +84,7 @@ namespace Primrose.Diagnostics
         PerfElement e = pool.GetNew();
         int id = Thread.CurrentThread.ManagedThreadId;
         if (pt_current.TryGetValue(id, out List<PerfElement> list) && list.Count > 0)
-          e.Name = list[list.Count - 1].Name + PerfElement.Delimiter + name;
+          e.Name = list[list.Count - 1].Name + ArrayConstants.Period[0] + name;
         else
           e.Name = name;
 
@@ -194,13 +193,12 @@ namespace Primrose.Diagnostics
         newElements.Sort(new PerfComparer());
         foreach (PerfToken e in newElements)
         {
-          string[] div = e.Name.Split(PerfElement.Delimiter);
+          string[] div = e.Name.Split(ArrayConstants.Period);
           string name = (div.Length > 0) ? new string('-', div.Length - 1) + div[div.Length - 1] : div[div.Length - 1];
           name = (name.Length > 30) ? name.Remove(27) + "..." : name;
-          sb.AppendLine("{0,-30} : [{1,6}] {2,7:0.000}  {3,7:0.00}  {4,7:0.00}".F(
-                          name
-                        , e.Count
-                        , e.Seconds
+          sb.AppendFormat("{0,-30} : [{1,6}] ", name, e.Count);
+          sb.AppendLine("{0,7:0.000}  {1,7:0.00}  {2,7:0.00}".F(
+                        e.Seconds
                         , e.Seconds / e.Count * 1000
                         , e.Peak * 1000));
         }
@@ -217,8 +215,6 @@ namespace Primrose.Diagnostics
 
   internal class PerfElement : IDisposable
   {
-    internal static char[] Delimiter = new char[] { '.' };
-
     public string Name;
     private readonly PerformanceMonitor _handler;
     private long _timestamp;

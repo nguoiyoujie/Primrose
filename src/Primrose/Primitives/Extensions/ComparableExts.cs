@@ -46,7 +46,7 @@ namespace Primrose.Primitives.Extensions
     }
 
     /// <summary>
-    /// Returns the maximum of two values
+    /// Returns the greater of two values
     /// </summary>
     /// <param name="value1">The first value</param>
     /// <param name="value2">The second value</param>
@@ -59,7 +59,7 @@ namespace Primrose.Primitives.Extensions
     }
 
     /// <summary>
-    /// Returns the minimum of two values
+    /// Returns the lesser of two values
     /// </summary>
     /// <param name="value1">The first value</param>
     /// <param name="value2">The second value</param>
@@ -72,7 +72,7 @@ namespace Primrose.Primitives.Extensions
     }
 
     /// <summary>
-    /// Returns the maximum of two values, as determined by a comparer
+    /// Returns the greater of two values, as determined by a comparer
     /// </summary>
     /// <param name="value1">The first value</param>
     /// <param name="value2">The second value</param>
@@ -88,7 +88,7 @@ namespace Primrose.Primitives.Extensions
     }
 
     /// <summary>
-    /// Returns the minimum of two values, as determined by a comparer
+    /// Returns the lesser of two values, as determined by a comparer
     /// </summary>
     /// <param name="value1">The first value</param>
     /// <param name="value2">The second value</param>
@@ -107,9 +107,9 @@ namespace Primrose.Primitives.Extensions
     /// Determines if a value is within the exclusive range of two values
     /// </summary>
     /// <param name="value">The value to check</param>
-    /// <param name="min">The inclusive lower bound</param>
-    /// <param name="max">The inclusive upper bound</param>
-    /// <returns>True if the value is within the inclusive bounds of the two values, False otherwise</returns>
+    /// <param name="min">The exclusive lower bound</param>
+    /// <param name="max">The exclusive upper bound</param>
+    /// <returns>True if the value is within the exclusive bounds of the two values, False otherwise</returns>
     public static bool WithinRangeExclusive<T>(this T value, T min, T max) where T : struct, IComparable<T>
     {
       return (value.CompareTo(min) > 0 && value.CompareTo(max) < 0);

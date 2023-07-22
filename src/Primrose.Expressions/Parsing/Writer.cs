@@ -1,5 +1,4 @@
-﻿using Primrose.Primitives.Extensions;
-using Primrose.Primitives.Factories;
+﻿using Primrose.Primitives.Factories;
 using System;
 using System.Text;
 
@@ -23,6 +22,7 @@ namespace Primrose.Expressions
       Definitions.Default = Resource.Strings.Unknown;
       Definitions.Add(TokenEnum.WHITESPACE, " ");
 
+      Definitions.Add(TokenEnum.RETURN, "return");
       Definitions.Add(TokenEnum.NEW, "new");
       Definitions.Add(TokenEnum.IF, "if");
       Definitions.Add(TokenEnum.THEN, "then");
@@ -31,6 +31,8 @@ namespace Primrose.Expressions
       Definitions.Add(TokenEnum.IN, "in");
       Definitions.Add(TokenEnum.FOR, "for");
       Definitions.Add(TokenEnum.WHILE, "while");
+
+      Definitions.Add(TokenEnum.TYPE, Resource.Strings.Type);
 
       Definitions.Add(TokenEnum.NULLLITERAL, Resource.Strings.Null);
       Definitions.Add(TokenEnum.BOOLEANLITERAL, Resource.Strings.Bool);

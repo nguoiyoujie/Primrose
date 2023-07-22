@@ -1,9 +1,9 @@
 ﻿using Primrose.Primitives;
 using Primrose.Primitives.Extensions;
-using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Primrose.Expressions
@@ -13,6 +13,18 @@ namespace Primrose.Expressions
   /// </summary>
   public static class Ops
   {
+    internal static Dictionary<Pair<Type, Type>, Func<Val, Val>> castops
+      = new Dictionary<Pair<Type, Type>, Func<Val, Val>>
+      {
+        { new Pair<Type, Type>(typeof(int), typeof(float)), (a) => { return new Val((float)a); } },
+        { new Pair<Type, Type>(typeof(int[]), typeof(float2)), (a) => { return new Val(float2.FromArray((int[])a)); } },
+        { new Pair<Type, Type>(typeof(int[]), typeof(float3)), (a) => { return new Val(float3.FromArray((int[])a)); } },
+        { new Pair<Type, Type>(typeof(int[]), typeof(float4)), (a) => { return new Val(float4.FromArray((int[])a)); } },
+        { new Pair<Type, Type>(typeof(float[]), typeof(float2)), (a) => { return new Val(float2.FromArray((float[])a)); } },
+        { new Pair<Type, Type>(typeof(float[]), typeof(float3)), (a) => { return new Val(float3.FromArray((float[])a)); } },
+        { new Pair<Type, Type>(typeof(float[]), typeof(float4)), (a) => { return new Val(float4.FromArray((float[])a)); } },
+      };
+
     internal static Dictionary<Pair<UOp, Type>, Func<Val, Val>> unaryops
       = new Dictionary<Pair<UOp, Type>, Func<Val, Val>>
       {
@@ -371,25 +383,51 @@ namespace Primrose.Expressions
 
       if (ImplicitConversionTable.HasImplicitConversion(vt, t, out Type type))
       {
-        if (val.Value is IConvertible)
+        Pair<Type, Type> pair = new Pair<Type, Type>(vt, t);
+
+        if (castops.TryGetValue(pair, out Func<Val, Val> fn))
+        {
+          return fn(val);
+        }
+        else if (val.Value is IConvertible) // warning: boxing because Value is object
         {
           return new Val(Convert.ChangeType(val.Value, t));
         }
         else
         {
-          MethodInfo mRead = typeof(Ops).GetMethod(nameof(Cast), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-          MethodInfo gmRead = mRead.MakeGenericMethod(new Type[] { vt, t });
-          object o = gmRead.Invoke(null, new object[] { val.Value, type });
-          return new Val(o);
+          if (!_delCast.ContainsKey(pair))
+          {
+            _type3[0] = vt;
+            _type3[1] = t;
+            _type3[2] = type;
+            MethodInfo mRead = typeof(Ops).GetMethod(nameof(CastVal), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            MethodInfo gmRead = mRead.MakeGenericMethod(_type3);
+            Type delegateType = Expression.GetFuncType(typeof(Val), typeof(Val)); // allocates, but it is called once per type, so it's ok?
+            _delCast.Add(pair, Delegate.CreateDelegate(delegateType, gmRead));
+          }
+          Func<Val, Val> func = (Func<Val, Val>)_delCast[pair];
+          return func.Invoke(val);
+
+          //object o = gmRead.Invoke(null, new object[] { val.Value, type });
+          //return new Val(o);
         }
       }
       else
         throw new ValTypeMismatchException(val.Type, t);
     }
 
-    private static TOut Cast<TIn, TOut>(TIn value, Type type)
+    private static Type[] _type3 = new Type[3];
+    private static Dictionary<Pair<Type, Type>, Delegate> _delCast = new Dictionary<Pair<Type, Type>, Delegate>();
+
+
+    //private static TOut Cast<TIn, TOut>(object obj, Type type)
+    //{
+    //  return UnaryOp<TIn>.CastIntermediate<TOut>((TIn)obj, type);
+    //}
+
+    private static Val CastVal<TIn, TOut, TMid>(Val inVal)
     {
-      return UnaryOp<TIn>.CastIntermediate<TOut>(value, type);
+      return new Val(UnaryOp<TIn>.CastIntermediate<TOut, TMid>((TIn)inVal.Value));
     }
 
     /// <summary>Perform implicit casting towards a common type</summary>

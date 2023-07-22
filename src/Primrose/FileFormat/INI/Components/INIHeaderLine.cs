@@ -1,5 +1,4 @@
-﻿using Primrose.Primitives;
-using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives.Extensions;
 using System;
 
 namespace Primrose.FileFormat.INI

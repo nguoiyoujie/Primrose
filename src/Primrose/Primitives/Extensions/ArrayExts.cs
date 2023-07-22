@@ -32,7 +32,7 @@ namespace Primrose.Primitives.Extensions
     {
       if (array == null) { throw new ArgumentNullException(nameof(array)); }
       foreach (T t in array)
-        if (value?.Equals(t) ?? t == null)
+        if (EqualityComparer<T>.Default.Equals(value, t))
           return true;
       return false;
     }

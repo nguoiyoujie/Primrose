@@ -16,18 +16,26 @@ namespace Primrose.Primitives.Tasks
     public Action<Task, T> ActionPass;
 
     /// <summary>Creates a container for handled tasks</summary>
-    public TaskSet(Action<T> task = null
-                          , Action<Task> actionfail = null
-                          , Action<Task> actionpass = null)
+    public TaskSet(Action<T> task = null)
     {
       Task = task;
-      ActionFail = (t, o) => actionfail(t);
-      ActionPass = (t, o) => actionpass(t);
+      ActionFail = null;
+      ActionPass = null;
     }
 
     /// <summary>Creates a container for handled tasks</summary>
-    public TaskSet(Action<T> task = null
-                          , Action<Task, T> actionfail = null
+    public TaskSet(Action<T> task
+                          , Action<Task> actionfail
+                          , Action<Task> actionpass = null)
+    {
+      Task = task;
+      ActionFail = (t, o) => actionfail?.Invoke(t);
+      ActionPass = (t, o) => actionpass?.Invoke(t);
+    }
+
+    /// <summary>Creates a container for handled tasks</summary>
+    public TaskSet(Action<T> task
+                          , Action<Task, T> actionfail
                           , Action<Task, T> actionpass = null)
     {
       Task = task;

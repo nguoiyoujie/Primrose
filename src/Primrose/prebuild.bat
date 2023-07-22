@@ -1,17 +1,27 @@
 @echo off
+echo Run prebuild...
 set TITLE=Primrose
 set MAJORVERSION=0
 set MINORVERSION=0
-
-for /f "tokens=2-4 delims=/ "  %%a in ("%DATE%") do (set MM=%%a& set DD=%%b& set YYYY=%%c)
-set BUILDDATE=%YYYY%%MM%%DD%
 
 set ASMYINFO_CS=Properties\AssemblyInfo.cs
 set BUILD_CS=Build.cs
 
 set VERSIONBAT=version
 set TEMPBAT=temp
+set TEMPDATEBAT=tempd
 del %TEMPBAT% 2>nul
+
+:: use WMIC to get time instead of locale-dependent %DATE%
+:: 20221105173838.183000
+wmic os get LocalDateTime|findstr ^^[0-9] >%TEMPDATEBAT%
+for /f %%a in (%TEMPDATEBAT%) do set dt=%%a
+set YYYY=%dt:~0,4%
+set MM=%dt:~6,2%
+set DD=%dt:~8,2%
+set BUILDDATE=%YYYY%%MM%%DD%
+echo %BUILDDATE%
+del %TEMPDATEBAT%
 
 set REVISION=0
 set NEWDATE=0
@@ -84,3 +94,4 @@ echo [assembly: AssemblyVersion("%MSVERSION%")] >> %ASMYINFO_CS%
 echo [assembly: AssemblyFileVersion("%MSFILEVERSION%")] >> %ASMYINFO_CS%
 echo.>> %ASMYINFO_CS%
 
+echo Version files updated!

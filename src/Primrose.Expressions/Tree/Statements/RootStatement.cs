@@ -17,17 +17,17 @@ namespace Primrose.Expressions.Tree.Statements
       }
     }
 
-    public override void Evaluate(IContext context)
+    public override bool Evaluate(IContext context, ref Val retval)
     {
-      foreach (Statement s in Statements)
-      {
-        s.Evaluate(context);
-      }
+      foreach (CStatement s in Statements)
+        if (s.Evaluate(context, ref retval))
+          return true;
+      return false;
     }
 
     public override void Write(StringBuilder sb)
     {
-      foreach (Statement s in Statements)
+      foreach (CStatement s in Statements)
       {
         s.Write(sb);
         sb.AppendLine();

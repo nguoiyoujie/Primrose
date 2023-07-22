@@ -1,6 +1,5 @@
 ﻿using Primrose.Expressions.Tree.Expressions.Literals;
 using Primrose.Primitives.Extensions;
-using Primrose.Primitives.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,7 +34,7 @@ namespace Primrose.Expressions.Tree.Expressions
         _ttypeName = lexer.TokenContents;
         _type = Parser.TypeTokens[_ttypeName];
         if (_type == null)
-          throw new ParseException(lexer, "Type identifier expected, read '{0}' instead.".F(_ttypeName));
+          throw new ParseException(lexer, Resource.Strings.Error_ParseException_Type.F(_ttypeName));
 
         lexer.Next(); //DECL
 
@@ -125,7 +124,7 @@ namespace Primrose.Expressions.Tree.Expressions
 
     public override CExpression Get()
     {
-      return (_type == null) ? _expr : this;
+      return (_type == null) ? _expr.Get() : this;
     }
 
     public override Val Evaluate(IContext context)

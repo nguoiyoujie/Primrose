@@ -22,13 +22,13 @@ namespace Primrose.Expressions.Tree.Statements
       // VARIABLE %= EXPR;
       // VARIABLE &= EXPR;
       // VARIABLE |= EXPR;
-      // TO DO: VARIABLE++/--;
       // or
-      // EXPR;
+      // EXPR; (double responsibility, create a separate class ExpressionStatement if needed)
 
       _scope = scope;
       switch (lexer.TokenType)
       {
+        case TokenEnum.TYPE:
         case TokenEnum.VARIABLE:
           {
             if (Parser.TypeTokens[lexer.TokenContents] != null)
@@ -72,7 +72,7 @@ namespace Primrose.Expressions.Tree.Statements
       }
     }
 
-    public override void Evaluate(IContext context)
+    public override bool Evaluate(IContext context, ref Val retval)
     {
       if (_assigntype != TokenEnum.NOTHING)
       {
@@ -84,25 +84,25 @@ namespace Primrose.Expressions.Tree.Statements
             v = _value?.Evaluate(context) ?? Val.NULL;
             break;
           case TokenEnum.PLUSASSIGN:
-            v = Ops.Do(BOp.ADD, v, _value?.Evaluate(context) ?? Val.NULL); ;
+            v = Ops.Do(BOp.ADD, v, _value?.Evaluate(context) ?? Val.NULL);
             break;
           case TokenEnum.MINUSASSIGN:
-            v = Ops.Do(BOp.SUBTRACT, v, _value?.Evaluate(context) ?? Val.NULL); ;
+            v = Ops.Do(BOp.SUBTRACT, v, _value?.Evaluate(context) ?? Val.NULL);
             break;
           case TokenEnum.ASTERISKASSIGN:
-            v = Ops.Do(BOp.MULTIPLY, v, _value?.Evaluate(context) ?? Val.NULL); ;
+            v = Ops.Do(BOp.MULTIPLY, v, _value?.Evaluate(context) ?? Val.NULL);
             break;
           case TokenEnum.SLASHASSIGN:
-            v = Ops.Do(BOp.DIVIDE, v, _value?.Evaluate(context) ?? Val.NULL); ;
+            v = Ops.Do(BOp.DIVIDE, v, _value?.Evaluate(context) ?? Val.NULL);
             break;
           case TokenEnum.PERCENTASSIGN:
-            v = Ops.Do(BOp.MODULUS, v, _value?.Evaluate(context) ?? Val.NULL); ;
+            v = Ops.Do(BOp.MODULUS, v, _value?.Evaluate(context) ?? Val.NULL);
             break;
           case TokenEnum.AMPASSIGN:
-            v = Ops.Do(BOp.LOGICAL_AND, v, _value?.Evaluate(context) ?? Val.NULL); ;
+            v = Ops.Do(BOp.LOGICAL_AND, v, _value?.Evaluate(context) ?? Val.NULL);
             break;
           case TokenEnum.PIPEASSIGN:
-            v = Ops.Do(BOp.LOGICAL_OR, v, _value?.Evaluate(context) ?? Val.NULL); ;
+            v = Ops.Do(BOp.LOGICAL_OR, v, _value?.Evaluate(context) ?? Val.NULL);
             break;
         }
 
@@ -118,19 +118,20 @@ namespace Primrose.Expressions.Tree.Statements
       {
         _value?.Evaluate(context);
       }
+      return false;
     }
 
     public override void Write(StringBuilder sb)
     {
+      _varExpr?.Write(sb);
       if (_assigntype != TokenEnum.NOTHING)
       {
-        _varExpr.Write(sb);
         _assigntype.Write(sb, Writer.Padding.BOTH);
       }
-      _value.Write(sb);
+      _value?.Write(sb);
 
       // statement termination
-      TokenEnum.SEMICOLON.Write(sb, Writer.Padding.SUFFIX);
+      //TokenEnum.SEMICOLON.Write(sb, Writer.Padding.SUFFIX);
     }
   }
 }

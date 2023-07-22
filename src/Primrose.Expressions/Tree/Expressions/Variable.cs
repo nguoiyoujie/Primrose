@@ -22,5 +22,10 @@ namespace Primrose.Expressions.Tree.Expressions
     {
       sb.Append(varName);
     }
+
+    public override string ToString()
+    {
+      return "var " + varName;
+    }
   }
 }

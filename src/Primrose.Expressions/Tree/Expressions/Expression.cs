@@ -13,7 +13,7 @@ namespace Primrose.Expressions.Tree.Expressions
 
     public override CExpression Get()
     {
-      return _expr;
+      return _expr.Get() ?? this;
     }
 
     public override Val Evaluate(IContext context)

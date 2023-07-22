@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primrose", "Primrose\Primrose.csproj", "{6127267C-E6D9-4B1A-A22A-0F3AE7FF3EEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Primrose", "Primrose\Primrose.csproj", "{6127267C-E6D9-4B1A-A22A-0F3AE7FF3EEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primrose.Expressions", "Primrose.Expressions\Primrose.Expressions.csproj", "{4E45E1AD-89DE-404A-B867-1FB251EEE1A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Primrose.Expressions", "Primrose.Expressions\Primrose.Expressions.csproj", "{4E45E1AD-89DE-404A-B867-1FB251EEE1A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primrose.Expressions.UnitTests", "Primrose.Expressions.UnitTests\Primrose.Expressions.UnitTests.csproj", "{AAEFFDBE-80DC-4BFD-8F86-343A3672E329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Primrose.Expressions.UnitTests", "Primrose.Expressions.UnitTests\Primrose.Expressions.UnitTests.csproj", "{AAEFFDBE-80DC-4BFD-8F86-343A3672E329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primrose.UnitTests", "Primrose.UnitTests\Primrose.UnitTests.csproj", "{C1AF0BD6-EE78-4BD2-B6BD-98DEE7C8D463}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Primrose.UnitTests", "Primrose.UnitTests\Primrose.UnitTests.csproj", "{C1AF0BD6-EE78-4BD2-B6BD-98DEE7C8D463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primrose.Expressions.Editor", "Primrose.Expressions.Editor\Primrose.Expressions.Editor.csproj", "{CB3C11DA-081A-4BA5-9A37-30732BAD99C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Primrose.Expressions.Editor", "Primrose.Expressions.Editor\Primrose.Expressions.Editor.csproj", "{CB3C11DA-081A-4BA5-9A37-30732BAD99C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

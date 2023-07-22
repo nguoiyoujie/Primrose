@@ -1,8 +1,6 @@
-﻿using Primrose.Primitives.Extensions;
-using Primrose.Primitives.Factories;
+﻿using Primrose.Primitives.Factories;
 using Primrose.Primitives.ValueTypes;
 using System;
-using System.Linq.Expressions;
 using System.Text;
 
 namespace Primrose.Primitives.Parsers
@@ -10,86 +8,86 @@ namespace Primrose.Primitives.Parsers
   /// <summary>Handles the parsing of primitive values to strings and vice versa</summary>
   public static partial class Parser
   {
-    /// <summary>The default list delimiter</summary>
-    public static readonly char[] ListDelimiter = new char[] { ',' };
-
-    private static readonly Registry<Type, Func<string, IResolver, object>> _fromStr = new Registry<Type, Func<string, IResolver, object>>();
+    // Delegate: Func<string, IResolver, T>
+    private static readonly Registry<Type, Delegate> _fromStr = new Registry<Type, Delegate>();
     private static readonly Registry<Type, int> _tokens = new Registry<Type, int>();
-    private static readonly Registry<Type, Func<object, string>> _toStr = new Registry<Type, Func<object, string>>();
+
+    // Delegate: Func<T, string>
+    private static readonly Registry<Type, Delegate> _toStr = new Registry<Type, Delegate>();
 
     static Parser()
     {
-      _fromStr.Add(typeof(bool), (s, r) => Rules.ToBool(s, r));
-      _fromStr.Add(typeof(byte), (s, r) => Rules.ToByte(s, r));
-      _fromStr.Add(typeof(byte2), (s, r) => Rules.ToByte2(s, r));
-      _fromStr.Add(typeof(byte3), (s, r) => Rules.ToByte3(s, r));
-      _fromStr.Add(typeof(byte4), (s, r) => Rules.ToByte4(s, r));
-      _fromStr.Add(typeof(sbyte), (s, r) => Rules.ToSByte(s, r));
-      _fromStr.Add(typeof(sbyte2), (s, r) => Rules.ToSByte2(s, r));
-      _fromStr.Add(typeof(sbyte3), (s, r) => Rules.ToSByte3(s, r));
-      _fromStr.Add(typeof(sbyte4), (s, r) => Rules.ToSByte4(s, r));
-      _fromStr.Add(typeof(short), (s, r) => Rules.ToShort(s, r));
-      _fromStr.Add(typeof(short2), (s, r) => Rules.ToShort2(s, r));
-      _fromStr.Add(typeof(short3), (s, r) => Rules.ToShort3(s, r));
-      _fromStr.Add(typeof(short4), (s, r) => Rules.ToShort4(s, r));
-      _fromStr.Add(typeof(ushort), (s, r) => Rules.ToUShort(s, r));
-      _fromStr.Add(typeof(ushort2), (s, r) => Rules.ToUShort2(s, r));
-      _fromStr.Add(typeof(ushort3), (s, r) => Rules.ToUShort3(s, r));
-      _fromStr.Add(typeof(ushort4), (s, r) => Rules.ToUShort4(s, r));
-      _fromStr.Add(typeof(int), (s, r) => Rules.ToInt(s, r));
-      _fromStr.Add(typeof(int2), (s, r) => Rules.ToInt2(s, r));
-      _fromStr.Add(typeof(int3), (s, r) => Rules.ToInt3(s, r));
-      _fromStr.Add(typeof(int4), (s, r) => Rules.ToInt4(s, r));
-      _fromStr.Add(typeof(intRect), (s, r) => Rules.ToIntRect(s, r));
-      _fromStr.Add(typeof(uint), (s, r) => Rules.ToUInt(s, r));
-      _fromStr.Add(typeof(uint2), (s, r) => Rules.ToUInt2(s, r));
-      _fromStr.Add(typeof(uint3), (s, r) => Rules.ToUInt3(s, r));
-      _fromStr.Add(typeof(uint4), (s, r) => Rules.ToUInt4(s, r));
-      _fromStr.Add(typeof(long), (s, r) => Rules.ToLong(s, r));
-      _fromStr.Add(typeof(ulong), (s, r) => Rules.ToULong(s, r));
-      _fromStr.Add(typeof(float), (s, r) => Rules.ToFloat(s, r));
-      _fromStr.Add(typeof(float2), (s, r) => Rules.ToFloat2(s, r));
-      _fromStr.Add(typeof(float3), (s, r) => Rules.ToFloat3(s, r));
-      _fromStr.Add(typeof(float4), (s, r) => Rules.ToFloat4(s, r));
-      _fromStr.Add(typeof(double), (s, r) => Rules.ToDouble(s, r));
-      _fromStr.Add(typeof(string), (s, r) => Rules.ToString(s, r));
-      _fromStr.Add(typeof(StringBuilder), (s, r) => new StringBuilder(Rules.ToString(s, r)));
+      _fromStr.Add(typeof(bool), (Func<string, IResolver, bool>)Rules.ToBool);
+      _fromStr.Add(typeof(byte), (Func<string, IResolver, byte>)Rules.ToByte);
+      _fromStr.Add(typeof(byte2), (Func<string, IResolver, byte2>)Rules.ToByte2);
+      _fromStr.Add(typeof(byte3), (Func<string, IResolver, byte3>)Rules.ToByte3);
+      _fromStr.Add(typeof(byte4), (Func<string, IResolver, byte4>)Rules.ToByte4);
+      _fromStr.Add(typeof(sbyte), (Func<string, IResolver, sbyte>)Rules.ToSByte);
+      _fromStr.Add(typeof(sbyte2), (Func<string, IResolver, sbyte2>)Rules.ToSByte2);
+      _fromStr.Add(typeof(sbyte3), (Func<string, IResolver, sbyte3>)Rules.ToSByte3);
+      _fromStr.Add(typeof(sbyte4), (Func<string, IResolver, sbyte4>)Rules.ToSByte4);
+      _fromStr.Add(typeof(short), (Func<string, IResolver, short>)Rules.ToShort);
+      _fromStr.Add(typeof(short2), (Func<string, IResolver, short2>)Rules.ToShort2);
+      _fromStr.Add(typeof(short3), (Func<string, IResolver, short3>)Rules.ToShort3);
+      _fromStr.Add(typeof(short4), (Func<string, IResolver, short4>)Rules.ToShort4);
+      _fromStr.Add(typeof(ushort), (Func<string, IResolver, ushort>)Rules.ToUShort);
+      _fromStr.Add(typeof(ushort2), (Func<string, IResolver, ushort2>)Rules.ToUShort2);
+      _fromStr.Add(typeof(ushort3), (Func<string, IResolver, ushort3>)Rules.ToUShort3);
+      _fromStr.Add(typeof(ushort4), (Func<string, IResolver, ushort4>)Rules.ToUShort4);
+      _fromStr.Add(typeof(int), (Func<string, IResolver, int>)Rules.ToInt);
+      _fromStr.Add(typeof(int2), (Func<string, IResolver, int2>)Rules.ToInt2);
+      _fromStr.Add(typeof(int3), (Func<string, IResolver, int3>)Rules.ToInt3);
+      _fromStr.Add(typeof(int4), (Func<string, IResolver, int4>)Rules.ToInt4);
+      _fromStr.Add(typeof(intRect), (Func<string, IResolver, intRect>)Rules.ToIntRect);
+      _fromStr.Add(typeof(uint), (Func<string, IResolver, uint>)Rules.ToUInt);
+      _fromStr.Add(typeof(uint2), (Func<string, IResolver, uint2>)Rules.ToUInt2);
+      _fromStr.Add(typeof(uint3), (Func<string, IResolver, uint3>)Rules.ToUInt3);
+      _fromStr.Add(typeof(uint4), (Func<string, IResolver, uint4>)Rules.ToUInt4);
+      _fromStr.Add(typeof(long), (Func<string, IResolver, long>)Rules.ToLong);
+      _fromStr.Add(typeof(ulong), (Func<string, IResolver, ulong>)Rules.ToULong);
+      _fromStr.Add(typeof(float), (Func<string, IResolver, float>)Rules.ToFloat);
+      _fromStr.Add(typeof(float2), (Func<string, IResolver, float2>)Rules.ToFloat2);
+      _fromStr.Add(typeof(float3), (Func<string, IResolver, float3>)Rules.ToFloat3);
+      _fromStr.Add(typeof(float4), (Func<string, IResolver, float4>)Rules.ToFloat4);
+      _fromStr.Add(typeof(double), (Func<string, IResolver, double>)Rules.ToDouble);
+      _fromStr.Add(typeof(string), (Func<string, IResolver, string>)Rules.ToString);
+      _fromStr.Add(typeof(StringBuilder), (Func<string, IResolver, StringBuilder>)((s, r) => { StringBuilder sb = ObjectPool<StringBuilder>.GetStaticPool().GetNew(); sb.Append(Rules.ToString(s, r)); return sb; }));
 
-      _toStr.Add(typeof(bool), Rules.ToStrGeneric);
-      _toStr.Add(typeof(byte), Rules.ToStrGeneric);
-      _toStr.Add(typeof(byte2), (o) => Rules.VecNToStr((byte2)o));
-      _toStr.Add(typeof(byte3), (o) => Rules.VecNToStr((byte3)o));
-      _toStr.Add(typeof(byte4), (o) => Rules.VecNToStr((byte4)o));
-      _toStr.Add(typeof(sbyte), Rules.ToStrGeneric);
-      _toStr.Add(typeof(sbyte2), (o) => Rules.VecNToStr((byte2)o));
-      _toStr.Add(typeof(sbyte3), (o) => Rules.VecNToStr((byte3)o));
-      _toStr.Add(typeof(sbyte4), (o) => Rules.VecNToStr((byte4)o));
-      _toStr.Add(typeof(short), Rules.ToStrGeneric);
-      _toStr.Add(typeof(short2), (o) => Rules.VecNToStr((short2)o));
-      _toStr.Add(typeof(short3), (o) => Rules.VecNToStr((short3)o));
-      _toStr.Add(typeof(short4), (o) => Rules.VecNToStr((short4)o));
-      _toStr.Add(typeof(ushort), Rules.ToStrGeneric);
-      _toStr.Add(typeof(ushort2), (o) => Rules.VecNToStr((short2)o));
-      _toStr.Add(typeof(ushort3), (o) => Rules.VecNToStr((short3)o));
-      _toStr.Add(typeof(ushort4), (o) => Rules.VecNToStr((short4)o));
-      _toStr.Add(typeof(int), Rules.ToStrGeneric);
-      _toStr.Add(typeof(int2), (o) => Rules.VecNToStr((int2)o));
-      _toStr.Add(typeof(int3), (o) => Rules.VecNToStr((int3)o));
-      _toStr.Add(typeof(int4), (o) => Rules.VecNToStr((int4)o));
-      _toStr.Add(typeof(intRect), (o) => Rules.VecNToStr((intRect)o));
-      _toStr.Add(typeof(uint), Rules.ToStrGeneric);
-      _toStr.Add(typeof(uint2), (o) => Rules.VecNToStr((uint2)o));
-      _toStr.Add(typeof(uint3), (o) => Rules.VecNToStr((uint3)o));
-      _toStr.Add(typeof(uint4), (o) => Rules.VecNToStr((uint4)o));
-      _toStr.Add(typeof(long), Rules.ToStrGeneric);
-      _toStr.Add(typeof(ulong), Rules.ToStrGeneric);
-      _toStr.Add(typeof(float), Rules.ToStrGeneric);
-      _toStr.Add(typeof(float2), (o) => Rules.VecNToStr((float2)o));
-      _toStr.Add(typeof(float3), (o) => Rules.VecNToStr((float3)o));
-      _toStr.Add(typeof(float4), (o) => Rules.VecNToStr((float4)o));
-      _toStr.Add(typeof(double), Rules.ToStrGeneric);
-      _toStr.Add(typeof(string), Rules.ToStrGeneric);
-      _toStr.Add(typeof(StringBuilder), Rules.ToStrGeneric);
+      _toStr.Add(typeof(bool), (Func<bool, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(byte), (Func<bool, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(byte2), (Func<byte2, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(byte3), (Func<byte3, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(byte4), (Func<byte4, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(sbyte), (Func<sbyte, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(sbyte2), (Func<sbyte2, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(sbyte3), (Func<sbyte3, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(sbyte4), (Func<sbyte4, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(short), (Func<short, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(short2), (Func<short2, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(short3), (Func<short3, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(short4), (Func<short4, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(ushort), (Func<ushort, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(ushort2), (Func<ushort2, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(ushort3), (Func<ushort3, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(ushort4), (Func<ushort4, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(int), (Func<int, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(int2), (Func<int2, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(int3), (Func<int3, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(int4), (Func<int4, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(intRect), (Func<intRect, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(uint), (Func<uint, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(uint2), (Func<uint2, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(uint3), (Func<uint3, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(uint4), (Func<uint4, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(long), (Func<long, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(ulong), (Func<ulong, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(float), (Func<float, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(float2), (Func<float2, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(float3), (Func<float3, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(float4), (Func<float4, string>)Rules.VecNToStr);
+      _toStr.Add(typeof(double), (Func<double, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(string), (Func<string, string>)Rules.ToStrGeneric);
+      _toStr.Add(typeof(StringBuilder), (Func<StringBuilder, string>)Rules.ToStrGeneric);
 
       _tokens.Default = 1;
       _tokens.Add(typeof(byte2), 2);
@@ -144,6 +142,7 @@ namespace Primrose.Primitives.Parsers
       }
     }
 
+
     /// <summary>Parses a value from its string representation</summary>
     /// <typeparam name="T">The type of the value</typeparam>
     /// <param name="value">The value to be parsed</param>
@@ -157,7 +156,8 @@ namespace Primrose.Primitives.Parsers
       Type t = typeof(T); // defaultValue?.GetType() ?? typeof(T);
       if (_fromStr.Contains(t))
       {
-        return (T)_fromStr.Get(t).Invoke(value, resolver);
+        Func<string, IResolver, T> func = (Func<string, IResolver, T>)_fromStr.Get(t);
+        return func.Invoke(value, resolver);
       }
       else if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
       {
@@ -187,7 +187,6 @@ namespace Primrose.Primitives.Parsers
       throw new UnsupportedParseException<T>();
     }
 
-
     /// <summary>Converts a value to its string representation</summary>
     /// <typeparam name="T">The type of the value</typeparam>
     /// <param name="value">The value to be converted to a string</param>
@@ -200,14 +199,16 @@ namespace Primrose.Primitives.Parsers
       Type t = typeof(T); // value?.GetType() ?? typeof(T);
       if (_toStr.Contains(t))
       {
-        return _toStr.Get(t).Invoke(value);
+        Func<T, string> func = (Func<T, string>)_toStr.Get(t);
+        return func.Invoke(value);
       }
       else if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
       {
         Type et = Nullable.GetUnderlyingType(typeof(T));
         if (_toStr.Contains(et))
         {
-          return _toStr.Get(et).Invoke(value);
+          Func<T, string> func = (Func<T, string>)_toStr.Get(et);
+          return func.Invoke(value);
         }
         else if (et.IsEnum)
         {
@@ -237,12 +238,12 @@ namespace Primrose.Primitives.Parsers
     /// <param name="writerRule">The rule for expression the object as a string</param>
     public static void AddRule<T>(Func<string, IResolver, T> parserRule, int tokens = 1, Func<T, string> writerRule = null)
     {
-      _fromStr.Put(typeof(T), (s, r) => parserRule(s, r));
+      _fromStr.Put(typeof(T), parserRule);
 
       if (writerRule == null)
-        _toStr.Put(typeof(T), Rules.ToStrGeneric);
+        _toStr.Put(typeof(T), (Func<T, string>)Rules.ToStrGeneric);
       else
-        _toStr.Put(typeof(T), (n) => writerRule((T)n));
+        _toStr.Put(typeof(T), writerRule);
 
       _tokens.Put(typeof(T), tokens);
     }

@@ -1,4 +1,6 @@
-﻿namespace Primrose.Expressions.Tree.Expressions.Literals
+﻿using System.Text;
+
+namespace Primrose.Expressions.Tree.Expressions.Literals
 {
   internal class StringLiteral : CLiteral
   {
@@ -13,6 +15,13 @@
     public override Val Evaluate(IContext context)
     {
       return new Val(_value);
+    }
+
+    public override void Write(StringBuilder sb)
+    {
+      sb.Append('\"');
+      sb.Append(_value);
+      sb.Append('\"');
     }
 
     public override string ToString()

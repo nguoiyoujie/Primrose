@@ -35,7 +35,7 @@ namespace Primrose.Expressions.Tree.Expressions
     public override CExpression Get()
     {
       if (_true == null)
-        return _question;
+        return _question.Get();
       return this;
     }
 

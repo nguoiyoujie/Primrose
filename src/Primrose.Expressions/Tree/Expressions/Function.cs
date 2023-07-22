@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Primrose.Primitives.Factories;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Primrose.Expressions.Tree.Expressions
@@ -21,7 +22,7 @@ namespace Primrose.Expressions.Tree.Expressions
         throw new ParseException(lexer, TokenEnum.BRACKETOPEN);
       lexer.Next(); //BRACKETOPEN
 
-      while (lexer.TokenType != TokenEnum.BRACKETCLOSE)
+      if (lexer.TokenType != TokenEnum.BRACKETCLOSE)
       {
         _param.Add(new Expression(scope, lexer).Get());
 
@@ -37,11 +38,13 @@ namespace Primrose.Expressions.Tree.Expressions
 
     public override Val Evaluate(IContext context)
     {
-      List<Val> parsed = new List<Val>();
+      List<Val> parsed = ObjectPool<List<Val>>.GetStaticPool().GetNew();
       foreach (CExpression expr in _param)
         parsed.Add(expr.Evaluate(context));
 
-      return context.RunFunction(this, _funcName, parsed.ToArray());
+      Val result = context.RunFunction(this, _funcName, parsed);
+      ObjectPool<List<Val>>.GetStaticPool().Return(parsed);
+      return result;
     }
 
     public override void Write(StringBuilder sb)
@@ -59,6 +62,11 @@ namespace Primrose.Expressions.Tree.Expressions
         first = false;
       }
       TokenEnum.BRACKETCLOSE.Write(sb);
+    }
+
+    public override string ToString()
+    {
+      return "func " + _funcName;
     }
   }
 }
