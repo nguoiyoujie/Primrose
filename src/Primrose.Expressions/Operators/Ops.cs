@@ -435,6 +435,9 @@ namespace Primrose.Expressions
     {
       Type vt1 = v1.Type;
       Type vt2 = v2.Type;
+      if (v1.IsNull || v2.IsNull)
+        return;
+
       if (vt1 == vt2)
         return;
 

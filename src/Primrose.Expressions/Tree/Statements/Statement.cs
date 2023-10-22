@@ -12,7 +12,8 @@ namespace Primrose.Expressions.Tree.Statements
 
       while (lexer.TokenType == TokenEnum.NOTHING || lexer.TokenType == TokenEnum.COMMENT)
       {
-        lexer.Next();
+        if (!lexer.Next())
+          break;
       }
 
       _statement = GetNext(scope, lexer);
