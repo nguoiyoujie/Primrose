@@ -369,12 +369,6 @@ namespace Primrose
     /// <param name="format">The new time format to use</param>
     public static void SetTimeFormat(string channel, string format) { GetOrCreateDefault(channel).TimeFormat = format; }
 
-    public static void Info(string logChannel, object value)
-    {
-      throw new NotImplementedException();
-    }
-
-
     #endregion
   }
 }
