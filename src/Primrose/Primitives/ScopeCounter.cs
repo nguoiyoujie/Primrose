@@ -8,6 +8,9 @@ namespace Primrose.Primitives
   /// </summary>
   public static class ScopeCounters
   {
+    /// <summary>The maximum time for a spinning wait. If this duration is exceeded, thread sleeping will be used</summary>
+    public static int SpinMaximum_milliseconds = 10;
+
     private static readonly ScopeGlobalCounter[] _cache;
     static ScopeCounters()
     {
@@ -73,12 +76,36 @@ namespace Primrose.Primitives
     /// <summary>Performs a spinlock until the reference count of a global scope is zero, then increments the reference count</summary>
     /// <param name="global">The global scope</param>
     /// <returns>The updated scope</returns>
-    public static ScopeGlobalCounter AcquireWhenZero(byte global) { while (!(Interlocked.CompareExchange(ref _cache[global]._count, 1, 0) == 0)) ; return _cache[global]; }
+    public static ScopeGlobalCounter AcquireWhenZero(byte global) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(Interlocked.CompareExchange(ref _cache[global]._count, 1, 0) == 0))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+      return _cache[global];
+    }
 
     /// <summary>Performs a spinlock until the reference count of a local scope is zero, then increments the reference count</summary>
     /// <param name="scope">The local scope</param>
     /// <returns>The updated scope</returns>
-    public static ScopeCounter AcquireWhenZero(ScopeCounter scope) { while (!(Interlocked.CompareExchange(ref scope._count, 1, 0) == 0)) ; return scope; }
+    public static ScopeCounter AcquireWhenZero(ScopeCounter scope) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(Interlocked.CompareExchange(ref scope._count, 1, 0) == 0))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+      return scope; 
+    }
 
     /// <summary>Returns if the reference count of a scope is zero</summary>
     /// <param name="t1">The scope to check</param>
@@ -148,58 +175,179 @@ namespace Primrose.Primitives
 
     /// <summary>Performs a spinlock until the reference count of a global scope is zero.</summary>
     /// <param name="t1">The scope to check</param>
-    public static void WaitForZero(ScopeCounter t1) { while (!(IsZero(t1))) ; }
+    public static void WaitForZero(ScopeCounter t1) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until the reference count of a global scope is zero.</summary>
     /// <param name="t1">The scope to check</param>
-    public static void WaitForZero(byte t1) { while (!(IsZero(t1))) ; }
+    public static void WaitForZero(byte t1)
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="t1">The first scope to check</param>
     /// <param name="t2">The second scope to check</param>
-    public static void WaitForZero(ScopeCounter t1, ScopeCounter t2) { while (!(IsZero(t1, t2))) ; }
+    public static void WaitForZero(ScopeCounter t1, ScopeCounter t2)
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1, t2)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="t1">The first scope to check</param>
     /// <param name="t2">The second scope to check</param>
-    public static void WaitForZero(ScopeCounter t1, byte t2) { while (!(IsZero(t1, t2))) ; }
+    public static void WaitForZero(ScopeCounter t1, byte t2) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1, t2)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="t1">The first scope to check</param>
     /// <param name="t2">The second scope to check</param>
-    public static void WaitForZero(byte t1, byte t2) { while (!(IsZero(t1, t2))) ; }
+    public static void WaitForZero(byte t1, byte t2) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1, t2)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="t1">The first scope to check</param>
     /// <param name="t2">The second scope to check</param>
     /// <param name="t3">The third scope to check</param>
-    public static void WaitForZero(ScopeCounter t1, ScopeCounter t2, ScopeCounter t3) { while (!(IsZero(t1, t2, t3))) ; }
+    public static void WaitForZero(ScopeCounter t1, ScopeCounter t2, ScopeCounter t3) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1, t2, t3)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="t1">The first scope to check</param>
     /// <param name="t2">The second scope to check</param>
     /// <param name="t3">The third scope to check</param>
-    public static void WaitForZero(ScopeCounter t1, ScopeCounter t2, byte t3) { while (!(IsZero(t1, t2, t3))) ; }
+    public static void WaitForZero(ScopeCounter t1, ScopeCounter t2, byte t3) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1, t2, t3)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="t1">The first scope to check</param>
     /// <param name="t2">The second scope to check</param>
     /// <param name="t3">The third scope to check</param>
-    public static void WaitForZero(ScopeCounter t1, byte t2, byte t3) { while (!(IsZero(t1, t2, t3))) ; }
+    public static void WaitForZero(ScopeCounter t1, byte t2, byte t3) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1, t2, t3)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="t1">The first scope to check</param>
     /// <param name="t2">The second scope to check</param>
     /// <param name="t3">The third scope to check</param>
-    public static void WaitForZero(byte t1, byte t2, byte t3) { while (!(IsZero(t1, t2, t3))) ; }
+    public static void WaitForZero(byte t1, byte t2, byte t3) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(t1, t2, t3)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="ts">The list of scopes to check</param>
-    public static void WaitForZero(params ScopeCounter[] ts) { while (!(IsZero(ts))) ; }
+    public static void WaitForZero(params ScopeCounter[] ts) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(ts)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>Performs a spinlock until all reference counts are zero.</summary>
     /// <param name="ts">The list of scopes to check</param>
-    public static void WaitForZero(params byte[] ts) { while (!(IsZero(ts))) ; }
+    public static void WaitForZero(params byte[] ts) 
+    {
+      // if this spins for too long, release resources with Thread.Sleep()
+      DateTime max = DateTime.Now.AddMilliseconds(SpinMaximum_milliseconds);
+      while (!(IsZero(ts)))
+      {
+        if (DateTime.Now > max)
+        {
+          Thread.Sleep(1);
+        }
+      }
+    }
 
     /// <summary>
     /// Represents a global scope reference counter
