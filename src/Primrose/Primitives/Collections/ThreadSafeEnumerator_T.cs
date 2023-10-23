@@ -7,12 +7,12 @@ namespace Primrose.Primitives.Collections
 {
   /// <summary>Represents a thread-safe wrapper over an enumerator</summary>
   /// <typeparam name="T">The enumerated type</typeparam>
-  public class ThreadSafeEnumerator<T> : IEnumerator<T>
+  public struct ThreadSafeEnumerator<T> : IEnumerator<T>
   {
     // Credit: Adapted from https://www.codeproject.com/articles/56575/thread-safe-enumeration-in-c
 
     // this is the (thread-unsafe) enumerator of the underlying collection
-    private readonly IEnumerator<T> m_Inner;
+    private IEnumerator<T> m_Inner; // do not use readonly, see ThreadSafeEnumerator<TEnumerator, T>
     private readonly object m_Lock;
 
     /// <summary>Creates a thread-safe wrapper over an enumerator</summary>

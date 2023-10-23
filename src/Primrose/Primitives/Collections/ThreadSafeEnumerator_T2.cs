@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Primrose.Primitives.Collections
 {
   /// <summary>Represents a thread-safe wrapper over an enumerator</summary>
-  public struct ThreadSafeEnumerator : IEnumerator
+  /// <typeparam name="TEnumerator">The enumerator type</typeparam>
+  /// <typeparam name="T">The enumerated type</typeparam>
+  public struct ThreadSafeEnumerator<TEnumerator, T> : IEnumerator<T>
+    where TEnumerator : IEnumerator<T>
   {
     // Credit: Adapted from https://www.codeproject.com/articles/56575/thread-safe-enumeration-in-c
 
     // this is the (thread-unsafe) enumerator of the underlying collection
-    private IEnumerator m_Inner; // do not use readonly, see ThreadSafeEnumerator<TEnumerator, T>
+    private TEnumerator m_Inner; // do not use readonly - TEnumerator could be a struct
     private readonly object m_Lock;
 
     /// <summary>Creates a thread-safe wrapper over an enumerator</summary>
     /// <param name="inner">The (thread-unsafe) enumerator</param>
     /// <param name="lock">The locking object</param>
-    public ThreadSafeEnumerator(Func<IEnumerator> inner, object @lock)
+    public ThreadSafeEnumerator(Func<TEnumerator> inner, object @lock)
     {
       m_Lock = @lock;
       // entering lock in constructor
@@ -50,9 +54,11 @@ namespace Primrose.Primitives.Collections
     }
 
     /// <summary>Gets the current element in the collection</summary>
-    public object Current
+    public T Current
     {
       get { return m_Inner.Current; }
     }
+
+    object IEnumerator.Current => Current;
   }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Primrose.Primitives.Collections
 {
   /// <summary>Represents a thread-safe wrapper over an enumerable collection</summary>
-  public class ThreadSafeEnumerable<T> : IEnumerable<T>
+  public struct ThreadSafeEnumerable<T> //: IEnumerable<T>
   {
     private readonly Func<IEnumerator<T>> _func;
     private readonly object _lock;
@@ -30,14 +30,14 @@ namespace Primrose.Primitives.Collections
 
     /// <summary>Returns an enumerator that iterates through the collection</summary>
     /// <returns>A System.Collections.Generic.IEnumerator`1 that can be used to iterate through the collection</returns>
-    public IEnumerator<T> GetEnumerator()
+    public ThreadSafeEnumerator<T> GetEnumerator()
     {
       return new ThreadSafeEnumerator<T>(_func, _lock);
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
+    //IEnumerator IEnumerable.GetEnumerator()
+    //{
+    //  return GetEnumerator();
+    //}
   }
 }

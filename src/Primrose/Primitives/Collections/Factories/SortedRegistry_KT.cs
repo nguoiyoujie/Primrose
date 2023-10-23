@@ -17,13 +17,13 @@ namespace Primrose.Primitives.Factories
     private readonly object locker = new object();
 
     // 2021.06.02: Create fixed funcs in constructor to eliminate repeat allocation of Func objects.
-    private readonly Func<IEnumerator<KeyValuePair<K, T>>> _listEnumerator;
-    private readonly Func<IEnumerator<K>> _keyEnumerator;
-    private readonly Func<IEnumerator<T>> _valueEnumerator;
+    private readonly Func<SortedDictionary<K, T>.Enumerator> _listEnumerator;
+    private readonly Func<SortedDictionary<K, T>.KeyCollection.Enumerator> _keyEnumerator;
+    private readonly Func<SortedDictionary<K, T>.ValueCollection.Enumerator> _valueEnumerator;
 
-    private IEnumerator<KeyValuePair<K, T>> GetListEnumerator() { return list.GetEnumerator(); }
-    private IEnumerator<K> GetKeysEnumerator() { return list.Keys.GetEnumerator(); }
-    private IEnumerator<T> GetValuesEnumerator() { return list.Values.GetEnumerator(); }
+    private SortedDictionary<K, T>.Enumerator GetListEnumerator() { return list.GetEnumerator(); }
+    private SortedDictionary<K, T>.KeyCollection.Enumerator GetKeysEnumerator() { return list.Keys.GetEnumerator(); }
+    private SortedDictionary<K, T>.ValueCollection.Enumerator GetValuesEnumerator() { return list.Values.GetEnumerator(); }
 
     /// <summary>Creates an object registry</summary>
     public SortedRegistry() : this(new SortedDictionary<K, T>(Comparer<K>.Default)) { }
@@ -98,7 +98,7 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Enumerates through the keys in the registry</summary>
     /// <returns></returns>
-    public IEnumerable<K> EnumerateKeys() { return new ThreadSafeEnumerable<K>(_keyEnumerator, locker); }
+    public ThreadSafeEnumerable<SortedDictionary<K, T>.KeyCollection.Enumerator, K> EnumerateKeys() { return new ThreadSafeEnumerable<SortedDictionary<K, T>.KeyCollection.Enumerator, K>(_keyEnumerator, locker); }
 
     /// <summary>Retrives an array of all the values in the registry</summary>
     /// <returns></returns>
@@ -106,7 +106,7 @@ namespace Primrose.Primitives.Factories
 
     /// <summary>Enumerates through the values in the registry</summary>
     /// <returns></returns>
-    public IEnumerable<T> EnumerateValues() { return new ThreadSafeEnumerable<T>(_valueEnumerator, locker); }
+    public ThreadSafeEnumerable<SortedDictionary<K, T>.ValueCollection.Enumerator, T> EnumerateValues() { return new ThreadSafeEnumerable<SortedDictionary<K, T>.ValueCollection.Enumerator, T>(_valueEnumerator, locker); }
 
     /// <summary>Adds an object into the registry</summary>
     /// <param name="key">The identifier key to add</param>
@@ -128,13 +128,13 @@ namespace Primrose.Primitives.Factories
     /// <summary>Retrieves the enumerator for the registry</summary>
     public IEnumerator<KeyValuePair<K, T>> GetEnumerator()
     {
-      return new ThreadSafeEnumerator<KeyValuePair<K, T>>(_listEnumerator, locker);
+      return new ThreadSafeEnumerator<SortedDictionary<K, T>.Enumerator, KeyValuePair<K, T>>(_listEnumerator, locker);
     }
 
     /// <summary>Retrieves the enumerator for the registry</summary>
     IEnumerator IEnumerable.GetEnumerator()
     {
-      return new ThreadSafeEnumerator(_listEnumerator, locker);
+      return new ThreadSafeEnumerator<SortedDictionary<K, T>.Enumerator, KeyValuePair<K, T>>(_listEnumerator, locker);
     }
 
     /// <summary>The number of elements in this registry</summary>

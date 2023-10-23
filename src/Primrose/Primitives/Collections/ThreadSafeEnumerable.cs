@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace Primrose.Primitives.Collections
 {
   /// <summary>Represents a thread-safe wrapper over an enumerable collection</summary>
-  public class ThreadSafeEnumerable : IEnumerable
+  public struct ThreadSafeEnumerable : IEnumerable
   {
-    private readonly IEnumerable m_Inner;
+    private readonly Func<IEnumerator> _func;
     private readonly object m_Lock;
 
     /// <summary>Creates a thread-safe wrapper over an enumerable collection</summary>
@@ -14,15 +15,14 @@ namespace Primrose.Primitives.Collections
     public ThreadSafeEnumerable(IEnumerable inner, object @lock)
     {
       m_Lock = @lock;
-      m_Inner = inner;
+      _func = inner.GetEnumerator;
     }
 
     /// <summary>Returns an enumerator that iterates through the collection</summary>
     /// <returns>A System.Collections.Generic.IEnumerator`1 that can be used to iterate through the collection</returns>
     public IEnumerator GetEnumerator()
     {
-      IEnumerable inner = m_Inner;
-      return new ThreadSafeEnumerator(() => inner.GetEnumerator(), m_Lock);
+      return new ThreadSafeEnumerator(_func, m_Lock);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
