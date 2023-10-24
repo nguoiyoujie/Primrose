@@ -1,4 +1,5 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Primrose.Primitives;
+using Primrose.Primitives.Extensions;
 using Primrose.Primitives.Factories;
 using System;
 using System.Collections.Concurrent;
@@ -121,7 +122,7 @@ namespace Primrose
     public void DoCallback(LogItem item)
     {
       // TO-DO: many allocations here
-      string stime = item.Time.ToString(TimeFormat);
+      string stime = item.Time.Format(TimeFormat);
       string slevel = "{0,-8}".F(item.Level);
       string message = "";
 
@@ -203,7 +204,7 @@ namespace Primrose
     {
       if (Writer != null)
       {
-        string stime = item.Time.ToString(TimeFormat);
+        string stime = item.Time.Format(TimeFormat);
         string slevel = "{0,-8}".F(item.Level);
 
 
