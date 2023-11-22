@@ -322,7 +322,7 @@ namespace Primrose.Primitives.Extensions
         float_val += f;
         int int_part = (int)float_val;
 
-        if (int_part == 0 && float_val > 0)
+        if (int_part == 0 && float_val < 0)
         {
           string_builder.Append('-');
         }
@@ -373,7 +373,7 @@ namespace Primrose.Primitives.Extensions
 
     /// <summary>Concatenate a formatted string with arguments</summary>
     public static StringBuilder ConcatFormat<A>(this StringBuilder string_builder, string format, A arg1)
-                where A : IConvertible
+               where A : IConvertible
     {
       return string_builder.ConcatFormat<A, int, int, int>(format, arg1, 0, 0, 0);
     }
@@ -397,10 +397,10 @@ namespace Primrose.Primitives.Extensions
 
     /// <summary>Concatenate a formatted string with arguments</summary>
     public static StringBuilder ConcatFormat<A, B, C, D>(this StringBuilder string_builder, string format, A arg1, B arg2, C arg3, D arg4)
-          where A : IConvertible
-          where B : IConvertible
-          where C : IConvertible
-          where D : IConvertible
+              where A : IConvertible
+              where B : IConvertible
+              where C : IConvertible
+              where D : IConvertible
     {
       int verbatim_range_start = 0;
       int format_start = 0;
@@ -515,31 +515,31 @@ namespace Primrose.Primitives.Extensions
 
       switch (arg.GetTypeCode())
       {
-        case System.TypeCode.UInt32:
+        case TypeCode.UInt32:
           {
             string_builder.Concat(arg.ToUInt32(System.Globalization.NumberFormatInfo.CurrentInfo), padding, '0', base_value);
             break;
           }
 
-        case System.TypeCode.Int32:
+        case TypeCode.Int32:
           {
             string_builder.Concat(arg.ToInt32(System.Globalization.NumberFormatInfo.CurrentInfo), padding, '0', base_value);
             break;
           }
 
-        case System.TypeCode.Single:
+        case TypeCode.Single:
           {
             string_builder.Concat(arg.ToSingle(System.Globalization.NumberFormatInfo.CurrentInfo), decimal_places, padding, '0');
             break;
           }
 
-        case System.TypeCode.String:
+        case TypeCode.String:
           {
             string_builder.Append(Convert.ToString(arg));
             break;
           }
 
-        case System.TypeCode.DateTime:
+        case TypeCode.DateTime:
           {
             string_builder.Concat(arg.ToDateTime(System.Globalization.NumberFormatInfo.CurrentInfo), format, formatStart, formatLength);
             break;

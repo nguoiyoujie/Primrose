@@ -458,7 +458,7 @@ namespace Primrose.Primitives.ValueTypes
     {
       // make a copy of the matrix
       float4x4 matrix = this; // struct copy
-      float4x4 identity = float4x4.Identity;
+      float4x4 identity = Identity;
       for (int i = 0; i < 4; i++)
       {
         int num = i;
@@ -504,7 +504,7 @@ namespace Primrose.Primitives.ValueTypes
     public static float4x4 CreateRotationFromQuaternion(quaternion rotation)
     {
       float4 vector = rotation.ToAxisAngle();
-      return float4x4.CreateFromAxisAngle(new float3(vector.x, vector.y, vector.z), rotation.w);
+      return CreateFromAxisAngle(new float3(vector.x, vector.y, vector.z), rotation.w);
     }
   }
 }

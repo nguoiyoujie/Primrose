@@ -325,7 +325,7 @@ namespace Primrose.Primitives.ValueTypes
     public float3x3 Inverse()
     {
       float3x3 matrix = this;
-      float3x3 identity = float3x3.Identity;
+      float3x3 identity = Identity;
       for (int i = 0; i < 3; i++)
       {
         int num = i;

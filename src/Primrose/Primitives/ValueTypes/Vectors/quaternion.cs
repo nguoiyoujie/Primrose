@@ -346,7 +346,7 @@ namespace Primrose.Primitives.ValueTypes
       float num2;
       if (num > 0.0f)
       {
-        quaternion zero = quaternion.Empty;
+        quaternion zero = Empty;
         num2 = (float)Math.Sqrt(num + 1f);
         zero.w = 0.5f * num2;
         num2 = 0.5f / num2;
@@ -355,7 +355,7 @@ namespace Primrose.Primitives.ValueTypes
         zero.z = (rotation[1].x - rotation[0].y) * num2;
         return zero;
       }
-      quaternion zero2 = quaternion.Empty;
+      quaternion zero2 = Empty;
       int i = 0;
       if (rotation[1].y > rotation[0].x)
       {
@@ -482,9 +482,9 @@ namespace Primrose.Primitives.ValueTypes
     public static quaternion Squad(quaternion q1, quaternion q2, quaternion ta, quaternion tb, float t)
     {
       float t2 = 2f * t * (1f - t);
-      quaternion q3 = quaternion.SLerp(q1, q2, t);
-      quaternion q4 = quaternion.SLerp(ta, tb, t);
-      return quaternion.SLerp(q3, q4, t2);
+      quaternion q3 = SLerp(q1, q2, t);
+      quaternion q4 = SLerp(ta, tb, t);
+      return SLerp(q3, q4, t2);
     }
 
     /// <summary>
@@ -510,9 +510,9 @@ namespace Primrose.Primitives.ValueTypes
       {
         post = -post;
       }
-      quaternion ta = quaternion.Spline(prev, q1, q2);
-      quaternion tb = quaternion.Spline(q1, q2, post);
-      return quaternion.Squad(q1, q2, ta, tb, t);
+      quaternion ta = Spline(prev, q1, q2);
+      quaternion tb = Spline(q1, q2, post);
+      return Squad(q1, q2, ta, tb, t);
     }
 
     /// <summary>
