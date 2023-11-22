@@ -5,10 +5,10 @@ namespace Primrose
   public static class Build 
   { 
    /// <summary>The time of build</summary> 
-   public const string Time = "Tue 24/10/2023 21:23:24.63"; 
+   public const string Time = "Tue 21/11/2023 14:11:55.14"; 
    /// <summary>The date of build in YYYYMMDD format</summary> 
-   public const string BuildDate = "20232421"; 
+   public const string BuildDate = "20232114"; 
    /// <summary>The daily revision number of the build</summary> 
-   public const string Revision = "00"; 
+   public const string Revision = "02"; 
   } 
 } 
