@@ -1,6 +1,7 @@
 ﻿using Primrose.Primitives.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Primrose.Primitives.Collections
 {
@@ -16,7 +17,7 @@ namespace Primrose.Primitives.Collections
     public ResizableArray(int initialCount = 0)
     {
       int initialCapacity = initialCount.Max(4);
-      _count = initialCount;
+      _count = 0; // no actual elements
       _array = new T[initialCapacity];
     }
 
@@ -25,6 +26,12 @@ namespace Primrose.Primitives.Collections
 
     /// <summary>The number of valid elements in the array</summary>
     public int Count { get { return _count; } }
+
+    /// <summary>Returns a string that represents the current array</summary>
+    public override string ToString()
+    {
+      return "Count = {0} / {1}".F(_count, _array.Length);
+    }
 
     /// <summary>Adds an element to the array</summary>
     /// <param name="element">The element to be added</param>
@@ -103,6 +110,12 @@ namespace Primrose.Primitives.Collections
       _count = count;
     }
 
+    /// <summary>Resets the count to 0, and optionally clears elements to default</summary>
+    /// <param name="value">The value to check for</param>
+    public bool Contains(T value)
+    {
+      return _array.Contains(value, 0, _count);
+    }
 
     /// <summary>Resets the count to 0, and optionally clears elements to default</summary>
     /// <param name="clearElements">Determines if the members of the array should be zeroed</param>
@@ -125,5 +138,9 @@ namespace Primrose.Primitives.Collections
     /// <summary>Retrieves the element at an index of the array</summary>
     /// <param name="id">The index of the element</param>
     public T this[int id] { get { return _array[id]; } set { _array[id] = value; } }
+
+    /// <summary>Retrieves the element as a reference at an index of the array</summary>
+    /// <param name="id">The index of the element</param>
+    public ref T GetRef(int id) { return ref _array[id]; }
   }
 }
