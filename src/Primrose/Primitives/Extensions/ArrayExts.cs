@@ -26,15 +26,42 @@ namespace Primrose.Primitives.Extensions
     /// <typeparam name="T">The member type</typeparam>
     /// <param name="array">The array</param>
     /// <param name="value">The value to check</param>
+    /// <param name="start">The start index of the array to check</param>
+    /// <param name="length">The number of elements to check</param>
     /// <returns>True if the array contains at least one member equal to value, false otherwise</returns>
     /// <exception cref="ArgumentNullException"><paramref name="array"/> cannot be null</exception>
-    public static bool Contains<T>(this T[] array, T value)
+    public static bool Contains<T>(this T[] array, T value, int start = 0, int length = -1)
     {
       if (array == null) { throw new ArgumentNullException(nameof(array)); }
-      foreach (T t in array)
+      if (length == -1) { length = array.Length; }
+      for (int i = 0; i < length; i++)
+      {
+        T t = array[i];
         if (EqualityComparer<T>.Default.Equals(value, t))
           return true;
+      }
       return false;
+    }
+
+    /// <summary>Determines the index position of a value in an array</summary>
+    /// <typeparam name="T">The member type</typeparam>
+    /// <param name="array">The array</param>
+    /// <param name="value">The value to check</param>
+    /// <param name="start">The start index of the array to check</param>
+    /// <param name="length">The number of elements to check</param>
+    /// <returns>The index position if the array contains at least one member equal to value, -1 otherwise</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="array"/> cannot be null</exception>
+    public static int IndexOf<T>(this T[] array, T value, int start = 0, int length = -1)
+    {
+      if (array == null) { throw new ArgumentNullException(nameof(array)); }
+      if (length == -1) { length = array.Length; }
+      for (int i = 0; i < length; i++)
+      {
+        T t = array[i];
+        if (EqualityComparer<T>.Default.Equals(value, t))
+          return i;
+      }
+      return -1;
     }
 
     /// <summary>Determines if two arrays contains the same elements, not necessarily in order</summary>
